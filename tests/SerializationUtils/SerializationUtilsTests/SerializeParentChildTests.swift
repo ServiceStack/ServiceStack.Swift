@@ -45,6 +45,10 @@ class Child
     var id:Int = 1
     var name:String?
 }
+    
+//class Child<T> {
+//    
+//}
 
 
 extension Parent : JsonSerializable
