@@ -190,8 +190,8 @@ extension String : StringSerializable
         return jsonString(self)
     }
     
-    public static func fromString(str: String) -> String? {
-        return str
+    public static func fromString(string: String) -> String? {
+        return string
     }
 
     public static func fromObject(any:AnyObject) -> String?
@@ -513,7 +513,6 @@ extension Bool : StringSerializable
 }
 
 
-
 public protocol IReturn
 {
     typealias Return
@@ -523,101 +522,6 @@ public class List<T>
 {
     required public init(){}
 }
-
-public class QueryBase<T>
-{
-    required public init(){}
-    public var skip:Int?
-    public var take:Int?
-    public var orderBy:String?
-    public var orderByDesc:String?
-}
-
-public class QueryResponse<T>
-{
-    required public init(){}
-    public var offset:Int?
-    public var total:Int?
-    public var results:[String] = []
-    public var meta:[String:String] = [:]
-    public var responseStatus:ResponseStatus?
-}
-
-public class AuthUserSession
-{
-    required public init(){}
-    public var referrerUrl:String?
-    public var id:String?
-    public var userAuthId:String?
-    public var userAuthName:String?
-    public var userName:String?
-    public var twitterUserId:String?
-    public var twitterScreenName:String?
-    public var facebookUserId:String?
-    public var facebookUserName:String?
-    public var firstName:String?
-    public var lastName:String?
-    public var displayName:String?
-    public var company:String?
-    public var email:String?
-    public var primaryEmail:String?
-    public var phoneNumber:String?
-    public var birthDate:String?
-    public var birthDateRaw:String?
-    public var address:String?
-    public var address2:String?
-    public var city:String?
-    public var state:String?
-    public var country:String?
-    public var culture:String?
-    public var fullName:String?
-    public var gender:String?
-    public var language:String?
-    public var mailAddress:String?
-    public var nickname:String?
-    public var postalCode:String?
-    public var timeZone:String?
-    public var requestTokenSecret:String?
-    public var createdAt:String?
-    public var lastModified:String?
-    public var providerOAuthAccess:[AuthTokens] = [AuthTokens]()
-    public var roles:[String] = []
-    public var permissions:[String] = []
-    public var isAuthenticated:Bool?
-    public var sequence:String?
-    public var tag:Int64?
-}
-
-public class AuthTokens
-{
-    public var provider:String?
-    public var userId:String?
-    public var accessToken:String?
-    public var accessTokenSecret:String?
-    public var refreshToken:String?
-    public var refreshTokenExpiry:String?
-    public var requestToken:String?
-    public var requestTokenSecret:String?
-    public var items:[String:String] = [:]
-}
-
-public class ResponseStatus
-{
-    required public init(){}
-    public var errorCode:String?
-    public var message:String?
-    public var stackTrace:String?
-    public var errors:[ResponseError] = []
-}
-
-public class ResponseError
-{
-    required public init(){}
-    public var errorCode:String?
-    public var fieldName:String?
-    public var message:String?
-}
-
 
 
 public protocol HasReflect {
@@ -633,14 +537,14 @@ public protocol Convertible {
 
 public protocol JsonSerializable : HasReflect, StringSerializable {
     func toJson() -> String
-    class func fromJson(json:String) -> T
+    class func fromJson(json:String) -> T?
 }
 
 public protocol StringSerializable : Convertible {
     typealias T
     func toJson() -> String
     func toString() -> String
-    class func fromString(str:String) -> T?
+    class func fromString(string:String) -> T?
 }
 
 
@@ -676,7 +580,7 @@ public class Type<T : HasReflect> : TypeAccessor
         return toJson(instance)
     }
     
-    func fromJson<T>(instance:T, json:String) -> T {
+    func fromJson<T>(instance:T, json:String) -> T? {
         if let map = parseJson(json) as? NSDictionary {
             for p in properties {
                 if let x: AnyObject = map[p.name] {
@@ -689,8 +593,8 @@ public class Type<T : HasReflect> : TypeAccessor
         return instance
     }
     
-    func fromString<T>(instance:T, json:String) -> T {
-        return fromJson(instance, json: json)
+    func fromString<T>(instance:T, string:String) -> T? {
+        return fromJson(instance, json: string)
     }
     
     func fromObject(instance:T, any:AnyObject) -> T? {
@@ -720,14 +624,29 @@ public class Type<T : HasReflect> : TypeAccessor
         return OptionalProperty(name: name, get:get, set:set)
     }
     
-    public class func property<P : JsonSerializable>(name:String, get:(T) -> P, set:(T,P) -> Void) -> PropertyType
+    public class func objectProperty<P : JsonSerializable>(name:String, get:(T) -> P, set:(T,P) -> Void) -> PropertyType
     {
         return ObjectProperty(name: name, get:get, set:set)
     }
     
-    public class func optionalProperty<P : JsonSerializable>(name:String, get:(T) -> P?, set:(T,P?) -> Void) -> PropertyType
+    public class func optionalObjectProperty<P : JsonSerializable>(name:String, get:(T) -> P?, set:(T,P?) -> Void) -> PropertyType
     {
         return OptionalObjectProperty(name: name, get:get, set:set)
+    }
+    
+    public class func objectProperty<K : Hashable, P : StringSerializable>(name:String, get:(T) -> [K:P], set:(T,[K:P]) -> Void) -> PropertyType
+    {
+        return DictionaryProperty(name: name, get:get, set:set)
+    }
+    
+    public class func objectProperty<K : Hashable, P : StringSerializable>(name:String, get:(T) -> [K:[P]], set:(T,[K:[P]]) -> Void) -> PropertyType
+    {
+        return DictionaryArrayProperty(name: name, get:get, set:set)
+    }
+    
+    public class func objectProperty<K : Hashable, P : JsonSerializable>(name:String, get:(T) -> [K:[K:P]], set:(T,[K:[K:P]]) -> Void) -> PropertyType
+    {
+        return DictionaryArrayDictionaryObjectProperty(name: name, get:get, set:set)
     }
     
     public class func arrayProperty<P : StringSerializable>(name:String, get:(T) -> [P], set:(T,[P]) -> Void) -> PropertyType
@@ -738,6 +657,16 @@ public class Type<T : HasReflect> : TypeAccessor
     public class func optionalArrayProperty<P : StringSerializable>(name:String, get:(T) -> [P]?, set:(T,[P]?) -> Void) -> PropertyType
     {
         return OptionalArrayProperty(name: name, get:get, set:set)
+    }
+    
+    public class func arrayProperty<P : JsonSerializable>(name:String, get:(T) -> [P], set:(T,[P]) -> Void) -> PropertyType
+    {
+        return ArrayObjectProperty(name: name, get:get, set:set)
+    }
+    
+    public class func optionalArrayProperty<P : JsonSerializable>(name:String, get:(T) -> [P]?, set:(T,[P]?) -> Void) -> PropertyType
+    {
+        return OptionalArrayObjectProperty(name: name, get:get, set:set)
     }
 }
 
@@ -871,6 +800,83 @@ public class OptionalObjectProperty<T : HasReflect, P : JsonSerializable where P
     }
 }
 
+public class DictionaryProperty<T : HasReflect, K : Hashable, P : StringSerializable> : PropertyType
+{
+    public var get:(T) -> [K:P]
+    public var set:(T,[K:P]) -> Void
+    
+    init(name:String, get:(T) -> [K:P], set:(T,[K:P]) -> Void)
+    {
+        self.get = get
+        self.set = set
+        super.init(name: name)
+    }
+    
+    public override func jsonValue(instance:T) -> String? {
+        let propValue = get(instance)
+        //        var strValue = propValue.toJson()
+        //        return strValue
+        return nil
+    }
+    
+    public override func setValue(instance:T, value:AnyObject) {
+        //        if let p = P.fromObject(value) as? [K:P] {
+        //            set(instance, p)
+        //        }
+    }
+}
+
+public class DictionaryArrayProperty<T : HasReflect, K : Hashable, P : StringSerializable> : PropertyType
+{
+    public var get:(T) -> [K:[P]]
+    public var set:(T,[K:[P]]) -> Void
+    
+    init(name:String, get:(T) -> [K:[P]], set:(T,[K:[P]]) -> Void)
+    {
+        self.get = get
+        self.set = set
+        super.init(name: name)
+    }
+    
+    public override func jsonValue(instance:T) -> String? {
+        let propValue = get(instance)
+        //        var strValue = propValue.toJson()
+        //        return strValue
+        return nil
+    }
+    
+    public override func setValue(instance:T, value:AnyObject) {
+        //        if let p = P.fromObject(value) as? [K:P] {
+        //            set(instance, p)
+        //        }
+    }
+}
+
+public class DictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashable, P : JsonSerializable> : PropertyType
+{
+    public var get:(T) -> [K:[K:P]]
+    public var set:(T,[K:[K:P]]) -> Void
+    
+    init(name:String, get:(T) -> [K:[K:P]], set:(T,[K:[K:P]]) -> Void)
+    {
+        self.get = get
+        self.set = set
+        super.init(name: name)
+    }
+    
+    public override func jsonValue(instance:T) -> String? {
+        let propValue = get(instance)
+        //        var strValue = propValue.toJson()
+        //        return strValue
+        return nil
+    }
+    
+    public override func setValue(instance:T, value:AnyObject) {
+        //        if let p = P.fromObject(value) as? [K:P] {
+        //            set(instance, p)
+        //        }
+    }
+}
 
 public class ArrayProperty<T : HasReflect, P : StringSerializable> : PropertyType
 {
@@ -967,6 +973,102 @@ public class OptionalArrayProperty<T : HasReflect, P : StringSerializable> : Pro
     }
 }
 
+public class ArrayObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
+{
+    public var get:(T) -> [P]
+    public var set:(T,[P]) -> Void
+    
+    init(name:String, get:(T) -> [P], set:(T,[P]) -> Void)
+    {
+        self.get = get
+        self.set = set
+        super.init(name: name)
+    }
+    
+    public override func jsonValue(instance:T) -> String? {
+        let propValues = get(instance)
+        
+        var sb = ""
+        
+        for item in propValues {
+            if countElements(sb) > 0 {
+                sb += ","
+            }
+            var str:String = "null"
+            str = item.toJson()
+            
+            sb += str
+        }
+        
+        return "[\(sb)]"
+    }
+    
+    public override func setValue(instance:T, value:AnyObject) {
+        if let array = value as? NSArray {
+            if array.count == 0 {
+                return
+            }
+            var to = [P]()
+            for item in array {
+                if let pValue = P.fromObject(item) as? P {
+                    to.append(pValue)
+                }
+            }
+            set(instance, to)
+        }
+    }
+}
+
+public class OptionalArrayObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
+{
+    public var get:(T) -> [P]?
+    public var set:(T,[P]?) -> Void
+    
+    init(name:String, get:(T) -> [P]?, set:(T,[P]?) -> Void)
+    {
+        self.get = get
+        self.set = set
+        super.init(name: name)
+    }
+    
+    public override func jsonValue(instance:T) -> String? {
+        let propValues = get(instance)
+        
+        var sb = ""
+        
+        if let propValues = get(instance) {
+            for item in propValues {
+                if countElements(sb) > 0 {
+                    sb += ","
+                }
+                var str:String = "null"
+                str = item.toJson()
+                
+                sb += str
+            }
+        } else {
+            return "null"
+        }
+        
+        return "[\(sb)]"
+    }
+    
+    public override func setValue(instance:T, value:AnyObject) {
+        if let array = value as? NSArray {
+            if array.count == 0 {
+                return
+            }
+            var to = [P]()
+            for item in array {
+                if let pValue = P.fromObject(item) as? P {
+                    to.append(pValue)
+                }
+            }
+            set(instance, to)
+        }
+    }
+}
+
 class TypeConfig
 {
     struct Config {
@@ -986,6 +1088,15 @@ class TypeConfig
         var key = typestring(from) + " > " + typestring(to)
         println(">>  key: \(key)")
         return key
+    }
+}
+
+func jsonStringRaw(str:String?) -> String {
+    if let s = str {
+        return "\"\(s)\""
+    }
+    else {
+        return "null"
     }
 }
 

@@ -85,7 +85,7 @@ extension Parent : JsonSerializable
         return Parent.reflect().toJson(self)
     }
     
-    public class func fromJson(json:String) -> Parent {
+    public class func fromJson(json:String) -> Parent? {
         return Parent.reflect().fromJson(Parent(), json: json)
     }
     
@@ -97,8 +97,8 @@ extension Parent : JsonSerializable
         return Parent.reflect().toString(self)
     }
     
-    public class func fromString(json:String) -> Parent? {
-        return Parent.reflect().fromString(Parent(), json: json)
+    public class func fromString(string:String) -> Parent? {
+        return Parent.reflect().fromString(Parent(), string: string)
     }
 }
 
@@ -117,7 +117,7 @@ extension Child : JsonSerializable
         return Child.reflect().toJson(self)
     }
     
-    public class func fromJson(json:String) -> Child {
+    public class func fromJson(json:String) -> Child? {
         return Child.reflect().fromJson(Child(), json: json)
     }
     
@@ -129,8 +129,8 @@ extension Child : JsonSerializable
         return Child.reflect().toString(self)
     }
     
-    public class func fromString(json:String) -> Child? {
-        return Child.reflect().fromString(Child(), json: json)
+    public class func fromString(string:String) -> Child? {
+        return Child.reflect().fromString(Child(), string: string)
     }
 }
 
@@ -193,7 +193,7 @@ class SerializeParentChildTests: XCTestCase
     func test_Can_deserialize_full_Parent() {
         let json = "{\"int\":1,\"intOptional\":2,\"string\":\"A\",\"stringOptional\":\"B\",\"bool\":true,\"boolOptional\":false,\"double\":1.0,\"doubleOptional\":2.0,\"child\":{\"id\":1,\"name\":null},\"childOptional\":{\"id\":1,\"name\":\"name1\"},\"ints\":[1,2,3],\"intsOptional\":[4,5,6],\"strings\":[\"A\",\"B\",\"C\"],\"stringsOptional\":[\"D\",\"E\",\"F\"],\"bools\":[true,false],\"boolsOptional\":[false,true],\"doubles\":[1.1,2.2,3.3],\"doublesOptional\":[4.4,5.5,6.6],\"children\":[{\"id\":1,\"name\":\"name1\"},{\"id\":2,\"name\":\"name2\"}],\"childrenOptional\":[{\"id\":3,\"name\":\"name3\"},{\"id\":4,\"name\":\"name4\"}]}"
         
-        var parent = Parent.fromJson(json)
+        var parent = Parent.fromJson(json)!
         
 //        println("TO JSON:")
 //        println(parent.toJson())
