@@ -18,6 +18,7 @@
 		5103ECB01A722FF700E91D7C /* Test.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5103ECAC1A722FF700E91D7C /* Test.dtos.swift */; };
 		5103ECB11A7231F500E91D7C /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5103ECA61A722FE300E91D7C /* Json.swift */; };
 		5103ECB21A7231F900E91D7C /* Explore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5103ECA51A722FE300E91D7C /* Explore.swift */; };
+		516FC6441A799761006E7FDE /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516FC6431A799761006E7FDE /* Template.swift */; };
 		51A123AD1A74499F0079AC15 /* TechStacks.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A123AC1A74499F0079AC15 /* TechStacks.dtos.swift */; };
 		51AD3E241A7636EA00CC6ED1 /* TechStacksJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AD3E231A7636EA00CC6ED1 /* TechStacksJsonTests.swift */; };
 /* End PBXBuildFile section */
@@ -45,6 +46,7 @@
 		5103ECAA1A722FF700E91D7C /* SerializeParentChildTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializeParentChildTests.swift; sourceTree = "<group>"; };
 		5103ECAB1A722FF700E91D7C /* JsonHttpClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonHttpClientTests.swift; sourceTree = "<group>"; };
 		5103ECAC1A722FF700E91D7C /* Test.dtos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.dtos.swift; sourceTree = "<group>"; };
+		516FC6431A799761006E7FDE /* Template.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
 		51A123AC1A74499F0079AC15 /* TechStacks.dtos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechStacks.dtos.swift; sourceTree = "<group>"; };
 		51AD3E231A7636EA00CC6ED1 /* TechStacksJsonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechStacksJsonTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -116,6 +118,7 @@
 				5103ECAC1A722FF700E91D7C /* Test.dtos.swift */,
 				51A123AC1A74499F0079AC15 /* TechStacks.dtos.swift */,
 				51AD3E231A7636EA00CC6ED1 /* TechStacksJsonTests.swift */,
+				516FC6431A799761006E7FDE /* Template.swift */,
 			);
 			path = JsonServiceClientTests;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 				5103ECAE1A722FF700E91D7C /* SerializeParentChildTests.swift in Sources */,
 				5103ECB11A7231F500E91D7C /* Json.swift in Sources */,
 				51AD3E241A7636EA00CC6ED1 /* TechStacksJsonTests.swift in Sources */,
+				516FC6441A799761006E7FDE /* Template.swift in Sources */,
 				5103ECB01A722FF700E91D7C /* Test.dtos.swift in Sources */,
 				51A123AD1A74499F0079AC15 /* TechStacks.dtos.swift in Sources */,
 				5103ECB21A7231F900E91D7C /* Explore.swift in Sources */,
