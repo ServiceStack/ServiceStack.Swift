@@ -9,13 +9,29 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "JsonServiceClient/Json.swift"
-            timestampString = "444176158.580701"
+            filePath = "JsonServiceClientTests/Template.swift"
+            timestampString = "444208436.778516"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "586"
-            endingLineNumber = "586"
-            landmarkName = "fromJson(_:json:)"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "fromJson(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JsonServiceClientTests/TechStacksJsonTests.swift"
+            timestampString = "444214222.404639"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "test_Can_deserialize_Overview()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
