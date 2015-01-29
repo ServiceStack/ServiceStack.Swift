@@ -1,3 +1,4 @@
+#if true
 /* Options:
 Date: 2015-01-28 11:15:16
 Version: 1
@@ -3107,3 +3108,5 @@ extension UnAssignRoles : JsonSerializable
         return UnAssignRoles.reflect().fromString(UnAssignRoles(), string: string)
     }
 }
+
+#endif
