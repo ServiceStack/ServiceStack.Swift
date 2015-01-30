@@ -17,7 +17,7 @@ public class JObject
     }
     
     func append(name: String, json: String?) {
-        if countElements(sb) > 0 {
+        if sb.count > 0 {
             sb += ","
         }
         if let s = json {
@@ -30,6 +30,16 @@ public class JObject
     
     func toJson() -> String {
         return "{\(sb)}"
+    }
+    
+    class func toJson<K : Hashable, V : JsonSerializable where K : StringSerializable>(map:[K:V]) -> String? {
+        var jb = JObject()
+        
+        for (k,v) in map {
+            jb.append(k.toString(), json: v.toJson())
+        }
+        
+        return jb.toJson()
     }
 }
 
@@ -623,13 +633,6 @@ public class PropertyType {
     public func stringValue<T>(instance:T) -> String? {
         return nil
     }
-    
-//    public func jsonValue<T : HasReflect, P : StringSerializable>(instance:T) -> String? {
-//        if let value:P = getValue(instance) {
-//            return value.toJson()
-//        }
-//        return nil
-//    }
 }
 
 public class Property<T : HasReflect, P : StringSerializable> : PropertyType
@@ -782,18 +785,31 @@ public class DictionaryProperty<T : HasReflect, K : Hashable, P : StringSerializ
     }
     
     public override func stringValue(instance:T) -> String? {
-        return "== NOT IMPLEMENTED =="
+        return jsonValue(instance)
     }
     
     public override func jsonValue(instance:T) -> String? {
-        return "== NOT IMPLEMENTED =="
+        let map = get(instance)
+        
+        var jb = JObject()
+        for (key, value) in map {
+            jb.append(key.toString(), json:value.toJson())
+        }
+        return jb.toJson()
     }
     
     public override func setValue(instance:T, value:AnyObject) {
-        println("== NOT IMPLEMENTED ==")
-        //        if let p = P.fromObject(value) as? [K:P] {
-        //            set(instance, p)
-        //        }
+        if let map = value as? NSDictionary {
+            var to = [K:P]()
+            for (key, obj) in map {
+                if let keyK = K.fromObject(key) as? K {
+                    if let valueP = P.fromObject(obj) as? P {
+                        to[keyK] = valueP
+                    }
+                }
+            }
+            set(instance, to)
+        }
     }
 }
 
@@ -869,18 +885,37 @@ public class DictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashabl
     }
     
     public override func stringValue(instance:T) -> String? {
-        return "== NOT IMPLEMENTED =="
+        return jsonValue(instance)
     }
     
     public override func jsonValue(instance:T) -> String? {
-        return "== NOT IMPLEMENTED =="
+        let map = get(instance)
+        
+        var jb = JObject()
+        for (key, values:[K:P]) in map {
+            jb.append(key.toString(), json:JObject.toJson(values))
+        }
+        return jb.toJson()
     }
     
     public override func setValue(instance:T, value:AnyObject) {
-        println("== NOT IMPLEMENTED ==")
-        //        if let p = P.fromObject(value) as? [K:P] {
-        //            set(instance, p)
-        //        }
+        if let map = value as? NSDictionary {
+            var to = [K:[K:P]]()
+            for (k,vArray) in map {
+                var values = [K:P]()
+                if let array = vArray as? NSArray {
+                    for item in array {
+                        if let map = item as? NSDictionary {
+                            for (subK, subV) in map {
+                                values[K.fromObject(subK)! as K] = P.fromObject(subV) as? P
+                            }
+                        }
+                    }
+                }
+                to[K.fromObject(k) as K] = values
+            }
+            set(instance,to)
+        }
     }
 }
 
@@ -910,7 +945,7 @@ public class ArrayProperty<T : HasReflect, P : StringSerializable> : PropertyTyp
         var sb = ""
         
         for item in propValues {
-            if countElements(sb) > 0 {
+            if sb.count > 0 {
                 sb += ","
             }
             var str:String = "null"
@@ -959,12 +994,10 @@ public class OptionalArrayProperty<T : HasReflect, P : StringSerializable> : Pro
     }
     
     public override func jsonValue(instance:T) -> String? {
-        
         var sb = ""
-
         if let propValues = get(instance) {
             for item in propValues {
-                if countElements(sb) > 0 {
+                if sb.count > 0 {
                     sb += ","
                 }
                 var str:String = "null"
@@ -1021,7 +1054,7 @@ public class ArrayObjectProperty<T : HasReflect, P : JsonSerializable> : Propert
         var sb = ""
         
         for item in propValues {
-            if countElements(sb) > 0 {
+            if sb.count > 0 {
                 sb += ","
             }
             var str:String = "null"
@@ -1076,7 +1109,7 @@ public class OptionalArrayObjectProperty<T : HasReflect, P : JsonSerializable> :
         
         if let propValues = get(instance) {
             for item in propValues {
-                if countElements(sb) > 0 {
+                if sb.count > 0 {
                     sb += ","
                 }
                 var str:String = "null"
