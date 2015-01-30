@@ -434,11 +434,6 @@ extension Bool : StringSerializable
 }
 
 
-public protocol IReturn
-{
-    typealias Return
-}
-
 public class List<T>
 {
     required public init(){}
@@ -513,6 +508,10 @@ public class Type<T : HasReflect> : TypeAccessor
         return toJson(instance)
     }
     
+    func fromJson<T : JsonSerializable>(json:String) -> T? {
+        return fromJson(T(), json: json)
+    }
+    
     func fromJson<T>(instance:T, json:String) -> T? {
         if let map = parseJson(json) as? NSDictionary {
             return populate(instance, map, propertiesMap)
@@ -520,7 +519,7 @@ public class Type<T : HasReflect> : TypeAccessor
         return nil
     }
     
-    func fromString<T>(instance:T, string:String) -> T? {
+    func fromString(instance:T, string:String) -> T? {
         return fromJson(instance, json: string)
     }
     
@@ -605,6 +604,21 @@ public class PropertyType {
     
     public func setValue<T>(instance:T, value:AnyObject) {
     }
+    
+    public func getValue<T>(instance:T) -> Any? {
+        return nil
+    }
+    
+    public func stringValue<T>(instance:T) -> String? {
+        return nil
+    }
+    
+//    public func jsonValue<T : HasReflect, P : StringSerializable>(instance:T) -> String? {
+//        if let value:P = getValue(instance) {
+//            return value.toJson()
+//        }
+//        return nil
+//    }
 }
 
 public class Property<T : HasReflect, P : StringSerializable> : PropertyType
@@ -619,10 +633,16 @@ public class Property<T : HasReflect, P : StringSerializable> : PropertyType
         super.init(name: name)
     }
     
+    public override func getValue(instance: T) -> Any? {
+        return get(instance) as Any
+    }
+    
+    public override func stringValue(instance:T) -> String? {
+        return get(instance).toString()
+    }
+    
     public override func jsonValue(instance:T) -> String? {
-        let propValue = get(instance)
-        var strValue = propValue.toJson()
-        return strValue
+        return get(instance).toJson()
     }
     
     public override func setValue(instance:T, value:AnyObject) {
@@ -647,10 +667,16 @@ public class OptionalProperty<T : HasReflect, P : StringSerializable> : Property
         super.init(name: name)
     }
     
+    public override func stringValue(instance:T) -> String? {
+        if let p = get(instance) {
+            return p.toString()
+        }
+        return super.jsonValue(instance)
+    }
+    
     public override func jsonValue(instance:T) -> String? {
-        if let propValue = get(instance) {
-            var strValue = propValue.toJson()
-            return strValue
+        if let p = get(instance) {
+            return p.toJson()
         }
         return super.jsonValue(instance)
     }
@@ -678,10 +704,16 @@ public class ObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
         super.init(name: name)
     }
     
+    public override func getValue(instance: T) -> Any? {
+        return get(instance) as Any
+    }
+    
+    public override func stringValue(instance:T) -> String? {
+        return get(instance).toString()
+    }
+    
     public override func jsonValue(instance:T) -> String? {
-        let propValue = get(instance)
-        var strValue = propValue.toJson()
-        return strValue
+        return get(instance).toJson()
     }
     
     public override func setValue(instance:T, value:AnyObject) {
@@ -734,12 +766,16 @@ public class DictionaryProperty<T : HasReflect, K : Hashable, P : StringSerializ
         super.init(name: name)
     }
     
+    public override func getValue(instance: T) -> Any? {
+        return get(instance) as Any
+    }
+    
+    public override func stringValue(instance:T) -> String? {
+        return "== NOT IMPLEMENTED =="
+    }
+    
     public override func jsonValue(instance:T) -> String? {
-        println("== NOT IMPLEMENTED ==")
-        let propValue = get(instance)
-        //        var strValue = propValue.toJson()
-        //        return strValue
-        return nil
+        return "== NOT IMPLEMENTED =="
     }
     
     public override func setValue(instance:T, value:AnyObject) {
@@ -760,6 +796,14 @@ public class DictionaryArrayProperty<T : HasReflect, K : Hashable, P : StringSer
         self.get = get
         self.set = set
         super.init(name: name)
+    }
+    
+    public override func getValue(instance: T) -> Any? {
+        return get(instance) as Any
+    }
+    
+    public override func stringValue(instance:T) -> String? {
+        return jsonValue(instance)
     }
     
     public override func jsonValue(instance:T) -> String? {
@@ -809,12 +853,16 @@ public class DictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashabl
         super.init(name: name)
     }
     
+    public override func getValue(instance: T) -> Any? {
+        return get(instance) as Any
+    }
+    
+    public override func stringValue(instance:T) -> String? {
+        return "== NOT IMPLEMENTED =="
+    }
+    
     public override func jsonValue(instance:T) -> String? {
-        println("== NOT IMPLEMENTED ==")
-        let propValue = get(instance)
-        //        var strValue = propValue.toJson()
-        //        return strValue
-        return nil
+        return "== NOT IMPLEMENTED =="
     }
     
     public override func setValue(instance:T, value:AnyObject) {
@@ -835,6 +883,14 @@ public class ArrayProperty<T : HasReflect, P : StringSerializable> : PropertyTyp
         self.get = get
         self.set = set
         super.init(name: name)
+    }
+    
+    public override func getValue(instance: T) -> Any? {
+        return get(instance) as Any
+    }
+    
+    public override func stringValue(instance:T) -> String? {
+        return jsonValue(instance)
     }
     
     public override func jsonValue(instance:T) -> String? {
@@ -881,6 +937,14 @@ public class OptionalArrayProperty<T : HasReflect, P : StringSerializable> : Pro
         self.get = get
         self.set = set
         super.init(name: name)
+    }
+    
+    public override func getValue(instance: T) -> Any? {
+        return get(instance) as Any
+    }
+    
+    public override func stringValue(instance:T) -> String? {
+        return jsonValue(instance)
     }
     
     public override func jsonValue(instance:T) -> String? {
@@ -932,6 +996,14 @@ public class ArrayObjectProperty<T : HasReflect, P : JsonSerializable> : Propert
         super.init(name: name)
     }
     
+    public override func getValue(instance: T) -> Any? {
+        return get(instance) as Any
+    }
+    
+    public override func stringValue(instance:T) -> String? {
+        return jsonValue(instance)
+    }
+    
     public override func jsonValue(instance:T) -> String? {
         let propValues = get(instance)
         
@@ -976,6 +1048,14 @@ public class OptionalArrayObjectProperty<T : HasReflect, P : JsonSerializable> :
         self.get = get
         self.set = set
         super.init(name: name)
+    }
+    
+    public override func getValue(instance: T) -> Any? {
+        return get(instance) as Any
+    }
+    
+    public override func stringValue(instance:T) -> String? {
+        return jsonValue(instance)
     }
     
     public override func jsonValue(instance:T) -> String? {
