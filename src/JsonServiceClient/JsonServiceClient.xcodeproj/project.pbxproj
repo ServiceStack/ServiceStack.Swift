@@ -23,6 +23,9 @@
 		516FC6481A79AA7E006E7FDE /* TestDtosJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516FC6471A79AA7E006E7FDE /* TestDtosJsonTests.swift */; };
 		51A123AD1A74499F0079AC15 /* TechStacks.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A123AC1A74499F0079AC15 /* TechStacks.dtos.swift */; };
 		51AD3E241A7636EA00CC6ED1 /* TechStacksJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AD3E231A7636EA00CC6ED1 /* TechStacksJsonTests.swift */; };
+		51D154C91A7B69F500D2F2A3 /* NativeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D154C81A7B69F500D2F2A3 /* NativeExtensions.swift */; };
+		51D154CA1A7B6A0C00D2F2A3 /* NativeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D154C81A7B69F500D2F2A3 /* NativeExtensions.swift */; };
+		51D154CC1A7B6C4F00D2F2A3 /* NativeExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D154CB1A7B6C4F00D2F2A3 /* NativeExtensionsTests.swift */; };
 		51F177DD1A7A26B000F13AD0 /* DynamicJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F177DC1A7A26B000F13AD0 /* DynamicJson.swift */; };
 		51F177DF1A7A406600F13AD0 /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F177DE1A7A406600F13AD0 /* JsonServiceClient.swift */; };
 		51F177E11A7A431600F13AD0 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F177E01A7A431600F13AD0 /* Promise.swift */; };
@@ -59,6 +62,8 @@
 		516FC6471A79AA7E006E7FDE /* TestDtosJsonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDtosJsonTests.swift; sourceTree = "<group>"; };
 		51A123AC1A74499F0079AC15 /* TechStacks.dtos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechStacks.dtos.swift; sourceTree = "<group>"; };
 		51AD3E231A7636EA00CC6ED1 /* TechStacksJsonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechStacksJsonTests.swift; sourceTree = "<group>"; };
+		51D154C81A7B69F500D2F2A3 /* NativeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeExtensions.swift; sourceTree = "<group>"; };
+		51D154CB1A7B6C4F00D2F2A3 /* NativeExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeExtensionsTests.swift; sourceTree = "<group>"; };
 		51F177DC1A7A26B000F13AD0 /* DynamicJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicJson.swift; sourceTree = "<group>"; };
 		51F177DE1A7A406600F13AD0 /* JsonServiceClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonServiceClient.swift; sourceTree = "<group>"; };
 		51F177E01A7A431600F13AD0 /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
@@ -105,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				5103EC8C1A722F8A00E91D7C /* Supporting Files */,
+				51D154C81A7B69F500D2F2A3 /* NativeExtensions.swift */,
 				5103EC8E1A722F8A00E91D7C /* JsonServiceClient.h */,
 				5103ECA51A722FE300E91D7C /* Explore.swift */,
 				51F177DE1A7A406600F13AD0 /* JsonServiceClient.swift */,
@@ -137,6 +143,7 @@
 				516FC6471A79AA7E006E7FDE /* TestDtosJsonTests.swift */,
 				516FC6431A799761006E7FDE /* Template.swift */,
 				516FC6451A79A740006E7FDE /* overview.json */,
+				51D154CB1A7B6C4F00D2F2A3 /* NativeExtensionsTests.swift */,
 			);
 			path = JsonServiceClientTests;
 			sourceTree = "<group>";
@@ -261,6 +268,7 @@
 				51F177DD1A7A26B000F13AD0 /* DynamicJson.swift in Sources */,
 				51F177E11A7A431600F13AD0 /* Promise.swift in Sources */,
 				5103ECA71A722FE300E91D7C /* Explore.swift in Sources */,
+				51D154C91A7B69F500D2F2A3 /* NativeExtensions.swift in Sources */,
 				5103ECA81A722FE300E91D7C /* Json.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,6 +277,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51D154CC1A7B6C4F00D2F2A3 /* NativeExtensionsTests.swift in Sources */,
 				5103ECAF1A722FF700E91D7C /* JsonHttpClientTests.swift in Sources */,
 				5103EC9C1A722F8A00E91D7C /* JsonServiceClientTests.swift in Sources */,
 				5103ECAE1A722FF700E91D7C /* SerializeParentChildTests.swift in Sources */,
@@ -276,6 +285,7 @@
 				51F177E41A7ACFEB00F13AD0 /* JsonServiceClient.swift in Sources */,
 				5103ECB11A7231F500E91D7C /* Json.swift in Sources */,
 				51AD3E241A7636EA00CC6ED1 /* TechStacksJsonTests.swift in Sources */,
+				51D154CA1A7B6A0C00D2F2A3 /* NativeExtensions.swift in Sources */,
 				51F177E51A7ADC0E00F13AD0 /* Promise.swift in Sources */,
 				516FC6441A799761006E7FDE /* Template.swift in Sources */,
 				51F177E71A7ADC1800F13AD0 /* DynamicJson.swift in Sources */,

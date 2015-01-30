@@ -63,21 +63,18 @@ public class JsonServiceClient : ServiceClient
         
         for pi in typeInfo.properties {
             if let strValue = pi.stringValue(dto) {
-                sb += countElements(sb) == 0 ? "?" : "&"
-                sb += "\(pi.name)=\(strValue)"
+                sb += sb.length == 0 ? "?" : "&"
+                sb += "\(pi.name)=\(strValue.urlEncode()!)"
             }
         }
         
         requestUrl += sb
-        
-//        println("REQUEST URL: \(requestUrl)")
         
         return requestUrl
     }
     
     func createSession() -> NSURLSession {
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-        config.HTTPAdditionalHeaders = ["Accept" : "application/json"] //not needed when using /json pre-defined routes
         
         let session = NSURLSession(configuration: config)
         return session
@@ -123,6 +120,7 @@ public class JsonServiceClient : ServiceClient
             : NSMutableURLRequest(URL: nsUrl, cachePolicy: self.cachePolicy, timeoutInterval: self.timeout!)
         
         req.HTTPMethod = httpMethod
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         if requestFilter != nil {
             requestFilter!(req)
@@ -173,19 +171,23 @@ public class JsonServiceClient : ServiceClient
         }
     }
     
+    public func get<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer = nil) -> T.Return? {
+        return send(T.Return(), httpMethod: HttpMethods.Get, url: self.createUrl(T.reflect(), dto: request))
+    }
+    
+    public func get<T : JsonSerializable>(relativeUrl:String, error:NSErrorPointer = nil) -> T? {
+        return send(T(), httpMethod: HttpMethods.Get, url: baseUrl.combinePath(relativeUrl))
+    }
+    
     public func getAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return> {
         return sendAsync(T.Return(), httpMethod: HttpMethods.Get, url: self.createUrl(T.reflect(), dto: request))
     }
     
-    public func get<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer = nil) -> T.Return? {
-        return send(T.Return(), httpMethod: HttpMethods.Get, url: self.createUrl(T.reflect(), dto: request))
+    public func getAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T> {
+        return sendAsync(T(), httpMethod: HttpMethods.Get, url: baseUrl.combinePath(relativeUrl))
     }
 
 }
-
-
-
-
 
 
 

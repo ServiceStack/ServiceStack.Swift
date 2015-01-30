@@ -45,6 +45,11 @@ class JsonHttpClientTests: XCTestCase {
         self.assertOverviewResponse(response!)
     }
     
+    func test_Can_GET_TechStacks_Overview_with_url_Sync() {
+        let response:OverviewResponse? = client.get("/overview")
+        self.assertOverviewResponse(response!)
+    }
+    
     func assertGetTechnologyResponse(r:GetTechnologyResponse) {
         XCTAssertNotNil(r)
         XCTAssertEqual(r.technology!.name!, "ServiceStack")
@@ -73,6 +78,11 @@ class JsonHttpClientTests: XCTestCase {
         var requestDto = GetTechnology()
         requestDto.slug = "servicestack"
         let response = client.get(requestDto)
+        self.assertGetTechnologyResponse(response!)
+    }
+    
+    func test_Can_GET_GetTechnology_with_url_Sync() {
+        let response:GetTechnologyResponse? = client.get("/technology/servicestack")
         self.assertGetTechnologyResponse(response!)
     }
     
