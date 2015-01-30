@@ -10,17 +10,28 @@ import JsonServiceClient
 import XCTest
 
 class JsonHttpClientTests: XCTestCase {
-
+    var client:JsonServiceClient!
+    
+    override func setUp() {
+        super.setUp()
+        client = JsonServiceClient(baseUrl: "http://techstacks.io")
+    }
+    
+    func assertOverviewResponse(r:OverviewResponse) {
+        XCTAssertNotNil(r)
+        XCTAssertGreaterThan(r.topUsers.count, 0)
+        XCTAssertGreaterThan(r.topTechnologies.count, 0)
+        XCTAssertGreaterThan(r.latestTechStacks.count, 0)
+        XCTAssertGreaterThan(r.latestTechStacks[0].technologyChoices.count, 0)
+        XCTAssertGreaterThan(r.topTechnologiesByTier.count, 0)
+    }
+    
     func test_Can_GET_TechStacks_Overview() {
-        
         let asyncTest = expectationWithDescription("asyncTest")
-        
-        let client = JsonServiceClient(baseUrl: "http://techstacks.io")
         
         client.getAsync(Overview())
             .then(body: {(r:OverviewResponse) -> Void in
-                XCTAssertNotNil(r)
-//                println("RESPONSE: \(r.toJson())")
+                self.assertOverviewResponse(r)
                 asyncTest.fulfill()
             })
 
@@ -29,25 +40,40 @@ class JsonHttpClientTests: XCTestCase {
         })
     }
     
+    func test_Can_GET_TechStacks_Overview_Sync() {
+        let response = client.get(Overview())
+        self.assertOverviewResponse(response!)
+    }
+    
+    func assertGetTechnologyResponse(r:GetTechnologyResponse) {
+        XCTAssertNotNil(r)
+        XCTAssertEqual(r.technology!.name!, "ServiceStack")
+        XCTAssertGreaterThan(r.technologyStacks.count, 0)
+    }
+    
     func test_Can_GET_GetTechnology_with_params() {
         
         let asyncTest = expectationWithDescription("asyncTest")
-        
-        let client = JsonServiceClient(baseUrl:"http://techstacks.io")
         
         var requestDto = GetTechnology()
         requestDto.slug = "servicestack"
         
         client.getAsync(requestDto)
             .then(body: {(r:GetTechnologyResponse) -> Void in
-                XCTAssertNotNil(r)
-//                println("RESPONSE: \(r.toJson())")
+                self.assertGetTechnologyResponse(r)
                 asyncTest.fulfill()
             })
         
         waitForExpectationsWithTimeout(5, { (error) in
             XCTAssertNil(error, "Error")
         })
+    }
+    
+    func test_Can_GET_GetTechnology_with_params_Sync() {
+        var requestDto = GetTechnology()
+        requestDto.slug = "servicestack"
+        let response = client.get(requestDto)
+        self.assertGetTechnologyResponse(response!)
     }
     
 }

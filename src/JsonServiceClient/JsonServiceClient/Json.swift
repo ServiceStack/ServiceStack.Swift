@@ -93,11 +93,15 @@ class TypeString : Printable
 }
 
 func parseJson(json:String) -> AnyObject? {
+    var error: NSError?
+    return parseJson(json, &error)
+}
+
+func parseJson(json:String, error:NSErrorPointer) -> AnyObject? {
     let data = json.dataUsingEncoding(NSUTF8StringEncoding)!
-    var parseError: NSError?
     let parsedObject: AnyObject? = NSJSONSerialization.JSONObjectWithData(data,
         options: NSJSONReadingOptions.AllowFragments,
-        error:&parseError)
+        error:error)
     return parsedObject
 }
 
@@ -510,6 +514,13 @@ public class Type<T : HasReflect> : TypeAccessor
     
     func fromJson<T : JsonSerializable>(json:String) -> T? {
         return fromJson(T(), json: json)
+    }
+    
+    func fromJson<T>(instance:T, json:String, error:NSErrorPointer) -> T? {
+        if let map = parseJson(json, error) as? NSDictionary {
+            return populate(instance, map, propertiesMap)
+        }
+        return nil
     }
     
     func fromJson<T>(instance:T, json:String) -> T? {
