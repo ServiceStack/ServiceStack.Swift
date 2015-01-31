@@ -1,3 +1,4 @@
+#if true
  //
 //  TechStacksJsonTests.swift
 //  ServiceStackClientTests
@@ -91,14 +92,14 @@ class TechStacksJsonTests: XCTestCase
         XCTAssertTrue(techstacks.description!.hasPrefix("This Website! "))
         XCTAssertEqual(techstacks.appUrl!, "http://techstacks.io")
         XCTAssertEqual(techstacks.screenshotUrl!, "https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/techstacks/screenshots/techstacks.png")
-        XCTAssertEqual(techstacks.created!, "2015-01-01T17:33:58.9892560")
+        XCTAssertEqual(techstacks.created!, NSDate.fromIsoDateString("2015-01-01T17:33:58.9892560")!)
         XCTAssertEqual(techstacks.createdBy!, "layoric")
-        XCTAssertEqual(techstacks.lastModified!, "2015-01-12T23:34:12.4516410")
+        XCTAssertEqual(techstacks.lastModified!, NSDate.fromIsoDateString("2015-01-12T23:34:12.4516410")!)
         XCTAssertEqual(techstacks.lastModifiedBy!, "layoric")
         XCTAssertEqual(techstacks.isLocked!, true)
         XCTAssertEqual(techstacks.ownerId!, "2")
         XCTAssertEqual(techstacks.slug!, "techstacks-website")
-        XCTAssertEqual(techstacks.lastStatusUpdate!, "2015-01-12T23:34:12.4516410")
+        XCTAssertEqual(techstacks.lastStatusUpdate!, NSDate.fromIsoDateString("2015-01-12T23:34:12.4516410")!)
 
         let techstackChoices = techstacks.technologyChoices
         XCTAssertEqual(techstackChoices.count, 10)
@@ -110,9 +111,9 @@ class TechStacksJsonTests: XCTestCase
         XCTAssertEqual(techstackChoices[0].vendorUrl!, "https://servicestack.net")
         XCTAssertEqual(techstackChoices[0].productUrl!, "https://servicestack.net")
         XCTAssertEqual(techstackChoices[0].logoUrl!, "https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/techstacks/servicestack-logo.png")
-        XCTAssertEqual(techstackChoices[0].created!, "2014-12-28T08:49:20.9542550")
+        XCTAssertEqual(techstackChoices[0].created!, NSDate.fromIsoDateString("2014-12-28T08:49:20.9542550")!)
         XCTAssertEqual(techstackChoices[0].createdBy!, "demisbellot")
-        XCTAssertEqual(techstackChoices[0].lastModified!, "2014-12-28T08:49:20.9542550")
+        XCTAssertEqual(techstackChoices[0].lastModified!, NSDate.fromIsoDateString("2014-12-28T08:49:20.9542550")!)
         XCTAssertEqual(techstackChoices[0].lastModifiedBy!, "demisbellot")
         XCTAssertEqual(techstackChoices[0].ownerId!, "1")
         XCTAssertEqual(techstackChoices[0].slug!, "servicestack")
@@ -130,7 +131,9 @@ class TechStacksJsonTests: XCTestCase
         XCTAssertEqual(langs[0].logoUrl!, "https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/techstacks/python-logo.png")
         XCTAssertEqual(langs[0].stacksCount!, 25)
         
-        let toJson = dto.toJson()
-        println(toJson)
+//        let toJson = dto.toJson()
+//        println(toJson)
     }
 }
+
+#endif
