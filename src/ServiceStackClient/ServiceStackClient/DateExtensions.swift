@@ -30,11 +30,11 @@ public extension NSDate {
     }
     
     public func components() -> NSDateComponents {
-        let compnents  = NSCalendar.currentCalendar().components(
+        let components  = NSCalendar.currentCalendar().components(
             NSCalendarUnit.DayCalendarUnit | NSCalendarUnit.MonthCalendarUnit | NSCalendarUnit.YearCalendarUnit,
             fromDate: self)
         
-        return compnents
+        return components
     }
     
     public var year:Int {
@@ -59,17 +59,23 @@ public extension NSDate {
     public var isoDateString:String {
         var dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")
+        dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC")
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
         return dateFormatter.stringFromDate(self).stringByAppendingString("Z")
     }
     
     public class func fromIsoDateString(string:String) -> NSDate? {
+        let isUtc = string.hasSuffix("Z")
         var dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        dateFormatter.timeZone = NSTimeZone.localTimeZone()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        return dateFormatter.dateFromString(string)
+        dateFormatter.timeZone = isUtc ? NSTimeZone(abbreviation: "UTC") : NSTimeZone.localTimeZone()
+        dateFormatter.dateFormat = string.count == 19
+            ? "yyyy-MM-dd'T'HH:mm:ss"
+            : "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS"
+        
+        return isUtc
+            ? dateFormatter.dateFromString(string[0..<string.count-1])
+            : dateFormatter.dateFromString(string)
     }
 }
 
