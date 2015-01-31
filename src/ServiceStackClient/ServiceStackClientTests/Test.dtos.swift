@@ -1,5 +1,5 @@
 /* Options:
-Date: 2015-01-30 18:57:52
+Date: 2015-01-31 08:59:07
 Version: 1
 BaseUrl: http://test.servicestack.net
 
@@ -19,11 +19,11 @@ import Foundation
 public class AllTypes
 {
     required public init(){}
-    public var id:Int?
-    public var nullableId:Int?
+    public var id:Int32?
+    public var nullableId:Int32?
     public var byte:Int8?
     public var short:Int16?
-    public var int:Int?
+    public var int:Int32?
     public var long:Int64?
     public var uShort:UInt16?
     public var uInt:UInt32?
@@ -32,22 +32,25 @@ public class AllTypes
     public var double:Double?
     public var decimal:Double?
     public var string:String?
-    public var dateTime:String?
-    public var timeSpan:String?
-    public var nullableDateTime:String?
-    public var nullableTimeSpan:String?
+    public var dateTime:NSDate?
+    public var timeSpan:NSTimeInterval?
+    public var dateTimeOffset:NSDate?
+    public var guid:String?
+    public var char:Character?
+    public var nullableDateTime:NSDate?
+    public var nullableTimeSpan:NSTimeInterval?
     public var stringList:[String] = []
     public var stringArray:[String] = []
     public var stringMap:[String:String] = [:]
-    public var intStringMap:[Int:String] = [:]
+    public var intStringMap:[Int32:String] = [:]
     public var subType:SubType?
 }
 
 public class AllCollectionTypes
 {
     required public init(){}
-    public var intArray:[Int] = []
-    public var intList:[Int] = []
+    public var intArray:[Int32] = []
+    public var intList:[Int32] = []
     public var stringArray:[String] = []
     public var stringList:[String] = []
     public var pocoArray:[Poco] = []
@@ -65,7 +68,7 @@ public class Poco
 public class SubType
 {
     required public init(){}
-    public var id:Int?
+    public var id:Int32?
     public var name:String?
 }
 
@@ -90,9 +93,9 @@ public class HelloAllTypes : IReturn
 
 extension AllTypes : JsonSerializable
 {
+    public class var typeName:String { return "AllTypes" }
     public class func reflect() -> Type<AllTypes> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AllTypes>(
-            name: "AllTypes",
             properties: [
                 Type<AllTypes>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<AllTypes>.optionalProperty("nullableId", get: { $0.nullableId }, set: { $0.nullableId = $1 }),
@@ -109,6 +112,9 @@ extension AllTypes : JsonSerializable
                 Type<AllTypes>.optionalProperty("string", get: { $0.string }, set: { $0.string = $1 }),
                 Type<AllTypes>.optionalProperty("dateTime", get: { $0.dateTime }, set: { $0.dateTime = $1 }),
                 Type<AllTypes>.optionalProperty("timeSpan", get: { $0.timeSpan }, set: { $0.timeSpan = $1 }),
+                Type<AllTypes>.optionalProperty("dateTimeOffset", get: { $0.dateTimeOffset }, set: { $0.dateTimeOffset = $1 }),
+                Type<AllTypes>.optionalProperty("guid", get: { $0.guid }, set: { $0.guid = $1 }),
+                Type<AllTypes>.optionalProperty("char", get: { $0.char }, set: { $0.char = $1 }),
                 Type<AllTypes>.optionalProperty("nullableDateTime", get: { $0.nullableDateTime }, set: { $0.nullableDateTime = $1 }),
                 Type<AllTypes>.optionalProperty("nullableTimeSpan", get: { $0.nullableTimeSpan }, set: { $0.nullableTimeSpan = $1 }),
                 Type<AllTypes>.arrayProperty("stringList", get: { $0.stringList }, set: { $0.stringList = $1 }),
@@ -137,9 +143,9 @@ extension AllTypes : JsonSerializable
 
 extension AllCollectionTypes : JsonSerializable
 {
+    public class var typeName:String { return "AllCollectionTypes" }
     public class func reflect() -> Type<AllCollectionTypes> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AllCollectionTypes>(
-            name: "AllCollectionTypes",
             properties: [
                 Type<AllCollectionTypes>.arrayProperty("intArray", get: { $0.intArray }, set: { $0.intArray = $1 }),
                 Type<AllCollectionTypes>.arrayProperty("intList", get: { $0.intList }, set: { $0.intList = $1 }),
@@ -170,9 +176,9 @@ extension AllCollectionTypes : JsonSerializable
 
 extension Poco : JsonSerializable
 {
+    public class var typeName:String { return "Poco" }
     public class func reflect() -> Type<Poco> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Poco>(
-            name: "Poco",
             properties: [
                 Type<Poco>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
             ]))
@@ -196,9 +202,9 @@ extension Poco : JsonSerializable
 
 extension SubType : JsonSerializable
 {
+    public class var typeName:String { return "SubType" }
     public class func reflect() -> Type<SubType> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<SubType>(
-            name: "SubType",
             properties: [
                 Type<SubType>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<SubType>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -223,9 +229,9 @@ extension SubType : JsonSerializable
 
 extension HelloAllTypesResponse : JsonSerializable
 {
+    public class var typeName:String { return "HelloAllTypesResponse" }
     public class func reflect() -> Type<HelloAllTypesResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<HelloAllTypesResponse>(
-            name: "HelloAllTypesResponse",
             properties: [
                 Type<HelloAllTypesResponse>.optionalProperty("result", get: { $0.result }, set: { $0.result = $1 }),
                 Type<HelloAllTypesResponse>.optionalObjectProperty("allTypes", get: { $0.allTypes }, set: { $0.allTypes = $1 }),
@@ -251,9 +257,9 @@ extension HelloAllTypesResponse : JsonSerializable
 
 extension HelloAllTypes : JsonSerializable
 {
+    public class var typeName:String { return "HelloAllTypes" }
     public class func reflect() -> Type<HelloAllTypes> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<HelloAllTypes>(
-            name: "HelloAllTypes",
             properties: [
                 Type<HelloAllTypes>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<HelloAllTypes>.optionalObjectProperty("allTypes", get: { $0.allTypes }, set: { $0.allTypes = $1 }),

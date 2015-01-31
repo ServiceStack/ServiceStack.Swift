@@ -1,3 +1,4 @@
+#if true
 //
 //  JsonServiceClientTests.swift
 //  ServiceStackClientTests
@@ -90,6 +91,7 @@ class JsonServiceClientTests: XCTestCase {
     func createAllTypes() -> AllTypes {
         var to = AllTypes()
         to.id = 1
+        to.char = Character("c")
         to.byte = Int8(2)
         to.short = Int16(3)
         to.int = 4
@@ -101,8 +103,9 @@ class JsonServiceClientTests: XCTestCase {
         to.double = 2.2
         to.decimal = 3.0
         to.string = "string"
-        to.dateTime = "2001-01-01"
-        to.timeSpan = "00:00:01"
+        to.dateTime = NSDate(year: 2001, month: 1, day: 1)
+        to.timeSpan = 1
+        to.guid = "25892e1780f6415f9c657395632f0223"
         to.stringList = ["A","B","C"]
         to.stringArray = ["D","E","F"]
         to.stringMap = ["A":"D","B":"E","C":"F"]
@@ -176,8 +179,10 @@ class JsonServiceClientTests: XCTestCase {
         XCTAssertEqual(actual.double!, expected.double!)
         XCTAssertEqual(actual.decimal!, expected.decimal!)
         XCTAssertEqual(actual.string!, expected.string!)
-//        XCTAssertEqual(actual.dateTime!, expected.dateTime!)  //TODO
-//        XCTAssertEqual(actual.timeSpan!, expected.timeSpan!)  //TODO
+        XCTAssertEqual(actual.dateTime!, expected.dateTime!)
+        XCTAssertEqual(actual.timeSpan!, expected.timeSpan!)
+        XCTAssertEqual(actual.guid!, expected.guid!)
+        XCTAssertEqual(actual.char!, expected.char!)
         XCTAssertEqual(actual.stringList, expected.stringList)
         XCTAssertEqual(actual.stringArray, expected.stringArray)
 
@@ -268,3 +273,5 @@ extension Poco : Equatable {}
 public func == (lhs: Poco, rhs: Poco) -> Bool {
     return lhs.name == rhs.name
 }
+
+#endif

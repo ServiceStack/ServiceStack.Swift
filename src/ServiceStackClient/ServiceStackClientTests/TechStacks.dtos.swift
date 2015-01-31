@@ -1,6 +1,5 @@
-#if true
 /* Options:
-Date: 2015-01-28 11:15:16
+Date: 2015-01-31 09:02:51
 Version: 1
 BaseUrl: http://techstacks.io
 
@@ -103,7 +102,7 @@ public class UserInfo
     required public init(){}
     public var userName:String?
     public var avatarUrl:String?
-    public var stacksCount:Int?
+    public var stacksCount:Int32?
 }
 
 public class TechnologyInfo
@@ -113,7 +112,7 @@ public class TechnologyInfo
     public var slug:String?
     public var name:String?
     public var logoUrl:String?
-    public var stacksCount:Int?
+    public var stacksCount:Int32?
 }
 
 public class TechnologyBase
@@ -126,16 +125,16 @@ public class TechnologyBase
     public var productUrl:String?
     public var logoUrl:String?
     public var description:String?
-    public var created:String?
+    public var created:NSDate?
     public var createdBy:String?
-    public var lastModified:String?
+    public var lastModified:NSDate?
     public var lastModifiedBy:String?
     public var ownerId:String?
     public var slug:String?
     public var logoApproved:Bool?
     public var isLocked:Bool?
     public var tier:TechnologyTier?
-    public var lastStatusUpdate:String?
+    public var lastStatusUpdate:NSDate?
 }
 
 // @DataContract
@@ -161,25 +160,25 @@ public class TechnologyStackBase
     public var description:String?
     public var appUrl:String?
     public var screenshotUrl:String?
-    public var created:String?
+    public var created:NSDate?
     public var createdBy:String?
-    public var lastModified:String?
+    public var lastModified:NSDate?
     public var lastModifiedBy:String?
     public var isLocked:Bool?
     public var ownerId:String?
     public var slug:String?
     public var details:String?
-    public var lastStatusUpdate:String?
+    public var lastStatusUpdate:NSDate?
 }
 
 public class QueryBase
 {
     required public init(){}
     // @DataMember(Order=1)
-    public var skip:Int?
+    public var skip:Int32?
     
     // @DataMember(Order=2)
-    public var take:Int?
+    public var take:Int32?
     
     // @DataMember(Order=3)
     public var orderBy:String?
@@ -231,7 +230,7 @@ public class DeleteTechnologyResponse
 public class GetTechnologyResponse
 {
     required public init(){}
-    public var created:String?
+    public var created:NSDate?
     public var technology:Technology?
     public var technologyStacks:[TechnologyStack] = []
     public var responseStatus:ResponseStatus?
@@ -247,7 +246,7 @@ public class GetTechnologyFavoriteDetailsResponse
 {
     required public init(){}
     public var users:[String] = []
-    public var favoriteCount:Int?
+    public var favoriteCount:Int32?
 }
 
 public class GetAllTechnologiesResponse
@@ -261,10 +260,10 @@ public class QueryResponse<Technology : JsonSerializable>
 {
     required public init(){}
     // @DataMember(Order=1)
-    public var offset:Int?
+    public var offset:Int32?
     
     // @DataMember(Order=2)
-    public var total:Int?
+    public var total:Int32?
     
     // @DataMember(Order=3)
     public var results:[Technology] = []
@@ -306,7 +305,7 @@ public class GetAllTechnologyStacksResponse
 public class GetTechnologyStackResponse
 {
     required public init(){}
-    public var created:String?
+    public var created:NSDate?
     public var result:TechStackDetails?
     public var responseStatus:ResponseStatus?
 }
@@ -321,7 +320,7 @@ public class GetTechnologyStackFavoriteDetailsResponse
 {
     required public init(){}
     public var users:[String] = []
-    public var favoriteCount:Int?
+    public var favoriteCount:Int32?
 }
 
 public class GetConfigResponse
@@ -333,7 +332,7 @@ public class GetConfigResponse
 public class OverviewResponse
 {
     required public init(){}
-    public var created:String?
+    public var created:NSDate?
     public var topUsers:[UserInfo] = []
     public var topTechnologies:[TechnologyInfo] = []
     public var latestTechStacks:[TechStackDetails] = []
@@ -375,7 +374,7 @@ public class GetUserInfoResponse
 {
     required public init(){}
     public var userName:String?
-    public var created:String?
+    public var created:NSDate?
     public var avatarUrl:String?
     public var techStacks:[TechnologyStack] = []
     public var favoriteTechStacks:[TechnologyStack] = []
@@ -698,7 +697,7 @@ public class GetFavoriteTechStack : IReturn
     typealias Return = GetFavoriteTechStackResponse
     
     required public init(){}
-    public var technologyStackId:Int?
+    public var technologyStackId:Int32?
 }
 
 // @Route("/favorites/techtacks/{TechnologyStackId}", "PUT")
@@ -707,7 +706,7 @@ public class AddFavoriteTechStack : IReturn
     typealias Return = FavoriteTechStackResponse
     
     required public init(){}
-    public var technologyStackId:Int?
+    public var technologyStackId:Int32?
 }
 
 // @Route("/favorites/techtacks/{TechnologyStackId}", "DELETE")
@@ -716,7 +715,7 @@ public class RemoveFavoriteTechStack : IReturn
     typealias Return = FavoriteTechStackResponse
     
     required public init(){}
-    public var technologyStackId:Int?
+    public var technologyStackId:Int32?
 }
 
 // @Route("/favorites/technology", "GET")
@@ -725,7 +724,7 @@ public class GetFavoriteTechnologies : IReturn
     typealias Return = GetFavoriteTechnologiesResponse
     
     required public init(){}
-    public var technologyId:Int?
+    public var technologyId:Int32?
 }
 
 // @Route("/favorites/technology/{TechnologyId}", "PUT")
@@ -734,7 +733,7 @@ public class AddFavoriteTechnology : IReturn
     typealias Return = FavoriteTechnologyResponse
     
     required public init(){}
-    public var technologyId:Int?
+    public var technologyId:Int32?
 }
 
 // @Route("/favorites/technology/{TechnologyId}", "DELETE")
@@ -743,13 +742,13 @@ public class RemoveFavoriteTechnology : IReturn
     typealias Return = FavoriteTechnologyResponse
     
     required public init(){}
-    public var technologyId:Int?
+    public var technologyId:Int32?
 }
 
 // @Route("/my-feed")
 public class GetUserFeed : IReturn
 {
-    typealias Return = GetUserFeed
+    typealias Return = GetUserFeedResponse
     
     required public init(){}
 }
@@ -757,7 +756,7 @@ public class GetUserFeed : IReturn
 // @Route("/userinfo/{UserName}")
 public class GetUserInfo : IReturn
 {
-    typealias Return = GetUserInfo
+    typealias Return = GetUserInfoResponse
     
     required public init(){}
     public var reload:Bool?
@@ -845,9 +844,9 @@ public class UnAssignRoles : IReturn
 
 extension Technology : JsonSerializable
 {
+    public class var typeName:String { return "Technology" }
     public class func reflect() -> Type<Technology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Technology>(
-            name: "Technology",
             properties: [
                 Type<Technology>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<Technology>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -887,6 +886,7 @@ extension Technology : JsonSerializable
 
 extension TechnologyTier : StringSerializable
 {
+    public static var typeName:String { return "TechnologyTier" }
     public func toJson() -> String {
         return jsonStringRaw(toString())
     }
@@ -928,9 +928,9 @@ extension TechnologyTier : StringSerializable
 
 extension ResponseStatus : JsonSerializable
 {
+    public class var typeName:String { return "ResponseStatus" }
     public class func reflect() -> Type<ResponseStatus> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<ResponseStatus>(
-            name: "ResponseStatus",
             properties: [
                 Type<ResponseStatus>.optionalProperty("errorCode", get: { $0.errorCode }, set: { $0.errorCode = $1 }),
                 Type<ResponseStatus>.optionalProperty("message", get: { $0.message }, set: { $0.message = $1 }),
@@ -957,9 +957,9 @@ extension ResponseStatus : JsonSerializable
 
 extension TechnologyStack : JsonSerializable
 {
+    public class var typeName:String { return "TechnologyStack" }
     public class func reflect() -> Type<TechnologyStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechnologyStack>(
-            name: "TechnologyStack",
             properties: [
                 Type<TechnologyStack>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<TechnologyStack>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -997,9 +997,9 @@ extension TechnologyStack : JsonSerializable
 
 extension TechnologyHistory : JsonSerializable
 {
+    public class var typeName:String { return "TechnologyHistory" }
     public class func reflect() -> Type<TechnologyHistory> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechnologyHistory>(
-            name: "TechnologyHistory",
             properties: [
                 Type<TechnologyHistory>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<TechnologyHistory>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -1041,9 +1041,9 @@ extension TechnologyHistory : JsonSerializable
 
 extension TechStackDetails : JsonSerializable
 {
+    public class var typeName:String { return "TechStackDetails" }
     public class func reflect() -> Type<TechStackDetails> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechStackDetails>(
-            name: "TechStackDetails",
             properties: [
                 Type<TechStackDetails>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<TechStackDetails>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -1083,9 +1083,9 @@ extension TechStackDetails : JsonSerializable
 
 extension TechnologyStackHistory : JsonSerializable
 {
+    public class var typeName:String { return "TechnologyStackHistory" }
     public class func reflect() -> Type<TechnologyStackHistory> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechnologyStackHistory>(
-            name: "TechnologyStackHistory",
             properties: [
                 Type<TechnologyStackHistory>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<TechnologyStackHistory>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -1126,9 +1126,9 @@ extension TechnologyStackHistory : JsonSerializable
 
 extension Option : JsonSerializable
 {
+    public class var typeName:String { return "Option" }
     public class func reflect() -> Type<Option> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Option>(
-            name: "Option",
             properties: [
                 Type<Option>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<Option>.optionalProperty("title", get: { $0.title }, set: { $0.title = $1 }),
@@ -1154,9 +1154,9 @@ extension Option : JsonSerializable
 
 extension UserInfo : JsonSerializable
 {
+    public class var typeName:String { return "UserInfo" }
     public class func reflect() -> Type<UserInfo> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UserInfo>(
-            name: "UserInfo",
             properties: [
                 Type<UserInfo>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
                 Type<UserInfo>.optionalProperty("avatarUrl", get: { $0.avatarUrl }, set: { $0.avatarUrl = $1 }),
@@ -1182,9 +1182,9 @@ extension UserInfo : JsonSerializable
 
 extension TechnologyInfo : JsonSerializable
 {
+    public class var typeName:String { return "TechnologyInfo" }
     public class func reflect() -> Type<TechnologyInfo> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechnologyInfo>(
-            name: "TechnologyInfo",
             properties: [
                 Type<TechnologyInfo>.optionalProperty("tier", get: { $0.tier }, set: { $0.tier = $1 }),
                 Type<TechnologyInfo>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
@@ -1212,9 +1212,9 @@ extension TechnologyInfo : JsonSerializable
 
 extension ResponseError : JsonSerializable
 {
+    public class var typeName:String { return "ResponseError" }
     public class func reflect() -> Type<ResponseError> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<ResponseError>(
-            name: "ResponseError",
             properties: [
                 Type<ResponseError>.optionalProperty("errorCode", get: { $0.errorCode }, set: { $0.errorCode = $1 }),
                 Type<ResponseError>.optionalProperty("fieldName", get: { $0.fieldName }, set: { $0.fieldName = $1 }),
@@ -1240,9 +1240,9 @@ extension ResponseError : JsonSerializable
 
 extension TechnologyInStack : JsonSerializable
 {
+    public class var typeName:String { return "TechnologyInStack" }
     public class func reflect() -> Type<TechnologyInStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechnologyInStack>(
-            name: "TechnologyInStack",
             properties: [
                 Type<TechnologyInStack>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<TechnologyInStack>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -1285,9 +1285,9 @@ extension TechnologyInStack : JsonSerializable
 
 extension LogoUrlApprovalResponse : JsonSerializable
 {
+    public class var typeName:String { return "LogoUrlApprovalResponse" }
     public class func reflect() -> Type<LogoUrlApprovalResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<LogoUrlApprovalResponse>(
-            name: "LogoUrlApprovalResponse",
             properties: [
                 Type<LogoUrlApprovalResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
             ]))
@@ -1311,9 +1311,9 @@ extension LogoUrlApprovalResponse : JsonSerializable
 
 extension LockStackResponse : JsonSerializable
 {
+    public class var typeName:String { return "LockStackResponse" }
     public class func reflect() -> Type<LockStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<LockStackResponse>(
-            name: "LockStackResponse",
             properties: [
             ]))
     }
@@ -1336,9 +1336,9 @@ extension LockStackResponse : JsonSerializable
 
 extension CreateTechnologyResponse : JsonSerializable
 {
+    public class var typeName:String { return "CreateTechnologyResponse" }
     public class func reflect() -> Type<CreateTechnologyResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<CreateTechnologyResponse>(
-            name: "CreateTechnologyResponse",
             properties: [
                 Type<CreateTechnologyResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
                 Type<CreateTechnologyResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
@@ -1363,9 +1363,9 @@ extension CreateTechnologyResponse : JsonSerializable
 
 extension UpdateTechnologyResponse : JsonSerializable
 {
+    public class var typeName:String { return "UpdateTechnologyResponse" }
     public class func reflect() -> Type<UpdateTechnologyResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UpdateTechnologyResponse>(
-            name: "UpdateTechnologyResponse",
             properties: [
                 Type<UpdateTechnologyResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
                 Type<UpdateTechnologyResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
@@ -1390,9 +1390,9 @@ extension UpdateTechnologyResponse : JsonSerializable
 
 extension DeleteTechnologyResponse : JsonSerializable
 {
+    public class var typeName:String { return "DeleteTechnologyResponse" }
     public class func reflect() -> Type<DeleteTechnologyResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<DeleteTechnologyResponse>(
-            name: "DeleteTechnologyResponse",
             properties: [
                 Type<DeleteTechnologyResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
                 Type<DeleteTechnologyResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
@@ -1417,9 +1417,9 @@ extension DeleteTechnologyResponse : JsonSerializable
 
 extension GetTechnologyResponse : JsonSerializable
 {
+    public class var typeName:String { return "GetTechnologyResponse" }
     public class func reflect() -> Type<GetTechnologyResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyResponse>(
-            name: "GetTechnologyResponse",
             properties: [
                 Type<GetTechnologyResponse>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
                 Type<GetTechnologyResponse>.optionalObjectProperty("technology", get: { $0.technology }, set: { $0.technology = $1 }),
@@ -1446,9 +1446,9 @@ extension GetTechnologyResponse : JsonSerializable
 
 extension GetTechnologyPreviousVersionsResponse : JsonSerializable
 {
+    public class var typeName:String { return "GetTechnologyPreviousVersionsResponse" }
     public class func reflect() -> Type<GetTechnologyPreviousVersionsResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyPreviousVersionsResponse>(
-            name: "GetTechnologyPreviousVersionsResponse",
             properties: [
                 Type<GetTechnologyPreviousVersionsResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
             ]))
@@ -1472,9 +1472,9 @@ extension GetTechnologyPreviousVersionsResponse : JsonSerializable
 
 extension GetTechnologyFavoriteDetailsResponse : JsonSerializable
 {
+    public class var typeName:String { return "GetTechnologyFavoriteDetailsResponse" }
     public class func reflect() -> Type<GetTechnologyFavoriteDetailsResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyFavoriteDetailsResponse>(
-            name: "GetTechnologyFavoriteDetailsResponse",
             properties: [
                 Type<GetTechnologyFavoriteDetailsResponse>.arrayProperty("users", get: { $0.users }, set: { $0.users = $1 }),
                 Type<GetTechnologyFavoriteDetailsResponse>.optionalProperty("favoriteCount", get: { $0.favoriteCount }, set: { $0.favoriteCount = $1 }),
@@ -1499,9 +1499,9 @@ extension GetTechnologyFavoriteDetailsResponse : JsonSerializable
 
 extension GetAllTechnologiesResponse : JsonSerializable
 {
+    public class var typeName:String { return "GetAllTechnologiesResponse" }
     public class func reflect() -> Type<GetAllTechnologiesResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetAllTechnologiesResponse>(
-            name: "GetAllTechnologiesResponse",
             properties: [
                 Type<GetAllTechnologiesResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
             ]))
@@ -1525,9 +1525,9 @@ extension GetAllTechnologiesResponse : JsonSerializable
 
 extension QueryResponse : JsonSerializable
 {
+    public class var typeName:String { return "QueryResponse<Technology>" }
     public class func reflect() -> Type<QueryResponse<Technology>> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<QueryResponse<Technology>>(
-            name: "QueryResponse<Technology>",
             properties: [
                 Type<QueryResponse<Technology>>.optionalProperty("offset", get: { $0.offset }, set: { $0.offset = $1 }),
                 Type<QueryResponse<Technology>>.optionalProperty("total", get: { $0.total }, set: { $0.total = $1 }),
@@ -1555,9 +1555,9 @@ extension QueryResponse : JsonSerializable
 
 extension CreateTechnologyStackResponse : JsonSerializable
 {
+    public class var typeName:String { return "CreateTechnologyStackResponse" }
     public class func reflect() -> Type<CreateTechnologyStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<CreateTechnologyStackResponse>(
-            name: "CreateTechnologyStackResponse",
             properties: [
                 Type<CreateTechnologyStackResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
                 Type<CreateTechnologyStackResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
@@ -1582,9 +1582,9 @@ extension CreateTechnologyStackResponse : JsonSerializable
 
 extension UpdateTechnologyStackResponse : JsonSerializable
 {
+    public class var typeName:String { return "UpdateTechnologyStackResponse" }
     public class func reflect() -> Type<UpdateTechnologyStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UpdateTechnologyStackResponse>(
-            name: "UpdateTechnologyStackResponse",
             properties: [
                 Type<UpdateTechnologyStackResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
                 Type<UpdateTechnologyStackResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
@@ -1609,9 +1609,9 @@ extension UpdateTechnologyStackResponse : JsonSerializable
 
 extension DeleteTechnologyStackResponse : JsonSerializable
 {
+    public class var typeName:String { return "DeleteTechnologyStackResponse" }
     public class func reflect() -> Type<DeleteTechnologyStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<DeleteTechnologyStackResponse>(
-            name: "DeleteTechnologyStackResponse",
             properties: [
                 Type<DeleteTechnologyStackResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
                 Type<DeleteTechnologyStackResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
@@ -1636,9 +1636,9 @@ extension DeleteTechnologyStackResponse : JsonSerializable
 
 extension GetAllTechnologyStacksResponse : JsonSerializable
 {
+    public class var typeName:String { return "GetAllTechnologyStacksResponse" }
     public class func reflect() -> Type<GetAllTechnologyStacksResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetAllTechnologyStacksResponse>(
-            name: "GetAllTechnologyStacksResponse",
             properties: [
                 Type<GetAllTechnologyStacksResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
             ]))
@@ -1662,9 +1662,9 @@ extension GetAllTechnologyStacksResponse : JsonSerializable
 
 extension GetTechnologyStackResponse : JsonSerializable
 {
+    public class var typeName:String { return "GetTechnologyStackResponse" }
     public class func reflect() -> Type<GetTechnologyStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStackResponse>(
-            name: "GetTechnologyStackResponse",
             properties: [
                 Type<GetTechnologyStackResponse>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
                 Type<GetTechnologyStackResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
@@ -1690,9 +1690,9 @@ extension GetTechnologyStackResponse : JsonSerializable
 
 extension GetTechnologyStackPreviousVersionsResponse : JsonSerializable
 {
+    public class var typeName:String { return "GetTechnologyStackPreviousVersionsResponse" }
     public class func reflect() -> Type<GetTechnologyStackPreviousVersionsResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStackPreviousVersionsResponse>(
-            name: "GetTechnologyStackPreviousVersionsResponse",
             properties: [
                 Type<GetTechnologyStackPreviousVersionsResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
             ]))
@@ -1716,9 +1716,9 @@ extension GetTechnologyStackPreviousVersionsResponse : JsonSerializable
 
 extension GetTechnologyStackFavoriteDetailsResponse : JsonSerializable
 {
+    public class var typeName:String { return "GetTechnologyStackFavoriteDetailsResponse" }
     public class func reflect() -> Type<GetTechnologyStackFavoriteDetailsResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStackFavoriteDetailsResponse>(
-            name: "GetTechnologyStackFavoriteDetailsResponse",
             properties: [
                 Type<GetTechnologyStackFavoriteDetailsResponse>.arrayProperty("users", get: { $0.users }, set: { $0.users = $1 }),
                 Type<GetTechnologyStackFavoriteDetailsResponse>.optionalProperty("favoriteCount", get: { $0.favoriteCount }, set: { $0.favoriteCount = $1 }),
@@ -1743,9 +1743,9 @@ extension GetTechnologyStackFavoriteDetailsResponse : JsonSerializable
 
 extension GetConfigResponse : JsonSerializable
 {
+    public class var typeName:String { return "GetConfigResponse" }
     public class func reflect() -> Type<GetConfigResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetConfigResponse>(
-            name: "GetConfigResponse",
             properties: [
                 Type<GetConfigResponse>.arrayProperty("allTiers", get: { $0.allTiers }, set: { $0.allTiers = $1 }),
             ]))
@@ -1769,9 +1769,9 @@ extension GetConfigResponse : JsonSerializable
 
 extension OverviewResponse : JsonSerializable
 {
+    public class var typeName:String { return "OverviewResponse" }
     public class func reflect() -> Type<OverviewResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<OverviewResponse>(
-            name: "OverviewResponse",
             properties: [
                 Type<OverviewResponse>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
                 Type<OverviewResponse>.arrayProperty("topUsers", get: { $0.topUsers }, set: { $0.topUsers = $1 }),
@@ -1800,9 +1800,9 @@ extension OverviewResponse : JsonSerializable
 
 extension GetFavoriteTechStackResponse : JsonSerializable
 {
+    public class var typeName:String { return "GetFavoriteTechStackResponse" }
     public class func reflect() -> Type<GetFavoriteTechStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetFavoriteTechStackResponse>(
-            name: "GetFavoriteTechStackResponse",
             properties: [
                 Type<GetFavoriteTechStackResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
             ]))
@@ -1826,9 +1826,9 @@ extension GetFavoriteTechStackResponse : JsonSerializable
 
 extension FavoriteTechStackResponse : JsonSerializable
 {
+    public class var typeName:String { return "FavoriteTechStackResponse" }
     public class func reflect() -> Type<FavoriteTechStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<FavoriteTechStackResponse>(
-            name: "FavoriteTechStackResponse",
             properties: [
                 Type<FavoriteTechStackResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
             ]))
@@ -1852,9 +1852,9 @@ extension FavoriteTechStackResponse : JsonSerializable
 
 extension GetFavoriteTechnologiesResponse : JsonSerializable
 {
+    public class var typeName:String { return "GetFavoriteTechnologiesResponse" }
     public class func reflect() -> Type<GetFavoriteTechnologiesResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetFavoriteTechnologiesResponse>(
-            name: "GetFavoriteTechnologiesResponse",
             properties: [
                 Type<GetFavoriteTechnologiesResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
             ]))
@@ -1878,9 +1878,9 @@ extension GetFavoriteTechnologiesResponse : JsonSerializable
 
 extension FavoriteTechnologyResponse : JsonSerializable
 {
+    public class var typeName:String { return "FavoriteTechnologyResponse" }
     public class func reflect() -> Type<FavoriteTechnologyResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<FavoriteTechnologyResponse>(
-            name: "FavoriteTechnologyResponse",
             properties: [
                 Type<FavoriteTechnologyResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
             ]))
@@ -1904,9 +1904,9 @@ extension FavoriteTechnologyResponse : JsonSerializable
 
 extension GetUserFeedResponse : JsonSerializable
 {
+    public class var typeName:String { return "GetUserFeedResponse" }
     public class func reflect() -> Type<GetUserFeedResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetUserFeedResponse>(
-            name: "GetUserFeedResponse",
             properties: [
                 Type<GetUserFeedResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
             ]))
@@ -1930,9 +1930,9 @@ extension GetUserFeedResponse : JsonSerializable
 
 extension GetUserInfoResponse : JsonSerializable
 {
+    public class var typeName:String { return "GetUserInfoResponse" }
     public class func reflect() -> Type<GetUserInfoResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetUserInfoResponse>(
-            name: "GetUserInfoResponse",
             properties: [
                 Type<GetUserInfoResponse>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
                 Type<GetUserInfoResponse>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
@@ -1961,9 +1961,9 @@ extension GetUserInfoResponse : JsonSerializable
 
 extension AuthenticateResponse : JsonSerializable
 {
+    public class var typeName:String { return "AuthenticateResponse" }
     public class func reflect() -> Type<AuthenticateResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AuthenticateResponse>(
-            name: "AuthenticateResponse",
             properties: [
                 Type<AuthenticateResponse>.optionalProperty("userId", get: { $0.userId }, set: { $0.userId = $1 }),
                 Type<AuthenticateResponse>.optionalProperty("sessionId", get: { $0.sessionId }, set: { $0.sessionId = $1 }),
@@ -1993,9 +1993,9 @@ extension AuthenticateResponse : JsonSerializable
 
 extension AssignRolesResponse : JsonSerializable
 {
+    public class var typeName:String { return "AssignRolesResponse" }
     public class func reflect() -> Type<AssignRolesResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AssignRolesResponse>(
-            name: "AssignRolesResponse",
             properties: [
                 Type<AssignRolesResponse>.arrayProperty("allRoles", get: { $0.allRoles }, set: { $0.allRoles = $1 }),
                 Type<AssignRolesResponse>.arrayProperty("allPermissions", get: { $0.allPermissions }, set: { $0.allPermissions = $1 }),
@@ -2021,9 +2021,9 @@ extension AssignRolesResponse : JsonSerializable
 
 extension UnAssignRolesResponse : JsonSerializable
 {
+    public class var typeName:String { return "UnAssignRolesResponse" }
     public class func reflect() -> Type<UnAssignRolesResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UnAssignRolesResponse>(
-            name: "UnAssignRolesResponse",
             properties: [
                 Type<UnAssignRolesResponse>.arrayProperty("allRoles", get: { $0.allRoles }, set: { $0.allRoles = $1 }),
                 Type<UnAssignRolesResponse>.arrayProperty("allPermissions", get: { $0.allPermissions }, set: { $0.allPermissions = $1 }),
@@ -2049,9 +2049,9 @@ extension UnAssignRolesResponse : JsonSerializable
 
 extension LogoUrlApproval : JsonSerializable
 {
+    public class var typeName:String { return "LogoUrlApproval" }
     public class func reflect() -> Type<LogoUrlApproval> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<LogoUrlApproval>(
-            name: "LogoUrlApproval",
             properties: [
                 Type<LogoUrlApproval>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
                 Type<LogoUrlApproval>.optionalProperty("approved", get: { $0.approved }, set: { $0.approved = $1 }),
@@ -2076,9 +2076,9 @@ extension LogoUrlApproval : JsonSerializable
 
 extension LockTechStack : JsonSerializable
 {
+    public class var typeName:String { return "LockTechStack" }
     public class func reflect() -> Type<LockTechStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<LockTechStack>(
-            name: "LockTechStack",
             properties: [
                 Type<LockTechStack>.optionalProperty("technologyStackId", get: { $0.technologyStackId }, set: { $0.technologyStackId = $1 }),
                 Type<LockTechStack>.optionalProperty("isLocked", get: { $0.isLocked }, set: { $0.isLocked = $1 }),
@@ -2103,9 +2103,9 @@ extension LockTechStack : JsonSerializable
 
 extension LockTech : JsonSerializable
 {
+    public class var typeName:String { return "LockTech" }
     public class func reflect() -> Type<LockTech> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<LockTech>(
-            name: "LockTech",
             properties: [
                 Type<LockTech>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
                 Type<LockTech>.optionalProperty("isLocked", get: { $0.isLocked }, set: { $0.isLocked = $1 }),
@@ -2130,9 +2130,9 @@ extension LockTech : JsonSerializable
 
 extension Ping : JsonSerializable
 {
+    public class var typeName:String { return "Ping" }
     public class func reflect() -> Type<Ping> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Ping>(
-            name: "Ping",
             properties: [
             ]))
     }
@@ -2155,9 +2155,9 @@ extension Ping : JsonSerializable
 
 extension FallbackForClientRoutes : JsonSerializable
 {
+    public class var typeName:String { return "FallbackForClientRoutes" }
     public class func reflect() -> Type<FallbackForClientRoutes> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<FallbackForClientRoutes>(
-            name: "FallbackForClientRoutes",
             properties: [
                 Type<FallbackForClientRoutes>.optionalProperty("pathInfo", get: { $0.pathInfo }, set: { $0.pathInfo = $1 }),
             ]))
@@ -2181,9 +2181,9 @@ extension FallbackForClientRoutes : JsonSerializable
 
 extension ClientAllTechnologyStacks : JsonSerializable
 {
+    public class var typeName:String { return "ClientAllTechnologyStacks" }
     public class func reflect() -> Type<ClientAllTechnologyStacks> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<ClientAllTechnologyStacks>(
-            name: "ClientAllTechnologyStacks",
             properties: [
             ]))
     }
@@ -2206,9 +2206,9 @@ extension ClientAllTechnologyStacks : JsonSerializable
 
 extension ClientAllTechnologies : JsonSerializable
 {
+    public class var typeName:String { return "ClientAllTechnologies" }
     public class func reflect() -> Type<ClientAllTechnologies> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<ClientAllTechnologies>(
-            name: "ClientAllTechnologies",
             properties: [
             ]))
     }
@@ -2231,9 +2231,9 @@ extension ClientAllTechnologies : JsonSerializable
 
 extension ClientTechnology : JsonSerializable
 {
+    public class var typeName:String { return "ClientTechnology" }
     public class func reflect() -> Type<ClientTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<ClientTechnology>(
-            name: "ClientTechnology",
             properties: [
                 Type<ClientTechnology>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
             ]))
@@ -2257,9 +2257,9 @@ extension ClientTechnology : JsonSerializable
 
 extension ClientUser : JsonSerializable
 {
+    public class var typeName:String { return "ClientUser" }
     public class func reflect() -> Type<ClientUser> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<ClientUser>(
-            name: "ClientUser",
             properties: [
                 Type<ClientUser>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
             ]))
@@ -2283,9 +2283,9 @@ extension ClientUser : JsonSerializable
 
 extension SessionInfo : JsonSerializable
 {
+    public class var typeName:String { return "SessionInfo" }
     public class func reflect() -> Type<SessionInfo> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<SessionInfo>(
-            name: "SessionInfo",
             properties: [
             ]))
     }
@@ -2308,9 +2308,9 @@ extension SessionInfo : JsonSerializable
 
 extension CreateTechnology : JsonSerializable
 {
+    public class var typeName:String { return "CreateTechnology" }
     public class func reflect() -> Type<CreateTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<CreateTechnology>(
-            name: "CreateTechnology",
             properties: [
                 Type<CreateTechnology>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<CreateTechnology>.optionalProperty("vendorName", get: { $0.vendorName }, set: { $0.vendorName = $1 }),
@@ -2341,9 +2341,9 @@ extension CreateTechnology : JsonSerializable
 
 extension UpdateTechnology : JsonSerializable
 {
+    public class var typeName:String { return "UpdateTechnology" }
     public class func reflect() -> Type<UpdateTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UpdateTechnology>(
-            name: "UpdateTechnology",
             properties: [
                 Type<UpdateTechnology>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<UpdateTechnology>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -2375,9 +2375,9 @@ extension UpdateTechnology : JsonSerializable
 
 extension DeleteTechnology : JsonSerializable
 {
+    public class var typeName:String { return "DeleteTechnology" }
     public class func reflect() -> Type<DeleteTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<DeleteTechnology>(
-            name: "DeleteTechnology",
             properties: [
                 Type<DeleteTechnology>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
             ]))
@@ -2401,9 +2401,9 @@ extension DeleteTechnology : JsonSerializable
 
 extension GetTechnology : JsonSerializable
 {
+    public class var typeName:String { return "GetTechnology" }
     public class func reflect() -> Type<GetTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnology>(
-            name: "GetTechnology",
             properties: [
                 Type<GetTechnology>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
                 Type<GetTechnology>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
@@ -2428,9 +2428,9 @@ extension GetTechnology : JsonSerializable
 
 extension GetTechnologyPreviousVersions : JsonSerializable
 {
+    public class var typeName:String { return "GetTechnologyPreviousVersions" }
     public class func reflect() -> Type<GetTechnologyPreviousVersions> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyPreviousVersions>(
-            name: "GetTechnologyPreviousVersions",
             properties: [
                 Type<GetTechnologyPreviousVersions>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
             ]))
@@ -2454,9 +2454,9 @@ extension GetTechnologyPreviousVersions : JsonSerializable
 
 extension GetTechnologyFavoriteDetails : JsonSerializable
 {
+    public class var typeName:String { return "GetTechnologyFavoriteDetails" }
     public class func reflect() -> Type<GetTechnologyFavoriteDetails> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyFavoriteDetails>(
-            name: "GetTechnologyFavoriteDetails",
             properties: [
                 Type<GetTechnologyFavoriteDetails>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
                 Type<GetTechnologyFavoriteDetails>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
@@ -2481,9 +2481,9 @@ extension GetTechnologyFavoriteDetails : JsonSerializable
 
 extension GetAllTechnologies : JsonSerializable
 {
+    public class var typeName:String { return "GetAllTechnologies" }
     public class func reflect() -> Type<GetAllTechnologies> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetAllTechnologies>(
-            name: "GetAllTechnologies",
             properties: [
             ]))
     }
@@ -2506,9 +2506,9 @@ extension GetAllTechnologies : JsonSerializable
 
 extension FindTechnologies : JsonSerializable
 {
+    public class var typeName:String { return "FindTechnologies" }
     public class func reflect() -> Type<FindTechnologies> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<FindTechnologies>(
-            name: "FindTechnologies",
             properties: [
                 Type<FindTechnologies>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
             ]))
@@ -2532,9 +2532,9 @@ extension FindTechnologies : JsonSerializable
 
 extension CreateTechnologyStack : JsonSerializable
 {
+    public class var typeName:String { return "CreateTechnologyStack" }
     public class func reflect() -> Type<CreateTechnologyStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<CreateTechnologyStack>(
-            name: "CreateTechnologyStack",
             properties: [
                 Type<CreateTechnologyStack>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<CreateTechnologyStack>.optionalProperty("vendorName", get: { $0.vendorName }, set: { $0.vendorName = $1 }),
@@ -2565,9 +2565,9 @@ extension CreateTechnologyStack : JsonSerializable
 
 extension UpdateTechnologyStack : JsonSerializable
 {
+    public class var typeName:String { return "UpdateTechnologyStack" }
     public class func reflect() -> Type<UpdateTechnologyStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UpdateTechnologyStack>(
-            name: "UpdateTechnologyStack",
             properties: [
                 Type<UpdateTechnologyStack>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<UpdateTechnologyStack>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -2599,9 +2599,9 @@ extension UpdateTechnologyStack : JsonSerializable
 
 extension DeleteTechnologyStack : JsonSerializable
 {
+    public class var typeName:String { return "DeleteTechnologyStack" }
     public class func reflect() -> Type<DeleteTechnologyStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<DeleteTechnologyStack>(
-            name: "DeleteTechnologyStack",
             properties: [
                 Type<DeleteTechnologyStack>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
             ]))
@@ -2625,9 +2625,9 @@ extension DeleteTechnologyStack : JsonSerializable
 
 extension GetAllTechnologyStacks : JsonSerializable
 {
+    public class var typeName:String { return "GetAllTechnologyStacks" }
     public class func reflect() -> Type<GetAllTechnologyStacks> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetAllTechnologyStacks>(
-            name: "GetAllTechnologyStacks",
             properties: [
             ]))
     }
@@ -2650,9 +2650,9 @@ extension GetAllTechnologyStacks : JsonSerializable
 
 extension GetTechnologyStack : JsonSerializable
 {
+    public class var typeName:String { return "GetTechnologyStack" }
     public class func reflect() -> Type<GetTechnologyStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStack>(
-            name: "GetTechnologyStack",
             properties: [
                 Type<GetTechnologyStack>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
                 Type<GetTechnologyStack>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
@@ -2677,9 +2677,9 @@ extension GetTechnologyStack : JsonSerializable
 
 extension GetTechnologyStackPreviousVersions : JsonSerializable
 {
+    public class var typeName:String { return "GetTechnologyStackPreviousVersions" }
     public class func reflect() -> Type<GetTechnologyStackPreviousVersions> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStackPreviousVersions>(
-            name: "GetTechnologyStackPreviousVersions",
             properties: [
                 Type<GetTechnologyStackPreviousVersions>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
             ]))
@@ -2703,9 +2703,9 @@ extension GetTechnologyStackPreviousVersions : JsonSerializable
 
 extension GetTechnologyStackFavoriteDetails : JsonSerializable
 {
+    public class var typeName:String { return "GetTechnologyStackFavoriteDetails" }
     public class func reflect() -> Type<GetTechnologyStackFavoriteDetails> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStackFavoriteDetails>(
-            name: "GetTechnologyStackFavoriteDetails",
             properties: [
                 Type<GetTechnologyStackFavoriteDetails>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
                 Type<GetTechnologyStackFavoriteDetails>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
@@ -2730,9 +2730,9 @@ extension GetTechnologyStackFavoriteDetails : JsonSerializable
 
 extension GetConfig : JsonSerializable
 {
+    public class var typeName:String { return "GetConfig" }
     public class func reflect() -> Type<GetConfig> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetConfig>(
-            name: "GetConfig",
             properties: [
             ]))
     }
@@ -2755,9 +2755,9 @@ extension GetConfig : JsonSerializable
 
 extension Overview : JsonSerializable
 {
+    public class var typeName:String { return "Overview" }
     public class func reflect() -> Type<Overview> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Overview>(
-            name: "Overview",
             properties: [
                 Type<Overview>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
             ]))
@@ -2781,9 +2781,9 @@ extension Overview : JsonSerializable
 
 extension FindTechStacks : JsonSerializable
 {
+    public class var typeName:String { return "FindTechStacks" }
     public class func reflect() -> Type<FindTechStacks> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<FindTechStacks>(
-            name: "FindTechStacks",
             properties: [
                 Type<FindTechStacks>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
             ]))
@@ -2807,9 +2807,9 @@ extension FindTechStacks : JsonSerializable
 
 extension GetFavoriteTechStack : JsonSerializable
 {
+    public class var typeName:String { return "GetFavoriteTechStack" }
     public class func reflect() -> Type<GetFavoriteTechStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetFavoriteTechStack>(
-            name: "GetFavoriteTechStack",
             properties: [
                 Type<GetFavoriteTechStack>.optionalProperty("technologyStackId", get: { $0.technologyStackId }, set: { $0.technologyStackId = $1 }),
             ]))
@@ -2833,9 +2833,9 @@ extension GetFavoriteTechStack : JsonSerializable
 
 extension AddFavoriteTechStack : JsonSerializable
 {
+    public class var typeName:String { return "AddFavoriteTechStack" }
     public class func reflect() -> Type<AddFavoriteTechStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AddFavoriteTechStack>(
-            name: "AddFavoriteTechStack",
             properties: [
                 Type<AddFavoriteTechStack>.optionalProperty("technologyStackId", get: { $0.technologyStackId }, set: { $0.technologyStackId = $1 }),
             ]))
@@ -2859,9 +2859,9 @@ extension AddFavoriteTechStack : JsonSerializable
 
 extension RemoveFavoriteTechStack : JsonSerializable
 {
+    public class var typeName:String { return "RemoveFavoriteTechStack" }
     public class func reflect() -> Type<RemoveFavoriteTechStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<RemoveFavoriteTechStack>(
-            name: "RemoveFavoriteTechStack",
             properties: [
                 Type<RemoveFavoriteTechStack>.optionalProperty("technologyStackId", get: { $0.technologyStackId }, set: { $0.technologyStackId = $1 }),
             ]))
@@ -2885,9 +2885,9 @@ extension RemoveFavoriteTechStack : JsonSerializable
 
 extension GetFavoriteTechnologies : JsonSerializable
 {
+    public class var typeName:String { return "GetFavoriteTechnologies" }
     public class func reflect() -> Type<GetFavoriteTechnologies> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetFavoriteTechnologies>(
-            name: "GetFavoriteTechnologies",
             properties: [
                 Type<GetFavoriteTechnologies>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
             ]))
@@ -2911,9 +2911,9 @@ extension GetFavoriteTechnologies : JsonSerializable
 
 extension AddFavoriteTechnology : JsonSerializable
 {
+    public class var typeName:String { return "AddFavoriteTechnology" }
     public class func reflect() -> Type<AddFavoriteTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AddFavoriteTechnology>(
-            name: "AddFavoriteTechnology",
             properties: [
                 Type<AddFavoriteTechnology>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
             ]))
@@ -2937,9 +2937,9 @@ extension AddFavoriteTechnology : JsonSerializable
 
 extension RemoveFavoriteTechnology : JsonSerializable
 {
+    public class var typeName:String { return "RemoveFavoriteTechnology" }
     public class func reflect() -> Type<RemoveFavoriteTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<RemoveFavoriteTechnology>(
-            name: "RemoveFavoriteTechnology",
             properties: [
                 Type<RemoveFavoriteTechnology>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
             ]))
@@ -2963,9 +2963,9 @@ extension RemoveFavoriteTechnology : JsonSerializable
 
 extension GetUserFeed : JsonSerializable
 {
+    public class var typeName:String { return "GetUserFeed" }
     public class func reflect() -> Type<GetUserFeed> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetUserFeed>(
-            name: "GetUserFeed",
             properties: [
             ]))
     }
@@ -2988,9 +2988,9 @@ extension GetUserFeed : JsonSerializable
 
 extension GetUserInfo : JsonSerializable
 {
+    public class var typeName:String { return "GetUserInfo" }
     public class func reflect() -> Type<GetUserInfo> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetUserInfo>(
-            name: "GetUserInfo",
             properties: [
                 Type<GetUserInfo>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
                 Type<GetUserInfo>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
@@ -3015,9 +3015,9 @@ extension GetUserInfo : JsonSerializable
 
 extension Authenticate : JsonSerializable
 {
+    public class var typeName:String { return "Authenticate" }
     public class func reflect() -> Type<Authenticate> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Authenticate>(
-            name: "Authenticate",
             properties: [
                 Type<Authenticate>.optionalProperty("provider", get: { $0.provider }, set: { $0.provider = $1 }),
                 Type<Authenticate>.optionalProperty("state", get: { $0.state }, set: { $0.state = $1 }),
@@ -3055,9 +3055,9 @@ extension Authenticate : JsonSerializable
 
 extension AssignRoles : JsonSerializable
 {
+    public class var typeName:String { return "AssignRoles" }
     public class func reflect() -> Type<AssignRoles> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AssignRoles>(
-            name: "AssignRoles",
             properties: [
                 Type<AssignRoles>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
                 Type<AssignRoles>.arrayProperty("permissions", get: { $0.permissions }, set: { $0.permissions = $1 }),
@@ -3083,9 +3083,9 @@ extension AssignRoles : JsonSerializable
 
 extension UnAssignRoles : JsonSerializable
 {
+    public class var typeName:String { return "UnAssignRoles" }
     public class func reflect() -> Type<UnAssignRoles> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UnAssignRoles>(
-            name: "UnAssignRoles",
             properties: [
                 Type<UnAssignRoles>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
                 Type<UnAssignRoles>.arrayProperty("permissions", get: { $0.permissions }, set: { $0.permissions = $1 }),
@@ -3108,5 +3108,3 @@ extension UnAssignRoles : JsonSerializable
         return UnAssignRoles.reflect().fromString(UnAssignRoles(), string: string)
     }
 }
-
-#endif

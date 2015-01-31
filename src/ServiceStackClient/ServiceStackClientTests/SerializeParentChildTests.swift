@@ -53,10 +53,11 @@ public enum Suit
     
 extension Parent : JsonSerializable
 {
+    public class var typeName:String { return "Parent" }
+    
     public class func reflect() -> Type<Parent>
     {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Parent>(
-            name: "Parent",
             properties: [
                 Type<Parent>.property("int", get: { $0.int }, set: { $0.int = $1 }),
                 Type<Parent>.optionalProperty("intOptional", get: { $0.intOptional }, set: { $0.intOptional = $1 }),
@@ -104,9 +105,10 @@ extension Parent : JsonSerializable
 
 extension Child : JsonSerializable
 {
+    public class var typeName:String { return "Child" }
+
     public class func reflect() -> Type<Child> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Child>(
-            name: "Child",
             properties: [
                 Type<Child>.property("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<Child>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),

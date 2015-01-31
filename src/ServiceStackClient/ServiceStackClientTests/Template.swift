@@ -25,9 +25,10 @@ public class Option
 
 extension Option : JsonSerializable
 {
+    public class var typeName:String { return "UInt32" }
+
     public class func reflect() -> Type<Option> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Option>(
-            name: "Option",
             properties: [
                 Type<Option>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<Option>.optionalProperty("title", get: { $0.title }, set: { $0.title = $1 }),
@@ -65,6 +66,8 @@ public enum TechnologyTier : Int
 }
 extension TechnologyTier : StringSerializable
 {
+    public static var typeName:String { return "TechnologyTier" }
+    
     public func toJson() -> String {
         return jsonString(toString())
     }
