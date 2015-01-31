@@ -76,32 +76,6 @@ public class JValue
     }
 }
 
-public protocol JsType {
-}
-
-public protocol JsConverter {
-}
-
-//class JsKey<T>
-//{
-//    class func type() -> String {
-//        return typestring(T)
-//    }
-//}
-//
-//class TypeString : Printable
-//{
-//    let name:String
-//    
-//    init(name:String){
-//        self.name = name
-//    }
-//    
-//    var description: String {
-//        return name
-//    }
-//}
-
 func parseJson(json:String) -> AnyObject? {
     var error: NSError?
     return parseJson(json, &error)
@@ -117,10 +91,12 @@ func parseJson(json:String, error:NSErrorPointer) -> AnyObject? {
 
 extension String : StringSerializable
 {
+    public static var typeName:String { return "String" }
+    
     public func toString() -> String {
         return self
     }
-
+    
     public func toJson() -> String {
         return jsonString(self)
     }
@@ -128,7 +104,7 @@ extension String : StringSerializable
     public static func fromString(string: String) -> String? {
         return string
     }
-
+    
     public static func fromObject(any:AnyObject) -> String?
     {
         switch any {
@@ -138,8 +114,202 @@ extension String : StringSerializable
     }
 }
 
+extension Character : StringSerializable
+{
+    public static var typeName:String { return "Character" }
+    
+    public func toString() -> String {
+        return "\(self)"
+    }
+    
+    public func toJson() -> String {
+        return jsonString(toString())
+    }
+    
+    public static func fromString(string: String) -> Character? {
+        return string.count > 0 ? string[0] : nil
+    }
+    
+    public static func fromObject(any:AnyObject) -> Character?
+    {
+        switch any {
+        case let s as String: return fromString(s)
+        default:return nil
+        }
+    }
+}
+
+extension NSDate : StringSerializable
+{
+    public class var typeName:String { return "NSDate" }
+    
+    public func toString() -> String {
+        return self.isoDateString
+    }
+    
+    public func toJson() -> String {
+        return jsonString(self.isoDateString)
+    }
+    
+    public class func fromString(string: String) -> NSDate? {
+        var str = string.hasPrefix("\\")
+            ? string[1..<string.count]
+            : string
+        let wcfJsonPrefix = "/Date("
+        if str.hasPrefix(wcfJsonPrefix) {
+            let unixTime = (str.splitOnFirst("(")[1].splitOnLast(")")[0].splitOnFirst("-")[0].splitOnFirst("+")[0] as NSString).doubleValue
+            return NSDate(timeIntervalSince1970: unixTime / 1000) //ms -> secs
+        }
+        
+        return NSDate.fromIsoDateString(string)
+    }
+    
+    public class func fromObject(any:AnyObject) -> NSDate?
+    {
+        switch any {
+        case let s as String: return fromString(s)
+        case let d as NSDate: return d
+        default:return nil
+        }
+    }
+}
+
+extension Double : StringSerializable
+{
+    public static var typeName:String { return "Double" }
+    
+    public func toString() -> String {
+        return "\(self)"
+    }
+    
+    public func toJson() -> String {
+        return "\(self)"
+    }
+    
+    public static func fromString(str: String) -> Double? {
+        return str.hasPrefix("P")
+            ? NSTimeInterval.fromTimeIntervalString(str)
+            : (str as NSString).doubleValue
+    }
+    
+    public static func fromObject(any:AnyObject) -> Double?
+    {
+        switch any {
+        case let d as Double: return d
+        case let i as Int: return Double(i)
+        case let s as String: return fromString(s)
+        default:return nil
+        }
+    }
+}
+
+extension NSTimeInterval
+{
+//    public static var typeName:String { return "NSTimeInterval" }
+    
+    public func toTimeIntervalString() -> String {
+        var sb = "P"
+        
+        let d = NSDate(timeIntervalSinceNow: self)
+        let now = NSDate()
+        let diff = NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitDay,fromDate:now,toDate:d,options:NSCalendarOptions(0))
+
+        if diff.day > 0 {
+            sb += "\(diff.day)D"
+        }
+        
+        let c = d.components()
+        if c.hour > 0 {
+            sb += "\(c.hour)H"
+        }
+        if c.minute > 0 {
+            sb += "\(c.minute)M"
+        }
+
+        var dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "SSS"
+        let strMs = dateFormatter.stringFromDate(d)
+
+        sb += strMs != "000"
+            ? "\(c.second).\(strMs)S"
+            : c.second > 0 ? "\(c.second)S" : ""
+        
+        return sb
+    }
+    
+    public func toTimeIntervalJson() -> String {
+        return jsonString(toString())
+    }
+    
+    public static func fromTimeIntervalString(string:String) -> NSTimeInterval? {
+        var days = 0
+        var hours = 0
+        var minutes = 0
+        var seconds = 0
+        var ms = 0.0
+  
+        let t = string[1..<string.count].splitOnFirst("T") //strip P
+        
+        let hasTime = t.count == 2
+        
+        let d = t[0].splitOnFirst("D")
+        if d.count == 2 {
+            if let day = d[0].toInt() {
+                days = day
+            }
+        }
+
+        if hasTime {
+            let h = t[1].splitOnFirst("H")
+            if h.count == 2 {
+                if let hour = h[0].toInt() {
+                    hours = hour
+                }
+            }
+            
+            let m = h.last!.splitOnFirst("M")
+            if m.count == 2 {
+                if let min = m[0].toInt() {
+                    minutes = min
+                }
+            }
+            
+            let s = m.last!.splitOnFirst("S")
+            if s.count == 2 {
+                ms = s[0].toDouble()
+            }
+            
+            seconds = Int(ms)
+            ms -= Double(seconds)
+        }
+        
+        let totalSecs = 0
+            + (days * 24 * 60 * 60)
+            + (hours * 60 * 60)
+            + (minutes * 60)
+            + (seconds)
+        
+        let interval = Double(totalSecs) + ms
+        
+//        println("days: \(days), hours: \(hours), mins: \(minutes), secs: \(seconds), ms: \(ms), interval: \(interval)")
+        
+        return interval
+    }
+    
+    public static func fromTimeIntervalObject(any:AnyObject) -> NSTimeInterval?
+    {
+        switch any {
+        case let s as String: return fromTimeIntervalString(s)
+        case let t as NSTimeInterval: return t
+        default:return nil
+        }
+    }
+}
+
 extension Int : StringSerializable
 {
+    public static var typeName:String { return "Int" }
+    
     public func toString() -> String {
         return "\(self)"
     }
@@ -164,6 +334,8 @@ extension Int : StringSerializable
 
 extension Int8 : StringSerializable
 {
+    public static var typeName:String { return "Int8" }
+    
     public func toString() -> String {
         return "\(self)"
     }
@@ -191,6 +363,8 @@ extension Int8 : StringSerializable
 
 extension Int16 : StringSerializable
 {
+    public static var typeName:String { return "Int16" }
+    
     public func toString() -> String {
         return "\(self)"
     }
@@ -218,6 +392,8 @@ extension Int16 : StringSerializable
 
 extension Int32 : StringSerializable
 {
+    public static var typeName:String { return "Int32" }
+    
     public func toString() -> String {
         return "\(self)"
     }
@@ -245,6 +421,8 @@ extension Int32 : StringSerializable
 
 extension Int64 : StringSerializable
 {
+    public static var typeName:String { return "Int64" }
+    
     public func toString() -> String {
         return "\(self)"
     }
@@ -269,6 +447,8 @@ extension Int64 : StringSerializable
 
 extension UInt8 : StringSerializable
 {
+    public static var typeName:String { return "UInt8" }
+    
     public func toString() -> String {
         return "\(self)"
     }
@@ -296,6 +476,8 @@ extension UInt8 : StringSerializable
 
 extension UInt16 : StringSerializable
 {
+    public static var typeName:String { return "UInt16" }
+    
     public func toString() -> String {
         return "\(self)"
     }
@@ -323,6 +505,8 @@ extension UInt16 : StringSerializable
 
 extension UInt32 : StringSerializable
 {
+    public static var typeName:String { return "UInt32" }
+    
     public func toString() -> String {
         return "\(self)"
     }
@@ -350,6 +534,8 @@ extension UInt32 : StringSerializable
 
 extension UInt64 : StringSerializable
 {
+    public static var typeName:String { return "UInt64" }
+    
     public func toString() -> String {
         return "\(self)"
     }
@@ -372,33 +558,10 @@ extension UInt64 : StringSerializable
     }
 }
 
-extension Double : StringSerializable
-{
-    public func toString() -> String {
-        return "\(self)"
-    }
-    
-    public func toJson() -> String {
-        return "\(self)"
-    }
-    
-    public static func fromString(str: String) -> Double? {
-        return (str as NSString).doubleValue
-    }
-    
-    public static func fromObject(any:AnyObject) -> Double?
-    {
-        switch any {
-        case let d as Double: return d
-        case let i as Int: return Double(i)
-        case let s as String: return fromString(s)
-        default:return nil
-        }
-    }
-}
-
 extension Float : StringSerializable
 {
+    public static var typeName:String { return "Float" }
+    
     public func toString() -> String {
         return "\(self)"
     }
@@ -424,6 +587,8 @@ extension Float : StringSerializable
 
 extension Bool : StringSerializable
 {
+    public static var typeName:String { return "Bool" }
+    
     public func toString() -> String {
         return "\(self)"
     }
@@ -453,7 +618,6 @@ public class List<T>
     required public init(){}
 }
 
-
 public protocol HasReflect {
     typealias T : HasReflect
     class func reflect() -> Type<T>
@@ -462,6 +626,7 @@ public protocol HasReflect {
 
 public protocol Convertible {
     typealias T
+    class var typeName:String { get }
     class func fromObject(any:AnyObject) -> T?
 }
 
@@ -492,13 +657,11 @@ public class TypeAccessor {}
 
 public class Type<T : HasReflect> : TypeAccessor
 {
-    var name:String
     var properties: [PropertyType]
     var propertiesMap = [String:PropertyType]()
     
-    init(name:String, properties:[PropertyType])
+    init(properties:[PropertyType])
     {
-        self.name = name
         self.properties = properties
         
         for p in properties {
@@ -1146,13 +1309,16 @@ class TypeConfig
         static var types = Dictionary<String, TypeAccessor>()
     }
     
-    class func configure<T>(typeConfig:Type<T>) -> Type<T> {
-        Config.types[typeConfig.name] = typeConfig
+    class func configure<T : Convertible>(typeConfig:Type<T>) -> Type<T> {
+        Config.types[T.typeName] = typeConfig
         return typeConfig
     }
     
-    class func config<T>() -> Type<T>? {
-        return Config.types[T.reflect().name] as? Type<T>
+    class func config<T : Convertible>() -> Type<T>? {
+        if let typeInfo = Config.types[T.typeName] {
+            return typeInfo as? Type<T>
+        }
+        return nil
     }
 }
 

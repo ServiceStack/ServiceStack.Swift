@@ -4,11 +4,24 @@
 import UIKit
 import Foundation
 
+class TypeString : Printable
+{
+    let name:String
+
+    init(name:String){
+        self.name = name
+    }
+
+    var description: String {
+        return name
+    }
+}
+
 func typestring(x : Any) -> String
 {
-//    if let tp = x as? TypeString {
-//        return tp.description
-//    }
+    if let tp = x as? TypeString {
+        return tp.description
+    }
     
     switch x {
     case is CFString: return "CFString"
