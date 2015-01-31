@@ -14,7 +14,6 @@
 		5103ECA81A722FE300E91D7C /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5103ECA61A722FE300E91D7C /* Json.swift */; };
 		5103ECAD1A722FF700E91D7C /* AssertUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5103ECA91A722FF700E91D7C /* AssertUtils.swift */; };
 		5103ECAE1A722FF700E91D7C /* SerializeParentChildTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5103ECAA1A722FF700E91D7C /* SerializeParentChildTests.swift */; };
-		5103ECAF1A722FF700E91D7C /* JsonHttpClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5103ECAB1A722FF700E91D7C /* JsonHttpClientTests.swift */; };
 		5103ECB01A722FF700E91D7C /* Test.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5103ECAC1A722FF700E91D7C /* Test.dtos.swift */; };
 		5103ECB11A7231F500E91D7C /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5103ECA61A722FE300E91D7C /* Json.swift */; };
 		5103ECB21A7231F900E91D7C /* Explore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5103ECA51A722FE300E91D7C /* Explore.swift */; };
@@ -55,7 +54,6 @@
 		5103ECA61A722FE300E91D7C /* Json.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
 		5103ECA91A722FF700E91D7C /* AssertUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssertUtils.swift; sourceTree = "<group>"; };
 		5103ECAA1A722FF700E91D7C /* SerializeParentChildTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializeParentChildTests.swift; sourceTree = "<group>"; };
-		5103ECAB1A722FF700E91D7C /* JsonHttpClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonHttpClientTests.swift; sourceTree = "<group>"; };
 		5103ECAC1A722FF700E91D7C /* Test.dtos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.dtos.swift; sourceTree = "<group>"; };
 		516FC6431A799761006E7FDE /* Template.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
 		516FC6451A79A740006E7FDE /* overview.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = overview.json; sourceTree = "<group>"; };
@@ -136,7 +134,6 @@
 				5103EC9B1A722F8A00E91D7C /* JsonServiceClientTests.swift */,
 				5103ECA91A722FF700E91D7C /* AssertUtils.swift */,
 				5103ECAA1A722FF700E91D7C /* SerializeParentChildTests.swift */,
-				5103ECAB1A722FF700E91D7C /* JsonHttpClientTests.swift */,
 				5103ECAC1A722FF700E91D7C /* Test.dtos.swift */,
 				51A123AC1A74499F0079AC15 /* TechStacks.dtos.swift */,
 				51AD3E231A7636EA00CC6ED1 /* TechStacksJsonTests.swift */,
@@ -278,7 +275,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				51D154CC1A7B6C4F00D2F2A3 /* NativeExtensionsTests.swift in Sources */,
-				5103ECAF1A722FF700E91D7C /* JsonHttpClientTests.swift in Sources */,
 				5103EC9C1A722F8A00E91D7C /* JsonServiceClientTests.swift in Sources */,
 				5103ECAE1A722FF700E91D7C /* SerializeParentChildTests.swift in Sources */,
 				516FC6481A79AA7E006E7FDE /* TestDtosJsonTests.swift in Sources */,

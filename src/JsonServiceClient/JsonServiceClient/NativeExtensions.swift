@@ -10,7 +10,7 @@ import Foundation
 
 extension String
 {
-    var length: Int { return countElements(self) }
+    var count: Int { return countElements(self) }
     
     func contains(s:String) -> Bool {
         return (self as NSString).containsString(s)
@@ -37,6 +37,6 @@ extension String
     }
     
     public func combinePath(path:String) -> String {
-        return (self.hasSuffix("/") ? self : self + "/") + (path.hasPrefix("/") ? path[1..<path.length] : path)
+        return (self.hasSuffix("/") ? self : self + "/") + (path.hasPrefix("/") ? path[1..<path.count] : path)
     }
 }

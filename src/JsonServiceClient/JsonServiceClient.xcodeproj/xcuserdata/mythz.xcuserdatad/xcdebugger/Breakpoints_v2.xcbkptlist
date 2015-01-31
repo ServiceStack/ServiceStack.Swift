@@ -41,14 +41,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "JsonServiceClientTests/JsonHttpClientTests.swift"
-            timestampString = "444274953.26649"
+            filePath = "JsonServiceClientTests/NativeExtensionsTests.swift"
+            timestampString = "444296421.836119"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "12"
-            endingLineNumber = "12"
-            landmarkName = "JsonHttpClientTests"
-            landmarkType = "3">
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "test_Can_combine_paths()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -57,13 +57,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "JsonServiceClientTests/NativeExtensionsTests.swift"
-            timestampString = "444296421.836119"
+            filePath = "JsonServiceClientTests/JsonServiceClientTests.swift"
+            timestampString = "444354917.093961"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "test_Can_combine_paths()"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
+            landmarkName = "test_Can_POST_Test_HelloAllTypes()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
