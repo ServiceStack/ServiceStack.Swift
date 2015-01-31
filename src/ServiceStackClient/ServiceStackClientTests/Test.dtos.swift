@@ -1,5 +1,5 @@
 /* Options:
-Date: 2015-01-31 08:59:07
+Date: 2015-01-31 09:27:13
 Version: 1
 BaseUrl: http://test.servicestack.net
 
@@ -19,11 +19,11 @@ import Foundation
 public class AllTypes
 {
     required public init(){}
-    public var id:Int32?
-    public var nullableId:Int32?
+    public var id:Int?
+    public var nullableId:Int?
     public var byte:Int8?
     public var short:Int16?
-    public var int:Int32?
+    public var int:Int?
     public var long:Int64?
     public var uShort:UInt16?
     public var uInt:UInt32?
@@ -42,15 +42,15 @@ public class AllTypes
     public var stringList:[String] = []
     public var stringArray:[String] = []
     public var stringMap:[String:String] = [:]
-    public var intStringMap:[Int32:String] = [:]
+    public var intStringMap:[Int:String] = [:]
     public var subType:SubType?
 }
 
 public class AllCollectionTypes
 {
     required public init(){}
-    public var intArray:[Int32] = []
-    public var intList:[Int32] = []
+    public var intArray:[Int] = []
+    public var intList:[Int] = []
     public var stringArray:[String] = []
     public var stringList:[String] = []
     public var pocoArray:[Poco] = []
@@ -68,7 +68,7 @@ public class Poco
 public class SubType
 {
     required public init(){}
-    public var id:Int32?
+    public var id:Int?
     public var name:String?
 }
 

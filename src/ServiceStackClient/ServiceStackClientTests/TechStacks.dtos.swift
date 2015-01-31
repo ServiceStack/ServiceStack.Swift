@@ -102,7 +102,7 @@ public class UserInfo
     required public init(){}
     public var userName:String?
     public var avatarUrl:String?
-    public var stacksCount:Int32?
+    public var stacksCount:Int?
 }
 
 public class TechnologyInfo
@@ -112,7 +112,7 @@ public class TechnologyInfo
     public var slug:String?
     public var name:String?
     public var logoUrl:String?
-    public var stacksCount:Int32?
+    public var stacksCount:Int?
 }
 
 public class TechnologyBase
