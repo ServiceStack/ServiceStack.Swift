@@ -82,25 +82,25 @@ public protocol JsType {
 public protocol JsConverter {
 }
 
-class JsKey<T>
-{
-    class func type() -> String {
-        return typestring(T)
-    }
-}
-
-class TypeString : Printable
-{
-    let name:String
-    
-    init(name:String){
-        self.name = name
-    }
-    
-    var description: String {
-        return name
-    }
-}
+//class JsKey<T>
+//{
+//    class func type() -> String {
+//        return typestring(T)
+//    }
+//}
+//
+//class TypeString : Printable
+//{
+//    let name:String
+//    
+//    init(name:String){
+//        self.name = name
+//    }
+//    
+//    var description: String {
+//        return name
+//    }
+//}
 
 func parseJson(json:String) -> AnyObject? {
     var error: NSError?
@@ -1147,12 +1147,12 @@ class TypeConfig
     }
     
     class func configure<T>(typeConfig:Type<T>) -> Type<T> {
-        Config.types[JsKey<T>.type()] = typeConfig
+        Config.types[typeConfig.name] = typeConfig
         return typeConfig
     }
     
     class func config<T>() -> Type<T>? {
-        return Config.types[JsKey<T>.type()] as? Type<T>
+        return Config.types[T.reflect().name] as? Type<T>
     }
 }
 

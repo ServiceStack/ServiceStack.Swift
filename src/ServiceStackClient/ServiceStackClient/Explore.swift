@@ -6,9 +6,9 @@ import Foundation
 
 func typestring(x : Any) -> String
 {
-    if let tp = x as? TypeString {
-        return tp.description
-    }
+//    if let tp = x as? TypeString {
+//        return tp.description
+//    }
     
     switch x {
     case is CFString: return "CFString"

@@ -1,5 +1,5 @@
 //
-//  NativeExtensions.swift
+//  StringExtensions.swift
 //  ServiceStackClient
 //
 //  Created by Demis Bellot on 1/30/15.
@@ -8,27 +8,27 @@
 
 import Foundation
 
-extension String
+public extension String
 {
-    var count: Int { return countElements(self) }
+    public var count: Int { return countElements(self) }
     
-    func contains(s:String) -> Bool {
+    public func contains(s:String) -> Bool {
         return (self as NSString).containsString(s)
     }
     
-    func trim() -> String {
+    public func trim() -> String {
         return (self as String).stringByTrimmingCharactersInSet(.whitespaceCharacterSet())
     }
     
-    subscript (i: Int) -> Character {
+    public subscript (i: Int) -> Character {
         return self[advance(self.startIndex, i)]
     }
     
-    subscript (i: Int) -> String {
+    public subscript (i: Int) -> String {
         return String(self[i] as Character)
     }
     
-    subscript (r: Range<Int>) -> String {
+    public subscript (r: Range<Int>) -> String {
         return substringWithRange(Range(start: advance(startIndex, r.startIndex), end: advance(startIndex, r.endIndex)))
     }
     
