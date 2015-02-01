@@ -111,3 +111,15 @@ extension Array
     }
 }
 
+extension NSData {
+    func toUtf8String() -> String? {
+        if let str = NSString(data: self, encoding: NSUTF8StringEncoding) {
+            return str as String
+        }
+        return nil
+    }
+    
+    func print() -> String {
+        return self.toUtf8String()!.print()
+    }
+}
