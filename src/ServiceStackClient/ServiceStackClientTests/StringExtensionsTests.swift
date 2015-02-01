@@ -41,4 +41,15 @@ class StringExtensionsTests: XCTestCase {
         XCTAssertEqual("1,2,3".lastIndexOf(",3"), 3)
         XCTAssertEqual("1,2,3".lastIndexOf(";"), -1)
     }
+    
+    func test_String_subscript() {
+        XCTAssertEqual("cat"[1..<"cat".count], "at")
+        XCTAssertEqual(String("cat"[0]), "c")
+    }
+    
+    func test_Can_serialize_JSON_String()
+    {
+        XCTAssertEqual(jsonString("s\"\n    "), "\"s\\\"\\n    \"")
+        XCTAssertEqual(jsonString("=== normal string ==="), "\"=== normal string ===\"")
+    }
 }

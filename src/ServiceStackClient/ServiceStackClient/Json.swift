@@ -83,7 +83,16 @@ func parseJson(json:String) -> AnyObject? {
 
 func parseJson(json:String, error:NSErrorPointer) -> AnyObject? {
     let data = json.dataUsingEncoding(NSUTF8StringEncoding)!
-    let parsedObject: AnyObject? = NSJSONSerialization.JSONObjectWithData(data,
+    return parseJsonBytes(data, error)
+}
+
+func parseJsonBytes(bytes:NSData) -> AnyObject? {
+    var error: NSError?
+    return parseJsonBytes(bytes, &error)
+}
+
+func parseJsonBytes(bytes:NSData, error:NSErrorPointer) -> AnyObject? {
+    let parsedObject: AnyObject? = NSJSONSerialization.JSONObjectWithData(bytes,
         options: NSJSONReadingOptions.AllowFragments,
         error:error)
     return parsedObject
@@ -634,7 +643,7 @@ public protocol JsonSerializable : HasReflect, StringSerializable {
     func toJson() -> String
     class func fromJson(json:String) -> T?
 }
-
+			
 public protocol StringSerializable : Convertible {
     func toJson() -> String
     func toString() -> String
@@ -690,14 +699,14 @@ public class Type<T : HasReflect> : TypeAccessor
     }
     
     func fromJson<T>(instance:T, json:String, error:NSErrorPointer) -> T? {
-        if let map = parseJson(json, error) as? NSDictionary {
+        if let map = parseJson(json,error) as? NSDictionary {
             return populate(instance, map, propertiesMap)
         }
         return nil
     }
     
     func fromJson<T>(instance:T, json:String) -> T? {
-        if let map = parseJson(json) as? NSDictionary {
+        if let map = parseJson(json, nil) as? NSDictionary {
             return populate(instance, map, propertiesMap)
         }
         return nil
@@ -1331,8 +1340,24 @@ func jsonStringRaw(str:String?) -> String {
     }
 }
 
+class Utils
+{
+    class func escapeChars() -> NSCharacterSet {
+        return NSCharacterSet(charactersInString: "\"\n\r\t\\")
+    }
+}
+
 func jsonString(str:String?) -> String {
     if let s = str {
+        if let stringWithEscapeChars = s.rangeOfCharacterFromSet(Utils.escapeChars()) {
+            //TODO: rewrite to encode manually so it avoides unnecessary encoding
+            var error:NSError?
+            if let encodedData = NSJSONSerialization.dataWithJSONObject([s], options:NSJSONWritingOptions.allZeros, error:&error) {
+                if let encodedJson = encodedData.toUtf8String() {
+                    return encodedJson[1..<encodedJson.count-1] //strip []
+                }
+            }
+        }        
         return "\"\(s)\""
     }
     else {
