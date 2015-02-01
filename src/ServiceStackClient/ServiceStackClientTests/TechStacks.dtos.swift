@@ -1,8 +1,9 @@
 /* Options:
-Date: 2015-01-31 09:02:51
+Date: 2015-02-01 10:19:49
 Version: 1
 BaseUrl: http://techstacks.io
 
+//BaseClass:
 //AddResponseStatus: False
 //AddModelExtensions: True
 //AddServiceStackTypes: True
@@ -175,10 +176,10 @@ public class QueryBase
 {
     required public init(){}
     // @DataMember(Order=1)
-    public var skip:Int32?
+    public var skip:Int?
     
     // @DataMember(Order=2)
-    public var take:Int32?
+    public var take:Int?
     
     // @DataMember(Order=3)
     public var orderBy:String?
@@ -246,7 +247,7 @@ public class GetTechnologyFavoriteDetailsResponse
 {
     required public init(){}
     public var users:[String] = []
-    public var favoriteCount:Int32?
+    public var favoriteCount:Int?
 }
 
 public class GetAllTechnologiesResponse
@@ -260,10 +261,10 @@ public class QueryResponse<Technology : JsonSerializable>
 {
     required public init(){}
     // @DataMember(Order=1)
-    public var offset:Int32?
+    public var offset:Int?
     
     // @DataMember(Order=2)
-    public var total:Int32?
+    public var total:Int?
     
     // @DataMember(Order=3)
     public var results:[Technology] = []
@@ -320,7 +321,7 @@ public class GetTechnologyStackFavoriteDetailsResponse
 {
     required public init(){}
     public var users:[String] = []
-    public var favoriteCount:Int32?
+    public var favoriteCount:Int?
 }
 
 public class GetConfigResponse
@@ -697,7 +698,7 @@ public class GetFavoriteTechStack : IReturn
     typealias Return = GetFavoriteTechStackResponse
     
     required public init(){}
-    public var technologyStackId:Int32?
+    public var technologyStackId:Int?
 }
 
 // @Route("/favorites/techtacks/{TechnologyStackId}", "PUT")
@@ -706,7 +707,7 @@ public class AddFavoriteTechStack : IReturn
     typealias Return = FavoriteTechStackResponse
     
     required public init(){}
-    public var technologyStackId:Int32?
+    public var technologyStackId:Int?
 }
 
 // @Route("/favorites/techtacks/{TechnologyStackId}", "DELETE")
@@ -715,7 +716,7 @@ public class RemoveFavoriteTechStack : IReturn
     typealias Return = FavoriteTechStackResponse
     
     required public init(){}
-    public var technologyStackId:Int32?
+    public var technologyStackId:Int?
 }
 
 // @Route("/favorites/technology", "GET")
@@ -724,7 +725,7 @@ public class GetFavoriteTechnologies : IReturn
     typealias Return = GetFavoriteTechnologiesResponse
     
     required public init(){}
-    public var technologyId:Int32?
+    public var technologyId:Int?
 }
 
 // @Route("/favorites/technology/{TechnologyId}", "PUT")
@@ -733,7 +734,7 @@ public class AddFavoriteTechnology : IReturn
     typealias Return = FavoriteTechnologyResponse
     
     required public init(){}
-    public var technologyId:Int32?
+    public var technologyId:Int?
 }
 
 // @Route("/favorites/technology/{TechnologyId}", "DELETE")
@@ -742,7 +743,7 @@ public class RemoveFavoriteTechnology : IReturn
     typealias Return = FavoriteTechnologyResponse
     
     required public init(){}
-    public var technologyId:Int32?
+    public var technologyId:Int?
 }
 
 // @Route("/my-feed")
@@ -3106,5 +3107,94 @@ extension UnAssignRoles : JsonSerializable
     }
     public class func fromString(string:String) -> UnAssignRoles? {
         return UnAssignRoles.reflect().fromString(UnAssignRoles(), string: string)
+    }
+}
+
+
+// Needs to be defined in the same file as SS RespnseStatus DTO's otherwise Swift segfaults.
+
+/* Options:
+Date: 2015-02-01 03:35:00
+Version: 1
+BaseUrl: http://test.servicestack.net
+
+//AddResponseStatus: False
+//AddModelExtensions: True
+//AddServiceStackTypes: True
+//FlattenAbstractTypes: True
+//InitializeCollections: True
+//AddImplicitVersion:
+IncludeTypes: ThrowType,ThrowTypeResponse
+//ExcludeTypes:
+//DefaultNamespaces: Foundation
+*/
+
+public class ThrowTypeResponse
+{
+    required public init(){}
+    public var responseStatus:ResponseStatus?
+}
+
+// @Route("/throw/{Type}")
+public class ThrowType : IReturn
+{
+    typealias Return = ThrowTypeResponse
+    
+    required public init(){}
+    public var type:String?
+    public var message:String?
+}
+
+
+extension ThrowTypeResponse : JsonSerializable
+{
+    public class var typeName:String { return "ThrowTypeResponse" }
+    public class func reflect() -> Type<ThrowTypeResponse> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<ThrowTypeResponse>(
+            properties: [
+                Type<ThrowTypeResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return ThrowTypeResponse.reflect().toJson(self)
+    }
+    public class func fromJson(json:String) -> ThrowTypeResponse? {
+        return ThrowTypeResponse.reflect().fromJson(ThrowTypeResponse(), json: json)
+    }
+    public class func fromObject(any:AnyObject) -> ThrowTypeResponse? {
+        return ThrowTypeResponse.reflect().fromObject(ThrowTypeResponse(), any:any)
+    }
+    public func toString() -> String {
+        return ThrowTypeResponse.reflect().toString(self)
+    }
+    public class func fromString(string:String) -> ThrowTypeResponse? {
+        return ThrowTypeResponse.reflect().fromString(ThrowTypeResponse(), string: string)
+    }
+}
+
+extension ThrowType : JsonSerializable
+{
+    public class var typeName:String { return "ThrowType" }
+    public class func reflect() -> Type<ThrowType> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<ThrowType>(
+            properties: [
+                Type<ThrowType>.optionalProperty("type", get: { $0.type }, set: { $0.type = $1 }),
+                Type<ThrowType>.optionalProperty("message", get: { $0.message }, set: { $0.message = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return ThrowType.reflect().toJson(self)
+    }
+    public class func fromJson(json:String) -> ThrowType? {
+        return ThrowType.reflect().fromJson(ThrowType(), json: json)
+    }
+    public class func fromObject(any:AnyObject) -> ThrowType? {
+        return ThrowType.reflect().fromObject(ThrowType(), any:any)
+    }
+    public func toString() -> String {
+        return ThrowType.reflect().toString(self)
+    }
+    public class func fromString(string:String) -> ThrowType? {
+        return ThrowType.reflect().fromString(ThrowType(), string: string)
     }
 }

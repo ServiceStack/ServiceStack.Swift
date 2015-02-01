@@ -1,8 +1,9 @@
 /* Options:
-Date: 2015-01-31 09:27:13
+Date: 2015-02-01 07:58:55
 Version: 1
 BaseUrl: http://test.servicestack.net
 
+BaseClass: NSObject
 //AddResponseStatus: False
 //AddModelExtensions: True
 //AddServiceStackTypes: True
@@ -16,9 +17,9 @@ IncludeTypes: HelloAllTypes,HelloAllTypesResponse,AllTypes,AllCollectionTypes,Po
 
 import Foundation
 
-public class AllTypes
+public class AllTypes : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var id:Int?
     public var nullableId:Int?
     public var byte:Int8?
@@ -46,9 +47,9 @@ public class AllTypes
     public var subType:SubType?
 }
 
-public class AllCollectionTypes
+public class AllCollectionTypes : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var intArray:[Int] = []
     public var intList:[Int] = []
     public var stringArray:[String] = []
@@ -59,32 +60,32 @@ public class AllCollectionTypes
     public var pocoLookupMap:[String:[String:Poco]] = [:]
 }
 
-public class Poco
+public class Poco : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var name:String?
 }
 
-public class SubType
+public class SubType : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var id:Int?
     public var name:String?
 }
 
-public class HelloAllTypesResponse
+public class HelloAllTypesResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var result:String?
     public var allTypes:AllTypes?
     public var allCollectionTypes:AllCollectionTypes?
 }
 
-public class HelloAllTypes : IReturn
+public class HelloAllTypes : NSObject, IReturn
 {
     typealias Return = HelloAllTypesResponse
     
-    required public init(){}
+    required public override init(){}
     public var name:String?
     public var allTypes:AllTypes?
     public var allCollectionTypes:AllCollectionTypes?
