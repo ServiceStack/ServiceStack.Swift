@@ -88,18 +88,22 @@ class JsonServiceClientTests: XCTestCase {
         self.assertGetTechnologyResponse(response!)
     }
     
-    func createHelloAllTypes() -> HelloAllTypes {
-        var dto = HelloAllTypes()
-        dto.name = "name"
-        dto.allTypes = createAllTypes()
-        dto.allCollectionTypes = createAllCollectionTypes()
-        return dto
+    func test_Can_call_FindTechnologies_AutoQuery_Service() {
+        let request = FindTechnologies<Technology>()
+        request.name = "ServiceStack"
+        
+        let response = client.get(request)!
+        
+        XCTAssertEqual(response.results.count, 1)
     }
     
-    func assertHelloAllTypesResponse(actual:HelloAllTypesResponse, expected:HelloAllTypes) {
-        XCTAssertNotNil(actual)
-        self.assertAllTypes(actual.allTypes!, expected: expected.allTypes!)
-        self.assertAllCollectionTypes(actual.allCollectionTypes!, expected: expected.allCollectionTypes!)
+    func test_Can_call_FindTechnologies_AutoQuery_Implicit_Service() {
+        let request = FindTechnologies<Technology>()
+        request.take = 5
+        
+        let response = client.get(request, query:["DescriptionContains":"framework"])!
+        
+        XCTAssertEqual(response.results.count, 5)
     }
     
     func test_Can_POST_Test_HelloAllTypes_async() {
@@ -302,6 +306,20 @@ class JsonServiceClientTests: XCTestCase {
     /* 
      * TEST HELPERS 
      */
+    
+    func createHelloAllTypes() -> HelloAllTypes {
+        var dto = HelloAllTypes()
+        dto.name = "name"
+        dto.allTypes = createAllTypes()
+        dto.allCollectionTypes = createAllCollectionTypes()
+        return dto
+    }
+    
+    func assertHelloAllTypesResponse(actual:HelloAllTypesResponse, expected:HelloAllTypes) {
+        XCTAssertNotNil(actual)
+        self.assertAllTypes(actual.allTypes!, expected: expected.allTypes!)
+        self.assertAllCollectionTypes(actual.allCollectionTypes!, expected: expected.allCollectionTypes!)
+    }
     
     func createAllTypes() -> AllTypes {
         var to = AllTypes()

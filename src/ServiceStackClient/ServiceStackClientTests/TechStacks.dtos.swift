@@ -1,5 +1,5 @@
 /* Options:
-Date: 2015-02-01 22:39:21
+Date: 2015-02-02 07:42:29
 Version: 1
 BaseUrl: http://techstacks.io
 
@@ -7,7 +7,6 @@ BaseClass: NSObject
 //AddResponseStatus: False
 //AddModelExtensions: True
 //AddServiceStackTypes: True
-//FlattenAbstractTypes: True
 //InitializeCollections: True
 //AddImplicitVersion:
 //IncludeTypes:
@@ -584,6 +583,7 @@ public class FindTechnologies<Technology : JsonSerializable> : QueryBase_1<Techn
     typealias Return = QueryResponse<Technology>
     
     required public init(){}
+    public var name:String?
     public var reload:Bool?
 }
 
@@ -1002,6 +1002,8 @@ extension TechnologyHistory : JsonSerializable
     public class func reflect() -> Type<TechnologyHistory> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechnologyHistory>(
             properties: [
+                Type<TechnologyHistory>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
+                Type<TechnologyHistory>.optionalProperty("operation", get: { $0.operation }, set: { $0.operation = $1 }),
                 Type<TechnologyHistory>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<TechnologyHistory>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<TechnologyHistory>.optionalProperty("vendorName", get: { $0.vendorName }, set: { $0.vendorName = $1 }),
@@ -1019,8 +1021,6 @@ extension TechnologyHistory : JsonSerializable
                 Type<TechnologyHistory>.optionalProperty("isLocked", get: { $0.isLocked }, set: { $0.isLocked = $1 }),
                 Type<TechnologyHistory>.optionalProperty("tier", get: { $0.tier }, set: { $0.tier = $1 }),
                 Type<TechnologyHistory>.optionalProperty("lastStatusUpdate", get: { $0.lastStatusUpdate }, set: { $0.lastStatusUpdate = $1 }),
-                Type<TechnologyHistory>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
-                Type<TechnologyHistory>.optionalProperty("operation", get: { $0.operation }, set: { $0.operation = $1 }),
             ]))
     }
     public func toJson() -> String {
@@ -1046,6 +1046,8 @@ extension TechStackDetails : JsonSerializable
     public class func reflect() -> Type<TechStackDetails> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechStackDetails>(
             properties: [
+                Type<TechStackDetails>.optionalProperty("detailsHtml", get: { $0.detailsHtml }, set: { $0.detailsHtml = $1 }),
+                Type<TechStackDetails>.arrayProperty("technologyChoices", get: { $0.technologyChoices }, set: { $0.technologyChoices = $1 }),
                 Type<TechStackDetails>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<TechStackDetails>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<TechStackDetails>.optionalProperty("vendorName", get: { $0.vendorName }, set: { $0.vendorName = $1 }),
@@ -1061,8 +1063,6 @@ extension TechStackDetails : JsonSerializable
                 Type<TechStackDetails>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
                 Type<TechStackDetails>.optionalProperty("details", get: { $0.details }, set: { $0.details = $1 }),
                 Type<TechStackDetails>.optionalProperty("lastStatusUpdate", get: { $0.lastStatusUpdate }, set: { $0.lastStatusUpdate = $1 }),
-                Type<TechStackDetails>.optionalProperty("detailsHtml", get: { $0.detailsHtml }, set: { $0.detailsHtml = $1 }),
-                Type<TechStackDetails>.arrayProperty("technologyChoices", get: { $0.technologyChoices }, set: { $0.technologyChoices = $1 }),
             ]))
     }
     public func toJson() -> String {
@@ -1088,6 +1088,9 @@ extension TechnologyStackHistory : JsonSerializable
     public class func reflect() -> Type<TechnologyStackHistory> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechnologyStackHistory>(
             properties: [
+                Type<TechnologyStackHistory>.optionalProperty("technologyStackId", get: { $0.technologyStackId }, set: { $0.technologyStackId = $1 }),
+                Type<TechnologyStackHistory>.optionalProperty("operation", get: { $0.operation }, set: { $0.operation = $1 }),
+                Type<TechnologyStackHistory>.arrayProperty("technologyIds", get: { $0.technologyIds }, set: { $0.technologyIds = $1 }),
                 Type<TechnologyStackHistory>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<TechnologyStackHistory>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<TechnologyStackHistory>.optionalProperty("vendorName", get: { $0.vendorName }, set: { $0.vendorName = $1 }),
@@ -1103,9 +1106,6 @@ extension TechnologyStackHistory : JsonSerializable
                 Type<TechnologyStackHistory>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
                 Type<TechnologyStackHistory>.optionalProperty("details", get: { $0.details }, set: { $0.details = $1 }),
                 Type<TechnologyStackHistory>.optionalProperty("lastStatusUpdate", get: { $0.lastStatusUpdate }, set: { $0.lastStatusUpdate = $1 }),
-                Type<TechnologyStackHistory>.optionalProperty("technologyStackId", get: { $0.technologyStackId }, set: { $0.technologyStackId = $1 }),
-                Type<TechnologyStackHistory>.optionalProperty("operation", get: { $0.operation }, set: { $0.operation = $1 }),
-                Type<TechnologyStackHistory>.arrayProperty("technologyIds", get: { $0.technologyIds }, set: { $0.technologyIds = $1 }),
             ]))
     }
     public func toJson() -> String {
@@ -1245,6 +1245,9 @@ extension TechnologyInStack : JsonSerializable
     public class func reflect() -> Type<TechnologyInStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechnologyInStack>(
             properties: [
+                Type<TechnologyInStack>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
+                Type<TechnologyInStack>.optionalProperty("technologyStackId", get: { $0.technologyStackId }, set: { $0.technologyStackId = $1 }),
+                Type<TechnologyInStack>.optionalProperty("justification", get: { $0.justification }, set: { $0.justification = $1 }),
                 Type<TechnologyInStack>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<TechnologyInStack>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<TechnologyInStack>.optionalProperty("vendorName", get: { $0.vendorName }, set: { $0.vendorName = $1 }),
@@ -1262,9 +1265,6 @@ extension TechnologyInStack : JsonSerializable
                 Type<TechnologyInStack>.optionalProperty("isLocked", get: { $0.isLocked }, set: { $0.isLocked = $1 }),
                 Type<TechnologyInStack>.optionalProperty("tier", get: { $0.tier }, set: { $0.tier = $1 }),
                 Type<TechnologyInStack>.optionalProperty("lastStatusUpdate", get: { $0.lastStatusUpdate }, set: { $0.lastStatusUpdate = $1 }),
-                Type<TechnologyInStack>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
-                Type<TechnologyInStack>.optionalProperty("technologyStackId", get: { $0.technologyStackId }, set: { $0.technologyStackId = $1 }),
-                Type<TechnologyInStack>.optionalProperty("justification", get: { $0.justification }, set: { $0.justification = $1 }),
             ]))
     }
     public func toJson() -> String {
@@ -2511,7 +2511,12 @@ extension FindTechnologies : JsonSerializable
     public class func reflect() -> Type<FindTechnologies> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<FindTechnologies>(
             properties: [
+                Type<FindTechnologies>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<FindTechnologies>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
+                Type<FindTechnologies>.optionalProperty("skip", get: { $0.skip }, set: { $0.skip = $1 }),
+                Type<FindTechnologies>.optionalProperty("take", get: { $0.take }, set: { $0.take = $1 }),
+                Type<FindTechnologies>.optionalProperty("orderBy", get: { $0.orderBy }, set: { $0.orderBy = $1 }),
+                Type<FindTechnologies>.optionalProperty("orderByDesc", get: { $0.orderByDesc }, set: { $0.orderByDesc = $1 }),
             ]))
     }
     public func toJson() -> String {
@@ -2787,6 +2792,10 @@ extension FindTechStacks : JsonSerializable
         return TypeConfig.config() ?? TypeConfig.configure(Type<FindTechStacks>(
             properties: [
                 Type<FindTechStacks>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
+                Type<FindTechStacks>.optionalProperty("skip", get: { $0.skip }, set: { $0.skip = $1 }),
+                Type<FindTechStacks>.optionalProperty("take", get: { $0.take }, set: { $0.take = $1 }),
+                Type<FindTechStacks>.optionalProperty("orderBy", get: { $0.orderBy }, set: { $0.orderBy = $1 }),
+                Type<FindTechStacks>.optionalProperty("orderByDesc", get: { $0.orderByDesc }, set: { $0.orderByDesc = $1 }),
             ]))
     }
     public func toJson() -> String {
@@ -3115,7 +3124,7 @@ extension UnAssignRoles : JsonSerializable
 // Needs to be defined in the same file as SS RespnseStatus DTO's otherwise Swift segfaults.
 
 /* Options:
-Date: 2015-02-02 04:03:03
+Date: 2015-02-02 06:57:20
 Version: 1
 BaseUrl: http://test.servicestack.net
 
@@ -3123,7 +3132,6 @@ BaseClass: NSObject
 //AddResponseStatus: False
 //AddModelExtensions: True
 //AddServiceStackTypes: True
-//FlattenAbstractTypes: True
 //InitializeCollections: True
 //AddImplicitVersion:
 IncludeTypes: ThrowType,ThrowTypeResponse,ThrowValidation,ThrowValidationResponse
@@ -3142,10 +3150,10 @@ public class ThrowTypeResponse : NSObject
 public class ThrowValidationResponse : NSObject
 {
     required public override init(){}
-    public var responseStatus:ResponseStatus?
     public var age:Int?
     public var required:String?
     public var email:String?
+    public var responseStatus:ResponseStatus?
 }
 
 // @Route("/throw/{Type}")
@@ -3202,10 +3210,10 @@ extension ThrowValidationResponse : JsonSerializable
     public class func reflect() -> Type<ThrowValidationResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<ThrowValidationResponse>(
             properties: [
-                Type<ThrowValidationResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
                 Type<ThrowValidationResponse>.optionalProperty("age", get: { $0.age }, set: { $0.age = $1 }),
                 Type<ThrowValidationResponse>.optionalProperty("required", get: { $0.required }, set: { $0.required = $1 }),
                 Type<ThrowValidationResponse>.optionalProperty("email", get: { $0.email }, set: { $0.email = $1 }),
+                Type<ThrowValidationResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
             ]))
     }
     public func toJson() -> String {

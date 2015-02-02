@@ -1,5 +1,5 @@
 /* Options:
-Date: 2015-02-01 07:58:55
+Date: 2015-02-02 06:56:39
 Version: 1
 BaseUrl: http://test.servicestack.net
 
@@ -7,7 +7,6 @@ BaseClass: NSObject
 //AddResponseStatus: False
 //AddModelExtensions: True
 //AddServiceStackTypes: True
-//FlattenAbstractTypes: True
 //InitializeCollections: True
 //AddImplicitVersion:
 IncludeTypes: HelloAllTypes,HelloAllTypesResponse,AllTypes,AllCollectionTypes,Poco,SubType
