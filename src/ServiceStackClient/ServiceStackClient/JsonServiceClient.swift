@@ -16,6 +16,7 @@ public protocol IReturn
 public protocol ServiceClient
 {
     func get<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer) -> T.Return?
+    func get<T : IReturn where T : JsonSerializable>(request:T, query:[String:String], error:NSErrorPointer) -> T.Return?
     func get<T : JsonSerializable>(relativeUrl:String, error:NSErrorPointer) -> T?
     func getAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return>
     func getAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T>
@@ -30,6 +31,7 @@ public protocol ServiceClient
     func putAsync<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) -> Promise<Response>
     
     func delete<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer) -> T.Return?
+    func delete<T : IReturn where T : JsonSerializable>(request:T, query:[String:String], error:NSErrorPointer) -> T.Return?
     func delete<T : JsonSerializable>(relativeUrl:String, error:NSErrorPointer) -> T?
     func deleteAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return>
     func deleteAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T>
@@ -163,16 +165,20 @@ public class JsonServiceClient : ServiceClient
         return nil
     }
 
-    public func createUrl<T : IReturn where T : JsonSerializable>(typeInfo:Type<T.T>, dto:T) -> String {
+    public func createUrl<T : IReturn where T : JsonSerializable>(typeInfo:Type<T.T>, dto:T, query:[String:String] = [:]) -> String {
         var requestUrl = self.replyUrl + T.typeName
         
         var sb = ""
-        
         for pi in typeInfo.properties {
             if let strValue = pi.stringValue(dto) {
                 sb += sb.count == 0 ? "?" : "&"
                 sb += "\(pi.name)=\(strValue.urlEncode()!)"
             }
+        }
+        
+        for (key,value) in query {
+            sb += sb.count == 0 ? "?" : "&"
+            sb += "\(key)=\(value.urlEncode()!)"
         }
         
         requestUrl += sb
@@ -260,6 +266,10 @@ public class JsonServiceClient : ServiceClient
         return send(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request), httpMethod:HttpMethods.Get), error:error)
     }
     
+    public func get<T : IReturn where T : JsonSerializable>(request:T, query:[String:String], error:NSErrorPointer = nil) -> T.Return? {
+        return send(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request, query:query), httpMethod:HttpMethods.Get), error:error)
+    }
+    
     public func get<T : JsonSerializable>(relativeUrl:String, error:NSErrorPointer = nil) -> T? {
         return send(T(), request: self.createRequest(baseUrl.combinePath(relativeUrl), httpMethod:HttpMethods.Get), error:error)
     }
@@ -309,6 +319,10 @@ public class JsonServiceClient : ServiceClient
     
     public func delete<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer = nil) -> T.Return? {
         return send(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request), httpMethod:HttpMethods.Delete), error:error)
+    }
+    
+    public func delete<T : IReturn where T : JsonSerializable>(request:T, query:[String:String], error:NSErrorPointer = nil) -> T.Return? {
+        return send(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request, query:query), httpMethod:HttpMethods.Delete), error:error)
     }
     
     public func delete<T : JsonSerializable>(relativeUrl:String, error:NSErrorPointer = nil) -> T? {
