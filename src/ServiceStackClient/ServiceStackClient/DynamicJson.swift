@@ -1,3 +1,4 @@
+#if false
 //
 //  DynamicJson.swift
 //  ServiceStackClient
@@ -135,3 +136,4 @@ public class DynamicJValue
     }
 }
 
+#endif

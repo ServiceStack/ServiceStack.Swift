@@ -1,0 +1,10 @@
+//
+//  JsonServiceClient.swift
+//  ServiceStackClient
+//
+//  Copyright (c) 2015 ServiceStack LLC. All rights reserved.
+//  License: https://servicestack.net/terms
+//
+
+import Foundation
+

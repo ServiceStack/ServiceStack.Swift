@@ -1,3 +1,5 @@
+#if false
+
 // Original by Erica Sadun
 // Source: http://ericasadun.com/2014/06/24/swift-reflection-dump/
 
@@ -155,3 +157,5 @@ func explore<T>(item : T)
     explore(reflect(item))
     println()
 }
+
+#endif
