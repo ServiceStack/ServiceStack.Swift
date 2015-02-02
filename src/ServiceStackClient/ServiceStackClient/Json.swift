@@ -651,12 +651,23 @@ public protocol StringSerializable : Convertible {
 }
 
 
-func populate<T>(instance:T, map:NSDictionary, propertiesMap:[String:PropertyType]) -> T {
+public func populate<T>(instance:T, map:NSDictionary, propertiesMap:[String:PropertyType]) -> T {
     for (key, obj) in map {
         if let p = propertiesMap[key.lowercaseString] {
             //insanely this prevents a EXC_BAD_INSTRUCTION when accessing parent.doubleOptional! with a value!
             //"\(obj)"
             p.setValue(instance, value: obj)
+        }
+    }
+    return instance
+}
+
+public func populateFromDictionary<T : JsonSerializable>(instance:T, map:[NSObject : AnyObject], propertiesMap:[String:PropertyType]) -> T {
+    for (key, obj) in map {
+        if let strKey = key as? String {
+            if let p = propertiesMap[strKey.lowercaseString] {
+                p.setValue(instance, value: obj)
+            }
         }
     }
     return instance
@@ -1350,7 +1361,7 @@ class Utils
 func jsonString(str:String?) -> String {
     if let s = str {
         if let stringWithEscapeChars = s.rangeOfCharacterFromSet(Utils.escapeChars()) {
-            //TODO: rewrite to encode manually so it avoides unnecessary encoding
+            //TODO: rewrite to encode manually to avoid unnecessary conversions
             var error:NSError?
             if let encodedData = NSJSONSerialization.dataWithJSONObject([s], options:NSJSONWritingOptions.allZeros, error:&error) {
                 if let encodedJson = encodedData.toUtf8String() {

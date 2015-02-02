@@ -89,7 +89,7 @@ class TechStacksJsonTests: XCTestCase
         XCTAssertEqual(techstacks.id!, Int64(1))
         XCTAssertEqual(techstacks.name!, "TechStacks Website")
         XCTAssertEqual(techstacks.vendorName!, "ServiceStack")
-        XCTAssertTrue(techstacks.description!.hasPrefix("This Website! "))
+        XCTAssertTrue(techstacks.Description!.hasPrefix("This Website! "))
         XCTAssertEqual(techstacks.appUrl!, "http://techstacks.io")
         XCTAssertEqual(techstacks.screenshotUrl!, "https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/techstacks/screenshots/techstacks.png")
         XCTAssertEqual(techstacks.created!, NSDate.fromIsoDateString("2015-01-01T17:33:58.9892560")!)

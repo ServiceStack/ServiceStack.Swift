@@ -1,9 +1,9 @@
 /* Options:
-Date: 2015-02-01 10:19:49
+Date: 2015-02-01 22:39:21
 Version: 1
 BaseUrl: http://techstacks.io
 
-//BaseClass:
+BaseClass: NSObject
 //AddResponseStatus: False
 //AddModelExtensions: True
 //AddServiceStackTypes: True
@@ -36,9 +36,9 @@ public enum TechnologyTier : Int
 }
 
 // @DataContract
-public class ResponseStatus
+public class ResponseStatus : NSObject
 {
-    required public init(){}
+    required public override init(){}
     // @DataMember(Order=1)
     public var errorCode:String?
     
@@ -85,9 +85,9 @@ public class TechnologyStackHistory : TechnologyStackBase
 }
 
 // @DataContract
-public class Option
+public class Option : NSObject
 {
-    required public init(){}
+    required public override init(){}
     // @DataMember(Name="name")
     public var name:String?
     
@@ -98,17 +98,17 @@ public class Option
     public var value:TechnologyTier?
 }
 
-public class UserInfo
+public class UserInfo : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var userName:String?
     public var avatarUrl:String?
     public var stacksCount:Int?
 }
 
-public class TechnologyInfo
+public class TechnologyInfo : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var tier:TechnologyTier?
     public var slug:String?
     public var name:String?
@@ -116,16 +116,16 @@ public class TechnologyInfo
     public var stacksCount:Int?
 }
 
-public class TechnologyBase
+public class TechnologyBase : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var id:Int64?
     public var name:String?
     public var vendorName:String?
     public var vendorUrl:String?
     public var productUrl:String?
     public var logoUrl:String?
-    public var description:String?
+    public var Description:String?
     public var created:NSDate?
     public var createdBy:String?
     public var lastModified:NSDate?
@@ -139,9 +139,9 @@ public class TechnologyBase
 }
 
 // @DataContract
-public class ResponseError
+public class ResponseError : NSObject
 {
-    required public init(){}
+    required public override init(){}
     // @DataMember(Order=1, EmitDefaultValue=false)
     public var errorCode:String?
     
@@ -152,13 +152,13 @@ public class ResponseError
     public var message:String?
 }
 
-public class TechnologyStackBase
+public class TechnologyStackBase : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var id:Int64?
     public var name:String?
     public var vendorName:String?
-    public var description:String?
+    public var Description:String?
     public var appUrl:String?
     public var screenshotUrl:String?
     public var created:NSDate?
@@ -172,9 +172,9 @@ public class TechnologyStackBase
     public var lastStatusUpdate:NSDate?
 }
 
-public class QueryBase
+public class QueryBase : NSObject
 {
-    required public init(){}
+    required public override init(){}
     // @DataMember(Order=1)
     public var skip:Int?
     
@@ -196,70 +196,70 @@ public class TechnologyInStack : TechnologyBase
     public var justification:String?
 }
 
-public class LogoUrlApprovalResponse
+public class LogoUrlApprovalResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var result:Technology?
 }
 
-public class LockStackResponse
+public class LockStackResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
 }
 
-public class CreateTechnologyResponse
+public class CreateTechnologyResponse : NSObject
 {
-    required public init(){}
-    public var result:Technology?
-    public var responseStatus:ResponseStatus?
-}
-
-public class UpdateTechnologyResponse
-{
-    required public init(){}
+    required public override init(){}
     public var result:Technology?
     public var responseStatus:ResponseStatus?
 }
 
-public class DeleteTechnologyResponse
+public class UpdateTechnologyResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var result:Technology?
     public var responseStatus:ResponseStatus?
 }
 
-public class GetTechnologyResponse
+public class DeleteTechnologyResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
+    public var result:Technology?
+    public var responseStatus:ResponseStatus?
+}
+
+public class GetTechnologyResponse : NSObject
+{
+    required public override init(){}
     public var created:NSDate?
     public var technology:Technology?
     public var technologyStacks:[TechnologyStack] = []
     public var responseStatus:ResponseStatus?
 }
 
-public class GetTechnologyPreviousVersionsResponse
+public class GetTechnologyPreviousVersionsResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var results:[TechnologyHistory] = []
 }
 
-public class GetTechnologyFavoriteDetailsResponse
+public class GetTechnologyFavoriteDetailsResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var users:[String] = []
     public var favoriteCount:Int?
 }
 
-public class GetAllTechnologiesResponse
+public class GetAllTechnologiesResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var results:[Technology] = []
 }
 
 // @DataContract
-public class QueryResponse<Technology : JsonSerializable>
+public class QueryResponse<Technology : JsonSerializable> : NSObject
 {
-    required public init(){}
+    required public override init(){}
     // @DataMember(Order=1)
     public var offset:Int?
     
@@ -276,63 +276,63 @@ public class QueryResponse<Technology : JsonSerializable>
     public var responseStatus:ResponseStatus?
 }
 
-public class CreateTechnologyStackResponse
+public class CreateTechnologyStackResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var result:TechStackDetails?
     public var responseStatus:ResponseStatus?
 }
 
-public class UpdateTechnologyStackResponse
+public class UpdateTechnologyStackResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var result:TechStackDetails?
     public var responseStatus:ResponseStatus?
 }
 
-public class DeleteTechnologyStackResponse
+public class DeleteTechnologyStackResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var result:TechStackDetails?
     public var responseStatus:ResponseStatus?
 }
 
-public class GetAllTechnologyStacksResponse
+public class GetAllTechnologyStacksResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var results:[TechnologyStack] = []
 }
 
-public class GetTechnologyStackResponse
+public class GetTechnologyStackResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
+    public var responseStatus:ResponseStatus?
     public var created:NSDate?
     public var result:TechStackDetails?
-    public var responseStatus:ResponseStatus?
 }
 
-public class GetTechnologyStackPreviousVersionsResponse
+public class GetTechnologyStackPreviousVersionsResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var results:[TechnologyStackHistory] = []
 }
 
-public class GetTechnologyStackFavoriteDetailsResponse
+public class GetTechnologyStackFavoriteDetailsResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var users:[String] = []
     public var favoriteCount:Int?
 }
 
-public class GetConfigResponse
+public class GetConfigResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var allTiers:[Option] = []
 }
 
-public class OverviewResponse
+public class OverviewResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var created:NSDate?
     public var topUsers:[UserInfo] = []
     public var topTechnologies:[TechnologyInfo] = []
@@ -341,39 +341,39 @@ public class OverviewResponse
     public var responseStatus:ResponseStatus?
 }
 
-public class GetFavoriteTechStackResponse
+public class GetFavoriteTechStackResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var results:[TechnologyStack] = []
 }
 
-public class FavoriteTechStackResponse
+public class FavoriteTechStackResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var result:TechnologyStack?
 }
 
-public class GetFavoriteTechnologiesResponse
+public class GetFavoriteTechnologiesResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var results:[Technology] = []
 }
 
-public class FavoriteTechnologyResponse
+public class FavoriteTechnologyResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var result:Technology?
 }
 
-public class GetUserFeedResponse
+public class GetUserFeedResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var results:[TechStackDetails] = []
 }
 
-public class GetUserInfoResponse
+public class GetUserInfoResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var userName:String?
     public var created:NSDate?
     public var avatarUrl:String?
@@ -383,9 +383,9 @@ public class GetUserInfoResponse
 }
 
 // @DataContract
-public class AuthenticateResponse
+public class AuthenticateResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     // @DataMember(Order=1)
     public var userId:String?
     
@@ -408,174 +408,174 @@ public class AuthenticateResponse
     public var meta:[String:String] = [:]
 }
 
-public class AssignRolesResponse
+public class AssignRolesResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var allRoles:[String] = []
     public var allPermissions:[String] = []
     public var responseStatus:ResponseStatus?
 }
 
-public class UnAssignRolesResponse
+public class UnAssignRolesResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var allRoles:[String] = []
     public var allPermissions:[String] = []
     public var responseStatus:ResponseStatus?
 }
 
 // @Route("/admin/technology/{TechnologyId}/logo")
-public class LogoUrlApproval : IReturn
+public class LogoUrlApproval : NSObject, IReturn
 {
     typealias Return = LogoUrlApprovalResponse
     
-    required public init(){}
+    required public override init(){}
     public var technologyId:Int64?
     public var approved:Bool?
 }
 
 // @Route("/admin/techstacks/{TechnologyStackId}/lock")
-public class LockTechStack : IReturn
+public class LockTechStack : NSObject, IReturn
 {
     typealias Return = LockStackResponse
     
-    required public init(){}
+    required public override init(){}
     public var technologyStackId:Int64?
     public var isLocked:Bool?
 }
 
 // @Route("/admin/technology/{TechnologyId}/lock")
-public class LockTech : IReturn
+public class LockTech : NSObject, IReturn
 {
     typealias Return = LockStackResponse
     
-    required public init(){}
+    required public override init(){}
     public var technologyId:Int64?
     public var isLocked:Bool?
 }
 
 // @Route("/ping")
-public class Ping
+public class Ping : NSObject
 {
-    required public init(){}
+    required public override init(){}
 }
 
 // @Route("/{PathInfo*}")
-public class FallbackForClientRoutes
+public class FallbackForClientRoutes : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var pathInfo:String?
 }
 
 // @Route("/stacks")
-public class ClientAllTechnologyStacks
+public class ClientAllTechnologyStacks : NSObject
 {
-    required public init(){}
+    required public override init(){}
 }
 
 // @Route("/tech")
-public class ClientAllTechnologies
+public class ClientAllTechnologies : NSObject
 {
-    required public init(){}
+    required public override init(){}
 }
 
 // @Route("/tech/{Slug}")
-public class ClientTechnology
+public class ClientTechnology : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var slug:String?
 }
 
 // @Route("/users/{UserName}")
-public class ClientUser
+public class ClientUser : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var userName:String?
 }
 
 // @Route("/my-session")
-public class SessionInfo
+public class SessionInfo : NSObject
 {
-    required public init(){}
+    required public override init(){}
 }
 
 // @Route("/technology", "POST")
-public class CreateTechnology : IReturn
+public class CreateTechnology : NSObject, IReturn
 {
     typealias Return = CreateTechnologyResponse
     
-    required public init(){}
+    required public override init(){}
     public var name:String?
     public var vendorName:String?
     public var vendorUrl:String?
     public var productUrl:String?
     public var logoUrl:String?
-    public var description:String?
+    public var Description:String?
     public var isLocked:Bool?
     public var tier:TechnologyTier?
 }
 
 // @Route("/technology/{Id}", "PUT")
-public class UpdateTechnology : IReturn
+public class UpdateTechnology : NSObject, IReturn
 {
     typealias Return = UpdateTechnologyResponse
     
-    required public init(){}
+    required public override init(){}
     public var id:Int64?
     public var name:String?
     public var vendorName:String?
     public var vendorUrl:String?
     public var productUrl:String?
     public var logoUrl:String?
-    public var description:String?
+    public var Description:String?
     public var isLocked:Bool?
     public var tier:TechnologyTier?
 }
 
 // @Route("/technology/{Id}", "DELETE")
-public class DeleteTechnology : IReturn
+public class DeleteTechnology : NSObject, IReturn
 {
     typealias Return = DeleteTechnologyResponse
     
-    required public init(){}
+    required public override init(){}
     public var id:Int64?
 }
 
 // @Route("/technology/{Slug}")
-public class GetTechnology : IReturn
+public class GetTechnology : NSObject, IReturn
 {
     typealias Return = GetTechnologyResponse
     
-    required public init(){}
+    required public override init(){}
     public var reload:Bool?
     public var slug:String?
 }
 
 // @Route("/technology/{Slug}/previous-versions", "GET")
-public class GetTechnologyPreviousVersions : IReturn
+public class GetTechnologyPreviousVersions : NSObject, IReturn
 {
     typealias Return = GetTechnologyPreviousVersionsResponse
     
-    required public init(){}
+    required public override init(){}
     public var slug:String?
 }
 
 // @Route("/technology/{Slug}/favorites")
-public class GetTechnologyFavoriteDetails : IReturn
+public class GetTechnologyFavoriteDetails : NSObject, IReturn
 {
     typealias Return = GetTechnologyFavoriteDetailsResponse
     
-    required public init(){}
+    required public override init(){}
     public var slug:String?
     public var reload:Bool?
 }
 
 // @Route("/technology", "GET")
-public class GetAllTechnologies : IReturn
+public class GetAllTechnologies : NSObject, IReturn
 {
     typealias Return = GetAllTechnologiesResponse
     
-    required public init(){}
+    required public override init(){}
 }
 
 // @Route("/technology/search")
@@ -588,98 +588,98 @@ public class FindTechnologies<Technology : JsonSerializable> : QueryBase_1<Techn
 }
 
 // @Route("/techstacks", "POST")
-public class CreateTechnologyStack : IReturn
+public class CreateTechnologyStack : NSObject, IReturn
 {
     typealias Return = CreateTechnologyStackResponse
     
-    required public init(){}
+    required public override init(){}
     public var name:String?
     public var vendorName:String?
     public var appUrl:String?
     public var screenshotUrl:String?
-    public var description:String?
+    public var Description:String?
     public var details:String?
     public var isLocked:Bool?
     public var technologyIds:[Int64] = []
 }
 
 // @Route("/techstacks/{Id}", "PUT")
-public class UpdateTechnologyStack : IReturn
+public class UpdateTechnologyStack : NSObject, IReturn
 {
     typealias Return = UpdateTechnologyStackResponse
     
-    required public init(){}
+    required public override init(){}
     public var id:Int64?
     public var name:String?
     public var vendorName:String?
     public var appUrl:String?
     public var screenshotUrl:String?
-    public var description:String?
+    public var Description:String?
     public var details:String?
     public var isLocked:Bool?
     public var technologyIds:[Int64] = []
 }
 
 // @Route("/techstacks/{Id}", "DELETE")
-public class DeleteTechnologyStack : IReturn
+public class DeleteTechnologyStack : NSObject, IReturn
 {
     typealias Return = DeleteTechnologyStackResponse
     
-    required public init(){}
+    required public override init(){}
     public var id:Int64?
 }
 
 // @Route("/techstacks", "GET")
-public class GetAllTechnologyStacks : IReturn
+public class GetAllTechnologyStacks : NSObject, IReturn
 {
     typealias Return = GetAllTechnologyStacksResponse
     
-    required public init(){}
+    required public override init(){}
 }
 
 // @Route("/techstacks/{Slug}", "GET")
-public class GetTechnologyStack : IReturn
+public class GetTechnologyStack : NSObject, IReturn
 {
     typealias Return = GetTechnologyStackResponse
     
-    required public init(){}
+    required public override init(){}
     public var reload:Bool?
     public var slug:String?
 }
 
 // @Route("/techstacks/{Slug}/previous-versions", "GET")
-public class GetTechnologyStackPreviousVersions : IReturn
+public class GetTechnologyStackPreviousVersions : NSObject, IReturn
 {
     typealias Return = GetTechnologyStackPreviousVersionsResponse
     
-    required public init(){}
+    required public override init(){}
     public var slug:String?
 }
 
 // @Route("/techstacks/{Slug}/favorites")
-public class GetTechnologyStackFavoriteDetails : IReturn
+public class GetTechnologyStackFavoriteDetails : NSObject, IReturn
 {
     typealias Return = GetTechnologyStackFavoriteDetailsResponse
     
-    required public init(){}
+    required public override init(){}
     public var slug:String?
     public var reload:Bool?
 }
 
 // @Route("/config")
-public class GetConfig : IReturn
+public class GetConfig : NSObject, IReturn
 {
     typealias Return = GetConfigResponse
     
-    required public init(){}
+    required public override init(){}
 }
 
 // @Route("/overview")
-public class Overview : IReturn
+public class Overview : NSObject, IReturn
 {
     typealias Return = OverviewResponse
     
-    required public init(){}
+    required public override init(){}
     public var reload:Bool?
 }
 
@@ -693,73 +693,73 @@ public class FindTechStacks<TechnologyStack : JsonSerializable> : QueryBase_1<Te
 }
 
 // @Route("/favorites/techtacks", "GET")
-public class GetFavoriteTechStack : IReturn
+public class GetFavoriteTechStack : NSObject, IReturn
 {
     typealias Return = GetFavoriteTechStackResponse
     
-    required public init(){}
+    required public override init(){}
     public var technologyStackId:Int?
 }
 
 // @Route("/favorites/techtacks/{TechnologyStackId}", "PUT")
-public class AddFavoriteTechStack : IReturn
+public class AddFavoriteTechStack : NSObject, IReturn
 {
     typealias Return = FavoriteTechStackResponse
     
-    required public init(){}
+    required public override init(){}
     public var technologyStackId:Int?
 }
 
 // @Route("/favorites/techtacks/{TechnologyStackId}", "DELETE")
-public class RemoveFavoriteTechStack : IReturn
+public class RemoveFavoriteTechStack : NSObject, IReturn
 {
     typealias Return = FavoriteTechStackResponse
     
-    required public init(){}
+    required public override init(){}
     public var technologyStackId:Int?
 }
 
 // @Route("/favorites/technology", "GET")
-public class GetFavoriteTechnologies : IReturn
+public class GetFavoriteTechnologies : NSObject, IReturn
 {
     typealias Return = GetFavoriteTechnologiesResponse
     
-    required public init(){}
+    required public override init(){}
     public var technologyId:Int?
 }
 
 // @Route("/favorites/technology/{TechnologyId}", "PUT")
-public class AddFavoriteTechnology : IReturn
+public class AddFavoriteTechnology : NSObject, IReturn
 {
     typealias Return = FavoriteTechnologyResponse
     
-    required public init(){}
+    required public override init(){}
     public var technologyId:Int?
 }
 
 // @Route("/favorites/technology/{TechnologyId}", "DELETE")
-public class RemoveFavoriteTechnology : IReturn
+public class RemoveFavoriteTechnology : NSObject, IReturn
 {
     typealias Return = FavoriteTechnologyResponse
     
-    required public init(){}
+    required public override init(){}
     public var technologyId:Int?
 }
 
 // @Route("/my-feed")
-public class GetUserFeed : IReturn
+public class GetUserFeed : NSObject, IReturn
 {
     typealias Return = GetUserFeedResponse
     
-    required public init(){}
+    required public override init(){}
 }
 
 // @Route("/userinfo/{UserName}")
-public class GetUserInfo : IReturn
+public class GetUserInfo : NSObject, IReturn
 {
     typealias Return = GetUserInfoResponse
     
-    required public init(){}
+    required public override init(){}
     public var reload:Bool?
     public var userName:String?
 }
@@ -769,11 +769,11 @@ public class GetUserInfo : IReturn
 // @Route("/authenticate")
 // @Route("/authenticate/{provider}")
 // @DataContract
-public class Authenticate : IReturn
+public class Authenticate : NSObject, IReturn
 {
     typealias Return = AuthenticateResponse
     
-    required public init(){}
+    required public override init(){}
     // @DataMember(Order=1)
     public var provider:String?
     
@@ -821,22 +821,22 @@ public class Authenticate : IReturn
 }
 
 // @Route("/assignroles")
-public class AssignRoles : IReturn
+public class AssignRoles : NSObject, IReturn
 {
     typealias Return = AssignRolesResponse
     
-    required public init(){}
+    required public override init(){}
     public var userName:String?
     public var permissions:[String] = []
     public var roles:[String] = []
 }
 
 // @Route("/unassignroles")
-public class UnAssignRoles : IReturn
+public class UnAssignRoles : NSObject, IReturn
 {
     typealias Return = UnAssignRolesResponse
     
-    required public init(){}
+    required public override init(){}
     public var userName:String?
     public var permissions:[String] = []
     public var roles:[String] = []
@@ -855,7 +855,7 @@ extension Technology : JsonSerializable
                 Type<Technology>.optionalProperty("vendorUrl", get: { $0.vendorUrl }, set: { $0.vendorUrl = $1 }),
                 Type<Technology>.optionalProperty("productUrl", get: { $0.productUrl }, set: { $0.productUrl = $1 }),
                 Type<Technology>.optionalProperty("logoUrl", get: { $0.logoUrl }, set: { $0.logoUrl = $1 }),
-                Type<Technology>.optionalProperty("description", get: { $0.description }, set: { $0.description = $1 }),
+                Type<Technology>.optionalProperty("Description", get: { $0.Description }, set: { $0.Description = $1 }),
                 Type<Technology>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
                 Type<Technology>.optionalProperty("createdBy", get: { $0.createdBy }, set: { $0.createdBy = $1 }),
                 Type<Technology>.optionalProperty("lastModified", get: { $0.lastModified }, set: { $0.lastModified = $1 }),
@@ -965,7 +965,7 @@ extension TechnologyStack : JsonSerializable
                 Type<TechnologyStack>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<TechnologyStack>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<TechnologyStack>.optionalProperty("vendorName", get: { $0.vendorName }, set: { $0.vendorName = $1 }),
-                Type<TechnologyStack>.optionalProperty("description", get: { $0.description }, set: { $0.description = $1 }),
+                Type<TechnologyStack>.optionalProperty("Description", get: { $0.Description }, set: { $0.Description = $1 }),
                 Type<TechnologyStack>.optionalProperty("appUrl", get: { $0.appUrl }, set: { $0.appUrl = $1 }),
                 Type<TechnologyStack>.optionalProperty("screenshotUrl", get: { $0.screenshotUrl }, set: { $0.screenshotUrl = $1 }),
                 Type<TechnologyStack>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
@@ -1008,7 +1008,7 @@ extension TechnologyHistory : JsonSerializable
                 Type<TechnologyHistory>.optionalProperty("vendorUrl", get: { $0.vendorUrl }, set: { $0.vendorUrl = $1 }),
                 Type<TechnologyHistory>.optionalProperty("productUrl", get: { $0.productUrl }, set: { $0.productUrl = $1 }),
                 Type<TechnologyHistory>.optionalProperty("logoUrl", get: { $0.logoUrl }, set: { $0.logoUrl = $1 }),
-                Type<TechnologyHistory>.optionalProperty("description", get: { $0.description }, set: { $0.description = $1 }),
+                Type<TechnologyHistory>.optionalProperty("Description", get: { $0.Description }, set: { $0.Description = $1 }),
                 Type<TechnologyHistory>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
                 Type<TechnologyHistory>.optionalProperty("createdBy", get: { $0.createdBy }, set: { $0.createdBy = $1 }),
                 Type<TechnologyHistory>.optionalProperty("lastModified", get: { $0.lastModified }, set: { $0.lastModified = $1 }),
@@ -1049,7 +1049,7 @@ extension TechStackDetails : JsonSerializable
                 Type<TechStackDetails>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<TechStackDetails>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<TechStackDetails>.optionalProperty("vendorName", get: { $0.vendorName }, set: { $0.vendorName = $1 }),
-                Type<TechStackDetails>.optionalProperty("description", get: { $0.description }, set: { $0.description = $1 }),
+                Type<TechStackDetails>.optionalProperty("Description", get: { $0.Description }, set: { $0.Description = $1 }),
                 Type<TechStackDetails>.optionalProperty("appUrl", get: { $0.appUrl }, set: { $0.appUrl = $1 }),
                 Type<TechStackDetails>.optionalProperty("screenshotUrl", get: { $0.screenshotUrl }, set: { $0.screenshotUrl = $1 }),
                 Type<TechStackDetails>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
@@ -1091,7 +1091,7 @@ extension TechnologyStackHistory : JsonSerializable
                 Type<TechnologyStackHistory>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
                 Type<TechnologyStackHistory>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<TechnologyStackHistory>.optionalProperty("vendorName", get: { $0.vendorName }, set: { $0.vendorName = $1 }),
-                Type<TechnologyStackHistory>.optionalProperty("description", get: { $0.description }, set: { $0.description = $1 }),
+                Type<TechnologyStackHistory>.optionalProperty("Description", get: { $0.Description }, set: { $0.Description = $1 }),
                 Type<TechnologyStackHistory>.optionalProperty("appUrl", get: { $0.appUrl }, set: { $0.appUrl = $1 }),
                 Type<TechnologyStackHistory>.optionalProperty("screenshotUrl", get: { $0.screenshotUrl }, set: { $0.screenshotUrl = $1 }),
                 Type<TechnologyStackHistory>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
@@ -1251,7 +1251,7 @@ extension TechnologyInStack : JsonSerializable
                 Type<TechnologyInStack>.optionalProperty("vendorUrl", get: { $0.vendorUrl }, set: { $0.vendorUrl = $1 }),
                 Type<TechnologyInStack>.optionalProperty("productUrl", get: { $0.productUrl }, set: { $0.productUrl = $1 }),
                 Type<TechnologyInStack>.optionalProperty("logoUrl", get: { $0.logoUrl }, set: { $0.logoUrl = $1 }),
-                Type<TechnologyInStack>.optionalProperty("description", get: { $0.description }, set: { $0.description = $1 }),
+                Type<TechnologyInStack>.optionalProperty("Description", get: { $0.Description }, set: { $0.Description = $1 }),
                 Type<TechnologyInStack>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
                 Type<TechnologyInStack>.optionalProperty("createdBy", get: { $0.createdBy }, set: { $0.createdBy = $1 }),
                 Type<TechnologyInStack>.optionalProperty("lastModified", get: { $0.lastModified }, set: { $0.lastModified = $1 }),
@@ -1667,9 +1667,9 @@ extension GetTechnologyStackResponse : JsonSerializable
     public class func reflect() -> Type<GetTechnologyStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStackResponse>(
             properties: [
+                Type<GetTechnologyStackResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
                 Type<GetTechnologyStackResponse>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
                 Type<GetTechnologyStackResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
-                Type<GetTechnologyStackResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
             ]))
     }
     public func toJson() -> String {
@@ -2318,7 +2318,7 @@ extension CreateTechnology : JsonSerializable
                 Type<CreateTechnology>.optionalProperty("vendorUrl", get: { $0.vendorUrl }, set: { $0.vendorUrl = $1 }),
                 Type<CreateTechnology>.optionalProperty("productUrl", get: { $0.productUrl }, set: { $0.productUrl = $1 }),
                 Type<CreateTechnology>.optionalProperty("logoUrl", get: { $0.logoUrl }, set: { $0.logoUrl = $1 }),
-                Type<CreateTechnology>.optionalProperty("description", get: { $0.description }, set: { $0.description = $1 }),
+                Type<CreateTechnology>.optionalProperty("Description", get: { $0.Description }, set: { $0.Description = $1 }),
                 Type<CreateTechnology>.optionalProperty("isLocked", get: { $0.isLocked }, set: { $0.isLocked = $1 }),
                 Type<CreateTechnology>.optionalProperty("tier", get: { $0.tier }, set: { $0.tier = $1 }),
             ]))
@@ -2352,7 +2352,7 @@ extension UpdateTechnology : JsonSerializable
                 Type<UpdateTechnology>.optionalProperty("vendorUrl", get: { $0.vendorUrl }, set: { $0.vendorUrl = $1 }),
                 Type<UpdateTechnology>.optionalProperty("productUrl", get: { $0.productUrl }, set: { $0.productUrl = $1 }),
                 Type<UpdateTechnology>.optionalProperty("logoUrl", get: { $0.logoUrl }, set: { $0.logoUrl = $1 }),
-                Type<UpdateTechnology>.optionalProperty("description", get: { $0.description }, set: { $0.description = $1 }),
+                Type<UpdateTechnology>.optionalProperty("Description", get: { $0.Description }, set: { $0.Description = $1 }),
                 Type<UpdateTechnology>.optionalProperty("isLocked", get: { $0.isLocked }, set: { $0.isLocked = $1 }),
                 Type<UpdateTechnology>.optionalProperty("tier", get: { $0.tier }, set: { $0.tier = $1 }),
             ]))
@@ -2541,7 +2541,7 @@ extension CreateTechnologyStack : JsonSerializable
                 Type<CreateTechnologyStack>.optionalProperty("vendorName", get: { $0.vendorName }, set: { $0.vendorName = $1 }),
                 Type<CreateTechnologyStack>.optionalProperty("appUrl", get: { $0.appUrl }, set: { $0.appUrl = $1 }),
                 Type<CreateTechnologyStack>.optionalProperty("screenshotUrl", get: { $0.screenshotUrl }, set: { $0.screenshotUrl = $1 }),
-                Type<CreateTechnologyStack>.optionalProperty("description", get: { $0.description }, set: { $0.description = $1 }),
+                Type<CreateTechnologyStack>.optionalProperty("Description", get: { $0.Description }, set: { $0.Description = $1 }),
                 Type<CreateTechnologyStack>.optionalProperty("details", get: { $0.details }, set: { $0.details = $1 }),
                 Type<CreateTechnologyStack>.optionalProperty("isLocked", get: { $0.isLocked }, set: { $0.isLocked = $1 }),
                 Type<CreateTechnologyStack>.arrayProperty("technologyIds", get: { $0.technologyIds }, set: { $0.technologyIds = $1 }),
@@ -2575,7 +2575,7 @@ extension UpdateTechnologyStack : JsonSerializable
                 Type<UpdateTechnologyStack>.optionalProperty("vendorName", get: { $0.vendorName }, set: { $0.vendorName = $1 }),
                 Type<UpdateTechnologyStack>.optionalProperty("appUrl", get: { $0.appUrl }, set: { $0.appUrl = $1 }),
                 Type<UpdateTechnologyStack>.optionalProperty("screenshotUrl", get: { $0.screenshotUrl }, set: { $0.screenshotUrl = $1 }),
-                Type<UpdateTechnologyStack>.optionalProperty("description", get: { $0.description }, set: { $0.description = $1 }),
+                Type<UpdateTechnologyStack>.optionalProperty("Description", get: { $0.Description }, set: { $0.Description = $1 }),
                 Type<UpdateTechnologyStack>.optionalProperty("details", get: { $0.details }, set: { $0.details = $1 }),
                 Type<UpdateTechnologyStack>.optionalProperty("isLocked", get: { $0.isLocked }, set: { $0.isLocked = $1 }),
                 Type<UpdateTechnologyStack>.arrayProperty("technologyIds", get: { $0.technologyIds }, set: { $0.technologyIds = $1 }),
@@ -3111,38 +3111,62 @@ extension UnAssignRoles : JsonSerializable
 }
 
 
+
 // Needs to be defined in the same file as SS RespnseStatus DTO's otherwise Swift segfaults.
 
 /* Options:
-Date: 2015-02-01 03:35:00
+Date: 2015-02-02 04:03:03
 Version: 1
 BaseUrl: http://test.servicestack.net
 
+BaseClass: NSObject
 //AddResponseStatus: False
 //AddModelExtensions: True
 //AddServiceStackTypes: True
 //FlattenAbstractTypes: True
 //InitializeCollections: True
 //AddImplicitVersion:
-IncludeTypes: ThrowType,ThrowTypeResponse
+IncludeTypes: ThrowType,ThrowTypeResponse,ThrowValidation,ThrowValidationResponse
 //ExcludeTypes:
 //DefaultNamespaces: Foundation
 */
 
-public class ThrowTypeResponse
+import Foundation
+
+public class ThrowTypeResponse : NSObject
 {
-    required public init(){}
+    required public override init(){}
     public var responseStatus:ResponseStatus?
 }
 
+public class ThrowValidationResponse : NSObject
+{
+    required public override init(){}
+    public var responseStatus:ResponseStatus?
+    public var age:Int?
+    public var required:String?
+    public var email:String?
+}
+
 // @Route("/throw/{Type}")
-public class ThrowType : IReturn
+public class ThrowType : NSObject, IReturn
 {
     typealias Return = ThrowTypeResponse
     
-    required public init(){}
+    required public override init(){}
     public var type:String?
     public var message:String?
+}
+
+// @Route("/throwvalidation")
+public class ThrowValidation : NSObject, IReturn
+{
+    typealias Return = ThrowValidationResponse
+    
+    required public override init(){}
+    public var age:Int?
+    public var required:String?
+    public var email:String?
 }
 
 
@@ -3172,6 +3196,35 @@ extension ThrowTypeResponse : JsonSerializable
     }
 }
 
+extension ThrowValidationResponse : JsonSerializable
+{
+    public class var typeName:String { return "ThrowValidationResponse" }
+    public class func reflect() -> Type<ThrowValidationResponse> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<ThrowValidationResponse>(
+            properties: [
+                Type<ThrowValidationResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+                Type<ThrowValidationResponse>.optionalProperty("age", get: { $0.age }, set: { $0.age = $1 }),
+                Type<ThrowValidationResponse>.optionalProperty("required", get: { $0.required }, set: { $0.required = $1 }),
+                Type<ThrowValidationResponse>.optionalProperty("email", get: { $0.email }, set: { $0.email = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return ThrowValidationResponse.reflect().toJson(self)
+    }
+    public class func fromJson(json:String) -> ThrowValidationResponse? {
+        return ThrowValidationResponse.reflect().fromJson(ThrowValidationResponse(), json: json)
+    }
+    public class func fromObject(any:AnyObject) -> ThrowValidationResponse? {
+        return ThrowValidationResponse.reflect().fromObject(ThrowValidationResponse(), any:any)
+    }
+    public func toString() -> String {
+        return ThrowValidationResponse.reflect().toString(self)
+    }
+    public class func fromString(string:String) -> ThrowValidationResponse? {
+        return ThrowValidationResponse.reflect().fromString(ThrowValidationResponse(), string: string)
+    }
+}
+
 extension ThrowType : JsonSerializable
 {
     public class var typeName:String { return "ThrowType" }
@@ -3196,5 +3249,33 @@ extension ThrowType : JsonSerializable
     }
     public class func fromString(string:String) -> ThrowType? {
         return ThrowType.reflect().fromString(ThrowType(), string: string)
+    }
+}
+
+extension ThrowValidation : JsonSerializable
+{
+    public class var typeName:String { return "ThrowValidation" }
+    public class func reflect() -> Type<ThrowValidation> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<ThrowValidation>(
+            properties: [
+                Type<ThrowValidation>.optionalProperty("age", get: { $0.age }, set: { $0.age = $1 }),
+                Type<ThrowValidation>.optionalProperty("required", get: { $0.required }, set: { $0.required = $1 }),
+                Type<ThrowValidation>.optionalProperty("email", get: { $0.email }, set: { $0.email = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return ThrowValidation.reflect().toJson(self)
+    }
+    public class func fromJson(json:String) -> ThrowValidation? {
+        return ThrowValidation.reflect().fromJson(ThrowValidation(), json: json)
+    }
+    public class func fromObject(any:AnyObject) -> ThrowValidation? {
+        return ThrowValidation.reflect().fromObject(ThrowValidation(), any:any)
+    }
+    public func toString() -> String {
+        return ThrowValidation.reflect().toString(self)
+    }
+    public class func fromString(string:String) -> ThrowValidation? {
+        return ThrowValidation.reflect().fromString(ThrowValidation(), string: string)
     }
 }

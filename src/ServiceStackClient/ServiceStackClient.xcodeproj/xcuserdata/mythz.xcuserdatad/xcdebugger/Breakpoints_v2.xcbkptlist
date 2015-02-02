@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ServiceStackClient/JsonServiceClient.swift"
-            timestampString = "444469765.095686"
+            timestampString = "444529197.207187"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "handleResponse(_:data:response:error:)"
             landmarkType = "5">
          </BreakpointContent>

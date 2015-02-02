@@ -111,7 +111,8 @@ extension Array
     }
 }
 
-extension NSData {
+extension NSData
+{
     func toUtf8String() -> String? {
         if let str = NSString(data: self, encoding: NSUTF8StringEncoding) {
             return str as String
@@ -121,5 +122,20 @@ extension NSData {
     
     func print() -> String {
         return self.toUtf8String()!.print()
+    }
+}
+
+extension NSError
+{
+    func convertUserInfo<T : JsonSerializable>() -> T? {
+        return self.populateUserInfo(T())
+    }
+
+    func populateUserInfo<T : JsonSerializable>(instance:T) -> T? {
+        if let userInfo = self.userInfo {
+            let to = populateFromDictionary(T(), userInfo, T.reflect().propertiesMap)
+            return to
+        }
+        return nil
     }
 }

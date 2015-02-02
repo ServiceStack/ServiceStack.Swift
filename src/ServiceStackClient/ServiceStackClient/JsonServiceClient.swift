@@ -104,28 +104,21 @@ public class JsonServiceClient : ServiceClient
         return map[String(key[0]).lowercaseString + key[1..<key.count]] ?? map[String(key[0]).uppercaseString + key[1..<key.count]]
     }
     
-    func createResponseStatusDictionary(obj:AnyObject) -> [String:AnyObject]? {
-        if let map = obj as? NSDictionary {
-            if let status = getItem(map, key: "ResponseStatus") as? NSDictionary {
-                var errorInfo = [String:AnyObject]()
-                
-                if let errorCode = getItem(status, key: "errorCode") as? NSString {
-                    errorInfo["errorCode"] = errorCode
-                }
-                if let message = getItem(status, key: "message") as? NSString {
-                    errorInfo["message"] = message
-                }
-                if let stackTrace = getItem(status, key: "stackTrace") as? NSString {
-                    errorInfo["stackTrace"] = stackTrace
-                }
-                if let errors: AnyObject = getItem(status, key: "errors") {
-                    errorInfo["errors"] = errors
-                }
-                
-                return errorInfo
+    func populateResponseStatusFields(inout errorInfo:[NSObject : AnyObject], withObject:AnyObject) {
+        if let status = getItem(withObject as NSDictionary, key: "ResponseStatus") as? NSDictionary {
+            if let errorCode = getItem(status, key: "errorCode") as? NSString {
+                errorInfo["errorCode"] = errorCode
+            }
+            if let message = getItem(status, key: "message") as? NSString {
+                errorInfo["message"] = message
+            }
+            if let stackTrace = getItem(status, key: "stackTrace") as? NSString {
+                errorInfo["stackTrace"] = stackTrace
+            }
+            if let errors: AnyObject = getItem(status, key: "errors") {
+                errorInfo["errors"] = errors
             }
         }
-        return nil
     }
     
     func handleResponse<T : JsonSerializable>(intoResponse:T, data:NSData, response:NSURLResponse, error:NSErrorPointer) -> T? {
@@ -140,8 +133,9 @@ public class JsonServiceClient : ServiceClient
                 if let contentType = nsResponse.allHeaderFields["Content-Type"] as? String {
                     if let obj:AnyObject = parseJsonBytes(data) {
                         errorInfo["response"] = obj
-                        errorInfo["responseStatus"] = createResponseStatusDictionary(obj)
-                            ?? ["errorCode":nsResponse.statusCode.toString(), "message":nsResponse.description]
+                        errorInfo["errorCode"] = nsResponse.statusCode.toString()
+                        errorInfo["message"] = nsResponse.statusDescription
+                        populateResponseStatusFields(&errorInfo, withObject:obj)
                     }
                 }
             
@@ -244,10 +238,10 @@ public class JsonServiceClient : ServiceClient
                     reject(self.handleError(error))
                 }
                 else {
-                    var parseError:NSError?
-                    let response = self.handleResponse(intoResponse, data: data, response: response, error: &parseError)
-                    if error != nil {
-                        reject(self.handleError(error))
+                    var resposneError:NSError?
+                    let response = self.handleResponse(intoResponse, data: data, response: response, error: &resposneError)
+                    if resposneError != nil {
+                        reject(self.fireErrorCallbacks(resposneError!))
                     }
                     else if let dto = response {
                         complete(dto)
@@ -331,6 +325,37 @@ public class JsonServiceClient : ServiceClient
 }
 
 
+extension NSHTTPURLResponse {
 
+    //Unfortunately no API gives us the real statusDescription so using Status Code descriptions instead
+    public var statusDescription:String {
+        switch self.statusCode {
+        case 200: return "OK"
+        case 201: return "Created"
+        case 202: return "Accepted"
+        case 205: return "No Content"
+        case 206: return "Partial Content"
+
+        case 400: return "Bad Request"
+        case 401: return "Unauthorized"
+        case 403: return "Forbidden"
+        case 404: return "Not Found"
+        case 405: return "Method Not Allowed"
+        case 406: return "Not Acceptable"
+        case 407: return "Proxy Authentication Required"
+        case 408: return "Request Timeout"
+        case 409: return "Conflict"
+        case 410: return "Gone"
+        case 418: return "I'm a teapot"
+            
+        case 500: return "Internal Server Error"
+        case 501: return "Not Implemented"
+        case 502: return "Bad Gateway"
+        case 503: return "Service Unavailable"
+            
+        default: return "\(self.statusCode)"
+        }
+    }
+}
 
 
