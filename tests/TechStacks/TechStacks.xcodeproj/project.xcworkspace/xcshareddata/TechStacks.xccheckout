@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C41E4769-F6AA-4F37-A983-ED0A3C00900F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>TechStacks</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>283F92251D0C942CCA428A3641F308B3245EAB9E</key>
+		<string>https://github.com/ServiceStack/ServiceStack.Swift.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>tests/TechStacks/TechStacks.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>283F92251D0C942CCA428A3641F308B3245EAB9E</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ServiceStack/ServiceStack.Swift.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>283F92251D0C942CCA428A3641F308B3245EAB9E</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>283F92251D0C942CCA428A3641F308B3245EAB9E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ServiceStack.Swift</string>
+		</dict>
+	</array>
+</dict>
+</plist>
