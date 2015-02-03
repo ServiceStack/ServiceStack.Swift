@@ -1,9 +1,11 @@
+// 
+// Url: https://raw.githubusercontent.com/ServiceStack/ServiceStack.Swift/master/dist/JsonServiceClient.swift
 //
-//  JsonServiceClient.swift
-//  ServiceStackClient
+// JsonServiceClient.swift
+// ServiceStackClient
 //
-//  Copyright (c) 2015 ServiceStack LLC. All rights reserved.
-//  License: https://servicestack.net/terms
+// Copyright (c) 2015 ServiceStack LLC. All rights reserved.
+// License: https://servicestack.net/terms
 //
 
 import Foundation
