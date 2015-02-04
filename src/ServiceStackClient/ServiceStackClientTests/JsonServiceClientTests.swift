@@ -97,6 +97,23 @@ class JsonServiceClientTests: XCTestCase {
         XCTAssertEqual(response.results.count, 1)
     }
     
+    func test_Can_call_FindTechnologies_AutoQuery_Service_Async() {
+        let asyncTest = expectationWithDescription("asyncTest")
+
+        let request = FindTechnologies<Technology>()
+        request.name = "ServiceStack"
+        
+        let response = client.getAsync(request)
+        .then(body:{(r:QueryResponse<Technology>) -> Void in
+                XCTAssertEqual(r.results.count, 1)
+                asyncTest.fulfill()
+            })
+        
+        waitForExpectationsWithTimeout(5, { (error) in
+            XCTAssertNil(error, "Error")
+        })
+    }
+    
     func test_Can_call_FindTechnologies_AutoQuery_Implicit_Service() {
         let request = FindTechnologies<Technology>()
         request.take = 5
