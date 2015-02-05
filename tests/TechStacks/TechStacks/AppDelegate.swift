@@ -15,6 +15,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //https://coderwall.com/p/dyqrfa/customize-navigation-bar-appearance-with-swift
+        var navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.translucent = false
+        navigationBarAppearace.tintColor = UIColor.whiteColor()
+        navigationBarAppearace.barTintColor = UIColor(red: 0.0, green: 0.58431372550000005, blue: 0.96078431369999995, alpha: 1.0)
+        navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        
         return true
     }
 
@@ -43,9 +51,82 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var appData = AppData()
 }
 
+extension UIView
+{
+    var appData:AppData {
+        return (UIApplication.sharedApplication().delegate as AppDelegate).appData
+    }
+}
 extension UIViewController
 {
     var appData:AppData {
         return (UIApplication.sharedApplication().delegate as AppDelegate).appData
     }
 }
+
+extension CGFloat
+{
+    public func toHexColor(rgbValue:UInt32) -> UIColor {
+        let red = CGFloat((rgbValue & 0xFF0000) >> 16)/256.0
+        let green = CGFloat((rgbValue & 0xFF00) >> 8)/256.0
+        let blue = CGFloat(rgbValue & 0xFF)/256.0
+        
+        return UIColor(red:red, green:green, blue:blue, alpha:1.0)
+    }
+}
+
+
+/*
+public static Stream Resize(Image img, int newWidth, int newHeight)
+{
+if (newWidth != img.Width || newHeight != img.Height)
+{
+var ratioX = (double)newWidth / img.Width;
+var ratioY = (double)newHeight / img.Height;
+var ratio = Math.Max(ratioX, ratioY);
+var width = (int)(img.Width * ratio);
+var height = (int)(img.Height * ratio);
+
+var newImage = new Bitmap(width, height);
+Graphics.FromImage(newImage).DrawImage(img, 0, 0, width, height);
+img = newImage;
+
+if (img.Width != newWidth || img.Height != newHeight)
+{
+var startX = (Math.Max(img.Width, newWidth) - Math.Min(img.Width, newWidth)) / 2;
+var startY = (Math.Max(img.Height, newHeight) - Math.Min(img.Height, newHeight)) / 2;
+img = Crop(img, newWidth, newHeight, startX, startY);
+}
+}
+
+var ms = new MemoryStream();
+img.Save(ms, ImageFormat.Png);
+ms.Position = 0;
+return ms;
+}
+*/
+
+
+extension UIImage
+{
+    func scaledInto(bounds:CGSize) -> UIImage
+    {
+        var scaledSize:CGSize = bounds
+
+        let ratioX = bounds.width / self.size.width
+        let ratioY = bounds.height / self.size.height
+        let useRatio = min(ratioX, ratioY)
+        
+        scaledSize.width = self.size.width * useRatio
+        scaledSize.height = self.size.height * useRatio
+        
+        UIGraphicsBeginImageContextWithOptions(scaledSize, false, 0.0)
+        var scaledImageRect = CGRectMake(0.0, 0.0, scaledSize.width, scaledSize.height)
+        self.drawInRect(scaledImageRect)
+        var scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return scaledImage
+    }
+}
+

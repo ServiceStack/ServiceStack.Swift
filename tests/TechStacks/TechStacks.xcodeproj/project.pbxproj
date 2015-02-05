@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5162D4321A8234D7005AC7E2 /* TechnologiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5162D4311A8234D7005AC7E2 /* TechnologiesViewController.swift */; };
+		5162D4341A82B82D005AC7E2 /* TechnologyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5162D4331A82B82D005AC7E2 /* TechnologyDetailViewController.swift */; };
 		51961D921A80CC4F007E88EC /* Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51961D911A80CC4F007E88EC /* Image.xcassets */; };
 		51A0817D1A7F6DB5000590E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A0817C1A7F6DB5000590E9 /* AppDelegate.swift */; };
 		51A0817F1A7F6DB5000590E9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A0817E1A7F6DB5000590E9 /* HomeViewController.swift */; };
@@ -15,6 +17,7 @@
 		51A081891A7F6DB6000590E9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51A081871A7F6DB6000590E9 /* LaunchScreen.xib */; };
 		51A081F51A7F73FC000590E9 /* TechStacks.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A081F41A7F73FC000590E9 /* TechStacks.dtos.swift */; };
 		51A081FC1A80455B000590E9 /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A081FB1A80455B000590E9 /* JsonServiceClient.swift */; };
+		51B05B8D1A83340600C37AE0 /* TechnologyStackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B05B8C1A83340600C37AE0 /* TechnologyStackDetailViewController.swift */; };
 		51F0B9B91A8090E8003910E7 /* HeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F0B9B81A8090E8003910E7 /* HeaderViewController.swift */; };
 		51F0B9BB1A809803003910E7 /* StoryBoardExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F0B9BA1A809803003910E7 /* StoryBoardExtensions.swift */; };
 		51F0B9BD1A80A0D1003910E7 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F0B9BC1A80A0D1003910E7 /* AppData.swift */; };
@@ -34,6 +37,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5162D4311A8234D7005AC7E2 /* TechnologiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechnologiesViewController.swift; sourceTree = "<group>"; };
+		5162D4331A82B82D005AC7E2 /* TechnologyDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechnologyDetailViewController.swift; sourceTree = "<group>"; };
 		51961D911A80CC4F007E88EC /* Image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Image.xcassets; sourceTree = "<group>"; };
 		51A081771A7F6DB5000590E9 /* TechStacks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechStacks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51A0817B1A7F6DB5000590E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -44,6 +49,7 @@
 		51A081881A7F6DB6000590E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		51A081F41A7F73FC000590E9 /* TechStacks.dtos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechStacks.dtos.swift; sourceTree = "<group>"; };
 		51A081FB1A80455B000590E9 /* JsonServiceClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonServiceClient.swift; sourceTree = "<group>"; };
+		51B05B8C1A83340600C37AE0 /* TechnologyStackDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechnologyStackDetailViewController.swift; sourceTree = "<group>"; };
 		51F0B9B81A8090E8003910E7 /* HeaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderViewController.swift; sourceTree = "<group>"; };
 		51F0B9BA1A809803003910E7 /* StoryBoardExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryBoardExtensions.swift; sourceTree = "<group>"; };
 		51F0B9BC1A80A0D1003910E7 /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
@@ -86,6 +92,9 @@
 				51F0B9B81A8090E8003910E7 /* HeaderViewController.swift */,
 				51A0817E1A7F6DB5000590E9 /* HomeViewController.swift */,
 				51A081801A7F6DB5000590E9 /* TechStacksViewController.swift */,
+				51B05B8C1A83340600C37AE0 /* TechnologyStackDetailViewController.swift */,
+				5162D4311A8234D7005AC7E2 /* TechnologiesViewController.swift */,
+				5162D4331A82B82D005AC7E2 /* TechnologyDetailViewController.swift */,
 				51A081821A7F6DB6000590E9 /* Main.storyboard */,
 				51A081871A7F6DB6000590E9 /* LaunchScreen.xib */,
 				51A081FB1A80455B000590E9 /* JsonServiceClient.swift */,
@@ -175,12 +184,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				51A081811A7F6DB5000590E9 /* TechStacksViewController.swift in Sources */,
+				51B05B8D1A83340600C37AE0 /* TechnologyStackDetailViewController.swift in Sources */,
 				51F0B9BB1A809803003910E7 /* StoryBoardExtensions.swift in Sources */,
 				51F0B9B91A8090E8003910E7 /* HeaderViewController.swift in Sources */,
 				51F0B9BD1A80A0D1003910E7 /* AppData.swift in Sources */,
 				51A0817D1A7F6DB5000590E9 /* AppDelegate.swift in Sources */,
+				5162D4341A82B82D005AC7E2 /* TechnologyDetailViewController.swift in Sources */,
 				51A0817F1A7F6DB5000590E9 /* HomeViewController.swift in Sources */,
 				51A081F51A7F73FC000590E9 /* TechStacks.dtos.swift in Sources */,
+				5162D4321A8234D7005AC7E2 /* TechnologiesViewController.swift in Sources */,
 				51A081FC1A80455B000590E9 /* JsonServiceClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

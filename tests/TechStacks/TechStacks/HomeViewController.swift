@@ -26,8 +26,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         technologyPicker.delegate = self
         technologyPicker.dataSource = self
         
-        self.appData.observe(self, property: AppData.Property.TopTechnologies)
-        self.appData.observe(self, property: AppData.Property.AllTiers)
+        self.appData.observe(self, properties: [AppData.Property.TopTechnologies, AppData.Property.AllTiers])
         self.appData.loadOverview()
     }
     
@@ -40,7 +39,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         default: break
         }
     }
-    deinit { self.appData.unobserve(self, property: AppData.Property.TopTechnologies) }
+    deinit { self.appData.unobserve(self) }
     
     var selectedTechnologies:[TechnologyInfo] {
         return selectedTechnology == nil

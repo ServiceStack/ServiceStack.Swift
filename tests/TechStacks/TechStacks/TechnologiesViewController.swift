@@ -1,29 +1,30 @@
 //
-//  SecondViewController.swift
+//  TechnologiesViewController.swift
 //  TechStacks
 //
-//  Created by Demis Bellot on 2/2/15.
+//  Created by Demis Bellot on 2/4/15.
 //  Copyright (c) 2015 ServiceStack LLC. All rights reserved.
 //
 
 import UIKit
+import Foundation
 
-class TechStacksViewController: UIViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating,
-    UITableViewDelegate, UITableViewDataSource {
-
+class TechnologiesViewController: UIViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating,
+UITableViewDelegate, UITableViewDataSource {
+    
     @IBOutlet weak var tableView: UITableView!
-
+    
     var searchController: UISearchController!
-    var resultsController:TechnologyStackSearchResultsController!
-
+    var resultsController:TechnologySearchResultsController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         
-        resultsController = TechnologyStackSearchResultsController()
+        resultsController = TechnologySearchResultsController()
         resultsController.tableView.delegate = self
-
+        
         searchController = UISearchController(searchResultsController: resultsController)
         searchController.searchResultsUpdater = self
         searchController.searchBar.sizeToFit()
@@ -33,20 +34,20 @@ class TechStacksViewController: UIViewController, UISearchBarDelegate, UISearchC
         searchController.delegate = self
         searchController.searchBar.delegate = self
         definesPresentationContext = true
-
-        appData.observe(self, properties: [AppData.Property.AllTechnologyStacks])
-        appData.loadAllTechStacks()
+        
+        appData.observe(self, properties: [AppData.Property.AllTechnologies])
+        appData.loadAllTechnologies()
     }
     
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
         switch keyPath {
-        case AppData.Property.AllTechnologyStacks:
+        case AppData.Property.AllTechnologies:
             self.tableView.reloadData()
         default: break
         }
     }
     deinit { self.appData.unobserve(self) }
-
+    
     func searchText() -> String {
         return searchController.searchBar.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
     }
@@ -54,8 +55,8 @@ class TechStacksViewController: UIViewController, UISearchBarDelegate, UISearchC
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let search = searchText()
         if search.count > 0 {
-            appData.searchTechStacks(search)
-                .then(body:{(r:QueryResponse<TechnologyStack>) -> Void in
+            appData.searchTechnologies(search)
+                .then(body:{(r:QueryResponse<Technology>) -> Void in
                     if search != self.searchText() {
                         return //stale results
                     }
@@ -67,51 +68,55 @@ class TechStacksViewController: UIViewController, UISearchBarDelegate, UISearchC
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return appData.allTechnologyStacks.count
+        return appData.allTechnologies.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return tableView.createTechnologyStackTableCell(appData.allTechnologyStacks[indexPath.row])
+        return tableView.createTechnologyTableCell(appData.allTechnologies[indexPath.row])
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var selected = tableView == self.tableView
-            ? appData.allTechnologyStacks[indexPath.row]
+            ? appData.allTechnologies[indexPath.row]
             : resultsController.filteredResults[indexPath.row]
-        
+
         // Note: Should not be necessary but current iOS 8.0 bug requires it.
         tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow()!, animated: false)
-        
-        if let detail = self.storyboard?.technologyStackDetailViewController(selected.slug!) {
+
+        if let detail = self.storyboard?.technologyDetailViewController(selected.slug!) {
             (self.parentViewController! as UINavigationController).pushViewController(detail, animated: true)
         }
     }
 }
 
-class TechnologyStackSearchResultsController : UITableViewController {
-    var filteredResults = [TechnologyStack]()
-
+class TechnologySearchResultsController : UITableViewController {
+    var filteredResults = [Technology]()
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredResults.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return tableView.createTechnologyStackTableCell(filteredResults[indexPath.row])
+        return tableView.createTechnologyTableCell(filteredResults[indexPath.row])
     }
 }
 
 extension UITableView
 {
-    func createTechnologyStackTableCell(result:TechnologyStack) -> UITableViewCell {
-        let cell = self.dequeueReusableCellWithIdentifier("cellTechnologyStack") as? UITableViewCell
-            ?? UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cellTechnologyStack")
+    func createTechnologyTableCell(result:Technology) -> UITableViewCell {
+        let cell = self.dequeueReusableCellWithIdentifier("cellTechnology") as? UITableViewCell
+            ?? UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cellTechnology")
         
+        cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         cell.textLabel?.text = result.name
-
-//        cell.imageView?.loadAsync(result.screenshotUrl, defaultImage:"blankScreenshot")
+        
+//        cell.imageView?.loadAsync(result.logoUrl, defaultImage:"blankScreenshot")
         
         cell.detailTextLabel?.text = result.Description
         cell.detailTextLabel?.textColor = UIColor.grayColor()
+        
+        
+        
         return cell
     }
 }
