@@ -1,10 +1,11 @@
+/* Url: https://raw.githubusercontent.com/ServiceStack/ServiceStack.Swift/master/dist/JsonServiceClient.swift
 //
-//  JsonServiceClient.swift
-//  ServiceStackClient
+// JsonServiceClient.swift
+// ServiceStackClient
 //
-//  Copyright (c) 2015 ServiceStack LLC. All rights reserved.
-//  License: https://servicestack.net/terms
-//
+// Copyright (c) 2015 ServiceStack LLC. All rights reserved.
+// License: https://servicestack.net/terms
+*/
 
 import Foundation
 
@@ -21,6 +22,7 @@ public protocol ServiceClient
     func get<T : IReturn where T : JsonSerializable>(request:T, query:[String:String], error:NSErrorPointer) -> T.Return?
     func get<T : JsonSerializable>(relativeUrl:String, error:NSErrorPointer) -> T?
     func getAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return>
+    func getAsync<T : IReturn where T : JsonSerializable>(request:T, query:[String:String]) -> Promise<T.Return>
     func getAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T>
     
     func post<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer) -> T.Return?
@@ -36,10 +38,14 @@ public protocol ServiceClient
     func delete<T : IReturn where T : JsonSerializable>(request:T, query:[String:String], error:NSErrorPointer) -> T.Return?
     func delete<T : JsonSerializable>(relativeUrl:String, error:NSErrorPointer) -> T?
     func deleteAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return>
+    func deleteAsync<T : IReturn where T : JsonSerializable>(request:T, query:[String:String]) -> Promise<T.Return>
     func deleteAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T>
     
     func send<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest, error:NSErrorPointer) -> T?
     func sendAsync<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) -> Promise<T>
+    
+    func getData(url:String, error:NSErrorPointer) -> NSData?
+    func getDataAsync(url:String) -> Promise<NSData>
 }
 
 public class JsonServiceClient : ServiceClient
@@ -62,7 +68,7 @@ public class JsonServiceClient : ServiceClient
         static var responseFilter:(NSURLResponse -> Void)?
         static var onError:((NSError) -> Void)?
     }
-
+    
     public struct HttpMethods {
         static let Get = "GET"
         static let Post = "POST"
@@ -142,10 +148,10 @@ public class JsonServiceClient : ServiceClient
                         populateResponseStatusFields(&errorInfo, withObject:obj)
                     }
                 }
-            
+                
                 var ex = fireErrorCallbacks(NSError(domain:self.domain, code:nsResponse.statusCode, userInfo:errorInfo))
                 if error != nil {
-                   error.memory = ex
+                    error.memory = ex
                 }
                 
                 return nil
@@ -166,7 +172,7 @@ public class JsonServiceClient : ServiceClient
         }
         return nil
     }
-
+    
     public func createUrl<T : IReturn where T : JsonSerializable>(typeInfo:Type<T.T>, dto:T, query:[String:String] = [:]) -> String {
         var requestUrl = self.replyUrl + T.typeName
         
@@ -187,7 +193,7 @@ public class JsonServiceClient : ServiceClient
         
         return requestUrl
     }
-
+    
     public func createRequest<T : JsonSerializable>(url:String, httpMethod:String, request:T? = nil) -> NSMutableURLRequest {
         var contentType:String?
         var requestBody:NSData?
@@ -238,7 +244,7 @@ public class JsonServiceClient : ServiceClient
     }
     
     public func sendAsync<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) -> Promise<T> {
-
+        
         return Promise<T> { (complete, reject) in
             
             var task = self.createSession().dataTaskWithRequest(request) { (data, response, error) in
@@ -278,6 +284,10 @@ public class JsonServiceClient : ServiceClient
     
     public func getAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return> {
         return sendAsync(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request), httpMethod:HttpMethods.Get))
+    }
+    
+    public func getAsync<T : IReturn where T : JsonSerializable>(request:T, query:[String:String]) -> Promise<T.Return> {
+        return sendAsync(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request, query:query), httpMethod:HttpMethods.Get))
     }
     
     public func getAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T> {
@@ -335,14 +345,40 @@ public class JsonServiceClient : ServiceClient
         return sendAsync(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request), httpMethod:HttpMethods.Delete))
     }
     
+    public func deleteAsync<T : IReturn where T : JsonSerializable>(request:T, query:[String:String]) -> Promise<T.Return> {
+        return sendAsync(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request, query:query), httpMethod:HttpMethods.Delete))
+    }
+    
     public func deleteAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T> {
         return sendAsync(T(), request: self.createRequest(baseUrl.combinePath(relativeUrl), httpMethod:HttpMethods.Delete))
+    }
+
+    public func getData(url:String, error:NSErrorPointer = nil) -> NSData? {
+        var response:NSURLResponse? = nil
+        if let data = NSURLConnection.sendSynchronousRequest(NSURLRequest(URL: NSURL(string:url)!), returningResponse: &response, error: error) {
+            return data
+        }
+        return nil
+    }
+ 
+    public func getDataAsync(url:String) -> Promise<NSData> {
+        return Promise<NSData> { (complete, reject) in
+            var task = self.createSession().dataTaskWithURL(NSURL(string: url)!) { (data, response, error) in
+                if error != nil {
+                    reject(self.handleError(error))
+                }
+                complete(data)
+            }
+            
+            task.resume()
+            self.lastTask = task
+        }
     }
 }
 
 
 extension NSHTTPURLResponse {
-
+    
     //Unfortunately no API gives us the real statusDescription so using Status Code descriptions instead
     public var statusDescription:String {
         switch self.statusCode {
@@ -351,7 +387,7 @@ extension NSHTTPURLResponse {
         case 202: return "Accepted"
         case 205: return "No Content"
         case 206: return "Partial Content"
-
+            
         case 400: return "Bad Request"
         case 401: return "Unauthorized"
         case 403: return "Forbidden"
@@ -590,7 +626,7 @@ extension NSTimeInterval
         let d = NSDate(timeIntervalSinceNow: self)
         let now = NSDate()
         let diff = NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitDay,fromDate:now,toDate:d,options:NSCalendarOptions(0))
-
+        
         if diff.day > 0 {
             sb += "\(diff.day)D"
         }
@@ -602,11 +638,11 @@ extension NSTimeInterval
         if c.minute > 0 {
             sb += "\(c.minute)M"
         }
-
+        
         var dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "SSS"
         let strMs = dateFormatter.stringFromDate(d)
-
+        
         sb += strMs != "000"
             ? "\(c.second).\(strMs)S"
             : c.second > 0 ? "\(c.second)S" : ""
@@ -624,7 +660,7 @@ extension NSTimeInterval
         var minutes = 0
         var seconds = 0
         var ms = 0.0
-  
+        
         let t = string[1..<string.count].splitOnFirst("T") //strip P
         
         let hasTime = t.count == 2
@@ -635,7 +671,7 @@ extension NSTimeInterval
                 days = day
             }
         }
-
+        
         if hasTime {
             let h = t[1].splitOnFirst("H")
             if h.count == 2 {
@@ -1010,7 +1046,7 @@ public protocol JsonSerializable : HasReflect, StringSerializable {
     func toJson() -> String
     class func fromJson(json:String) -> T?
 }
-			
+
 public protocol StringSerializable : Convertible {
     func toJson() -> String
     func toString() -> String
@@ -1164,7 +1200,7 @@ public class Type<T : HasReflect> : TypeAccessor
 
 public class PropertyType {
     public var name:String
-
+    
     init(name:String) {
         self.name = name
     }
@@ -1385,7 +1421,7 @@ public class DictionaryArrayProperty<T : HasReflect, K : Hashable, P : StringSer
     
     public override func jsonValue(instance:T) -> String? {
         let map = get(instance)
-
+        
         var jb = JObject()
         for (key, values) in map {
             var ja = JArray()
@@ -1503,7 +1539,7 @@ public class ArrayProperty<T : HasReflect, P : StringSerializable> : PropertyTyp
             
             sb += str
         }
-
+        
         return "[\(sb)]"
     }
     
@@ -1735,7 +1771,7 @@ func jsonString(str:String?) -> String {
                     return encodedJson[1..<encodedJson.count-1] //strip []
                 }
             }
-        }        
+        }
         return "\"\(s)\""
     }
     else {
@@ -1867,7 +1903,7 @@ extension NSError
     func convertUserInfo<T : JsonSerializable>() -> T? {
         return self.populateUserInfo(T())
     }
-
+    
     func populateUserInfo<T : JsonSerializable>(instance:T) -> T? {
         if let userInfo = self.userInfo {
             let to = populateFromDictionary(T(), userInfo, T.reflect().propertiesMap)

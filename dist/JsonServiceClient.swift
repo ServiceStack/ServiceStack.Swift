@@ -43,6 +43,9 @@ public protocol ServiceClient
     
     func send<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest, error:NSErrorPointer) -> T?
     func sendAsync<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) -> Promise<T>
+    
+    func getData(url:String, error:NSErrorPointer) -> NSData?
+    func getDataAsync(url:String) -> Promise<NSData>
 }
 
 public class JsonServiceClient : ServiceClient
@@ -348,6 +351,28 @@ public class JsonServiceClient : ServiceClient
     
     public func deleteAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T> {
         return sendAsync(T(), request: self.createRequest(baseUrl.combinePath(relativeUrl), httpMethod:HttpMethods.Delete))
+    }
+    
+    public func getData(url:String, error:NSErrorPointer = nil) -> NSData? {
+        var response:NSURLResponse? = nil
+        if let data = NSURLConnection.sendSynchronousRequest(NSURLRequest(URL: NSURL(string:url)!), returningResponse: &response, error: error) {
+            return data
+        }
+        return nil
+    }
+    
+    public func getDataAsync(url:String) -> Promise<NSData> {
+        return Promise<NSData> { (complete, reject) in
+            var task = self.createSession().dataTaskWithURL(NSURL(string: url)!) { (data, response, error) in
+                if error != nil {
+                    reject(self.handleError(error))
+                }
+                complete(data)
+            }
+            
+            task.resume()
+            self.lastTask = task
+        }
     }
 }
 
