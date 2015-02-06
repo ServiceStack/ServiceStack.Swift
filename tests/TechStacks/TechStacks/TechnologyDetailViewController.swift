@@ -12,6 +12,7 @@ import Foundation
 class TechnologyDetailViewController : UIViewController, UITableViewDelegate, UITableViewDataSource
 {
     var slug:String!
+    var goBackToTab:MainTab?
     
     var technology:Technology?
     var technologyStacks:[TechnologyStack] = []
@@ -29,15 +30,12 @@ class TechnologyDetailViewController : UIViewController, UITableViewDelegate, UI
         }
     }
     
-    override func awakeFromNib() {
+    override func viewWillDisappear(animated: Bool) {
+        if goBackToTab != nil {
+            self.storyboard?.switchTab(goBackToTab!)
+        }
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        self.btnUrl.titleLabel?.text = ""
-        self.lblVendor.text = ""
-        self.lblDescription.text = ""
-    }
-    
+
     override func viewDidLoad() {
         tblTechnologyStacks.delegate = self
         tblTechnologyStacks.dataSource = self
@@ -86,14 +84,9 @@ class TechnologyDetailViewController : UIViewController, UITableViewDelegate, UI
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        /* replace view controller
-        UIViewController *newVC = [[UIViewController alloc] init]; // Replace the current view controller
-        NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[[self navigationController] viewControllers]];
-        [viewControllers removeLastObject];
-        [viewControllers addObject:newVC];
-        [[self navigationController] setViewControllers:viewControllers animated:YES];
-        */
+        let selected = technologyStacks[indexPath.row]
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Bordered, target: nil, action: nil)
+        self.navigationController?.openTechnologyStack(selected.slug!)
     }
 }
 

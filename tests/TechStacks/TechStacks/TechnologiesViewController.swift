@@ -83,9 +83,7 @@ UITableViewDelegate, UITableViewDataSource {
         // Note: Should not be necessary but current iOS 8.0 bug requires it.
         tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow()!, animated: false)
 
-        if let detail = self.storyboard?.technologyDetailViewController(selected.slug!) {
-            (self.parentViewController! as UINavigationController).pushViewController(detail, animated: true)
-        }
+        self.storyboard?.openTechnology(selected.slug!)
     }
 }
 
@@ -110,12 +108,8 @@ extension UITableView
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         cell.textLabel?.text = result.name
         
-//        cell.imageView?.loadAsync(result.logoUrl, defaultImage:"blankScreenshot")
-        
         cell.detailTextLabel?.text = result.Description
         cell.detailTextLabel?.textColor = UIColor.grayColor()
-        
-        
         
         return cell
     }

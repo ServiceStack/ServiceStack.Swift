@@ -19,8 +19,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.addSubview(self.storyboard!.headerViewController().view)
-        
         tblView.delegate = self
         tblView.dataSource = self
         technologyPicker.delegate = self
@@ -63,7 +61,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.selectedTechnology = appData.allTiers[row].value
         tblView.reloadData()
-        println("You selected row #\(row)!")
     }
     
     /* TableView */
@@ -83,7 +80,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println("You selected cell #\(indexPath.row)!")
+        let selected = selectedTechnologies[indexPath.row]
+        self.navigationController?.openTechnology(selected.slug!)
     }
 }
 

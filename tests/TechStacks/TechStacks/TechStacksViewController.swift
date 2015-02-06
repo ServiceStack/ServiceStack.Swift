@@ -81,10 +81,8 @@ class TechStacksViewController: UIViewController, UISearchBarDelegate, UISearchC
         
         // Note: Should not be necessary but current iOS 8.0 bug requires it.
         tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow()!, animated: false)
-        
-        if let detail = self.storyboard?.technologyStackDetailViewController(selected.slug!) {
-            (self.parentViewController! as UINavigationController).pushViewController(detail, animated: true)
-        }
+
+        self.storyboard?.openTechnologyStack(selected.slug!)
     }
 }
 
@@ -107,8 +105,6 @@ extension UITableView
             ?? UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cellTechnologyStack")
         
         cell.textLabel?.text = result.name
-
-//        cell.imageView?.loadAsync(result.screenshotUrl, defaultImage:"blankScreenshot")
         
         cell.detailTextLabel?.text = result.Description
         cell.detailTextLabel?.textColor = UIColor.grayColor()

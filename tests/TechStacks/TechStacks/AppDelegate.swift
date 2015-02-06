@@ -75,38 +75,6 @@ extension CGFloat
     }
 }
 
-
-/*
-public static Stream Resize(Image img, int newWidth, int newHeight)
-{
-if (newWidth != img.Width || newHeight != img.Height)
-{
-var ratioX = (double)newWidth / img.Width;
-var ratioY = (double)newHeight / img.Height;
-var ratio = Math.Max(ratioX, ratioY);
-var width = (int)(img.Width * ratio);
-var height = (int)(img.Height * ratio);
-
-var newImage = new Bitmap(width, height);
-Graphics.FromImage(newImage).DrawImage(img, 0, 0, width, height);
-img = newImage;
-
-if (img.Width != newWidth || img.Height != newHeight)
-{
-var startX = (Math.Max(img.Width, newWidth) - Math.Min(img.Width, newWidth)) / 2;
-var startY = (Math.Max(img.Height, newHeight) - Math.Min(img.Height, newHeight)) / 2;
-img = Crop(img, newWidth, newHeight, startX, startY);
-}
-}
-
-var ms = new MemoryStream();
-img.Save(ms, ImageFormat.Png);
-ms.Position = 0;
-return ms;
-}
-*/
-
-
 extension UIImage
 {
     func scaledInto(bounds:CGSize) -> UIImage
