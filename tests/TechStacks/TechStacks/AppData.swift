@@ -168,6 +168,21 @@ public class AppData : NSObject
         UIGraphicsEndImageContext()
     }
     
+    public func loadAllImagesAsync(urls:[String]) -> Promise<[String:UIImage?]> {
+        var images = [String:UIImage?]()
+        return Promise<[String:UIImage?]> { (complete, reject) in
+            for url in urls {
+                self.loadImageAsync(url)
+                    .then(body: { (img:UIImage?) -> Void in
+                        images[url] = img
+                        if images.count == urls.count {
+                            return complete(images)
+                        }
+                    })
+            }
+        }
+    }
+    
     public func loadImageAsync(url:String) -> Promise<UIImage?> {
         if let image = imageCache[url] {
             return Promise<UIImage?> { (complete, reject) in complete(image) }
@@ -182,6 +197,7 @@ public class AppData : NSObject
                 return nil
             })
     }
+    
 }
 
 
