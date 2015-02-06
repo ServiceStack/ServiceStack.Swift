@@ -274,7 +274,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oNK-Uv-3Gi">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="318"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="350"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QgG-7D-Pyu">
                                         <rect key="frame" x="8" y="8" width="584" height="32"/>
@@ -292,6 +292,16 @@
                                     <imageView userInteractionEnabled="NO" contentMode="topRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xti-Di-pUG">
                                         <rect key="frame" x="32" y="88" width="286" height="230"/>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eo2-6k-oZw">
+                                        <rect key="frame" x="32" y="322" width="286" height="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnAppUrlGo:" destination="7XQ-md-EtO" eventType="touchUpInside" id="rlp-2S-DFv"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -299,6 +309,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </scrollView>
                     <connections>
+                        <outlet property="btnUrl" destination="eo2-6k-oZw" id="SKS-8F-qVk"/>
                         <outlet property="imgScreenshot" destination="xti-Di-pUG" id="2QD-uT-HFu"/>
                         <outlet property="lblDescription" destination="n1N-he-yIa" id="kXi-Cm-7Ta"/>
                         <outlet property="lblName" destination="QgG-7D-Pyu" id="hbc-Xv-T4h"/>
@@ -399,6 +410,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jbd-4u-Te2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="720" y="615"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="CcB-A6-5FA">
+            <objects>
+                <viewController id="33P-IM-6I7" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3KA-fm-AhO"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZxK-4Z-u7Z"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DxR-PL-IdK">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T4j-6r-aol" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>

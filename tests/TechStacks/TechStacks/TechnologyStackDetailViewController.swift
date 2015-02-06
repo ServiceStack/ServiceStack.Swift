@@ -16,9 +16,18 @@ class TechnologyStackDetailViewController : UIViewController {
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblDescription: UITextView!
     @IBOutlet weak var imgScreenshot: UIImageView!
+    @IBOutlet weak var btnUrl: UIButton!
     @IBOutlet var scrollView: UIScrollView!
     
     var result:TechStackDetails?
+    
+    @IBAction func btnAppUrlGo(sender: AnyObject) {
+        if result?.appUrl != nil {
+            if let url = NSURL(string: result!.appUrl!) {
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
+    }
     
     override func viewWillDisappear(animated: Bool) {
         if goBackToTab != nil {
@@ -39,6 +48,7 @@ class TechnologyStackDetailViewController : UIViewController {
                     self.lblName.text = result.name
 
                     self.lblDescription.text = result.Description
+                    self.btnUrl.setTitle(result.appUrl?.splitOnFirst("://").last, forState: .Normal)
                     
                     self.calculateLayout()
                     
@@ -62,6 +72,10 @@ class TechnologyStackDetailViewController : UIViewController {
         self.imgScreenshot.frame.origin = CGPoint(
             x: self.imgScreenshot.frame.origin.x,
             y: self.lblDescription.frame.origin.y + self.lblDescription.frame.height + 8)
+
+        self.btnUrl.frame.origin = CGPoint(
+            x: self.btnUrl.frame.origin.x,
+            y: self.imgScreenshot.frame.origin.y + self.imgScreenshot.frame.size.height)
     }
     
     var techSlugs = [String]()
@@ -71,7 +85,7 @@ class TechnologyStackDetailViewController : UIViewController {
         let fullWidth = self.view.frame.width
         self.appData.loadAllImagesAsync(imageUrls)
             .then(body: { (images:[String:UIImage?]) -> Void in
-                var startPos = self.imgScreenshot.frame.origin.y + self.imgScreenshot.frame.size.height
+                var startPos = self.btnUrl.frame.origin.y + self.btnUrl.frame.size.height
                 
                 for tier in self.appData.allTiers {
                     let techologiesInTier = techChoices.filter { $0.tier == tier.value }

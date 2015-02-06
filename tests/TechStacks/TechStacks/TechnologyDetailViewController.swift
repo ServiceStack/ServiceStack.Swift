@@ -24,9 +24,12 @@ class TechnologyDetailViewController : UIViewController, UITableViewDelegate, UI
     @IBOutlet weak var imgLogo: UIImageView!
 
     @IBOutlet weak var tblTechnologyStacks: UITableView!
-        @IBAction func btnProductGo() {
-        if let url = NSURL(string: technology!.productUrl!) {
-            UIApplication.sharedApplication().openURL(url)
+
+    @IBAction func btnProductGo() {
+        if technology?.productUrl != nil {
+            if let url = NSURL(string: technology!.productUrl!) {
+                UIApplication.sharedApplication().openURL(url)
+            }
         }
     }
     
