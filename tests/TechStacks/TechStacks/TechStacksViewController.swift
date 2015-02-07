@@ -104,6 +104,7 @@ extension UITableView
         let cell = self.dequeueReusableCellWithIdentifier("cellTechnologyStack") as? UITableViewCell
             ?? UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cellTechnologyStack")
         
+        cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         cell.textLabel?.text = result.name
         
         cell.detailTextLabel?.text = result.Description

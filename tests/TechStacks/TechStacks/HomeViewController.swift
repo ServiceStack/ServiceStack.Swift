@@ -73,6 +73,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var cell = self.tblView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell
             ?? UITableViewCell()
         
+        cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         let tech = selectedTechnologies[indexPath.row]
         cell.textLabel?.text = "\(tech.name!) (\(tech.stacksCount!))"
         
