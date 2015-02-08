@@ -23,11 +23,8 @@ public class AppData : NSObject
     
     public dynamic var allTiers:[Option] = []
     
-    public dynamic var overview:OverviewResponse = OverviewResponse()
-    public dynamic var topUsers:[UserInfo] = []
+    public dynamic var overview:AppOverviewResponse = AppOverviewResponse()
     public dynamic var topTechnologies:[TechnologyInfo] = []
-    public dynamic var latestTechStacks:[TechStackDetails] = []
-    public var topTechnologiesByTier:[TechnologyTier:[TechnologyInfo]] = [:]
     
     public dynamic var allTechnologies:[Technology] = []
     public dynamic var allTechnologyStacks:[TechnologyStack] = []
@@ -41,30 +38,15 @@ public class AppData : NSObject
     
     override init(){
         super.init()
-        self.loadConfig()
-        self.loadOverview()
         self.loadDefaultImageCaches()
     }
     
-    func loadConfig() -> Promise<GetConfigResponse> {
-        return client.getAsync(GetConfig())
-            .then(body:{(r:GetConfigResponse) -> GetConfigResponse in
-                var option = Option()
-                option.title = "[ Top 50 Technologies ]"
-                r.allTiers.insert(option, atIndex: 0)
-                self.allTiers = r.allTiers
-                return r
-            })
-    }
-    
-    func loadOverview() -> Promise<OverviewResponse> {
-        return client.getAsync(Overview())
-            .then(body:{(r:OverviewResponse) -> OverviewResponse in
+    func loadOverview() -> Promise<AppOverviewResponse> {
+        return client.getAsync(AppOverview())
+            .then(body:{(r:AppOverviewResponse) -> AppOverviewResponse in
                 self.overview = r
-                self.topUsers = r.topUsers
+                self.allTiers = r.allTiers
                 self.topTechnologies = r.topTechnologies
-                self.latestTechStacks = r.latestTechStacks
-                self.topTechnologiesByTier = r.topTechnologiesByTier
                 return r
             })
     }
@@ -196,6 +178,13 @@ public class AppData : NSObject
                 }
                 return nil
             })
+    }
+    
+    //Clear caches if we receive memory warning
+    func resetCache() {
+        imageCache = [:]
+        technologyStackCache = [:]
+        technologyCache = [:]
     }
     
 }
