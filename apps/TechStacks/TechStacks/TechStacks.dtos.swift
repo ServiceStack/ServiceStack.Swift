@@ -1,5 +1,5 @@
 /* Options:
-Date: 2015-02-02 09:06:36
+Date: 2015-02-08 14:56:27
 Version: 1
 BaseUrl: http://techstacks.io
 
@@ -305,9 +305,9 @@ public class GetAllTechnologyStacksResponse : NSObject
 public class GetTechnologyStackResponse : NSObject
 {
     required public override init(){}
-    public var responseStatus:ResponseStatus?
     public var created:NSDate?
     public var result:TechStackDetails?
+    public var responseStatus:ResponseStatus?
 }
 
 public class GetTechnologyStackPreviousVersionsResponse : NSObject
@@ -337,6 +337,15 @@ public class OverviewResponse : NSObject
     public var topTechnologies:[TechnologyInfo] = []
     public var latestTechStacks:[TechStackDetails] = []
     public var topTechnologiesByTier:[TechnologyTier:[TechnologyInfo]] = [:]
+    public var responseStatus:ResponseStatus?
+}
+
+public class AppOverviewResponse : NSObject
+{
+    required public override init(){}
+    public var created:NSDate?
+    public var allTiers:[Option] = []
+    public var topTechnologies:[TechnologyInfo] = []
     public var responseStatus:ResponseStatus?
 }
 
@@ -678,6 +687,15 @@ public class GetConfig : NSObject, IReturn
 public class Overview : NSObject, IReturn
 {
     typealias Return = OverviewResponse
+    
+    required public override init(){}
+    public var reload:Bool?
+}
+
+// @Route("/app-overview")
+public class AppOverview : NSObject, IReturn
+{
+    typealias Return = AppOverviewResponse
     
     required public override init(){}
     public var reload:Bool?
@@ -1667,9 +1685,9 @@ extension GetTechnologyStackResponse : JsonSerializable
     public class func reflect() -> Type<GetTechnologyStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStackResponse>(
             properties: [
-                Type<GetTechnologyStackResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
                 Type<GetTechnologyStackResponse>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
                 Type<GetTechnologyStackResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
+                Type<GetTechnologyStackResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
             ]))
     }
     public func toJson() -> String {
@@ -1796,6 +1814,35 @@ extension OverviewResponse : JsonSerializable
     }
     public class func fromString(string:String) -> OverviewResponse? {
         return OverviewResponse.reflect().fromString(OverviewResponse(), string: string)
+    }
+}
+
+extension AppOverviewResponse : JsonSerializable
+{
+    public class var typeName:String { return "AppOverviewResponse" }
+    public class func reflect() -> Type<AppOverviewResponse> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<AppOverviewResponse>(
+            properties: [
+                Type<AppOverviewResponse>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
+                Type<AppOverviewResponse>.arrayProperty("allTiers", get: { $0.allTiers }, set: { $0.allTiers = $1 }),
+                Type<AppOverviewResponse>.arrayProperty("topTechnologies", get: { $0.topTechnologies }, set: { $0.topTechnologies = $1 }),
+                Type<AppOverviewResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return AppOverviewResponse.reflect().toJson(self)
+    }
+    public class func fromJson(json:String) -> AppOverviewResponse? {
+        return AppOverviewResponse.reflect().fromJson(AppOverviewResponse(), json: json)
+    }
+    public class func fromObject(any:AnyObject) -> AppOverviewResponse? {
+        return AppOverviewResponse.reflect().fromObject(AppOverviewResponse(), any:any)
+    }
+    public func toString() -> String {
+        return AppOverviewResponse.reflect().toString(self)
+    }
+    public class func fromString(string:String) -> AppOverviewResponse? {
+        return AppOverviewResponse.reflect().fromString(AppOverviewResponse(), string: string)
     }
 }
 
@@ -2782,6 +2829,32 @@ extension Overview : JsonSerializable
     }
     public class func fromString(string:String) -> Overview? {
         return Overview.reflect().fromString(Overview(), string: string)
+    }
+}
+
+extension AppOverview : JsonSerializable
+{
+    public class var typeName:String { return "AppOverview" }
+    public class func reflect() -> Type<AppOverview> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<AppOverview>(
+            properties: [
+                Type<AppOverview>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return AppOverview.reflect().toJson(self)
+    }
+    public class func fromJson(json:String) -> AppOverview? {
+        return AppOverview.reflect().fromJson(AppOverview(), json: json)
+    }
+    public class func fromObject(any:AnyObject) -> AppOverview? {
+        return AppOverview.reflect().fromObject(AppOverview(), any:any)
+    }
+    public func toString() -> String {
+        return AppOverview.reflect().toString(self)
+    }
+    public class func fromString(string:String) -> AppOverview? {
+        return AppOverview.reflect().fromString(AppOverview(), string: string)
     }
 }
 
