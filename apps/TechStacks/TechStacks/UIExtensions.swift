@@ -186,7 +186,7 @@ extension UITabBarController
 }
 
 extension UIImageView {
-    func loadAsync(url:String?, defaultImage:String? = nil, withSize:CGSize? = nil) {
+    func loadAsync(url:String?, defaultImage:String? = nil, withSize:CGSize? = nil) -> Promise<UIImage?> {
         if defaultImage != nil {
             self.image = self.appData.imageCache[defaultImage!]
         } else {
@@ -194,11 +194,11 @@ extension UIImageView {
         }
         
         if url == nil {
-            return
+            return Promise<UIImage?> { (complete, reject) in complete(nil) }
         }
         
-        self.appData.loadImageAsync(url!)
-            .then(body: {(img:UIImage?) -> Void in
+        return self.appData.loadImageAsync(url!)
+            .then(body: {(img:UIImage?) -> UIImage? in
                 if img != nil {
                     
                     if withSize != nil {
@@ -207,6 +207,7 @@ extension UIImageView {
                         self.image = img
                     }
                 }
+                return self.image
             })
     }
 }

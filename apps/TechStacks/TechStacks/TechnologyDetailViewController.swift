@@ -54,34 +54,42 @@ class TechnologyDetailViewController : UIViewController, UITableViewDelegate, UI
                     
                     let pad = Style.padding
                     let fullWidth = self.view.frame.width
+                    let halfWidth = fullWidth / 2
                     let innerWidth = fullWidth - (pad * 2)
                     
                     let logoBounds = CGSize(width: self.view.frame.size.width / 2 - (pad * 2), height: self.imgLogo.frame.size.height)
 
                     self.lblName.text = technology.name
                     self.lblName.font = self.lblName.font.fontWithSize(Style.titleSize)
-                    self.lblName.sizeToFit()
                     
-                    if let friendlyUrl = technology.productUrl?.toHumanFriendlyUrl() {
-                        self.btnUrl.setTitle(friendlyUrl, forState: .Normal)
-                    }
                     if technology.vendorName != nil && technology.vendorName != technology.name {
                         self.lblVendor.text = "by \(technology.vendorName!)"
                         self.lblVendor.font = self.lblVendor.font.fontWithSize(Style.detailSize)
-                        self.lblVendor.sizeToFit()
+                        self.lblVendor.frame = CGRect(x: pad, y: self.lblName.frame.size.height + pad, width: halfWidth, height: Style.detailSize.lineHeight)
+                    }
+
+                    if let friendlyUrl = technology.productUrl?.toHumanFriendlyUrl() {
+                        self.btnUrl.setTitle(friendlyUrl, forState: .Normal)
                     }
                     
                     self.lblDescription.text = technology.Description
-                    self.lblDescription.frame.size = CGSize(width: innerWidth, height: Style.detailSize.lineHeight)
+                    self.lblDescription.frame = CGRect(
+                        x: pad, y: logoBounds.height,
+                        width: innerWidth, height: Style.detailSize.lineHeight)
                     self.lblDescription.font = self.lblDescription.font.fontWithSize(Style.detailSize)
                     self.lblDescription.sizeToFit()
-                    self.tblTechnologyStacks.frame.origin = CGPoint(
+                    
+                    self.tblTechnologyStacks.frame = CGRect(
                         x: 0,
-                        y: self.lblDescription.frame.origin.y + self.lblDescription.frame.height + pad)
-                    self.tblTechnologyStacks.frame.size = CGSize(
-                        width: self.tblTechnologyStacks.frame.size.width, height: self.view.frame.height - self.tblTechnologyStacks.frame.origin.y - 54 /* bottom bar */)
+                        y: self.lblDescription.frame.origin.y + self.lblDescription.frame.height + pad,
+                        width: fullWidth, height: self.view.frame.height - self.tblTechnologyStacks.frame.origin.y - 54 /* bottom bar */)
 
                     self.imgLogo.loadAsync(technology.logoUrl, withSize:logoBounds)
+                        .then(body: { (img:UIImage?) -> Void in
+                            if img != nil {
+                                self.imgLogo.frame.origin = CGPoint(x: fullWidth - img!.size.width - pad, y: 0)
+                            }
+                        })
                 }
                 self.technologyStacks = r.technologyStacks
                 self.tblTechnologyStacks.reloadData()
