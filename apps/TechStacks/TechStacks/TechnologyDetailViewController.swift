@@ -45,7 +45,7 @@ class TechnologyDetailViewController : UIViewController, UITableViewDelegate, UI
         
         let name = slug.replace("-", withString: " ")
         self.title = "loading \(name)..."
-        
+
         appData.loadTechnology(slug)
             .then(body: { (r:GetTechnologyResponse) -> Void in
                 if let technology = r.technology {
@@ -79,10 +79,11 @@ class TechnologyDetailViewController : UIViewController, UITableViewDelegate, UI
                     self.lblDescription.font = self.lblDescription.font.fontWithSize(Style.detailSize)
                     self.lblDescription.sizeToFit()
                     
+                    let tblOffset = self.lblDescription.frame.origin.y + self.lblDescription.frame.height + pad
                     self.tblTechnologyStacks.frame = CGRect(
                         x: 0,
-                        y: self.lblDescription.frame.origin.y + self.lblDescription.frame.height + pad,
-                        width: fullWidth, height: self.view.frame.height - self.tblTechnologyStacks.frame.origin.y - 54 /* bottom bar */)
+                        y: tblOffset,
+                        width: fullWidth, height: self.view.frame.height - tblOffset - 54 /* bottom bar */)
 
                     self.imgLogo.loadAsync(technology.logoUrl, withSize:logoBounds)
                         .then(body: { (img:UIImage?) -> Void in
@@ -106,6 +107,10 @@ class TechnologyDetailViewController : UIViewController, UITableViewDelegate, UI
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let selected = technologyStacks[indexPath.row]
+        
+        // Note: Should not be necessary but current iOS 8.0 bug requires it.
+        tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow()!, animated: false)
+
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Bordered, target: nil, action: nil)
         self.navigationController?.openTechnologyStack(selected.slug!)
     }
