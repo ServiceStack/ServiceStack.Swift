@@ -3134,7 +3134,7 @@ extension Authenticate : JsonSerializable
     public class func fromString(string:String) -> Authenticate? {
         return Authenticate.reflect().fromString(Authenticate(), string: string)
     }
-}
+} 
 
 extension AssignRoles : JsonSerializable
 {

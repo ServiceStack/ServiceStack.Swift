@@ -116,30 +116,6 @@ public class AppData : NSObject
                 return r
             })
     }
-    
-    var observedProperties = [NSObject:[String]]()
-
-    public func observe(observer: NSObject, properties:[String]) {
-        for property in properties {
-            self.observe(observer, property: property)
-        }
-    }
-
-    public func observe(observer: NSObject, property:String) {
-        self.addObserver(observer, forKeyPath: property, options: .New | .Old, context: &client)
-
-        var properties = observedProperties[observer] ?? [String]()
-        properties.append(property)
-        observedProperties[observer] = properties
-    }
-    
-    public func unobserve(observer: NSObject) {
-        if let properties = observedProperties[observer] {
-            for property in properties {
-                self.removeObserver(observer, forKeyPath: property, context: &client)
-            }
-        }
-    }
 
     var imageCache:[String:UIImage] = [:]
     func loadDefaultImageCaches() {
@@ -180,11 +156,38 @@ public class AppData : NSObject
             })
     }
     
+    /* KVO Observable helpers */
+    var observedProperties = [NSObject:[String]]()
+    var ctx:AnyObject = 1
+    
+    public func observe(observer: NSObject, properties:[String]) {
+        for property in properties {
+            self.observe(observer, property: property)
+        }
+    }
+    
+    public func observe(observer: NSObject, property:String) {
+        self.addObserver(observer, forKeyPath: property, options: .New | .Old, context: &ctx)
+        
+        var properties = observedProperties[observer] ?? [String]()
+        properties.append(property)
+        observedProperties[observer] = properties
+    }
+    
+    public func unobserve(observer: NSObject) {
+        if let properties = observedProperties[observer] {
+            for property in properties {
+                self.removeObserver(observer, forKeyPath: property, context: &ctx)
+            }
+        }
+    }
+    
     //Clear caches if we receive memory warning
     func resetCache() {
         imageCache = [:]
         technologyStackCache = [:]
         technologyCache = [:]
+        loadDefaultImageCaches()
     }
     
 }
