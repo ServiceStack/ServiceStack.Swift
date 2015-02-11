@@ -21,8 +21,12 @@
 @implementation XcodeProjectManipulation
 
 -(void)addFileAtPath:(NSString *)filePath toTarget:(id<PBXTarget>)target {
+    [self addFileAtPath:filePath toTarget:target withGroup:@"Resources"];
+}
+
+-(void)addFileAtPath:(NSString *)filePath toTarget:(id<PBXTarget>)target withGroup:(NSString *) groupName {
     id<PBXFileReference> reference = [self addFileAtPath:filePath];
-    [self addFileReference:reference inGroupNamed:@"Resources"];
+    [self addFileReference:reference inGroupNamed:groupName];
     [self addFileReference:reference toBuildPhase:@"Sources" target:target];
 }
 
@@ -36,6 +40,11 @@
         }
     }
     return nil;
+}
+
+-(NSString*)projectName {
+    id<PBXProject> proj = [self project];
+    return [proj name];
 }
 
 -(NSArray*)targets {

@@ -16,11 +16,10 @@
 
 
 static ServiceStackXCode *sharedPlugin;
-AddReference *controllerWindow;
 
 @interface ServiceStackXCode()
 
-
+@property (strong) AddReference *controllerWindow;
 
 @property (nonatomic, strong, readwrite) NSBundle *bundle;
 @end
@@ -83,8 +82,11 @@ AddReference *controllerWindow;
 }
 
 - (void)addReference {
-    controllerWindow = [[AddReference alloc] initWithWindowNibName:@"AddReference"];
-    [controllerWindow showWindow:self];
+    self.controllerWindow = [[AddReference alloc] initWithWindowNibName:@"AddReference"];
+    NSWindow* mainWindow = [NSApp mainWindow];
+    [mainWindow beginSheet:self.controllerWindow.window completionHandler:^(NSModalResponse returnCode) {
+        
+    }];
 }
 
 - (BOOL)validateUpdateRefMenuItem:(NSMenuItem *)menuItem {

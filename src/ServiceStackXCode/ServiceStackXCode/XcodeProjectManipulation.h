@@ -12,7 +12,9 @@
 @interface XcodeProjectManipulation : NSObject
 
 -(void)addFileAtPath:(NSString *)filePath toTarget:(id<PBXTarget>)target;
+-(void)addFileAtPath:(NSString *)filePath toTarget:(id<PBXTarget>)target withGroup:(NSString*) groupName;
 -(NSArray*)targets;
 -(NSString*)workspacePath;
+-(NSString*)projectName;
 
 @end
