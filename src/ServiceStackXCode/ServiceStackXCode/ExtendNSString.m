@@ -11,7 +11,7 @@
 
 @implementation NSString (util)
 
-- (int)indexOf:(NSString *)text {
+- (NSInteger)indexOf:(NSString *)text {
     NSRange range = [self rangeOfString:text];
     if (range.length > 0) {
         return range.location;

@@ -21,9 +21,6 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode.xcodeproj/xcshareddata/xcschemes/ServiceStackXCode.xcscheme" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/SwiftNativeTypesManger.h" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/SwiftNativeTypesManger.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/UpdateReference.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/UpdateReference.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/UpdateReference.xib" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ValidateNativeTypesUrlDelegate.h" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ValidateNativeTypesUrlDelegate.m" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/XcodeIDE.h" />
@@ -57,11 +54,10 @@
       <file leaf-file-name="AddReference.m" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ServiceStackXCode/AddReference.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5651214" vertical-offset="1784" max-vertical-offset="3780">
-              <caret line="136" column="43" selection-start-line="136" selection-start-column="43" selection-end-line="136" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.45916116" vertical-offset="122" max-vertical-offset="3780">
+              <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
               <folding>
                 <element signature="e#151#175#0" expanded="true" />
-                <element signature="e#455#475#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -77,6 +73,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="NSDocument+SSXSAdditions.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="720">
+              <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="XcodeProjectManipulation.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ServiceStackXCode/XcodeProjectManipulation.h">
           <provider selected="true" editor-type-id="text-editor">
@@ -87,31 +93,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GetJsonServiceClientDelegate.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ServiceStackXCode/GetJsonServiceClientDelegate.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="525">
-              <caret line="27" column="65" selection-start-line="27" selection-start-column="65" selection-end-line="27" selection-end-column="65" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ValidateNativeTypesUrlDelegate.m" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ServiceStackXCode/ValidateNativeTypesUrlDelegate.m">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="433" max-vertical-offset="1230">
               <caret line="48" column="27" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ValidateNativeTypesUrlDelegate.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ServiceStackXCode/ValidateNativeTypesUrlDelegate.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="555">
-              <caret line="14" column="44" selection-start-line="14" selection-start-column="44" selection-end-line="14" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -129,21 +115,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GetDtoDelegate.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ServiceStackXCode/GetDtoDelegate.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="510">
-              <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SwiftNativeTypesManger.m" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ServiceStackXCode/SwiftNativeTypesManger.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="1830">
-              <caret line="26" column="65" selection-start-line="26" selection-start-column="65" selection-end-line="26" selection-end-column="65" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="115" max-vertical-offset="2535">
+              <caret line="18" column="88" selection-start-line="18" selection-start-column="88" selection-end-line="18" selection-end-column="88" />
               <folding>
                 <element signature="e#103#139#0" expanded="true" />
               </folding>
@@ -151,11 +127,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../.gitignore">
+      <file leaf-file-name="ExtendNSString.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ServiceStackXCode/ExtendNSString.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
-              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+              <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -172,9 +148,7 @@
         <option value="$PROJECT_DIR$/Podfile" />
         <option value="$PROJECT_DIR$/ServiceStackXCode/SwiftNativeTypesManger.h" />
         <option value="$PROJECT_DIR$/ServiceStackXCode/ServiceStackXCode.m" />
-        <option value="$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.m" />
         <option value="$PROJECT_DIR$/ServiceStackXCode/AddReference.h" />
-        <option value="$PROJECT_DIR$/ServiceStackXCode/SwiftNativeTypesManger.m" />
         <option value="$PROJECT_DIR$/ServiceStackXCode/ValidateNativeTypesUrlDelegate.h" />
         <option value="$PROJECT_DIR$/ServiceStackXCode/GetJsonServiceClientDelegate.m" />
         <option value="$PROJECT_DIR$/ServiceStackXCode/GetDtoDelegate.h" />
@@ -185,6 +159,9 @@
         <option value="$PROJECT_DIR$/ServiceStackXCode/XcodeProjectManipulation.h" />
         <option value="$PROJECT_DIR$/ServiceStackXCode/XcodeProjectManipulation.m" />
         <option value="$PROJECT_DIR$/ServiceStackXCode/AddReference.m" />
+        <option value="$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.m" />
+        <option value="$PROJECT_DIR$/ServiceStackXCode/ExtendNSString.m" />
+        <option value="$PROJECT_DIR$/ServiceStackXCode/SwiftNativeTypesManger.m" />
       </list>
     </option>
   </component>
@@ -245,6 +222,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="ServiceStackXCode" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ServiceStackXCode" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xcproj" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ServiceStackXCode" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xcproj" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Products" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -345,7 +354,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33846155" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39881656" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39881656" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -383,13 +392,12 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="19" />
+      <option name="time" value="30" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="AppleRunConfiguration">
-        <watch expression="validateNativeTypesUrlDelegate.errorMessage" />
-        <watch expression="receivedData" />
-        <watch expression="json[@&quot;Config&quot;][@&quot;BaseUrl&quot;]" language="ObjectiveC" />
+        <watch expression="[allLinedStrings[0] indexOf:@&quot;/* Url:&quot;] &gt; -1" language="ObjectiveC" />
+        <watch expression="allLinedStrings != nil" language="ObjectiveC" />
       </configuration>
     </watches-manager>
   </component>
@@ -408,7 +416,6 @@
           <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
           <folding>
             <element signature="e#151#175#0" expanded="true" />
-            <element signature="e#455#475#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -495,7 +502,6 @@
           <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
           <folding>
             <element signature="e#151#175#0" expanded="true" />
-            <element signature="e#455#475#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -589,13 +595,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="765">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ServiceStackXCode/AddReference.xib">
       <provider selected="true" editor-type-id="appcode-designer">
         <state ui-designer-zoom="1.0" />
@@ -656,24 +655,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ServiceStackXCode/SwiftNativeTypesManger.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="161" max-vertical-offset="1830">
-          <caret line="26" column="65" selection-start-line="26" selection-start-column="65" selection-end-line="26" selection-end-column="65" />
-          <folding>
-            <element signature="e#103#139#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ServiceStackXCode/ValidateNativeTypesUrlDelegate.m">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="433" max-vertical-offset="1230">
@@ -698,13 +679,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSString.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33269963" vertical-offset="1115" max-vertical-offset="6825">
+          <caret line="89" column="14" selection-start-line="89" selection-start-column="14" selection-end-line="89" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16697589" vertical-offset="0" max-vertical-offset="539">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ServiceStackXCode/ExtendNSString.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+          <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="720">
+          <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ServiceStackXCode/SwiftNativeTypesManger.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="115" max-vertical-offset="2535">
+          <caret line="18" column="88" selection-start-line="18" selection-start-column="88" selection-end-line="18" selection-end-column="88" />
+          <folding>
+            <element signature="e#103#139#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ServiceStackXCode/AddReference.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5651214" vertical-offset="1784" max-vertical-offset="3780">
-          <caret line="136" column="43" selection-start-line="136" selection-start-column="43" selection-end-line="136" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.45916116" vertical-offset="122" max-vertical-offset="3780">
+          <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
           <folding>
             <element signature="e#151#175#0" expanded="true" />
-            <element signature="e#455#475#0" expanded="true" />
           </folding>
         </state>
       </provider>

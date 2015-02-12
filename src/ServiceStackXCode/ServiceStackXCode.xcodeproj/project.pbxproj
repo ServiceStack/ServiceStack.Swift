@@ -14,8 +14,6 @@
 		97F83CCE6FBA87284222FFF7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1A28484B59D35371F71246 /* libPods.a */; };
 		ED01F9011A79AF2F000B14B2 /* AddReference.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED01F9001A79AF2F000B14B2 /* AddReference.xib */; };
 		ED01F9041A79B421000B14B2 /* AddReference.m in Sources */ = {isa = PBXBuildFile; fileRef = ED01F9031A79B421000B14B2 /* AddReference.m */; };
-		ED01F9081A79B47E000B14B2 /* UpdateReference.m in Sources */ = {isa = PBXBuildFile; fileRef = ED01F9061A79B47E000B14B2 /* UpdateReference.m */; };
-		ED01F9091A79B47E000B14B2 /* UpdateReference.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED01F9071A79B47E000B14B2 /* UpdateReference.xib */; };
 		ED28DEC21A844C1700B6A3DC /* NSDocument+SSXSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ED28DEC11A844C1700B6A3DC /* NSDocument+SSXSAdditions.m */; };
 		ED28DEC51A85926000B6A3DC /* ExtendNSString.m in Sources */ = {isa = PBXBuildFile; fileRef = ED28DEC41A85926000B6A3DC /* ExtendNSString.m */; };
 		ED96D1501A79A5D300B23CF7 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED96D14F1A79A5D300B23CF7 /* AppKit.framework */; };
@@ -51,9 +49,6 @@
 		ED01F9001A79AF2F000B14B2 /* AddReference.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddReference.xib; sourceTree = "<group>"; };
 		ED01F9021A79B421000B14B2 /* AddReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddReference.h; sourceTree = "<group>"; };
 		ED01F9031A79B421000B14B2 /* AddReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddReference.m; sourceTree = "<group>"; };
-		ED01F9051A79B47E000B14B2 /* UpdateReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateReference.h; sourceTree = "<group>"; };
-		ED01F9061A79B47E000B14B2 /* UpdateReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateReference.m; sourceTree = "<group>"; };
-		ED01F9071A79B47E000B14B2 /* UpdateReference.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateReference.xib; sourceTree = "<group>"; };
 		ED28DEC01A844B8C00B6A3DC /* NSDocument+SSXSAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDocument+SSXSAdditions.h"; sourceTree = "<group>"; };
 		ED28DEC11A844C1700B6A3DC /* NSDocument+SSXSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDocument+SSXSAdditions.m"; sourceTree = "<group>"; };
 		ED28DEC31A8591BB00B6A3DC /* ExtendNSString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtendNSString.h; sourceTree = "<group>"; };
@@ -144,9 +139,6 @@
 				ED01F9001A79AF2F000B14B2 /* AddReference.xib */,
 				ED01F9021A79B421000B14B2 /* AddReference.h */,
 				ED01F9031A79B421000B14B2 /* AddReference.m */,
-				ED01F9051A79B47E000B14B2 /* UpdateReference.h */,
-				ED01F9061A79B47E000B14B2 /* UpdateReference.m */,
-				ED01F9071A79B47E000B14B2 /* UpdateReference.xib */,
 				ED47FB541A7A15A600C10031 /* XcodeIDE.h */,
 				EDFB534E1A7A328C003C0063 /* XcodeProjectManipulation.h */,
 				EDFB534F1A7A32BC003C0063 /* XcodeProjectManipulation.m */,
@@ -247,7 +239,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED01F9091A79B47E000B14B2 /* UpdateReference.xib in Resources */,
 				ED96D1571A79A5D300B23CF7 /* ServiceStackXCode.xcscheme in Resources */,
 				EDCA73C31A843169000CE1B9 /* Podfile in Resources */,
 				ED01F9011A79AF2F000B14B2 /* AddReference.xib in Resources */,
@@ -299,7 +290,6 @@
 				ED28DEC21A844C1700B6A3DC /* NSDocument+SSXSAdditions.m in Sources */,
 				ED96D15A1A79A5D300B23CF7 /* ServiceStackXCode.m in Sources */,
 				ED01F9041A79B421000B14B2 /* AddReference.m in Sources */,
-				ED01F9081A79B47E000B14B2 /* UpdateReference.m in Sources */,
 				60BCF1686EBF74545D164A24 /* SwiftNativeTypesManger.m in Sources */,
 				60BCF18AD8A6EBA8D2623F9E /* GetDtoDelegate.m in Sources */,
 				60BCF6436DC082FEFC152AFC /* ValidateNativeTypesUrlDelegate.m in Sources */,

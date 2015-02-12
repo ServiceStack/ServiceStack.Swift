@@ -39,10 +39,7 @@
     IDESourceCodeDocument *sourceCodeDocument = [DTXcodeUtils currentSourceCodeDocument];
     NSURL *fileUrl = [sourceCodeDocument fileURL];
     NSString *absolutePath = fileUrl.path;
-    BOOL isDtoFile = [absolutePath hasSuffix:@".dtos.swift"];
-    if (isDtoFile) {
-        [SwiftNativeTypesManger updateFileContents:absolutePath];
-    }
+    [SwiftNativeTypesManger updateFileContents:absolutePath];
 
     [self ssxc_documentWillSave:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
 }

@@ -6,7 +6,7 @@
 #import "NSDocument+SSXSAdditions.h"
 #import <DTXcodeUtils/DTXcodeHeaders.h>
 #import "SwiftNativeTypesManger.h"
-#import "ExtendNSString.h"#import "DTXcodeHeaders.h"
+#import "ExtendNSString.h"
 #import "DTXcodeUtils.h"
 
 
@@ -15,8 +15,32 @@
 }
 
 + (void)updateFileContents:(NSString *)fileName {
-    NSString *content = [NSString stringWithContentsOfFile:fileName encoding:NSUTF8StringEncoding error:nil];
-    NSString *fullUpdateUrl = [self generateUrlFromDtoFile:content];
+    DVTSourceTextView *sourceTextView = [DTXcodeUtils currentSourceTextView];
+    NSInteger insertionPoint = [[sourceTextView selectedRanges][0] rangeValue].location;
+    [sourceTextView selectAll:self];
+    NSRange selectedTextRange = [sourceTextView selectedRange];
+    NSString *selectedString = [sourceTextView.textStorage.string substringWithRange:selectedTextRange];
+    [sourceTextView setSelectedRange:NSMakeRange((NSUInteger) insertionPoint, 0)];
+    NSString *content = selectedString;
+    NSArray *allLinedStrings =
+            [content componentsSeparatedByCharactersInSet:
+                    [NSCharacterSet newlineCharacterSet]];
+
+    NSString *fullUpdateUrl;
+    if([fileName hasSuffix:@".dtos.swift"]) {
+        fullUpdateUrl = [self generateUrlFromDtoFile:content];
+        [self updateFile:fullUpdateUrl withFile:fileName];
+        return;
+    }
+
+    if(allLinedStrings != nil && [allLinedStrings[0] indexOf:@"/* Url:"] != -1) {
+        fullUpdateUrl = [self generateUrlFromFile:content];
+        [self updateFile:fullUpdateUrl withFile:fileName];
+        return;
+    }
+}
+
++ (void) updateFile:(NSString*)fullUpdateUrl withFile:(NSString*)fileName {
     NSURL *url = [NSURL URLWithString:fullUpdateUrl];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     NSURLResponse *response = nil;
@@ -31,10 +55,23 @@
         NSString *selectedString = [sourceTextView.textStorage.string substringWithRange:selectedTextRange];
         if (selectedString) {
             [sourceTextView replaceCharactersInRange:selectedTextRange withString:responseString];
+            //This is done to avoid observed Xcode crashing
+            NSUndoManager *undoManager = [sourceTextView undoManager];
+            [undoManager removeAllActions];
         }
     } else {
         //Handle error
+        NSLog(@"Error updating file %@", fileName);
     }
+}
+
++ (NSString *)generateUrlFromFile:(NSString *)code {
+
+    NSArray *allLinedStrings =
+            [code componentsSeparatedByCharactersInSet:
+                    [NSCharacterSet newlineCharacterSet]];
+    NSString *url = [self extractUrlFromCodeFile:allLinedStrings];
+    return url;
 }
 
 + (NSString *)generateUrlFromDtoFile:(NSString *)dtoCode {
@@ -62,6 +99,16 @@
         result = [result stringByAppendingString:@"="];
         result = [result stringByAppendingString:allOptions[key]];
         count++;
+    }
+
+    return result;
+}
+
++ (NSString *) extractUrlFromCodeFile:(NSArray *)codeLines {
+    NSString *result = nil;
+    if(codeLines.count > 0 && [codeLines[0] hasPrefix:@"/* Url"]) {
+        NSString *codeLine = codeLines[0];
+        result = [[[codeLine split:@":"][1] substringFromIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     }
 
     return result;
