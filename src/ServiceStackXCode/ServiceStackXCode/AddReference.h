@@ -16,16 +16,16 @@
 
 - (void)controlTextDidChange:(NSNotification *)aNotification;
 
-@property (weak, nonatomic) IBOutlet NSTextField *address;
+@property(weak, nonatomic) IBOutlet NSTextField *address;
 
-@property (weak, nonatomic) IBOutlet NSTextField *name;
+@property(weak, nonatomic) IBOutlet NSTextField *name;
 
-@property (weak, nonatomic) IBOutlet NSButton *okButton;
+@property(weak, nonatomic) IBOutlet NSButton *okButton;
 
-@property (weak, nonatomic) IBOutlet NSTextField *errorLabel;
+@property(weak, nonatomic) IBOutlet NSTextField *errorLabel;
 
-@property (weak, nonatomic) NSString* addressText;
+@property(weak, nonatomic) NSString *addressText;
 
-@property (weak, nonatomic) NSString* nameText;
+@property(weak, nonatomic) NSString *nameText;
 
 @end

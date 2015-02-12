@@ -8,7 +8,8 @@
 
 @interface NSString (util)
 
-- (int) indexOf:(NSString *)text;
-- (NSArray*) split:(NSString*) splitOn;
+- (int)indexOf:(NSString *)text;
+
+- (NSArray *)split:(NSString *)splitOn;
 
 @end

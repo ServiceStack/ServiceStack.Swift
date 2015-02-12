@@ -7,12 +7,14 @@
 //
 
 #import "AddReference.h"
-#import "XcodeIDE.h"
 #import "XcodeProjectManipulation.h"
+#import "GetDtoDelegate.h"
+#import "ValidateNativeTypesUrlDelegate.h"
+#import "GetJsonServiceClientDelegate.h"
 
 @interface AddReference ()
 
-@property (strong) XcodeProjectManipulation* projectManipulation;
+@property(strong) XcodeProjectManipulation *projectManipulation;
 
 @end
 
@@ -25,123 +27,184 @@
 @synthesize addressText;
 @synthesize nameText;
 
-NSMutableData *_responseData;
+NSString *jsonServiceClientUrl = @"https://servicestack.net/dist/JsonServiceClient.swift";
+ValidateNativeTypesUrlDelegate *validateNativeTypesUrlDelegate;
 
+NSString *finalJsonServiceClientCode;
+NSString *finalDtoCode;
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    
+
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     [okButton setEnabled:NO];
     [self clearErrorLabel];
 }
 
+-(void)formReady {
+    [okButton setEnabled:YES];
+}
 
-- (void) addReference:(id)sender {
-    [okButton setEnabled: NO];
+-(void)formBusy {
+    [okButton setEnabled:NO];
     [self clearErrorLabel];
-    
-    NSString *urlFromTextBox = [address stringValue];
-    NSString *fileName = [name stringValue];
-    self.projectManipulation = [XcodeProjectManipulation new];
-    if([self validateUrl:urlFromTextBox]) {
-        NSURL *validUrl = [[NSURL alloc] initWithString: urlFromTextBox];
-        NSString *fromValidUrl = [validUrl absoluteString];
-        if(![fromValidUrl hasSuffix:@"/"]) {
-            fromValidUrl = [fromValidUrl stringByAppendingString:@"/"];
-        }
-        NSString *finalUrl;
-        if([fromValidUrl hasSuffix:@"types/swift"]) {
-            finalUrl = fromValidUrl;
-        } else {
-            finalUrl = [fromValidUrl stringByAppendingString:@"types/swift"];
-        }
-        if(![self addFileFromUrl:[fileName stringByAppendingString:@".dtos.swift"] :finalUrl]) {
-            [okButton setEnabled: YES];
-            [address selectText:self];
-            return;
-        }
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        
-        NSString *currentWorkspacePath = [[self.projectManipulation workspacePath] stringByAppendingString:@"/"];
-        NSString *pathForFile = [currentWorkspacePath stringByAppendingString:@"JsonServiceClient.swift"];
-        
-        if (![fileManager fileExistsAtPath:pathForFile]){
-            [self addFileFromUrl:
-              @"JsonServiceClient.swift":
-             @"https://raw.githubusercontent.com/ServiceStack/ServiceStack.Swift/master/dist/JsonServiceClient.swift"];
-        }
-        
-        [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseOK];
+}
+
+-(void)setError:(NSString*)errorText {
+    [address selectText:self];
+    errorLabel.stringValue = errorText;
+}
+
+- (void)addReference:(id)sender {
+    [self formBusy];
+    NSString* metadataUrl;
+    if(![self createMetadataUrl:&metadataUrl]) {
+        [self formReady];
+        [self setError:@"Invalid url provided"];
+        return;
     }
-    [okButton setEnabled: YES];
+    [self startValidateUrlRequest:metadataUrl];
+}
+
+-(bool)createMetadataUrl:(NSString**) metadataUrl {
+    NSString *urlFromTextBox = [address stringValue];
+    if (![self validateUrl:urlFromTextBox]) {
+        return false;
+    }
+    NSURL *validUrl = [[NSURL alloc] initWithString:urlFromTextBox];
+    NSString *fromValidUrl = [validUrl absoluteString];
+    if (![fromValidUrl hasSuffix:@"/"]) {
+        fromValidUrl = [fromValidUrl stringByAppendingString:@"/"];
+    }
+    NSString *finalUrl;
+    if ([fromValidUrl hasSuffix:@"types/swift"]) {
+        finalUrl = [fromValidUrl stringByReplacingOccurrencesOfString:@"types/swift" withString:@"types/metadata?format=json"];
+    } else {
+        finalUrl = [fromValidUrl stringByAppendingString:@"types/metadata?format=json"];
+    }
+    *metadataUrl = finalUrl;
+    return true;
+}
+
+-(bool)createNativeTypesUrl:(NSString**) url {
+    NSString *urlFromTextBox = [address stringValue];
+    if (![self validateUrl:urlFromTextBox]) {
+        return false;
+    }
+    NSURL *validUrl = [[NSURL alloc] initWithString:urlFromTextBox];
+    NSString *fromValidUrl = [validUrl absoluteString];
+    if (![fromValidUrl hasSuffix:@"/"]) {
+        fromValidUrl = [fromValidUrl stringByAppendingString:@"/"];
+    }
+    NSString *finalUrl;
+    if ([fromValidUrl hasSuffix:@"types/swift"]) {
+        finalUrl = fromValidUrl;
+    } else {
+        finalUrl = [fromValidUrl stringByAppendingString:@"types/swift"];
+    }
+    *url = finalUrl;
+    return true;
+}
+
+-(void)handleGetJsonServiceClientSuccess:(NSString *)responseText {
+    self.projectManipulation = [XcodeProjectManipulation new];
+    finalJsonServiceClientCode = responseText;
+    NSString *dtoUrl;
+    [self createNativeTypesUrl:&dtoUrl];
+    [self startDtoRequest:dtoUrl];
+}
+
+- (void)handleGetDtoError:(NSString *)errorMessage {
+    [self setError:errorMessage];
+    [self formReady];
+}
+
+-(void)handleGetDtoSuccess:(NSString *)responseText {
+    self.projectManipulation = [XcodeProjectManipulation new];
+    finalDtoCode = responseText;
+    [self addFilesToProject];
+}
+
+-(void)handleValidateNativeTypesResponse:(bool)validNativeTypes {
+    if(validNativeTypes) {
+        [self startJsonServiceClientRequest:jsonServiceClientUrl];
+    } else {
+        [self formReady];
+        [self setError:validateNativeTypesUrlDelegate.errorMessage];
+    }
+}
+
+-(void)addFilesToProject {
+    NSString *fileName = [name stringValue];
+    [self createFileAndAddToProject:@"JsonServiceClient.swift" withContents:finalJsonServiceClientCode];
+    [self createFileAndAddToProject:[fileName stringByAppendingString:@".dtos.swift"] withContents:finalDtoCode];
+    [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseOK];
 }
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
-    if ([[address stringValue] length] > 0 && [[name stringValue] length] > 0) {
-        [okButton setEnabled: YES];
-    }
-    else {
-        [okButton setEnabled: NO];
-    }
+    [okButton setEnabled:[[address stringValue] length] > 0 && [[name stringValue] length] > 0];
 }
 
 - (void)clearErrorLabel {
-    [errorLabel setStringValue:@""];
+    errorLabel.stringValue = @"";
 }
 
--(BOOL) addFileFromUrl:(NSString *) fileName :(NSString *) fileUrl {
-    NSURL *url = [NSURL URLWithString:fileUrl];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    NSHTTPURLResponse *response = nil;
-    NSError *error = nil;
-    NSData * data = [NSURLConnection sendSynchronousRequest: request returningResponse:&response error:&error];
-    if(response == nil) {
-        if(error != nil) {
-            //Handle errors
-            [errorLabel setStringValue:[@"An error has occurred - " stringByAppendingString:[error localizedDescription]]];
-            return false;
-        }
-        [errorLabel setStringValue:@"Unknown error has occurred. Check URL."];
-        return false;
-    }
-    
-    if([response statusCode] != 200) {
-        [errorLabel setStringValue:[NSString stringWithFormat: @"Server responded with a %ld error.",(long)[response statusCode]]];
-        return false;
-    }
-    
-    NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+-(void)startValidateUrlRequest:(NSString*)url {
+    NSURL *typesMetadataUrl = [NSURL URLWithString:url];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:typesMetadataUrl];
+    validateNativeTypesUrlDelegate = [ValidateNativeTypesUrlDelegate alloc];
+    [validateNativeTypesUrlDelegate setDelegate:self];
+    NSURLConnection *connection = [[NSURLConnection  alloc] initWithRequest:request delegate:validateNativeTypesUrlDelegate];
+    [connection start];
+}
+
+-(void)startDtoRequest:(NSString*)url {
+    NSURL *dtoUrl = [NSURL URLWithString:url];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:dtoUrl];
+    GetDtoDelegate *getDtoDelegate = [GetDtoDelegate alloc];
+    [getDtoDelegate setDelegate:self];
+    NSURLConnection *connection = [[NSURLConnection  alloc] initWithRequest:request delegate:getDtoDelegate];
+    [connection start];
+}
+
+-(void)startJsonServiceClientRequest:(NSString*)url {
+    NSURL *jsonServiceClientUrl = [NSURL URLWithString:url];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:jsonServiceClientUrl];
+    GetJsonServiceClientDelegate *jsonServiceClientDelegate = [GetJsonServiceClientDelegate alloc];
+    [jsonServiceClientDelegate setDelegate:self];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:jsonServiceClientDelegate];
+    [connection start];
+}
+
+- (void) createFileAndAddToProject:(NSString*)fileName withContents:(NSString*)fileContents {
     NSString *projectName = [self.projectManipulation projectName];
     //https://gist.github.com/larryaasen/5035313
     NSString *currentWorkspacePath = [[self.projectManipulation workspacePath] stringByAppendingString:@"/"];
     NSString *defaultFolder = [[currentWorkspacePath stringByAppendingString:projectName] stringByAppendingString:@"/"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *fullFilePath = nil;
-    if([fileManager fileExistsAtPath:defaultFolder]) {
+    if ([fileManager fileExistsAtPath:defaultFolder]) {
         fullFilePath = [defaultFolder stringByAppendingString:fileName];
-        NSString *path = [self createCodeFile:fullFilePath withCode:responseString];
-        id<PBXTarget> target = [self.projectManipulation targets][0];
+        NSString *path = [self createCodeFile:fullFilePath withCode:fileContents];
+        id <PBXTarget> target = [self.projectManipulation targets][0];
         [self.projectManipulation addFileAtPath:path toTarget:target withGroup:projectName];
-        return true;
+        return;
     }
-    
+
     fullFilePath = [currentWorkspacePath stringByAppendingString:fileName];
-    NSString *path = [self createCodeFile:fullFilePath withCode:responseString];
-    id<PBXTarget> target = [self.projectManipulation targets][0];
+    NSString *path = [self createCodeFile:fullFilePath withCode:fileContents];
+    id <PBXTarget> target = [self.projectManipulation targets][0];
     [self.projectManipulation addFileAtPath:path toTarget:target];
-    return true;
-    
 }
 
--(void) cancelAddReference:(id)sender {
+- (void)cancelAddReference:(id)sender {
     [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseCancel];
 }
 
 
-- (NSString*) createCodeFile:(NSString*) path withCode:(NSString*)code {
+- (NSString *)createCodeFile:(NSString *)path withCode:(NSString *)code {
     NSString *outPath = [path stringByAppendingString:@""];
-    NSData* data = [code dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *data = [code dataUsingEncoding:NSUTF8StringEncoding];
     [[NSFileManager defaultManager] createFileAtPath:outPath contents:data attributes:nil];
     NSFileHandle *outFile = [NSFileHandle fileHandleForWritingAtPath:outPath];
     if (outFile == Nil) {
@@ -150,65 +213,12 @@ NSMutableData *_responseData;
     return path;
 }
 
-- (NSString *)currentWorkspaceDirectoryPath {
-    return [self directoryPathForWorkspace:[self workspaceForKeyWindow]];
-}
-
-- (NSString *)directoryPathForWorkspace:(id)workspace {
-    NSString *workspacePath = [[workspace valueForKey:@"representingFilePath"] valueForKey:@"_pathString"];
-    return [workspacePath stringByDeletingLastPathComponent];
-}
-
 #pragma mark - Private
 
-- (id)workspaceForKeyWindow {
-    return [self workspaceForWindow:[NSApp keyWindow]];
-}
 
-- (id)workspaceForWindow:(NSWindow *)window {
-    NSArray *workspaceWindowControllers = [NSClassFromString(@"IDEWorkspaceWindowController") valueForKey:@"workspaceWindowControllers"];
-    
-    for (IDEWorkspaceWindowController *controller in workspaceWindowControllers) {
-        if ([[controller valueForKey:@"window"] isEqual:window]) {
-            return [controller valueForKey:@"_workspace"];
-        }
-    }
-    return nil;
-}
-
-
-- (NSString*) runCommand:(NSString*) commandToRun {
-    NSTask *task;
-    task = [[NSTask alloc] init];
-    [task setLaunchPath: @"/bin/sh"];
-    
-    NSArray *arguments = [NSArray arrayWithObjects:
-                          @"-c" ,
-                          [NSString stringWithFormat:@"%@", commandToRun],
-                          nil];
-    NSLog(@"run command: %@",commandToRun);
-    [task setArguments: arguments];
-    
-    NSPipe *pipe;
-    pipe = [NSPipe pipe];
-    [task setStandardOutput: pipe];
-    
-    NSFileHandle *file;
-    file = [pipe fileHandleForReading];
-    
-    [task launch];
-    
-    NSData *data;
-    data = [file readDataToEndOfFile];
-    
-    NSString *output;
-    output = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-    return output;
-}
-
-- (BOOL) validateUrl: (NSString *) candidate {
+- (BOOL)validateUrl:(NSString *)candidate {
     NSString *urlRegEx =
-    @"(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))+";
+            @"(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))+";
     NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", urlRegEx];
     return [urlTest evaluateWithObject:candidate];
 }

@@ -9,16 +9,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-ServiceStackXCode-DTXcodeUtils.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods-ServiceStackXCode.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -26,27 +16,6 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>3CB09863FAD6CF5986943C77</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6FEC00DD06D169381967B3D3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9A6A78B6B10AB6D9E63D7244</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9AEC69D9F67A2B3E276540CD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>

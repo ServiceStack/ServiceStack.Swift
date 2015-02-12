@@ -12,7 +12,7 @@
 
 + (instancetype)sharedPlugin;
 
-- (BOOL) validateUpdateRefMenuItem:(NSMenuItem* )menuItem;
+- (BOOL)validateUpdateRefMenuItem:(NSMenuItem *)menuItem;
 
-@property (nonatomic, strong, readonly) NSBundle* bundle;
+@property(nonatomic, strong, readonly) NSBundle *bundle;
 @end

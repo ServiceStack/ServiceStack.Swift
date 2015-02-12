@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		60BCF1686EBF74545D164A24 /* SwiftNativeTypesManger.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BCFD7703ECB5ECE123CEE5 /* SwiftNativeTypesManger.m */; };
+		60BCF18AD8A6EBA8D2623F9E /* GetDtoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BCF2AA8B3A45BB088CE303 /* GetDtoDelegate.m */; };
+		60BCF6436DC082FEFC152AFC /* ValidateNativeTypesUrlDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BCFD13317A939DB1DBF4FA /* ValidateNativeTypesUrlDelegate.m */; };
+		60BCF9B94D8E78F50E409BAE /* GetJsonServiceClientDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BCFF02506299D489CFA53B /* GetJsonServiceClientDelegate.m */; };
 		97F83CCE6FBA87284222FFF7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1A28484B59D35371F71246 /* libPods.a */; };
 		ED01F9011A79AF2F000B14B2 /* AddReference.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED01F9001A79AF2F000B14B2 /* AddReference.xib */; };
 		ED01F9041A79B421000B14B2 /* AddReference.m in Sources */ = {isa = PBXBuildFile; fileRef = ED01F9031A79B421000B14B2 /* AddReference.m */; };
@@ -23,23 +27,25 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		EDFB534C1A7A31E7003C0063 /* PBXContainerItemProxy */ = {
+		60BCF5F4BEC1861F3E419A2D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EDFB53481A7A31E6003C0063 /* xcproj.xcodeproj */;
+			containerPortal = 60BCF0395C3CFE42F7563688 /* xcproj.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8DD76FA10486AA7600D96B5E;
-			remoteInfo = xcproj;
-		};
-		EDFB53511A7A33AE003C0063 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EDFB53481A7A31E6003C0063 /* xcproj.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DD76F960486AA7600D96B5E;
 			remoteInfo = xcproj;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		60BCF0395C3CFE42F7563688 /* xcproj.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = xcproj.xcodeproj; path = xcproj/xcproj.xcodeproj; sourceTree = "<group>"; };
+		60BCF2AA8B3A45BB088CE303 /* GetDtoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetDtoDelegate.m; sourceTree = "<group>"; };
+		60BCF59EC10448161386F201 /* GetDtoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetDtoDelegate.h; sourceTree = "<group>"; };
+		60BCF86A67F788B4E1CF3BD2 /* ValidateNativeTypesUrlDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidateNativeTypesUrlDelegate.h; sourceTree = "<group>"; };
+		60BCFAFB9BF8BC7091E5878B /* GetJsonServiceClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetJsonServiceClientDelegate.h; sourceTree = "<group>"; };
+		60BCFD0CCD8C1B2E5E831E14 /* SwiftNativeTypesManger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftNativeTypesManger.h; sourceTree = "<group>"; };
+		60BCFD13317A939DB1DBF4FA /* ValidateNativeTypesUrlDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidateNativeTypesUrlDelegate.m; sourceTree = "<group>"; };
+		60BCFD7703ECB5ECE123CEE5 /* SwiftNativeTypesManger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwiftNativeTypesManger.m; sourceTree = "<group>"; };
+		60BCFF02506299D489CFA53B /* GetJsonServiceClientDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetJsonServiceClientDelegate.m; sourceTree = "<group>"; };
 		9E1A28484B59D35371F71246 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98F6CF27B7921D9DA75FCC0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		ED01F9001A79AF2F000B14B2 /* AddReference.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddReference.xib; sourceTree = "<group>"; };
@@ -61,7 +67,6 @@
 		ED96D1581A79A5D300B23CF7 /* ServiceStackXCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServiceStackXCode.h; sourceTree = "<group>"; };
 		ED96D1591A79A5D300B23CF7 /* ServiceStackXCode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ServiceStackXCode.m; sourceTree = "<group>"; };
 		EDCA73C21A843169000CE1B9 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		EDFB53481A7A31E6003C0063 /* xcproj.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = xcproj.xcodeproj; path = ../../xcproj/xcproj.xcodeproj; sourceTree = "<group>"; };
 		EDFB534E1A7A328C003C0063 /* XcodeProjectManipulation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XcodeProjectManipulation.h; sourceTree = "<group>"; };
 		EDFB534F1A7A32BC003C0063 /* XcodeProjectManipulation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XcodeProjectManipulation.m; sourceTree = "<group>"; };
 		FD6A967DB5CCDBA6AD61550E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -90,15 +95,23 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		60BCFB2AFA4A5E67F0197480 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				60BCFF4E50DCFC5A4AEB3139 /* xcproj */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		ED96D1431A79A5D300B23CF7 = {
 			isa = PBXGroup;
 			children = (
 				EDCA73C21A843169000CE1B9 /* Podfile */,
-				EDFB53481A7A31E6003C0063 /* xcproj.xcodeproj */,
 				ED96D1531A79A5D300B23CF7 /* ServiceStackXCode */,
 				ED96D14E1A79A5D300B23CF7 /* Frameworks */,
 				ED96D14D1A79A5D300B23CF7 /* Products */,
 				4A7750654652C48B93ADA423 /* Pods */,
+				60BCF0395C3CFE42F7563688 /* xcproj.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -139,6 +152,14 @@
 				EDFB534F1A7A32BC003C0063 /* XcodeProjectManipulation.m */,
 				ED28DEC01A844B8C00B6A3DC /* NSDocument+SSXSAdditions.h */,
 				ED28DEC11A844C1700B6A3DC /* NSDocument+SSXSAdditions.m */,
+				60BCFD7703ECB5ECE123CEE5 /* SwiftNativeTypesManger.m */,
+				60BCFD0CCD8C1B2E5E831E14 /* SwiftNativeTypesManger.h */,
+				60BCF2AA8B3A45BB088CE303 /* GetDtoDelegate.m */,
+				60BCF59EC10448161386F201 /* GetDtoDelegate.h */,
+				60BCFD13317A939DB1DBF4FA /* ValidateNativeTypesUrlDelegate.m */,
+				60BCF86A67F788B4E1CF3BD2 /* ValidateNativeTypesUrlDelegate.h */,
+				60BCFF02506299D489CFA53B /* GetJsonServiceClientDelegate.m */,
+				60BCFAFB9BF8BC7091E5878B /* GetJsonServiceClientDelegate.h */,
 			);
 			path = ServiceStackXCode;
 			sourceTree = "<group>";
@@ -150,14 +171,6 @@
 				ED96D1561A79A5D300B23CF7 /* ServiceStackXCode.xcscheme */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		EDFB53491A7A31E7003C0063 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EDFB534D1A7A31E7003C0063 /* xcproj */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,7 +189,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				EDFB53521A7A33AE003C0063 /* PBXTargetDependency */,
 			);
 			name = ServiceStackXCode;
 			productName = ServiceStackXCode;
@@ -209,8 +221,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = EDFB53491A7A31E7003C0063 /* Products */;
-					ProjectRef = EDFB53481A7A31E6003C0063 /* xcproj.xcodeproj */;
+					ProductGroup = 60BCFB2AFA4A5E67F0197480 /* Products */;
+					ProjectRef = 60BCF0395C3CFE42F7563688 /* xcproj.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -221,11 +233,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		EDFB534D1A7A31E7003C0063 /* xcproj */ = {
+		60BCFF4E50DCFC5A4AEB3139 /* xcproj */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = xcproj;
-			remoteRef = EDFB534C1A7A31E7003C0063 /* PBXContainerItemProxy */;
+			remoteRef = 60BCF5F4BEC1861F3E419A2D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -288,18 +300,14 @@
 				ED96D15A1A79A5D300B23CF7 /* ServiceStackXCode.m in Sources */,
 				ED01F9041A79B421000B14B2 /* AddReference.m in Sources */,
 				ED01F9081A79B47E000B14B2 /* UpdateReference.m in Sources */,
+				60BCF1686EBF74545D164A24 /* SwiftNativeTypesManger.m in Sources */,
+				60BCF18AD8A6EBA8D2623F9E /* GetDtoDelegate.m in Sources */,
+				60BCF6436DC082FEFC152AFC /* ValidateNativeTypesUrlDelegate.m in Sources */,
+				60BCF9B94D8E78F50E409BAE /* GetJsonServiceClientDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		EDFB53521A7A33AE003C0063 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = xcproj;
-			targetProxy = EDFB53511A7A33AE003C0063 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		ED96D15B1A79A5D300B23CF7 /* Debug */ = {
