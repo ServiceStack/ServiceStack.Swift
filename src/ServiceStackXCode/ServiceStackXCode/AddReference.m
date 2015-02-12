@@ -70,7 +70,7 @@ NSString *finalDtoCode;
 }
 
 -(bool)createMetadataUrl:(NSString**) metadataUrl {
-    NSString *urlFromTextBox = [address stringValue];
+    NSString *urlFromTextBox = [self parseUrl:[address stringValue]];
     if (![self validateUrl:urlFromTextBox]) {
         return false;
     }
@@ -90,7 +90,7 @@ NSString *finalDtoCode;
 }
 
 -(bool)createNativeTypesUrl:(NSString**) url {
-    NSString *urlFromTextBox = [address stringValue];
+    NSString *urlFromTextBox = [self parseUrl:[address stringValue]];
     if (![self validateUrl:urlFromTextBox]) {
         return false;
     }
@@ -131,12 +131,23 @@ NSString *finalDtoCode;
 
 -(void)handleValidateNativeTypesResponse:(bool)validNativeTypes {
     if(validNativeTypes) {
-        [self startJsonServiceClientRequest:jsonServiceClientUrl];
+        NSString *currentWorkspacePath = [[self.projectManipulation workspacePath] stringByAppendingString:@"/"];
+        NSString *pathForFile = [currentWorkspacePath stringByAppendingString:@"JsonServiceClient.swift"];
+        NSFileManager *fileManager =[NSFileManager defaultManager];
+        //Check if JsonServiceClient exists
+        if(![fileManager fileExistsAtPath:pathForFile]) {
+            [self startJsonServiceClientRequest:jsonServiceClientUrl];
+        } else {
+            NSString *dtoUrl;
+            [self createNativeTypesUrl:&dtoUrl];
+            [self startDtoRequest:dtoUrl];
+        }
     } else {
         [self formReady];
         [self setError:validateNativeTypesUrlDelegate.errorMessage];
     }
 }
+
 
 -(void)addFilesToProject {
     NSString *fileName = [name stringValue];
@@ -221,10 +232,15 @@ NSString *finalDtoCode;
 
 
 - (BOOL)validateUrl:(NSString *)candidate {
-    NSString *urlRegEx =
-            @"(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))+";
-    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", urlRegEx];
-    return [urlTest evaluateWithObject:candidate];
+    NSURL *tryParse = [NSURL URLWithString:candidate];
+    return tryParse != nil;
+}
+
+- (NSString*)parseUrl:(NSString*)url {
+    if(![url hasPrefix:@"http://"] && ![url hasPrefix:@"https://"]) {
+        return [@"http://" stringByAppendingString:url];
+    }
+    return url;
 }
 
 @end
