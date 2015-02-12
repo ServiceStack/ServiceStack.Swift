@@ -24,6 +24,8 @@
 
 @property(weak, nonatomic) IBOutlet NSTextField *errorLabel;
 
+@property(weak, nonatomic) IBOutlet NSProgressIndicator *loadingIndicator;
+
 @property(weak, nonatomic) NSString *addressText;
 
 @property(weak, nonatomic) NSString *nameText;

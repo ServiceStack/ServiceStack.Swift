@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="address" destination="DYn-0h-DD0" id="uSJ-iW-n3r"/>
                 <outlet property="errorLabel" destination="Dex-5R-z20" id="SGs-Lr-YgK"/>
+                <outlet property="loadingIndicator" destination="L1a-lJ-Fg8" id="mq6-Ef-gZs"/>
                 <outlet property="name" destination="M7f-EK-lVz" id="W6t-6n-Odb"/>
                 <outlet property="okButton" destination="e3K-nb-ryJ" id="oWb-El-9Ob"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="JD7-Ud-pld"/>
@@ -18,14 +19,14 @@
         <window title="Add ServiceStack Reference" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="480" height="289"/>
+            <rect key="contentRect" x="196" y="240" width="480" height="234"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="289"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="234"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="deK-sA-U8K">
-                        <rect key="frame" x="18" y="191" width="92" height="17"/>
+                        <rect key="frame" x="18" y="136" width="92" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Address" id="yLD-Yb-3c2">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -33,7 +34,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DYn-0h-DD0">
-                        <rect key="frame" x="20" y="161" width="440" height="22"/>
+                        <rect key="frame" x="20" y="106" width="440" height="22"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="eg, http://www.example.com/" drawsBackground="YES" id="yYt-O3-sLm">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -49,7 +50,7 @@
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M7f-EK-lVz">
-                        <rect key="frame" x="20" y="102" width="440" height="22"/>
+                        <rect key="frame" x="20" y="47" width="440" height="22"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="eg, RemoteApplicationName" drawsBackground="YES" id="m1a-7m-Fxf">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -65,7 +66,7 @@
                         </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uBb-9Z-6NZ">
-                        <rect key="frame" x="20" y="132" width="66" height="17"/>
+                        <rect key="frame" x="20" y="77" width="66" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Name" id="82e-n8-B6F">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -73,7 +74,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gw2-ak-HN2">
-                        <rect key="frame" x="384" y="13" width="82" height="32"/>
+                        <rect key="frame" x="384" y="6" width="82" height="32"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Hly-hh-9Rf">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -86,7 +87,7 @@ Gw
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e3K-nb-ryJ">
-                        <rect key="frame" x="302" y="13" width="82" height="32"/>
+                        <rect key="frame" x="302" y="6" width="82" height="32"/>
                         <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yYW-Gs-aEH">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -99,7 +100,7 @@ DQ
                         </connections>
                     </button>
                     <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="allowed" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="yNz-AU-DWk">
-                        <rect key="frame" x="20" y="216" width="440" height="53"/>
+                        <rect key="frame" x="20" y="161" width="440" height="53"/>
                         <clipView key="contentView" misplaced="YES" copiesOnScroll="NO" id="dFL-eM-gnX">
                             <rect key="frame" x="1" y="1" width="223" height="133"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -136,16 +137,19 @@ DQ
                         </scroller>
                     </scrollView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dex-5R-z20">
-                        <rect key="frame" x="156" y="191" width="304" height="17"/>
+                        <rect key="frame" x="156" y="136" width="304" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="NVc-nM-Ouf">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="L1a-lJ-Fg8">
+                        <rect key="frame" x="284" y="15" width="16" height="16"/>
+                    </progressIndicator>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="305" y="438.5"/>
+            <point key="canvasLocation" x="305" y="411"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="mKb-l9-Fc6"/>
     </objects>

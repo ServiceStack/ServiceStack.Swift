@@ -26,6 +26,7 @@
 @synthesize errorLabel;
 @synthesize addressText;
 @synthesize nameText;
+@synthesize loadingIndicator;
 
 NSString *jsonServiceClientUrl = @"https://servicestack.net/dist/JsonServiceClient.swift";
 ValidateNativeTypesUrlDelegate *validateNativeTypesUrlDelegate;
@@ -43,11 +44,13 @@ NSString *finalDtoCode;
 
 -(void)formReady {
     [okButton setEnabled:YES];
+    [loadingIndicator stopAnimation:self];
 }
 
 -(void)formBusy {
     [okButton setEnabled:NO];
     [self clearErrorLabel];
+    [loadingIndicator startAnimation:self];
 }
 
 -(void)setError:(NSString*)errorText {
@@ -122,6 +125,7 @@ NSString *finalDtoCode;
 -(void)handleGetDtoSuccess:(NSString *)responseText {
     self.projectManipulation = [XcodeProjectManipulation new];
     finalDtoCode = responseText;
+    [self formReady];
     [self addFilesToProject];
 }
 
