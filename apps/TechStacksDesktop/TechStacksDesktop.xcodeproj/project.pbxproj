@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		512A43741A8DF09A007498CC /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512A43731A8DF09A007498CC /* JsonServiceClient.swift */; };
+		512A43761A8DF09A007498CC /* TechStacks.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512A43751A8DF09A007498CC /* TechStacks.dtos.swift */; };
 		51CDF3B81A89281900F61F8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CDF3B71A89281900F61F8B /* AppDelegate.swift */; };
 		51CDF3BA1A89281900F61F8B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CDF3B91A89281900F61F8B /* ViewController.swift */; };
 		51CDF3BC1A89281900F61F8B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51CDF3BB1A89281900F61F8B /* Images.xcassets */; };
@@ -14,8 +16,6 @@
 		51CDF3CB1A89281900F61F8B /* TechStacksDesktopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CDF3CA1A89281900F61F8B /* TechStacksDesktopTests.swift */; };
 		51CDF3D51A89330400F61F8B /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CDF3D41A89330400F61F8B /* AppData.swift */; };
 		51CDF3D71A89331200F61F8B /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CDF3D61A89331200F61F8B /* UIExtensions.swift */; };
-		51CDF3D91A893A4E00F61F8B /* TechStacks.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CDF3D81A893A4E00F61F8B /* TechStacks.dtos.swift */; };
-		51CDF3DB1A893A4E00F61F8B /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CDF3DA1A893A4E00F61F8B /* JsonServiceClient.swift */; };
 		51CDF3DD1A893B5A00F61F8B /* TechStacksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CDF3DC1A893B5A00F61F8B /* TechStacksViewController.swift */; };
 		51CDF3DF1A8BC64700F61F8B /* TechnologyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CDF3DE1A8BC64700F61F8B /* TechnologyViewController.swift */; };
 /* End PBXBuildFile section */
@@ -31,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		512A43731A8DF09A007498CC /* JsonServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonServiceClient.swift; sourceTree = "<group>"; };
+		512A43751A8DF09A007498CC /* TechStacks.dtos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechStacks.dtos.swift; sourceTree = "<group>"; };
 		51CDF3B21A89281900F61F8B /* TechStacksDesktop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechStacksDesktop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51CDF3B61A89281900F61F8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51CDF3B71A89281900F61F8B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -42,8 +44,6 @@
 		51CDF3CA1A89281900F61F8B /* TechStacksDesktopTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechStacksDesktopTests.swift; sourceTree = "<group>"; };
 		51CDF3D41A89330400F61F8B /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		51CDF3D61A89331200F61F8B /* UIExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
-		51CDF3D81A893A4E00F61F8B /* TechStacks.dtos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TechStacks.dtos.swift; path = ../TechStacks.dtos.swift; sourceTree = "<group>"; };
-		51CDF3DA1A893A4E00F61F8B /* JsonServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JsonServiceClient.swift; path = ../JsonServiceClient.swift; sourceTree = "<group>"; };
 		51CDF3DC1A893B5A00F61F8B /* TechStacksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechStacksViewController.swift; sourceTree = "<group>"; };
 		51CDF3DE1A8BC64700F61F8B /* TechnologyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechnologyViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,11 +91,11 @@
 				51CDF3B71A89281900F61F8B /* AppDelegate.swift */,
 				51CDF3D41A89330400F61F8B /* AppData.swift */,
 				51CDF3D61A89331200F61F8B /* UIExtensions.swift */,
-				51CDF3DA1A893A4E00F61F8B /* JsonServiceClient.swift */,
-				51CDF3D81A893A4E00F61F8B /* TechStacks.dtos.swift */,
 				51CDF3DC1A893B5A00F61F8B /* TechStacksViewController.swift */,
 				51CDF3DE1A8BC64700F61F8B /* TechnologyViewController.swift */,
 				51CDF3B91A89281900F61F8B /* ViewController.swift */,
+				512A43731A8DF09A007498CC /* JsonServiceClient.swift */,
+				512A43751A8DF09A007498CC /* TechStacks.dtos.swift */,
 			);
 			path = TechStacksDesktop;
 			sourceTree = "<group>";
@@ -229,11 +229,11 @@
 			files = (
 				51CDF3DD1A893B5A00F61F8B /* TechStacksViewController.swift in Sources */,
 				51CDF3BA1A89281900F61F8B /* ViewController.swift in Sources */,
-				51CDF3D91A893A4E00F61F8B /* TechStacks.dtos.swift in Sources */,
 				51CDF3B81A89281900F61F8B /* AppDelegate.swift in Sources */,
 				51CDF3DF1A8BC64700F61F8B /* TechnologyViewController.swift in Sources */,
 				51CDF3D51A89330400F61F8B /* AppData.swift in Sources */,
-				51CDF3DB1A893A4E00F61F8B /* JsonServiceClient.swift in Sources */,
+				512A43761A8DF09A007498CC /* TechStacks.dtos.swift in Sources */,
+				512A43741A8DF09A007498CC /* JsonServiceClient.swift in Sources */,
 				51CDF3D71A89331200F61F8B /* UIExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,6 +422,7 @@
 				51CDF3D01A89281900F61F8B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		51CDF3D11A89281900F61F8B /* Build configuration list for PBXNativeTarget "TechStacksDesktopTests" */ = {
 			isa = XCConfigurationList;
@@ -430,6 +431,7 @@
 				51CDF3D31A89281900F61F8B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

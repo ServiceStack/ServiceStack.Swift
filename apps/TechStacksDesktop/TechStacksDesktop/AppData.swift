@@ -40,19 +40,18 @@ public class AppData : NSObject
         return map
     }()
     
+    func createAutoQueryParam(field:String, _ operand:String) -> String {
+        let template = autoQueryOperandsMap[operand]!
+        let mergedField = template.replace("%", withString:field)
+        return mergedField
+    }
+    
     func searchTechStacks(query:String, field:String? = nil, operand:String? = nil) -> Promise<QueryResponse<TechnologyStack>> {
         self.search = query
         
-        var queryString = [String:String]()
-        if field != nil && operand != nil {
-            var autoQueryTemplate = autoQueryOperandsMap[operand!]!
-            let mergedField = autoQueryTemplate.replace("%", withString:field!).urlEncode()!
-            queryString[mergedField] = query
-        }
-        else {
-            queryString["NameContains"] = query
-            queryString["DescriptionContains"] = query
-        }
+        let queryString = field != nil && operand != nil
+            ? [createAutoQueryParam(field!, operand!): query]
+            : ["NameContains":query, "DescriptionContains":query]
         
         let request = FindTechStacks<TechnologyStack>()
         return client.getAsync(request, query:queryString)
@@ -65,16 +64,9 @@ public class AppData : NSObject
     func searchTechnologies(query:String, field:String? = nil, operand:String? = nil) -> Promise<QueryResponse<Technology>> {
         self.search = query
 
-        var queryString = [String:String]()
-        if field != nil && operand != nil {
-            var autoQueryTemplate = autoQueryOperandsMap[operand!]!
-            let mergedField = autoQueryTemplate.replace("%", withString:field!).urlEncode()!
-            queryString[mergedField] = query
-        }
-        else {
-            queryString["NameContains"] = query
-            queryString["DescriptionContains"] = query
-        }
+        let queryString = field != nil && operand != nil
+            ? [createAutoQueryParam(field!, operand!): query]
+            : ["NameContains":query, "DescriptionContains":query]
         
         let request = FindTechnologies<Technology>()
         return client.getAsync(request, query:queryString)
