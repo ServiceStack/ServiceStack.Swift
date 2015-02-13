@@ -180,7 +180,7 @@ public class JsonServiceClient : ServiceClient
         for pi in typeInfo.properties {
             if let strValue = pi.stringValue(dto) {
                 sb += sb.count == 0 ? "?" : "&"
-                sb += "\(pi.name)=\(strValue.urlEncode()!)"
+                sb += "\(pi.name.urlEncode()!)=\(strValue.urlEncode()!)"
             }
         }
         
