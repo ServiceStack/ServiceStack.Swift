@@ -270,6 +270,13 @@ public class JsonServiceClient : ServiceClient
         }
     }
     
+    func resolveUrl(relativeOrAbsoluteUrl:String) -> String {
+        return relativeOrAbsoluteUrl.hasPrefix("http:")
+            || relativeOrAbsoluteUrl.hasPrefix("https:")
+            ? relativeOrAbsoluteUrl
+            : baseUrl.combinePath(relativeOrAbsoluteUrl)
+    }
+    
     public func get<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer = nil) -> T.Return? {
         return send(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request), httpMethod:HttpMethods.Get), error:error)
     }
@@ -279,7 +286,7 @@ public class JsonServiceClient : ServiceClient
     }
     
     public func get<T : JsonSerializable>(relativeUrl:String, error:NSErrorPointer = nil) -> T? {
-        return send(T(), request: self.createRequest(baseUrl.combinePath(relativeUrl), httpMethod:HttpMethods.Get), error:error)
+        return send(T(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Get), error:error)
     }
     
     public func getAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return> {
@@ -291,7 +298,7 @@ public class JsonServiceClient : ServiceClient
     }
     
     public func getAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T> {
-        return sendAsync(T(), request: self.createRequest(baseUrl.combinePath(relativeUrl), httpMethod:HttpMethods.Get))
+        return sendAsync(T(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Get))
     }
     
     
@@ -300,7 +307,7 @@ public class JsonServiceClient : ServiceClient
     }
     
     public func post<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?, error:NSErrorPointer = nil) -> Response? {
-        return send(Response(), request: self.createRequest(baseUrl.combinePath(relativeUrl), httpMethod:HttpMethods.Post, request:request), error:error)
+        return send(Response(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Post, request:request), error:error)
     }
     
     public func postAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return> {
@@ -308,7 +315,7 @@ public class JsonServiceClient : ServiceClient
     }
     
     public func postAsync<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) -> Promise<Response> {
-        return sendAsync(Response(), request: self.createRequest(baseUrl.combinePath(relativeUrl), httpMethod:HttpMethods.Post, request:request))
+        return sendAsync(Response(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Post, request:request))
     }
     
     
@@ -317,7 +324,7 @@ public class JsonServiceClient : ServiceClient
     }
     
     public func put<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?, error:NSErrorPointer = nil) -> Response? {
-        return send(Response(), request: self.createRequest(baseUrl.combinePath(relativeUrl), httpMethod:HttpMethods.Put, request:request), error:error)
+        return send(Response(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Put, request:request), error:error)
     }
     
     public func putAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return> {
@@ -325,7 +332,7 @@ public class JsonServiceClient : ServiceClient
     }
     
     public func putAsync<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) -> Promise<Response> {
-        return sendAsync(Response(), request: self.createRequest(baseUrl.combinePath(relativeUrl), httpMethod:HttpMethods.Put, request:request))
+        return sendAsync(Response(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Put, request:request))
     }
     
     
@@ -338,7 +345,7 @@ public class JsonServiceClient : ServiceClient
     }
     
     public func delete<T : JsonSerializable>(relativeUrl:String, error:NSErrorPointer = nil) -> T? {
-        return send(T(), request: self.createRequest(baseUrl.combinePath(relativeUrl), httpMethod:HttpMethods.Delete), error:error)
+        return send(T(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Delete), error:error)
     }
     
     public func deleteAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return> {
@@ -350,12 +357,12 @@ public class JsonServiceClient : ServiceClient
     }
     
     public func deleteAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T> {
-        return sendAsync(T(), request: self.createRequest(baseUrl.combinePath(relativeUrl), httpMethod:HttpMethods.Delete))
+        return sendAsync(T(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Delete))
     }
     
     public func getData(url:String, error:NSErrorPointer = nil) -> NSData? {
         var response:NSURLResponse? = nil
-        if let data = NSURLConnection.sendSynchronousRequest(NSURLRequest(URL: NSURL(string:url)!), returningResponse: &response, error: error) {
+        if let data = NSURLConnection.sendSynchronousRequest(NSURLRequest(URL: NSURL(string:resolveUrl(url))!), returningResponse: &response, error: error) {
             return data
         }
         return nil
@@ -363,7 +370,7 @@ public class JsonServiceClient : ServiceClient
     
     public func getDataAsync(url:String) -> Promise<NSData> {
         return Promise<NSData> { (complete, reject) in
-            var task = self.createSession().dataTaskWithURL(NSURL(string: url)!) { (data, response, error) in
+            var task = self.createSession().dataTaskWithURL(NSURL(string: self.resolveUrl(url))!) { (data, response, error) in
                 if error != nil {
                     reject(self.handleError(error))
                 }

@@ -47,8 +47,13 @@ class JsonServiceClientTests: XCTestCase {
         })
     }
     
-    func test_Can_GET_TechStacks_Overview_with_url() {
+    func test_Can_GET_TechStacks_Overview_with_relative_url() {
         let response:OverviewResponse? = client.get("/overview")
+        self.assertOverviewResponse(response!)
+    }
+    
+    func test_Can_GET_TechStacks_Overview_with_absolute_url() {
+        let response:OverviewResponse? = client.get("http://techstacks.io/overview")
         self.assertOverviewResponse(response!)
     }
     
