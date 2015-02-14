@@ -153,11 +153,11 @@ extension NSDate : StringSerializable
     public class var typeName:String { return "NSDate" }
     
     public func toString() -> String {
-        return self.isoDateString
+        return self.dateAndTimeString
     }
     
     public func toJson() -> String {
-        return jsonString(self.dateAndTimeString)
+        return jsonString(self.isoDateString)
     }
     
     public class func fromString(string: String) -> NSDate? {
