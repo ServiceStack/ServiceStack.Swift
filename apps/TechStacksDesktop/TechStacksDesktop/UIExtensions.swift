@@ -39,3 +39,16 @@ extension String {
         return String(self[0]).uppercaseString + self[1..<self.count]
     }
 }
+
+extension NSError {
+    var responseStatus:ResponseStatus {
+        var status:ResponseStatus = self.convertUserInfo() ?? ResponseStatus()
+        if status.errorCode == nil {
+            status.errorCode = self.code.toString()
+        }
+        if status.message == nil {
+            status.message = self.localizedDescription
+        }
+        return status
+    }
+}

@@ -1,5 +1,5 @@
 /* Options:
-Date: 2015-02-13 08:45:49
+Date: 2015-02-14 16:14:39
 Version: 1
 BaseUrl: http://techstacks.io
 
@@ -592,7 +592,6 @@ public class FindTechnologies<Technology : JsonSerializable> : QueryBase_1<Techn
     typealias Return = QueryResponse<Technology>
 
     required public init(){}
-    public var name:String?
     public var reload:Bool?
 }
 
@@ -2558,7 +2557,6 @@ extension FindTechnologies : JsonSerializable
     public class func reflect() -> Type<FindTechnologies> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<FindTechnologies>(
             properties: [
-                Type<FindTechnologies>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                 Type<FindTechnologies>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
                 Type<FindTechnologies>.optionalProperty("skip", get: { $0.skip }, set: { $0.skip = $1 }),
                 Type<FindTechnologies>.optionalProperty("take", get: { $0.take }, set: { $0.take = $1 }),

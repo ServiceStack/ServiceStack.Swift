@@ -15,6 +15,7 @@ class TechnologyViewController : NSViewController, NSTableViewDataSource, NSTabl
     @IBOutlet weak var cboQueryType: NSComboBox!
     @IBOutlet weak var txtSearch: NSTextField!
     @IBOutlet weak var tblResults: NSTableView!
+    @IBOutlet weak var lblError: NSTextField!
     
     @IBAction func onSearchChange(sender: NSTextField) {
         search()
@@ -25,9 +26,13 @@ class TechnologyViewController : NSViewController, NSTableViewDataSource, NSTabl
     }
     
     func search() {
+        lblError.stringValue = ""
         self.appData.searchTechnologies(txtSearch.stringValue,
             field: cboField.objectValueOfSelectedItem as? String,
             operand: cboQueryType.objectValueOfSelectedItem as? String)
+            .catch(body: {(e:NSError) -> Void in
+                self.lblError.stringValue = e.responseStatus.message ?? ""
+            })
     }
     
     override func viewDidLoad() {

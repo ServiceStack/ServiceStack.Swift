@@ -49,7 +49,7 @@ public class AppData : NSObject
     func searchTechStacks(query:String, field:String? = nil, operand:String? = nil) -> Promise<QueryResponse<TechnologyStack>> {
         self.search = query
         
-        let queryString = field != nil && operand != nil
+        let queryString = query.count > 0 && field != nil && operand != nil
             ? [createAutoQueryParam(field!, operand!): query]
             : ["NameContains":query, "DescriptionContains":query]
         
@@ -64,7 +64,7 @@ public class AppData : NSObject
     func searchTechnologies(query:String, field:String? = nil, operand:String? = nil) -> Promise<QueryResponse<Technology>> {
         self.search = query
 
-        let queryString = field != nil && operand != nil
+        let queryString = query.count > 0 && field != nil && operand != nil
             ? [createAutoQueryParam(field!, operand!): query]
             : ["NameContains":query, "DescriptionContains":query]
         
