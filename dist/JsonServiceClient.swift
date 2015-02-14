@@ -569,7 +569,7 @@ extension NSDate : StringSerializable
     }
     
     public func toJson() -> String {
-        return jsonString(self.isoDateString)
+        return jsonString(self.dateAndTimeString)
     }
     
     public class func fromString(string: String) -> NSDate? {
@@ -626,7 +626,6 @@ extension Double : StringSerializable
 
 extension NSTimeInterval
 {
-    
     public func toTimeIntervalString() -> String {
         var sb = "P"
         
@@ -710,7 +709,6 @@ extension NSTimeInterval
             + (seconds)
         
         let interval = Double(totalSecs) + ms
-        
         
         return interval
     }
@@ -1966,6 +1964,13 @@ public extension NSDate {
         let fmt = NSDateFormatter()
         fmt.timeZone = NSTimeZone.defaultTimeZone()
         fmt.dateFormat = "yyyy-MM-dd"
+        return fmt.stringFromDate(self)
+    }
+    
+    public var dateAndTimeString:String {
+        let fmt = NSDateFormatter()
+        fmt.timeZone = NSTimeZone.defaultTimeZone()
+        fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return fmt.stringFromDate(self)
     }
     

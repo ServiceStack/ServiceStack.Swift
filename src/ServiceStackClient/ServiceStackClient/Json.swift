@@ -157,7 +157,7 @@ extension NSDate : StringSerializable
     }
     
     public func toJson() -> String {
-        return jsonString(self.isoDateString)
+        return jsonString(self.dateAndTimeString)
     }
     
     public class func fromString(string: String) -> NSDate? {
@@ -214,8 +214,6 @@ extension Double : StringSerializable
 
 extension NSTimeInterval
 {
-//    public static var typeName:String { return "NSTimeInterval" }
-    
     public func toTimeIntervalString() -> String {
         var sb = "P"
         
@@ -299,8 +297,6 @@ extension NSTimeInterval
             + (seconds)
         
         let interval = Double(totalSecs) + ms
-        
-//        println("days: \(days), hours: \(hours), mins: \(minutes), secs: \(seconds), ms: \(ms), interval: \(interval)")
         
         return interval
     }

@@ -56,6 +56,13 @@ public extension NSDate {
         return fmt.stringFromDate(self)
     }
     
+    public var dateAndTimeString:String {
+        let fmt = NSDateFormatter()
+        fmt.timeZone = NSTimeZone.defaultTimeZone()
+        fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return fmt.stringFromDate(self)
+    }
+    
     public var isoDateString:String {
         var dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
