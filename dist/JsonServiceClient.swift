@@ -1,4 +1,4 @@
-/* Url: https://raw.githubusercontent.com/ServiceStack/ServiceStack.Swift/master/dist/JsonServiceClient.swift
+/* Url: https://servicestack.net/dist/JsonServiceClient.swift
 //
 // JsonServiceClient.swift
 // ServiceStackClient
