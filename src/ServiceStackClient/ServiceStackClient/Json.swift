@@ -737,57 +737,57 @@ public class Type<T : HasReflect> : TypeAccessor
     
     public class func property<P : StringSerializable>(name:String, get:(T) -> P, set:(T,P) -> Void) -> PropertyType
     {
-        return Property(name: name, get:get, set:set)
+        return JProperty(name: name, get:get, set:set)
     }
     
     public class func optionalProperty<P : StringSerializable>(name:String, get:(T) -> P?, set:(T,P?) -> Void) -> PropertyType
     {
-        return OptionalProperty(name: name, get:get, set:set)
+        return JOptionalProperty(name: name, get:get, set:set)
     }
     
     public class func objectProperty<P : JsonSerializable>(name:String, get:(T) -> P, set:(T,P) -> Void) -> PropertyType
     {
-        return ObjectProperty(name: name, get:get, set:set)
+        return JObjectProperty(name: name, get:get, set:set)
     }
     
     public class func optionalObjectProperty<P : JsonSerializable>(name:String, get:(T) -> P?, set:(T,P?) -> Void) -> PropertyType
     {
-        return OptionalObjectProperty(name: name, get:get, set:set)
+        return JOptionalObjectProperty(name: name, get:get, set:set)
     }
     
     public class func objectProperty<K : Hashable, P : StringSerializable where K : StringSerializable>(name:String, get:(T) -> [K:P], set:(T,[K:P]) -> Void) -> PropertyType
     {
-        return DictionaryProperty(name: name, get:get, set:set)
+        return JDictionaryProperty(name: name, get:get, set:set)
     }
     
     public class func objectProperty<K : Hashable, P : StringSerializable where K : StringSerializable, K == K.T>(name:String, get:(T) -> [K:[P]], set:(T,[K:[P]]) -> Void) -> PropertyType
     {
-        return DictionaryArrayProperty(name: name, get:get, set:set)
+        return JDictionaryArrayProperty(name: name, get:get, set:set)
     }
     
     public class func objectProperty<K : Hashable, P : JsonSerializable where K : StringSerializable>(name:String, get:(T) -> [K:[K:P]], set:(T,[K:[K:P]]) -> Void) -> PropertyType
     {
-        return DictionaryArrayDictionaryObjectProperty(name: name, get:get, set:set)
+        return JDictionaryArrayDictionaryObjectProperty(name: name, get:get, set:set)
     }
     
     public class func arrayProperty<P : StringSerializable>(name:String, get:(T) -> [P], set:(T,[P]) -> Void) -> PropertyType
     {
-        return ArrayProperty(name: name, get:get, set:set)
+        return JArrayProperty(name: name, get:get, set:set)
     }
     
     public class func optionalArrayProperty<P : StringSerializable>(name:String, get:(T) -> [P]?, set:(T,[P]?) -> Void) -> PropertyType
     {
-        return OptionalArrayProperty(name: name, get:get, set:set)
+        return JOptionalArrayProperty(name: name, get:get, set:set)
     }
     
     public class func arrayProperty<P : JsonSerializable>(name:String, get:(T) -> [P], set:(T,[P]) -> Void) -> PropertyType
     {
-        return ArrayObjectProperty(name: name, get:get, set:set)
+        return JArrayObjectProperty(name: name, get:get, set:set)
     }
     
     public class func optionalArrayProperty<P : JsonSerializable>(name:String, get:(T) -> [P]?, set:(T,[P]?) -> Void) -> PropertyType
     {
-        return OptionalArrayObjectProperty(name: name, get:get, set:set)
+        return JOptionalArrayObjectProperty(name: name, get:get, set:set)
     }
 }
 
@@ -814,7 +814,7 @@ public class PropertyType {
     }
 }
 
-public class Property<T : HasReflect, P : StringSerializable> : PropertyType
+public class JProperty<T : HasReflect, P : StringSerializable> : PropertyType
 {
     public var get:(T) -> P
     public var set:(T,P) -> Void
@@ -848,7 +848,7 @@ public class Property<T : HasReflect, P : StringSerializable> : PropertyType
     }
 }
 
-public class OptionalProperty<T : HasReflect, P : StringSerializable> : PropertyType
+public class JOptionalProperty<T : HasReflect, P : StringSerializable> : PropertyType
 {
     public var get:(T) -> P?
     public var set:(T,P) -> Void
@@ -885,7 +885,7 @@ public class OptionalProperty<T : HasReflect, P : StringSerializable> : Property
 }
 
 
-public class ObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
+public class JObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
 {
     public var get:(T) -> P
     public var set:(T,P) -> Void
@@ -919,7 +919,7 @@ public class ObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
     }
 }
 
-public class OptionalObjectProperty<T : HasReflect, P : JsonSerializable where P : HasReflect> : PropertyType
+public class JOptionalObjectProperty<T : HasReflect, P : JsonSerializable where P : HasReflect> : PropertyType
 {
     public var get:(T) -> P?
     public var set:(T,P) -> Void
@@ -947,7 +947,7 @@ public class OptionalObjectProperty<T : HasReflect, P : JsonSerializable where P
     }
 }
 
-public class DictionaryProperty<T : HasReflect, K : Hashable, P : StringSerializable where K : StringSerializable> : PropertyType
+public class JDictionaryProperty<T : HasReflect, K : Hashable, P : StringSerializable where K : StringSerializable> : PropertyType
 {
     public var get:(T) -> [K:P]
     public var set:(T,[K:P]) -> Void
@@ -992,7 +992,7 @@ public class DictionaryProperty<T : HasReflect, K : Hashable, P : StringSerializ
     }
 }
 
-public class DictionaryArrayProperty<T : HasReflect, K : Hashable, P : StringSerializable where K : StringSerializable, K == K.T> : PropertyType
+public class JDictionaryArrayProperty<T : HasReflect, K : Hashable, P : StringSerializable where K : StringSerializable, K == K.T> : PropertyType
 {
     public var get:(T) -> [K:[P]]
     public var set:(T,[K:[P]]) -> Void
@@ -1047,7 +1047,7 @@ public class DictionaryArrayProperty<T : HasReflect, K : Hashable, P : StringSer
     }
 }
 
-public class DictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashable, P : JsonSerializable where K : StringSerializable> : PropertyType
+public class JDictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashable, P : JsonSerializable where K : StringSerializable> : PropertyType
 {
     public var get:(T) -> [K:[K:P]]
     public var set:(T,[K:[K:P]]) -> Void
@@ -1098,7 +1098,7 @@ public class DictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashabl
     }
 }
 
-public class ArrayProperty<T : HasReflect, P : StringSerializable> : PropertyType
+public class JArrayProperty<T : HasReflect, P : StringSerializable> : PropertyType
 {
     public var get:(T) -> [P]
     public var set:(T,[P]) -> Void
@@ -1152,7 +1152,7 @@ public class ArrayProperty<T : HasReflect, P : StringSerializable> : PropertyTyp
     }
 }
 
-public class OptionalArrayProperty<T : HasReflect, P : StringSerializable> : PropertyType
+public class JOptionalArrayProperty<T : HasReflect, P : StringSerializable> : PropertyType
 {
     public var get:(T) -> [P]?
     public var set:(T,[P]?) -> Void
@@ -1207,7 +1207,7 @@ public class OptionalArrayProperty<T : HasReflect, P : StringSerializable> : Pro
     }
 }
 
-public class ArrayObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
+public class JArrayObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
 {
     public var get:(T) -> [P]
     public var set:(T,[P]) -> Void
@@ -1261,7 +1261,7 @@ public class ArrayObjectProperty<T : HasReflect, P : JsonSerializable> : Propert
     }
 }
 
-public class OptionalArrayObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
+public class JOptionalArrayObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
 {
     public var get:(T) -> [P]?
     public var set:(T,[P]?) -> Void
