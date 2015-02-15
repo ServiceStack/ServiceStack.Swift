@@ -16,33 +16,33 @@
 @implementation NSDocument (SSXCAdditions)
 
 + (void)load {
-    Method original, swizzle;
-
-    original = class_getInstanceMethod(
-            self,
-            NSSelectorFromString(
-                    @"saveDocumentWithDelegate:didSaveSelector:contextInfo:"));
-    swizzle = class_getInstanceMethod(
-            self,
-            NSSelectorFromString(
-                    @"ssxc_documentWillSave:didSaveSelector:contextInfo:"));
-
-    method_exchangeImplementations(original, swizzle);
+//    Method original, swizzle;
+//
+//    original = class_getInstanceMethod(
+//            self,
+//            NSSelectorFromString(
+//                    @"saveDocumentWithDelegate:didSaveSelector:contextInfo:"));
+//    swizzle = class_getInstanceMethod(
+//            self,
+//            NSSelectorFromString(
+//                    @"ssxc_documentWillSave:didSaveSelector:contextInfo:"));
+//
+//    method_exchangeImplementations(original, swizzle);
 
 }
 
 
-- (void)ssxc_documentWillSave:(id)delegate
-              didSaveSelector:(SEL)didSaveSelector
-                  contextInfo:(void *)contextInfo {
-
-    IDESourceCodeDocument *sourceCodeDocument = [DTXcodeUtils currentSourceCodeDocument];
-    NSURL *fileUrl = [sourceCodeDocument fileURL];
-    NSString *absolutePath = fileUrl.path;
-    [SwiftNativeTypesManger updateFileContents:absolutePath];
-
-    [self ssxc_documentWillSave:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
-}
+//- (void)ssxc_documentWillSave:(id)delegate
+//              didSaveSelector:(SEL)didSaveSelector
+//                  contextInfo:(void *)contextInfo {
+//
+//    IDESourceCodeDocument *sourceCodeDocument = [DTXcodeUtils currentSourceCodeDocument];
+//    NSURL *fileUrl = [sourceCodeDocument fileURL];
+//    NSString *absolutePath = fileUrl.path;
+//    [SwiftNativeTypesManger updateFileContents:absolutePath];
+//
+//    [self ssxc_documentWillSave:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
+//}
 
 
 @end

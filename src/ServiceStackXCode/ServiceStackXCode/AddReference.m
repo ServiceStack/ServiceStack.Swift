@@ -40,6 +40,7 @@ NSString *finalDtoCode;
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     [okButton setEnabled:NO];
     [self clearErrorLabel];
+    self.projectManipulation = [XcodeProjectManipulation new];
 }
 
 -(void)formReady {
@@ -69,7 +70,7 @@ NSString *finalDtoCode;
     [self startValidateUrlRequest:metadataUrl];
 }
 
--(bool)createMetadataUrl:(NSString**) metadataUrl {
+-(BOOL)createMetadataUrl:(NSString**) metadataUrl {
     NSString *urlFromTextBox = [self parseUrl:[address stringValue]];
     if (![self validateUrl:urlFromTextBox]) {
         return false;
@@ -89,7 +90,7 @@ NSString *finalDtoCode;
     return true;
 }
 
--(bool)createNativeTypesUrl:(NSString**) url {
+-(BOOL)createNativeTypesUrl:(NSString**) url {
     NSString *urlFromTextBox = [self parseUrl:[address stringValue]];
     if (![self validateUrl:urlFromTextBox]) {
         return false;
@@ -110,7 +111,6 @@ NSString *finalDtoCode;
 }
 
 -(void)handleGetJsonServiceClientSuccess:(NSString *)responseText {
-    self.projectManipulation = [XcodeProjectManipulation new];
     finalJsonServiceClientCode = responseText;
     NSString *dtoUrl;
     [self createNativeTypesUrl:&dtoUrl];
@@ -123,25 +123,15 @@ NSString *finalDtoCode;
 }
 
 -(void)handleGetDtoSuccess:(NSString *)responseText {
-    self.projectManipulation = [XcodeProjectManipulation new];
     finalDtoCode = responseText;
     [self formReady];
     [self addFilesToProject];
 }
 
--(void)handleValidateNativeTypesResponse:(bool)validNativeTypes {
+-(void)handleValidateNativeTypesResponse:(BOOL)validNativeTypes {
     if(validNativeTypes) {
-        NSString *currentWorkspacePath = [[self.projectManipulation workspacePath] stringByAppendingString:@"/"];
-        NSString *pathForFile = [currentWorkspacePath stringByAppendingString:@"JsonServiceClient.swift"];
-        NSFileManager *fileManager =[NSFileManager defaultManager];
-        //Check if JsonServiceClient exists
-        if(![fileManager fileExistsAtPath:pathForFile]) {
-            [self startJsonServiceClientRequest:jsonServiceClientUrl];
-        } else {
-            NSString *dtoUrl;
-            [self createNativeTypesUrl:&dtoUrl];
-            [self startDtoRequest:dtoUrl];
-        }
+        [self startJsonServiceClientRequest:jsonServiceClientUrl];
+
     } else {
         [self formReady];
         [self setError:validateNativeTypesUrlDelegate.errorMessage];
@@ -200,16 +190,28 @@ NSString *finalDtoCode;
     NSString *fullFilePath = nil;
     if ([fileManager fileExistsAtPath:defaultFolder]) {
         fullFilePath = [defaultFolder stringByAppendingString:fileName];
+        //Check if file exists before creating
+        BOOL dtoFileExists = [fileManager fileExistsAtPath:fullFilePath];
+        //Create file (overwrite)
         NSString *path = [self createCodeFile:fullFilePath withCode:fileContents];
-        id <PBXTarget> target = [self.projectManipulation targets][0];
-        [self.projectManipulation addFileAtPath:path toTarget:target withGroup:projectName];
+        //Only add if file didn't already exist
+        if(!dtoFileExists) {
+            id <PBXTarget> target = [self.projectManipulation targets][0];
+            [self.projectManipulation addFileAtPath:path toTarget:target withGroup:projectName];
+        }
         return;
     }
 
     fullFilePath = [currentWorkspacePath stringByAppendingString:fileName];
+    //Check if file exists before creating
+    BOOL dtoFileExists = [fileManager fileExistsAtPath:fullFilePath];
+    //Create file (overwrite)
     NSString *path = [self createCodeFile:fullFilePath withCode:fileContents];
-    id <PBXTarget> target = [self.projectManipulation targets][0];
-    [self.projectManipulation addFileAtPath:path toTarget:target];
+    //Only add if file didn't already exist
+    if(!dtoFileExists) {
+        id <PBXTarget> target = [self.projectManipulation targets][0];
+        [self.projectManipulation addFileAtPath:path toTarget:target withGroup:projectName];
+    }
 }
 
 - (void)cancelAddReference:(id)sender {

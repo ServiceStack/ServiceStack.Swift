@@ -27,6 +27,6 @@
 
 @interface NSObject(ValidateNativeTypesUrlDelegateMethods)
 
--(void) handleValidateNativeTypesResponse:(bool)validNativeTypes;
+-(void) handleValidateNativeTypesResponse:(BOOL)validNativeTypes;
 
 @end

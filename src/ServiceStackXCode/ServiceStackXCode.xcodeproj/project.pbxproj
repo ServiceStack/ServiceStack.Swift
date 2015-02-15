@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		60BCF14220B8CC23A077F9EF /* pkg.json in Resources */ = {isa = PBXBuildFile; fileRef = 60BCF7975305CC3E64BDC994 /* pkg.json */; };
 		60BCF1686EBF74545D164A24 /* SwiftNativeTypesManger.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BCFD7703ECB5ECE123CEE5 /* SwiftNativeTypesManger.m */; };
 		60BCF18AD8A6EBA8D2623F9E /* GetDtoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BCF2AA8B3A45BB088CE303 /* GetDtoDelegate.m */; };
 		60BCF6436DC082FEFC152AFC /* ValidateNativeTypesUrlDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BCFD13317A939DB1DBF4FA /* ValidateNativeTypesUrlDelegate.m */; };
+		60BCF7C2164C70415276BAD8 /* logo-400.icns in Resources */ = {isa = PBXBuildFile; fileRef = 60BCF026CA9C43FBCC24BF61 /* logo-400.icns */; };
 		60BCF9B94D8E78F50E409BAE /* GetJsonServiceClientDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BCFF02506299D489CFA53B /* GetJsonServiceClientDelegate.m */; };
 		97F83CCE6FBA87284222FFF7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1A28484B59D35371F71246 /* libPods.a */; };
 		ED01F9011A79AF2F000B14B2 /* AddReference.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED01F9001A79AF2F000B14B2 /* AddReference.xib */; };
@@ -35,9 +37,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		60BCF026CA9C43FBCC24BF61 /* logo-400.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "logo-400.icns"; sourceTree = "<group>"; };
 		60BCF0395C3CFE42F7563688 /* xcproj.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = xcproj.xcodeproj; path = xcproj/xcproj.xcodeproj; sourceTree = "<group>"; };
 		60BCF2AA8B3A45BB088CE303 /* GetDtoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetDtoDelegate.m; sourceTree = "<group>"; };
 		60BCF59EC10448161386F201 /* GetDtoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetDtoDelegate.h; sourceTree = "<group>"; };
+		60BCF7975305CC3E64BDC994 /* pkg.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = pkg.json; sourceTree = "<group>"; };
 		60BCF86A67F788B4E1CF3BD2 /* ValidateNativeTypesUrlDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidateNativeTypesUrlDelegate.h; sourceTree = "<group>"; };
 		60BCFAFB9BF8BC7091E5878B /* GetJsonServiceClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetJsonServiceClientDelegate.h; sourceTree = "<group>"; };
 		60BCFD0CCD8C1B2E5E831E14 /* SwiftNativeTypesManger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftNativeTypesManger.h; sourceTree = "<group>"; };
@@ -107,6 +111,8 @@
 				ED96D14D1A79A5D300B23CF7 /* Products */,
 				4A7750654652C48B93ADA423 /* Pods */,
 				60BCF0395C3CFE42F7563688 /* xcproj.xcodeproj */,
+				60BCF7975305CC3E64BDC994 /* pkg.json */,
+				60BCF026CA9C43FBCC24BF61 /* logo-400.icns */,
 			);
 			sourceTree = "<group>";
 		};
@@ -242,6 +248,8 @@
 				ED96D1571A79A5D300B23CF7 /* ServiceStackXCode.xcscheme in Resources */,
 				EDCA73C31A843169000CE1B9 /* Podfile in Resources */,
 				ED01F9011A79AF2F000B14B2 /* AddReference.xib in Resources */,
+				60BCF14220B8CC23A077F9EF /* pkg.json in Resources */,
+				60BCF7C2164C70415276BAD8 /* logo-400.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

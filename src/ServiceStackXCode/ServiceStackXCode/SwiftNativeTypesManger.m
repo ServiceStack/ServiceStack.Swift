@@ -14,8 +14,45 @@
 
 }
 
+NSMutableData *receivedData;
+NSHTTPURLResponse *httpUrlResponse;
+NSError *responseError;
+NSString *errorMessage;
+DVTSourceTextView *sourceTextView;
+
++(void) connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response {
+    httpUrlResponse = (NSHTTPURLResponse *) response;
+    [receivedData setLength:0];
+}
+
++(void) connection:(NSURLConnection*)connection didReceiveData:(NSData*)data {
+    if(receivedData == nil) {
+        receivedData = [NSMutableData alloc];
+    }
+    [receivedData appendData:data];
+}
+
++(void) connection:(NSURLConnection*)connection didFailWithError:(NSError*)error {
+    responseError = error;
+
+}
+
++(void) connectionDidFinishLoading:(NSURLConnection*)connection {
+    NSString *responseString = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    // This is a reference to the current source code editor.
+    [sourceTextView selectAll:nil];
+    NSRange selectedTextRange = [sourceTextView selectedRange];
+    NSString *selectedString = [sourceTextView.textStorage.string substringWithRange:selectedTextRange];
+    if (selectedString) {
+        [sourceTextView replaceCharactersInRange:selectedTextRange withString:responseString];
+        //This is done to avoid observed Xcode crashing
+        NSUndoManager *undoManager = [sourceTextView undoManager];
+        [undoManager removeAllActions];
+    }
+}
+
 + (void)updateFileContents:(NSString *)fileName {
-    DVTSourceTextView *sourceTextView = [DTXcodeUtils currentSourceTextView];
+    sourceTextView = [DTXcodeUtils currentSourceTextView];
     NSInteger insertionPoint = [[sourceTextView selectedRanges][0] rangeValue].location;
     [sourceTextView selectAll:self];
     NSRange selectedTextRange = [sourceTextView selectedRange];
@@ -43,26 +80,8 @@
 + (void) updateFile:(NSString*)fullUpdateUrl withFile:(NSString*)fileName {
     NSURL *url = [NSURL URLWithString:fullUpdateUrl];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    NSURLResponse *response = nil;
-    NSError *error = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (error == nil) {
-        NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        // This is a reference to the current source code editor.
-        DVTSourceTextView *sourceTextView = [DTXcodeUtils currentSourceTextView];
-        [sourceTextView selectAll:nil];
-        NSRange selectedTextRange = [sourceTextView selectedRange];
-        NSString *selectedString = [sourceTextView.textStorage.string substringWithRange:selectedTextRange];
-        if (selectedString) {
-            [sourceTextView replaceCharactersInRange:selectedTextRange withString:responseString];
-            //This is done to avoid observed Xcode crashing
-            NSUndoManager *undoManager = [sourceTextView undoManager];
-            [undoManager removeAllActions];
-        }
-    } else {
-        //Handle error
-        NSLog(@"Error updating file %@", fileName);
-    }
+    NSURLConnection *connection = [[NSURLConnection  alloc] initWithRequest:request delegate:self];
+    [connection start];
 }
 
 + (NSString *)generateUrlFromFile:(NSString *)code {
@@ -154,7 +173,7 @@
         }
 
         NSString *key = [currentOption split:@":"][0];
-        NSString *val = [currentOption split:@":"][1];
+        NSString *val = [[[currentOption split:@":"][1] substringFromIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         result[key] = val;
     }
     NSDictionary *resultDictionary = [NSDictionary dictionaryWithDictionary:result];
