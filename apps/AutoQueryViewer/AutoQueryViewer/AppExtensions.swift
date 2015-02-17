@@ -91,10 +91,13 @@ extension UIViewController
         var imageView = UIImageView(frame: CGRect(x: self.view.frame.width - width, y: 0, width: width, height: 80))
         imageView.contentMode = UIViewContentMode.TopRight
         imageView.loadAsync(imageUrl, withSize:imageView.frame.size)
-        view.addSubview(imageView)
-        var btnBrand = UIButton(frame: imageView.frame)
+
+        var btnBrand = UIButton(frame: CGRect(x: self.view.frame.width - 440, y: 0, width: 440, height: 80))
         btnBrand.addTarget(self, action: action, forControlEvents: UIControlEvents.TouchUpInside)
-        view.addSubview(btnBrand)
+        
+        view.insertSubview(imageView, belowSubview: view.subviews[0] as UIView)
+        view.insertSubview(btnBrand, belowSubview:imageView)
+        
         return imageView
     }
 }
