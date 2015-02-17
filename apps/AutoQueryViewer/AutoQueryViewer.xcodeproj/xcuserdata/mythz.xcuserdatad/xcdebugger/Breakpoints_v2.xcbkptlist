@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AutoQueryViewer/AutoQueryViewController.swift"
-            timestampString = "445901219.889916"
+            timestampString = "445906910.494817"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "updateResults(_:)"
             landmarkType = "5">
          </BreakpointContent>

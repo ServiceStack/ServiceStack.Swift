@@ -113,6 +113,8 @@ class FindAutoQueryServiceViewController: UIViewController, UITableViewDelegate,
     
     @IBAction func connect() {
         
+        txtUrl.resignFirstResponder()
+        
         if txtUrl.text.count >= 2 && !txtUrl.text.hasPrefix("http") {
             txtUrl.text = "http://\(txtUrl.text)"
         }

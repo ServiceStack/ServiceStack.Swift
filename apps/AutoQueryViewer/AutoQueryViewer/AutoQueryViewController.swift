@@ -67,6 +67,7 @@ class AutoQueryViewController: UIViewController, UITextFieldDelegate, MDSpreadVi
 
         setMessage(nil)
         spinner.startAnimating()
+        txtSearchText.resignFirstResponder()
         
         client.getDataAsync(searchUrl!)
             .then(body:{ (r:NSData) -> AnyObject in
