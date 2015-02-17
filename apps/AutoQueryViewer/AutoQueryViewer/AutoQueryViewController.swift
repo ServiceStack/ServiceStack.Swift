@@ -68,6 +68,7 @@ class AutoQueryViewController: UIViewController, UITextFieldDelegate, MDSpreadVi
         setMessage(nil)
         spinner.startAnimating()
         txtSearchText.resignFirstResponder()
+        txtSearchText.clearsOnBeginEditing = false
         
         client.getDataAsync(searchUrl!)
             .then(body:{ (r:NSData) -> AnyObject in
@@ -216,9 +217,10 @@ class AutoQueryViewController: UIViewController, UITextFieldDelegate, MDSpreadVi
         txtSearchField.text = opType.getViewerAttrProperty("DefaultSearchField")?.value
         txtSearchType.text = opType.getViewerAttrProperty("DefaultSearchType")?.value
         txtSearchText.text = opType.getViewerAttrProperty("DefaultSearchText")?.value ?? getDefaultSetting("searchText")
-        txtSearchText.clearsOnBeginEditing = true
         
         search()
+
+        txtSearchText.clearsOnBeginEditing = true
     }
     
     func loadStyle() {
