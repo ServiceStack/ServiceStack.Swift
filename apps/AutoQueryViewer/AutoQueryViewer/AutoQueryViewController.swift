@@ -293,6 +293,20 @@ class AutoQueryViewController: UIViewController, UITextFieldDelegate, MDSpreadVi
         if let result = results[rowPath.row] as? NSDictionary {
             var property = resultProperties[columnPath.column]
             if let value: AnyObject = result.getItem(property.name!) {
+                
+                if let array = value as? NSArray {
+                    var str = array.componentsJoinedByString(", ")
+                    return str
+                }
+                if let map = value as? NSDictionary {
+                    parseJson("")
+                    var error:NSError?
+                    var jsonData = NSJSONSerialization.dataWithJSONObject(map, options: nil, error: &error)
+                    var json = jsonData?.toUtf8String()
+                    json = json?.replace("\"", withString: "").replace("{", withString: "").replace("}", withString: "")
+                    return json ?? ""
+                }
+                
                 return value
             }
         }
