@@ -56,7 +56,7 @@ extension AutoQueryService {
         to.serviceBaseUrl = self.serviceBaseUrl
         to.serviceName = self.serviceName
         to.serviceDescription = self.serviceDescription
-        to.serviceImageUrl = self.serviceImageUrl
+        to.serviceIconUrl = self.serviceIconUrl
         to.onlyShowAnnotatedServices = self.onlyShowAnnotatedServices
         to.brandUrl = self.brandUrl
         to.brandImageUrl = self.brandImageUrl
@@ -64,6 +64,7 @@ extension AutoQueryService {
         to.linkColor = self.linkColor
         to.backgroundColor = self.backgroundColor
         to.backgroundImageUrl = self.backgroundImageUrl
+        to.iconUrl = self.iconUrl
 
         return to
     }

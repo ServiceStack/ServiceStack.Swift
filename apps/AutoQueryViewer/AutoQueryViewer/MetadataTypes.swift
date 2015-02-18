@@ -39,7 +39,7 @@ public class AutoQueryService
     public var serviceBaseUrl:String?
     public var serviceName:String?
     public var serviceDescription:String?
-    public var serviceImageUrl:String?
+    public var serviceIconUrl:String?
     public var onlyShowAnnotatedServices:Bool?
     public var defaultSearchField:String?
     public var defaultSearchType:String?
@@ -50,6 +50,7 @@ public class AutoQueryService
     public var linkColor:String?
     public var backgroundColor:String?
     public var backgroundImageUrl:String?
+    public var iconUrl:String?
     public var ownerId:String?
     public var created:NSDate?
     public var createdBy:String?
@@ -173,7 +174,7 @@ extension AutoQueryService : JsonSerializable
                 Type<AutoQueryService>.optionalProperty("serviceBaseUrl", get: { $0.serviceBaseUrl }, set: { $0.serviceBaseUrl = $1 }),
                 Type<AutoQueryService>.optionalProperty("serviceName", get: { $0.serviceName }, set: { $0.serviceName = $1 }),
                 Type<AutoQueryService>.optionalProperty("serviceDescription", get: { $0.serviceDescription }, set: { $0.serviceDescription = $1 }),
-                Type<AutoQueryService>.optionalProperty("serviceImageUrl", get: { $0.serviceImageUrl }, set: { $0.serviceImageUrl = $1 }),
+                Type<AutoQueryService>.optionalProperty("serviceIconUrl", get: { $0.serviceIconUrl }, set: { $0.serviceIconUrl = $1 }),
                 Type<AutoQueryService>.optionalProperty("onlyShowAnnotatedServices", get: { $0.onlyShowAnnotatedServices }, set: { $0.onlyShowAnnotatedServices = $1 }),
                 Type<AutoQueryService>.optionalProperty("defaultSearchField", get: { $0.defaultSearchField }, set: { $0.defaultSearchField = $1 }),
                 Type<AutoQueryService>.optionalProperty("defaultSearchType", get: { $0.defaultSearchType }, set: { $0.defaultSearchType = $1 }),
@@ -184,6 +185,7 @@ extension AutoQueryService : JsonSerializable
                 Type<AutoQueryService>.optionalProperty("linkColor", get: { $0.linkColor }, set: { $0.linkColor = $1 }),
                 Type<AutoQueryService>.optionalProperty("backgroundColor", get: { $0.backgroundColor }, set: { $0.backgroundColor = $1 }),
                 Type<AutoQueryService>.optionalProperty("backgroundImageUrl", get: { $0.backgroundImageUrl }, set: { $0.backgroundImageUrl = $1 }),
+                Type<AutoQueryService>.optionalProperty("iconUrl", get: { $0.iconUrl }, set: { $0.iconUrl = $1 }),
                 Type<AutoQueryService>.optionalProperty("ownerId", get: { $0.ownerId }, set: { $0.ownerId = $1 }),
                 Type<AutoQueryService>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
                 Type<AutoQueryService>.optionalProperty("createdBy", get: { $0.createdBy }, set: { $0.createdBy = $1 }),
@@ -235,7 +237,7 @@ public class AutoQueryViewerConfig
     public var serviceBaseUrl:String?
     public var serviceName:String?
     public var serviceDescription:String?
-    public var serviceImageUrl:String?
+    public var serviceIconUrl:String?
 
     public var isPublic:Bool?
     public var onlyShowAnnotatedServices:Bool?
@@ -251,6 +253,7 @@ public class AutoQueryViewerConfig
     public var linkColor:String?
     public var backgroundColor:String?
     public var backgroundImageUrl:String?
+    public var iconUrl:String?
 }
 
 public class AutoQueryOperation
@@ -451,7 +454,7 @@ extension AutoQueryViewerConfig : JsonSerializable
                 Type<AutoQueryViewerConfig>.optionalProperty("serviceBaseUrl", get: { $0.serviceBaseUrl }, set: { $0.serviceBaseUrl = $1 }),
                 Type<AutoQueryViewerConfig>.optionalProperty("serviceName", get: { $0.serviceName }, set: { $0.serviceName = $1 }),
                 Type<AutoQueryViewerConfig>.optionalProperty("serviceDescription", get: { $0.serviceDescription }, set: { $0.serviceDescription = $1 }),
-                Type<AutoQueryViewerConfig>.optionalProperty("serviceImageUrl", get: { $0.serviceImageUrl }, set: { $0.serviceImageUrl = $1 }),
+                Type<AutoQueryViewerConfig>.optionalProperty("serviceIconUrl", get: { $0.serviceIconUrl }, set: { $0.serviceIconUrl = $1 }),
                 Type<AutoQueryViewerConfig>.arrayProperty("implicitConventions", get: { $0.implicitConventions }, set: { $0.implicitConventions = $1 }),
                 Type<AutoQueryViewerConfig>.optionalProperty("isPublic", get: { $0.isPublic }, set: { $0.isPublic = $1 }),
                 Type<AutoQueryViewerConfig>.optionalProperty("onlyShowAnnotatedServices", get: { $0.onlyShowAnnotatedServices }, set: { $0.onlyShowAnnotatedServices = $1 }),
@@ -464,6 +467,7 @@ extension AutoQueryViewerConfig : JsonSerializable
                 Type<AutoQueryViewerConfig>.optionalProperty("linkColor", get: { $0.linkColor }, set: { $0.linkColor = $1 }),
                 Type<AutoQueryViewerConfig>.optionalProperty("backgroundColor", get: { $0.backgroundColor }, set: { $0.backgroundColor = $1 }),
                 Type<AutoQueryViewerConfig>.optionalProperty("backgroundImageUrl", get: { $0.backgroundImageUrl }, set: { $0.backgroundImageUrl = $1 }),
+                Type<AutoQueryViewerConfig>.optionalProperty("iconUrl", get: { $0.iconUrl }, set: { $0.iconUrl = $1 }),
             ]))
     }
     public func toJson() -> String {
