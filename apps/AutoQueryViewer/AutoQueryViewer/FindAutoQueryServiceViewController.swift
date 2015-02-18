@@ -24,6 +24,12 @@ class FindAutoQueryServiceViewController: UIViewController, UITableViewDelegate,
     var selectedService:AutoQueryService?
     var selectedResponse:AutoQueryMetadataResponse?
     
+    override func viewWillAppear(animated: Bool) {
+        if response != nil {
+            reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         spinner.stopAnimating()
@@ -31,10 +37,13 @@ class FindAutoQueryServiceViewController: UIViewController, UITableViewDelegate,
         txtUrl.delegate = self
 
         txtUrl.text = getDefaultSetting("customUrl")
-
+        reloadData()
+    }
+    
+    func reloadData() {
         selectedService = nil
         selectedResponse = nil
-
+        
         spinner.startAnimating()
         self.lblError.text = ""
         
@@ -72,7 +81,12 @@ class FindAutoQueryServiceViewController: UIViewController, UITableViewDelegate,
         cell.textLabel?.text = op.serviceName
         cell.detailTextLabel?.text = op.serviceDescription
         
-        cell.imageView?.loadAsync(nil, defaultImage: "database", withSize: CGSize(width: 40, height: 40))
+        var iconUrl = op.serviceIconUrl
+        if iconUrl != nil && iconUrl!.hasPrefix("/") {
+            iconUrl = op.serviceBaseUrl!.combinePath(iconUrl!)
+        }
+        
+        cell.imageView?.loadAsync(iconUrl, defaultImage: "database", withSize: CGSize(width: 40, height: 40))
         
         return cell
     }
