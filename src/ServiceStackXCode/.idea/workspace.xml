@@ -14,6 +14,7 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/GetJsonServiceClientDelegate.h" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/GetJsonServiceClientDelegate.m" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/Info.plist" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/JsonServiceClient.txt" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.h" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.m" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Podfile" />
@@ -53,11 +54,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="AddReference.m" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AddReference.m" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ServiceStackXCode/AddReference.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2295" max-vertical-offset="3810">
-              <caret line="153" column="33" selection-start-line="153" selection-start-column="33" selection-end-line="153" selection-end-column="33" />
+            <state vertical-scroll-proportion="0.6864564" vertical-offset="2810" max-vertical-offset="4155">
+              <caret line="212" column="33" selection-start-line="212" selection-start-column="33" selection-end-line="212" selection-end-column="33" />
               <folding>
                 <element signature="e#151#175#0" expanded="true" />
                 <element signature="e#455#475#0" expanded="true" />
@@ -79,8 +80,8 @@
       <file leaf-file-name="ServiceStackXCode.m" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ServiceStackXCode/ServiceStackXCode.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="615" max-vertical-offset="1845">
-              <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="660" max-vertical-offset="1890">
+              <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -89,18 +90,8 @@
       <file leaf-file-name="XcodeIDE.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ServiceStackXCode/XcodeIDE.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="422" max-vertical-offset="960">
+            <state vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="960">
               <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ValidateNativeTypesUrlDelegate.m" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ServiceStackXCode/ValidateNativeTypesUrlDelegate.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="1230">
-              <caret line="48" column="27" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -118,13 +109,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pkg.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pkg.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pkg.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.05836576" vertical-offset="0" max-vertical-offset="514">
+            <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="330">
               <caret line="2" column="26" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
               <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Project Settings" pinned="false" current-in-tab="false">
+        <entry file="appcode.project-settings://67abb7a8">
+          <provider selected="true" editor-type-id="AppCode.ProjectSettings">
+            <state />
           </provider>
         </entry>
       </file>
@@ -182,11 +180,11 @@
         <option value="$PROJECT_DIR$/ServiceStackXCode/XcodeProjectManipulation.m" />
         <option value="$PROJECT_DIR$/ServiceStackXCode/ExtendNSString.m" />
         <option value="$PROJECT_DIR$/ServiceStackXCode/ValidateNativeTypesUrlDelegate.h" />
-        <option value="$PROJECT_DIR$/ServiceStackXCode/AddReference.m" />
         <option value="$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.m" />
         <option value="$PROJECT_DIR$/ServiceStackXCode/SwiftNativeTypesManger.h" />
         <option value="$PROJECT_DIR$/ServiceStackXCode/SwiftNativeTypesManger.m" />
         <option value="$PROJECT_DIR$/pkg.json" />
+        <option value="$PROJECT_DIR$/ServiceStackXCode/AddReference.m" />
       </list>
     </option>
   </component>
@@ -195,8 +193,8 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="243" />
-    <option name="y" value="39" />
+    <option name="x" value="276" />
+    <option name="y" value="41" />
     <option name="width" value="1572" />
     <option name="height" value="937" />
   </component>
@@ -225,6 +223,30 @@
     <panes>
       <pane id="ProjectPane">
         <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ServiceStackXCode" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ServiceStackXCode" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Products" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" />
@@ -315,29 +337,29 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="243" y="39" width="1572" height="937" extended-state="1" />
-    <editor active="true" />
+    <frame x="276" y="41" width="1572" height="937" extended-state="0" />
+    <editor active="false" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289941" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33017752" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22566086" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3289941" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33846155" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39881656" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22566086" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289941" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24951644" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22566086" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33846155" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39881656" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -382,8 +404,13 @@
           <line>40</line>
           <option name="timeStamp" value="41" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/ServiceStackXCode/AddReference.m</url>
+          <line>198</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="42" />
+      <option name="time" value="54" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="AppleRunConfiguration">
@@ -649,11 +676,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="appcode.project-settings://67abb7a8">
-      <provider selected="true" editor-type-id="AppCode.ProjectSettings">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ServiceStackXCode/XcodeProjectManipulation.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
@@ -727,21 +749,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ServiceStackXCode/AddReference.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2295" max-vertical-offset="3810">
-          <caret line="153" column="33" selection-start-line="153" selection-start-column="33" selection-end-line="153" selection-end-column="33" />
-          <folding>
-            <element signature="e#151#175#0" expanded="true" />
-            <element signature="e#455#475#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ServiceStackXCode/ServiceStackXCode.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="343" max-vertical-offset="1755">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="660" max-vertical-offset="1890">
+          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -785,9 +796,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pkg.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.05836576" vertical-offset="0" max-vertical-offset="514">
+        <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="330">
           <caret line="2" column="26" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="appcode.project-settings://67abb7a8">
+      <provider selected="true" editor-type-id="AppCode.ProjectSettings">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ServiceStackXCode/AddReference.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6864564" vertical-offset="2810" max-vertical-offset="4155">
+          <caret line="212" column="33" selection-start-line="212" selection-start-column="33" selection-end-line="212" selection-end-column="33" />
+          <folding>
+            <element signature="e#151#175#0" expanded="true" />
+            <element signature="e#455#475#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

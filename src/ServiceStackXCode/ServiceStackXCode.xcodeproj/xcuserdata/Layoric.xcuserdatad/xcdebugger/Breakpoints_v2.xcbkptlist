@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ServiceStackXCode/AddReference.m"
-            timestampString = "445335799.217972"
+            timestampString = "446025484.429433"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
-            landmarkName = "-startJsonServiceClientRequest:"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
+            landmarkName = "-createFileAndAddToProject:withContents:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -56,11 +56,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ServiceStackXCode/ServiceStackXCode.m"
-            timestampString = "445312116.067426"
+            timestampString = "446025484.429433"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "-initWithBundle:"
             landmarkType = "5">
          </BreakpointContent>
@@ -72,11 +72,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ServiceStackXCode/ServiceStackXCode.m"
-            timestampString = "445312116.067426"
+            timestampString = "446025484.429433"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "-initWithBundle:"
             landmarkType = "5">
          </BreakpointContent>
@@ -88,11 +88,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ServiceStackXCode/ServiceStackXCode.m"
-            timestampString = "445312116.067426"
+            timestampString = "446025484.429433"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "-initWithBundle:"
             landmarkType = "5">
          </BreakpointContent>
@@ -104,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ServiceStackXCode/ServiceStackXCode.m"
-            timestampString = "445312116.067426"
+            timestampString = "446025484.429433"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "-initWithBundle:"
             landmarkType = "5">
          </BreakpointContent>
@@ -120,11 +120,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ServiceStackXCode/ServiceStackXCode.m"
-            timestampString = "445312116.067426"
+            timestampString = "446025484.429433"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "-addReference"
             landmarkType = "5">
          </BreakpointContent>

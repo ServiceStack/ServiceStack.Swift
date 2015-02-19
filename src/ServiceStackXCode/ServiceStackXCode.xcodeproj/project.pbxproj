@@ -23,6 +23,7 @@
 		ED96D1571A79A5D300B23CF7 /* ServiceStackXCode.xcscheme in Resources */ = {isa = PBXBuildFile; fileRef = ED96D1561A79A5D300B23CF7 /* ServiceStackXCode.xcscheme */; };
 		ED96D15A1A79A5D300B23CF7 /* ServiceStackXCode.m in Sources */ = {isa = PBXBuildFile; fileRef = ED96D1591A79A5D300B23CF7 /* ServiceStackXCode.m */; };
 		EDCA73C31A843169000CE1B9 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = EDCA73C21A843169000CE1B9 /* Podfile */; };
+		EDF3DABE1A95C41000A57040 /* JsonServiceClient.txt in Resources */ = {isa = PBXBuildFile; fileRef = EDF3DABD1A95C41000A57040 /* JsonServiceClient.txt */; };
 		EDFB53501A7A32BC003C0063 /* XcodeProjectManipulation.m in Sources */ = {isa = PBXBuildFile; fileRef = EDFB534F1A7A32BC003C0063 /* XcodeProjectManipulation.m */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		ED96D1581A79A5D300B23CF7 /* ServiceStackXCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServiceStackXCode.h; sourceTree = "<group>"; };
 		ED96D1591A79A5D300B23CF7 /* ServiceStackXCode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ServiceStackXCode.m; sourceTree = "<group>"; };
 		EDCA73C21A843169000CE1B9 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		EDF3DABD1A95C41000A57040 /* JsonServiceClient.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = JsonServiceClient.txt; sourceTree = "<group>"; };
 		EDFB534E1A7A328C003C0063 /* XcodeProjectManipulation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XcodeProjectManipulation.h; sourceTree = "<group>"; };
 		EDFB534F1A7A32BC003C0063 /* XcodeProjectManipulation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XcodeProjectManipulation.m; sourceTree = "<group>"; };
 		FD6A967DB5CCDBA6AD61550E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -137,27 +139,28 @@
 		ED96D1531A79A5D300B23CF7 /* ServiceStackXCode */ = {
 			isa = PBXGroup;
 			children = (
+				ED01F9021A79B421000B14B2 /* AddReference.h */,
+				ED01F9031A79B421000B14B2 /* AddReference.m */,
+				ED01F9001A79AF2F000B14B2 /* AddReference.xib */,
 				ED28DEC31A8591BB00B6A3DC /* ExtendNSString.h */,
 				ED28DEC41A85926000B6A3DC /* ExtendNSString.m */,
+				60BCF59EC10448161386F201 /* GetDtoDelegate.h */,
+				60BCF2AA8B3A45BB088CE303 /* GetDtoDelegate.m */,
+				60BCFAFB9BF8BC7091E5878B /* GetJsonServiceClientDelegate.h */,
+				60BCFF02506299D489CFA53B /* GetJsonServiceClientDelegate.m */,
+				ED28DEC01A844B8C00B6A3DC /* NSDocument+SSXSAdditions.h */,
+				ED28DEC11A844C1700B6A3DC /* NSDocument+SSXSAdditions.m */,
 				ED96D1581A79A5D300B23CF7 /* ServiceStackXCode.h */,
 				ED96D1591A79A5D300B23CF7 /* ServiceStackXCode.m */,
 				ED96D1541A79A5D300B23CF7 /* Supporting Files */,
-				ED01F9001A79AF2F000B14B2 /* AddReference.xib */,
-				ED01F9021A79B421000B14B2 /* AddReference.h */,
-				ED01F9031A79B421000B14B2 /* AddReference.m */,
+				60BCFD0CCD8C1B2E5E831E14 /* SwiftNativeTypesManger.h */,
+				60BCFD7703ECB5ECE123CEE5 /* SwiftNativeTypesManger.m */,
+				60BCF86A67F788B4E1CF3BD2 /* ValidateNativeTypesUrlDelegate.h */,
+				60BCFD13317A939DB1DBF4FA /* ValidateNativeTypesUrlDelegate.m */,
 				ED47FB541A7A15A600C10031 /* XcodeIDE.h */,
 				EDFB534E1A7A328C003C0063 /* XcodeProjectManipulation.h */,
 				EDFB534F1A7A32BC003C0063 /* XcodeProjectManipulation.m */,
-				ED28DEC01A844B8C00B6A3DC /* NSDocument+SSXSAdditions.h */,
-				ED28DEC11A844C1700B6A3DC /* NSDocument+SSXSAdditions.m */,
-				60BCFD7703ECB5ECE123CEE5 /* SwiftNativeTypesManger.m */,
-				60BCFD0CCD8C1B2E5E831E14 /* SwiftNativeTypesManger.h */,
-				60BCF2AA8B3A45BB088CE303 /* GetDtoDelegate.m */,
-				60BCF59EC10448161386F201 /* GetDtoDelegate.h */,
-				60BCFD13317A939DB1DBF4FA /* ValidateNativeTypesUrlDelegate.m */,
-				60BCF86A67F788B4E1CF3BD2 /* ValidateNativeTypesUrlDelegate.h */,
-				60BCFF02506299D489CFA53B /* GetJsonServiceClientDelegate.m */,
-				60BCFAFB9BF8BC7091E5878B /* GetJsonServiceClientDelegate.h */,
+				EDF3DABD1A95C41000A57040 /* JsonServiceClient.txt */,
 			);
 			path = ServiceStackXCode;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				ED01F9011A79AF2F000B14B2 /* AddReference.xib in Resources */,
 				60BCF14220B8CC23A077F9EF /* pkg.json in Resources */,
 				60BCF7C2164C70415276BAD8 /* logo-400.icns in Resources */,
+				EDF3DABE1A95C41000A57040 /* JsonServiceClient.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

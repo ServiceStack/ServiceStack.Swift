@@ -28,11 +28,14 @@
 @synthesize nameText;
 @synthesize loadingIndicator;
 
-NSString *jsonServiceClientUrl = @"https://servicestack.net/dist/JsonServiceClient.swift";
+NSString *jsonServiceClientUrl = @"https://servicestack.net/dist/%@/JsonServiceClient.swift";
+NSString *fallbackServiceClientUrl = @"https://servicestack.net/dist/JsonServiceClient.swift";
 ValidateNativeTypesUrlDelegate *validateNativeTypesUrlDelegate;
 
 NSString *finalJsonServiceClientCode;
 NSString *finalDtoCode;
+bool jsonServiceClientError = false;
+NSString *xcodeVersion;
 
 - (void)windowDidLoad {
     [super windowDidLoad];
@@ -41,6 +44,8 @@ NSString *finalDtoCode;
     [okButton setEnabled:NO];
     [self clearErrorLabel];
     self.projectManipulation = [XcodeProjectManipulation new];
+    NSBundle *bundle = [NSBundle bundleForClass:[NSBundle mainBundle]];
+    xcodeVersion = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 }
 
 -(void)formReady {
@@ -62,6 +67,7 @@ NSString *finalDtoCode;
 - (void)addReference:(id)sender {
     [self formBusy];
     NSString* metadataUrl;
+    jsonServiceClientError = false;
     if(![self createMetadataUrl:&metadataUrl]) {
         [self formReady];
         [self setError:@"Invalid url provided"];
@@ -117,6 +123,23 @@ NSString *finalDtoCode;
     [self startDtoRequest:dtoUrl];
 }
 
+-(void)handleGetJsonServiceClientError:(NSString *)errorMessage {
+    //If first JsonServiceClient url didn't work, fallback to latest version
+    //If error has occurred, set error message.
+    if(jsonServiceClientError) {
+        [self setError:errorMessage];
+        [self formReady];
+    }
+
+    //First url failed. Try fallback/latest
+    if(!jsonServiceClientError) {
+        jsonServiceClientError = true;
+        [self startJsonServiceClientRequest:fallbackServiceClientUrl];
+    }
+
+
+}
+
 - (void)handleGetDtoError:(NSString *)errorMessage {
     [self setError:errorMessage];
     [self formReady];
@@ -130,7 +153,7 @@ NSString *finalDtoCode;
 
 -(void)handleValidateNativeTypesResponse:(BOOL)validNativeTypes {
     if(validNativeTypes) {
-        [self startJsonServiceClientRequest:jsonServiceClientUrl];
+        [self startJsonServiceClientRequest:[NSString stringWithFormat:jsonServiceClientUrl, xcodeVersion]];
 
     } else {
         [self formReady];
@@ -173,8 +196,8 @@ NSString *finalDtoCode;
 }
 
 -(void)startJsonServiceClientRequest:(NSString*)url {
-    NSURL *jsonServiceClientUrl = [NSURL URLWithString:url];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:jsonServiceClientUrl];
+    NSURL *serviceClientURL = [NSURL URLWithString:url];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:serviceClientURL];
     GetJsonServiceClientDelegate *jsonServiceClientDelegate = [GetJsonServiceClientDelegate alloc];
     [jsonServiceClientDelegate setDelegate:self];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:jsonServiceClientDelegate];
