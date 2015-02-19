@@ -28,6 +28,7 @@ public protocol ServiceClient
     func post<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer) -> T.Return?
     func post<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?, error:NSErrorPointer) -> Response?
     func postAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return>
+    func postAsync<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) -> Promise<Response>
     
     func put<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer) -> T.Return?
     func put<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?, error:NSErrorPointer) -> Response?
