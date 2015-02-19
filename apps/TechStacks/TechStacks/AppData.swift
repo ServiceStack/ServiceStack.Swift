@@ -67,28 +67,6 @@ public class AppData : NSObject
             })
     }
     
-    func searchTechStacks(query:String) -> Promise<QueryResponse<TechnologyStack>> {
-        self.search = query
-        
-        let request = FindTechStacks<TechnologyStack>()
-        return client.getAsync(request, query:["NameContains":query, "DescriptionContains":query])
-            .then(body:{(r:QueryResponse<TechnologyStack>) -> QueryResponse<TechnologyStack> in
-                self.filteredTechStacks = r.results
-                return r
-            })
-    }
-    
-    func searchTechnologies(query:String) -> Promise<QueryResponse<Technology>> {
-        self.search = query
-        
-        let request = FindTechnologies<Technology>()
-        return client.getAsync(request, query:["NameContains":query, "DescriptionContains":query])
-            .then(body:{(r:QueryResponse<Technology>) -> QueryResponse<Technology> in
-                self.filteredTechnologies = r.results
-                return r
-            })
-    }
-    
     func loadTechnologyStack(slug:String) -> Promise<GetTechnologyStackResponse> {
         if let response = technologyStackCache[slug] {
             return Promise<GetTechnologyStackResponse> { (complete,reject) in complete(response) }
@@ -103,6 +81,17 @@ public class AppData : NSObject
             })
     }
     
+    func searchTechStacks(query:String) -> Promise<QueryResponse<TechnologyStack>> {
+        self.search = query
+        
+        let request = FindTechStacks<TechnologyStack>()
+        return client.getAsync(request, query:["NameContains":query, "DescriptionContains":query])
+            .then(body:{(r:QueryResponse<TechnologyStack>) -> QueryResponse<TechnologyStack> in
+                self.filteredTechStacks = r.results
+                return r
+            })
+    }
+    
     func loadTechnology(slug:String) -> Promise<GetTechnologyResponse> {
         if let response = technologyCache[slug] {
             return Promise<GetTechnologyResponse> { (complete,reject) in complete(response) }
@@ -113,6 +102,17 @@ public class AppData : NSObject
         return client.getAsync(request)
             .then(body:{ (r:GetTechnologyResponse) -> GetTechnologyResponse in
                 self.technologyCache[r.technology!.slug!] = r
+                return r
+            })
+    }
+    
+    func searchTechnologies(query:String) -> Promise<QueryResponse<Technology>> {
+        self.search = query
+        
+        let request = FindTechnologies<Technology>()
+        return client.getAsync(request, query:["NameContains":query, "DescriptionContains":query])
+            .then(body:{(r:QueryResponse<Technology>) -> QueryResponse<Technology> in
+                self.filteredTechnologies = r.results
                 return r
             })
     }
