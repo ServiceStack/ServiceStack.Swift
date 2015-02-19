@@ -29,7 +29,7 @@
 @synthesize loadingIndicator;
 
 NSString *jsonServiceClientUrl = @"https://servicestack.net/dist/%@/JsonServiceClient.swift";
-NSString *fallbackServiceClientUrl = @"https://servicestack.net/dist/JsonServiceClient.swift";
+NSString *fallbackServiceClientUrl = @"https://raw.githubusercontent.com/ServiceStack/ServiceStack.Swift/master/dist/JsonServiceClient.swift";
 ValidateNativeTypesUrlDelegate *validateNativeTypesUrlDelegate;
 
 NSString *finalJsonServiceClientCode;

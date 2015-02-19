@@ -14,7 +14,6 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/GetJsonServiceClientDelegate.h" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/GetJsonServiceClientDelegate.m" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/Info.plist" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/JsonServiceClient.txt" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.h" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.m" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Podfile" />
@@ -57,8 +56,8 @@
       <file leaf-file-name="AddReference.m" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ServiceStackXCode/AddReference.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6864564" vertical-offset="2810" max-vertical-offset="4155">
-              <caret line="212" column="33" selection-start-line="212" selection-start-column="33" selection-end-line="212" selection-end-column="33" />
+            <state vertical-scroll-proportion="0.55658627" vertical-offset="165" max-vertical-offset="4155">
+              <caret line="31" column="140" selection-start-line="31" selection-start-column="140" selection-end-line="31" selection-end-column="140" />
               <folding>
                 <element signature="e#151#175#0" expanded="true" />
                 <element signature="e#455#475#0" expanded="true" />
@@ -240,6 +239,52 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="ServiceStackXCode" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ServiceStackXCode" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ServiceStackXCode" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Products" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ServiceStackXCode" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xcproj" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ServiceStackXCode" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xcproj" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -809,8 +854,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ServiceStackXCode/AddReference.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6864564" vertical-offset="2810" max-vertical-offset="4155">
-          <caret line="212" column="33" selection-start-line="212" selection-start-column="33" selection-end-line="212" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.55658627" vertical-offset="165" max-vertical-offset="4155">
+          <caret line="31" column="140" selection-start-line="31" selection-start-column="140" selection-end-line="31" selection-end-column="140" />
           <folding>
             <element signature="e#151#175#0" expanded="true" />
             <element signature="e#455#475#0" expanded="true" />
