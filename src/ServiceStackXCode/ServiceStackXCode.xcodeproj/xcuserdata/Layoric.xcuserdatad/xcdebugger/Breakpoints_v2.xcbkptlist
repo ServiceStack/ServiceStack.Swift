@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "62"
             endingLineNumber = "62"
-            landmarkName = "-addReference:"
+            landmarkName = "-setError:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "197"
             endingLineNumber = "197"
-            landmarkName = "-createFileAndAddToProject:withContents:"
+            landmarkName = "-startJsonServiceClientRequest:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -141,7 +141,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "94"
             endingLineNumber = "94"
-            landmarkName = "-createNativeTypesUrl:"
+            landmarkName = "-createMetadataUrl:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
