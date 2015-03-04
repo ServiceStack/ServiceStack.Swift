@@ -63,8 +63,8 @@ NSError *responseError;
     }
     NSError *error = nil;
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:receivedData options:NSJSONReadingMutableContainers error:&error];
-    if(error != nil || json[@"Config"] == nil) {
-        errorMessage = @"Invalid response from server.";
+    if(error != nil || (json[@"Config"] == nil && json[@"config"] == nil)) {
+        errorMessage = error != nil ? error.localizedDescription :@"Invalid response from server.";
         [delegate handleValidateNativeTypesResponse:false];
         return;
     }

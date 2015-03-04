@@ -26,6 +26,9 @@ static ServiceStackXCode *sharedPlugin;
 
 @implementation ServiceStackXCode
 
+NSString *const addRefMenuName = @"Add ServiceStack Reference...";
+NSString *const updateRefMenuName = @"Update ServiceStack Reference";
+
 + (void)pluginDidLoad:(NSBundle *)plugin {
     static dispatch_once_t onceToken;
     NSString *currentApplicationName = [[NSBundle mainBundle] infoDictionary][@"CFBundleName"];
@@ -50,8 +53,8 @@ static ServiceStackXCode *sharedPlugin;
         // Sample Menu Item:
         NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"File"];
         if (menuItem) {
-            NSMenuItem *addRefMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add ServiceStack Reference" action:@selector(addReference) keyEquivalent:@""];
-            NSMenuItem *updateRefMenuItem = [[NSMenuItem alloc] initWithTitle:@"Update ServiceStack Reference" action:@selector(updateReference) keyEquivalent:@""];
+            NSMenuItem *addRefMenuItem = [[NSMenuItem alloc] initWithTitle:addRefMenuName action:@selector(addReference) keyEquivalent:@""];
+            NSMenuItem *updateRefMenuItem = [[NSMenuItem alloc] initWithTitle:updateRefMenuName action:@selector(updateReference) keyEquivalent:@""];
             updateRefMenuItem.enabled = false;
             [addRefMenuItem setTarget:self];
             [updateRefMenuItem setTarget:self];
@@ -90,7 +93,7 @@ static ServiceStackXCode *sharedPlugin;
 }
 
 - (BOOL)validateUpdateRefMenuItem:(NSMenuItem *)menuItem {
-    if ([menuItem.title isEqualToString:@"Add ServiceStack Reference"]) {
+    if ([menuItem.title isEqualToString:addRefMenuName]) {
         return true;
     }
 
