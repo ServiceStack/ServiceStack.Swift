@@ -62,8 +62,12 @@ class AutoQueryViewController: UIViewController, UITextFieldDelegate, MDSpreadVi
         var client = JsonServiceClient(baseUrl: config.serviceBaseUrl!)
         
         let field = createAutoQueryParam(txtSearchField.text, txtSearchType.text)
+        if field == nil {
+            return
+        }
+        
         searchUrl = "/json/reply/\(selectedOperation.request!)"
-                + "?\(field.urlEncode()!)=\(txtSearchText.text.trim().urlEncode()!)"
+                + "?\(field!.urlEncode()!)=\(txtSearchText.text.trim().urlEncode()!)"
 
         setMessage(nil)
         spinner.startAnimating()
@@ -167,10 +171,12 @@ class AutoQueryViewController: UIViewController, UITextFieldDelegate, MDSpreadVi
         lblMessage.text = message
     }
     
-    func createAutoQueryParam(field:String, _ operand:String) -> String {
-        let template = response.getQueryTypeTemplate(operand)!
-        let mergedField = template.replace("%", withString:field)
-        return mergedField
+    func createAutoQueryParam(field:String, _ operand:String) -> String? {
+        if let template = response.getQueryTypeTemplate(operand) {
+            let mergedField = template.replace("%", withString:field)
+            return mergedField
+        }
+        return nil
     }
 
     func textFieldShouldReturn(textField:UITextField) -> Bool {
@@ -247,7 +253,10 @@ class AutoQueryViewController: UIViewController, UITextFieldDelegate, MDSpreadVi
             if backgroundImageUrl.hasPrefix("/") {
                 backgroundImageUrl = config.serviceBaseUrl!.combinePath(backgroundImageUrl)
             }
-            self.imgBackground.loadAsync(backgroundImageUrl)
+            self.imgBackground.loadAsync(backgroundImageUrl, defaultImage:"bg-alpha")
+        }
+        else {
+            self.imgBackground.image = self.appData.imageCache["bg-alpha"]
         }
     }
     
@@ -294,6 +303,13 @@ class AutoQueryViewController: UIViewController, UITextFieldDelegate, MDSpreadVi
             var property = resultProperties[columnPath.column]
             if let value: AnyObject = result.getItem(property.name!) {
                 
+                if let str = value as? String {
+                    if str.hasPrefix("/Date(") {
+                        if let date = NSDate.fromString(str) {
+                            return date.dateAndTimeString
+                        }
+                    }
+                }
                 if let array = value as? NSArray {
                     var str = array.componentsJoinedByString(", ")
                     return str
@@ -387,7 +403,7 @@ class TextPickerDelegate : NSObject, UIPickerViewDelegate, UIPickerViewDataSourc
     }
     
     func textFieldShouldEndEditing(textField:UITextField) -> Bool {
-        return options.filter { $0 == textField.text }.count > 0
+        return options.filter { $0 == textField.text }.count > 0 || textField.text == ""
     }
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
