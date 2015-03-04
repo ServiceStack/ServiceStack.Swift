@@ -86,7 +86,7 @@ class FindAutoQueryServiceViewController: UIViewController, UITableViewDelegate,
             iconUrl = op.serviceBaseUrl!.combinePath(iconUrl!)
         }
         
-        cell.imageView?.loadAsync(iconUrl, defaultImage: "database", withSize: CGSize(width: 40, height: 40))
+        cell.imageView?.loadAsync(iconUrl, defaultImage: "database", withSize: CGSize(width: 50, height: 50))
         
         return cell
     }
