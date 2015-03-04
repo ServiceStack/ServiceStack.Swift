@@ -1,24 +1,24 @@
 /* Options:
-Date: 2015-02-02 06:56:39
+Date: 2015-02-23 09:43:18
 Version: 1
 BaseUrl: http://test.servicestack.net
 
-BaseClass: NSObject
-//AddResponseStatus: False
+//BaseClass:
 //AddModelExtensions: True
 //AddServiceStackTypes: True
-//InitializeCollections: True
-//AddImplicitVersion:
 IncludeTypes: HelloAllTypes,HelloAllTypesResponse,AllTypes,AllCollectionTypes,Poco,SubType
 //ExcludeTypes:
-//DefaultNamespaces: Foundation
+//AddResponseStatus: False
+//AddImplicitVersion:
+//InitializeCollections: True
+//DefaultImports: Foundation
 */
 
-import Foundation
+import Foundation;
 
-public class AllTypes : NSObject
+public class AllTypes
 {
-    required public override init(){}
+    required public init(){}
     public var id:Int?
     public var nullableId:Int?
     public var byte:Int8?
@@ -46,9 +46,9 @@ public class AllTypes : NSObject
     public var subType:SubType?
 }
 
-public class AllCollectionTypes : NSObject
+public class AllCollectionTypes
 {
-    required public override init(){}
+    required public init(){}
     public var intArray:[Int] = []
     public var intList:[Int] = []
     public var stringArray:[String] = []
@@ -59,32 +59,32 @@ public class AllCollectionTypes : NSObject
     public var pocoLookupMap:[String:[String:Poco]] = [:]
 }
 
-public class Poco : NSObject
+public class Poco
 {
-    required public override init(){}
+    required public init(){}
     public var name:String?
 }
 
-public class SubType : NSObject
+public class SubType
 {
-    required public override init(){}
+    required public init(){}
     public var id:Int?
     public var name:String?
 }
 
-public class HelloAllTypesResponse : NSObject
+public class HelloAllTypesResponse
 {
-    required public override init(){}
+    required public init(){}
     public var result:String?
     public var allTypes:AllTypes?
     public var allCollectionTypes:AllCollectionTypes?
 }
 
-public class HelloAllTypes : NSObject, IReturn
+public class HelloAllTypes : IReturn
 {
     typealias Return = HelloAllTypesResponse
     
-    required public override init(){}
+    required public init(){}
     public var name:String?
     public var allTypes:AllTypes?
     public var allCollectionTypes:AllCollectionTypes?

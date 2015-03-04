@@ -10,11 +10,8 @@
 		5184ADD51A7D926100FFC752 /* SwiftCompilerErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 5184ADD41A7D926100FFC752 /* SwiftCompilerErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5184ADDB1A7D926100FFC752 /* SwiftCompilerErrors.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5184ADCF1A7D926100FFC752 /* SwiftCompilerErrors.framework */; };
 		5184ADE21A7D926100FFC752 /* SwiftCompilerErrorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5184ADE11A7D926100FFC752 /* SwiftCompilerErrorsTests.swift */; };
-		5184ADEC1A7D927900FFC752 /* File1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5184ADEB1A7D927900FFC752 /* File1.swift */; };
-		5184ADEE1A7D928200FFC752 /* File2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5184ADED1A7D928200FFC752 /* File2.swift */; };
-		5184ADF01A7D97E000FFC752 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5184ADEF1A7D97E000FFC752 /* Common.swift */; };
-		5184ADF21A7DA8CE00FFC752 /* ExtensionsProtocolSegFaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5184ADF11A7DA8CE00FFC752 /* ExtensionsProtocolSegFaults.swift */; };
-		5184ADF41A7DAA9F00FFC752 /* ExtensionUsingSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5184ADF31A7DAA9F00FFC752 /* ExtensionUsingSequence.swift */; };
+		51E8B1221A9B536D000C2826 /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E8B1211A9B536D000C2826 /* JsonServiceClient.swift */; };
+		51E8B1241A9B536D000C2826 /* Test.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E8B1231A9B536D000C2826 /* Test.dtos.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,11 +31,8 @@
 		5184ADDA1A7D926100FFC752 /* SwiftCompilerErrorsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftCompilerErrorsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5184ADE01A7D926100FFC752 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5184ADE11A7D926100FFC752 /* SwiftCompilerErrorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftCompilerErrorsTests.swift; sourceTree = "<group>"; };
-		5184ADEB1A7D927900FFC752 /* File1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File1.swift; sourceTree = "<group>"; };
-		5184ADED1A7D928200FFC752 /* File2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File2.swift; sourceTree = "<group>"; };
-		5184ADEF1A7D97E000FFC752 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
-		5184ADF11A7DA8CE00FFC752 /* ExtensionsProtocolSegFaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionsProtocolSegFaults.swift; sourceTree = "<group>"; };
-		5184ADF31A7DAA9F00FFC752 /* ExtensionUsingSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionUsingSequence.swift; sourceTree = "<group>"; };
+		51E8B1211A9B536D000C2826 /* JsonServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonServiceClient.swift; sourceTree = "<group>"; };
+		51E8B1231A9B536D000C2826 /* Test.dtos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.dtos.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,13 +75,10 @@
 		5184ADD11A7D926100FFC752 /* SwiftCompilerErrors */ = {
 			isa = PBXGroup;
 			children = (
-				5184ADD41A7D926100FFC752 /* SwiftCompilerErrors.h */,
 				5184ADD21A7D926100FFC752 /* Supporting Files */,
-				5184ADEF1A7D97E000FFC752 /* Common.swift */,
-				5184ADEB1A7D927900FFC752 /* File1.swift */,
-				5184ADF11A7DA8CE00FFC752 /* ExtensionsProtocolSegFaults.swift */,
-				5184ADF31A7DAA9F00FFC752 /* ExtensionUsingSequence.swift */,
-				5184ADED1A7D928200FFC752 /* File2.swift */,
+				5184ADD41A7D926100FFC752 /* SwiftCompilerErrors.h */,
+				51E8B1211A9B536D000C2826 /* JsonServiceClient.swift */,
+				51E8B1231A9B536D000C2826 /* Test.dtos.swift */,
 			);
 			path = SwiftCompilerErrors;
 			sourceTree = "<group>";
@@ -103,8 +94,8 @@
 		5184ADDE1A7D926100FFC752 /* SwiftCompilerErrorsTests */ = {
 			isa = PBXGroup;
 			children = (
-				5184ADE11A7D926100FFC752 /* SwiftCompilerErrorsTests.swift */,
 				5184ADDF1A7D926100FFC752 /* Supporting Files */,
+				5184ADE11A7D926100FFC752 /* SwiftCompilerErrorsTests.swift */,
 			);
 			path = SwiftCompilerErrorsTests;
 			sourceTree = "<group>";
@@ -224,11 +215,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5184ADF41A7DAA9F00FFC752 /* ExtensionUsingSequence.swift in Sources */,
-				5184ADF21A7DA8CE00FFC752 /* ExtensionsProtocolSegFaults.swift in Sources */,
-				5184ADEE1A7D928200FFC752 /* File2.swift in Sources */,
-				5184ADF01A7D97E000FFC752 /* Common.swift in Sources */,
-				5184ADEC1A7D927900FFC752 /* File1.swift in Sources */,
+				51E8B1241A9B536D000C2826 /* Test.dtos.swift in Sources */,
+				51E8B1221A9B536D000C2826 /* JsonServiceClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +406,7 @@
 				5184ADE71A7D926100FFC752 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5184ADE81A7D926100FFC752 /* Build configuration list for PBXNativeTarget "SwiftCompilerErrorsTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +415,7 @@
 				5184ADEA1A7D926100FFC752 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
