@@ -30,6 +30,7 @@ public class AppData : NSObject
         UIGraphicsEndImageContext()
         
         imageCache["database"] = UIImage(named: "database")
+        imageCache["bg-alpha"] = UIImage(named: "bg-alpha")
     }
     
     public func loadAllImagesAsync(urls:[String]) -> Promise<[String:UIImage?]> {

@@ -86,7 +86,10 @@ class AutoQueryServiceViewController: UIViewController, UITableViewDelegate, UIT
             if backgroundImageUrl.hasPrefix("/") {
                 backgroundImageUrl = config.serviceBaseUrl!.combinePath(backgroundImageUrl)
             }
-            self.imgBackground.loadAsync(backgroundImageUrl)
+            self.imgBackground.loadAsync(backgroundImageUrl, defaultImage:"bg-alpha")
+        }
+        else {
+            self.imgBackground.image = self.appData.imageCache["bg-alpha"]
         }
     }
 
@@ -133,7 +136,7 @@ class AutoQueryServiceViewController: UIViewController, UITableViewDelegate, UIT
         cell.imageView!.image = self.appData.imageCache["clearIcon"]
         if let iconUrl = opType?.getViewerAttrProperty("IconUrl")?.value {
             var fullIconUrl = response?.config?.serviceBaseUrl?.combinePath(iconUrl)
-            cell.imageView!.loadAsync(fullIconUrl, defaultImage:"clearIcon", withSize: CGSize(width: 40, height: 40))
+            cell.imageView!.loadAsync(fullIconUrl, defaultImage:"clearIcon", withSize: CGSize(width: 50, height: 50))
         }
         
         return cell
