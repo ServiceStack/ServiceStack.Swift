@@ -96,7 +96,7 @@ extension UIViewController
         var btnBrand = UIButton(frame: CGRect(x: self.view.frame.width - 440, y: 0, width: 440, height: 80))
         btnBrand.addTarget(self, action: action, forControlEvents: UIControlEvents.TouchUpInside)
         
-        view.insertSubview(imageView, belowSubview: view.subviews[0] as UIView)
+        view.insertSubview(imageView, belowSubview: view.subviews[1] as UIView) //add after backgroundImage
         view.insertSubview(btnBrand, belowSubview:imageView)
         
         return imageView
@@ -105,12 +105,9 @@ extension UIViewController
 
 extension UIImageView {
     func loadAsync(url:String?, defaultImage:String? = nil, withSize:CGSize? = nil) -> Promise<UIImage?> {
-        if defaultImage != nil {
-            self.image = self.appData.imageCache[defaultImage!]?.scaledInto(withSize)
-        } else {
-            self.image = nil
-        }
-        
+
+        self.image = defaultImage != nil ? self.appData.imageCache[defaultImage!]?.scaledInto(withSize) : nil
+
         if url == nil {
             return Promise<UIImage?> { (complete, reject) in complete(nil) }
         }
