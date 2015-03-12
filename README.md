@@ -4,6 +4,6 @@ See [Swift Add ServiceStack Reference](https://github.com/ServiceStack/ServiceSt
 
 ### Swift Apps using ServiceStack.Swift
 
-  - [https://github.com/ServiceStackApps/TechStacksApp](TechStacks iOS App)
-  - [https://github.com/ServiceStackApps/TechStacksDesktopApp](TechStacks Desktop Cocoa OSX App)
-  - [https://github.com/ServiceStackApps/AutoQueryViewer](AutoQuery Viewer)
+  - [TechStacks iOS App](https://github.com/ServiceStackApps/TechStacksApp)
+  - [TechStacks Desktop Cocoa OSX App](https://github.com/ServiceStackApps/TechStacksDesktopApp)
+  - [AutoQuery Viewer](https://github.com/ServiceStackApps/AutoQueryViewer)
