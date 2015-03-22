@@ -214,44 +214,6 @@ extension Double : StringSerializable
 
 extension NSTimeInterval
 {
-    /*
-    public String toXsdDuration() {
-    StringBuilder sb = new StringBuilder("P");
-    
-    double d = getTotalSeconds();
-    
-    long totalSeconds = (long) (d);
-    long remainingMs = (long)((d - totalSeconds) * 1000);
-    long sec = (totalSeconds >= 60 ? totalSeconds % 60 : totalSeconds);
-    long min = (totalSeconds = (totalSeconds / 60)) >= 60 ? totalSeconds % 60 : totalSeconds;
-    long hours = (totalSeconds = (totalSeconds / 60)) >= 24 ? totalSeconds % 24 : totalSeconds;
-    long days = (totalSeconds = (totalSeconds / 24)) >= 30 ? totalSeconds % 30 : totalSeconds;
-    
-    if (days > 0) {
-    sb.append(days + "D");
-    }
-    
-    if (hours + min + sec + remainingMs > 0) {
-    sb.append("T");
-    if (hours > 0) {
-    sb.append(hours + "H");
-    }
-    if (min > 0) {
-    sb.append(min + "M");
-    }
-    
-    if (remainingMs > 0) {
-    sb.append(sec + "." + String.format("%03d", remainingMs) + "S");
-    }
-    else if (sec > 0) {
-    sb.append(sec + "S");
-    }
-    }
-    
-    String xsdDuration = sb.toString();
-    return xsdDuration;
-    }    */
-    
     public func toXsdDuration() -> String {
         var sb = "P"
         
