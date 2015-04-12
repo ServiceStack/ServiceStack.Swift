@@ -2,34 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6adc1acd-46d1-457d-8643-59d721cb540f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ExtendNSString.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode.xcodeproj/project.pbxproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/AddReference.xib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/GetJsonServiceClientDelegate.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/logo-400.icns" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/AddReference.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/GetJsonServiceClientDelegate.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/AddReference.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ValidateNativeTypesUrlDelegate.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/XcodeIDE.h" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/GetDtoDelegate.h" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/SwiftNativeTypesManger.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ExtendNSString.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ServiceStackXCode.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/XcodeProjectManipulation.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode.xcodeproj/project.xcworkspace/contents.xcworkspacedata" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/GetDtoDelegate.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode.xcodeproj/xcshareddata/xcschemes/ServiceStackXCode.xcscheme" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ValidateNativeTypesUrlDelegate.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ServiceStackXCode.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/AddReference.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/SwiftNativeTypesManger.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ValidateNativeTypesUrlDelegate.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Podfile" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/XcodeProjectManipulation.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/GetJsonServiceClientDelegate.h" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pkg.json" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/Info.plist" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/XcodeProjectManipulation.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ServiceStackXCode.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ValidateNativeTypesUrlDelegate.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/AddReference.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/GetDtoDelegate.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/logo-400.icns" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/XcodeProjectManipulation.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ExtendNSString.m" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/xcproj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/XcodeIDE.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode.xcodeproj/project.pbxproj" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/NSDocument+SSXSAdditions.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ServiceStackXCode.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode.xcodeproj/xcshareddata/xcschemes/ServiceStackXCode.xcscheme" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/GetJsonServiceClientDelegate.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/ExtendNSString.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/SwiftNativeTypesManger.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode.xcodeproj/project.xcworkspace/contents.xcworkspacedata" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ServiceStackXCode/AddReference.xib" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Podfile" />
     </list>
     <ignored path="ServiceStackXCode.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -128,8 +128,8 @@
       <file leaf-file-name="Info.plist" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ServiceStackXCode/Info.plist">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.77922076" vertical-offset="0" max-vertical-offset="690">
-              <caret line="28" column="56" selection-start-line="28" selection-start-column="56" selection-end-line="28" selection-end-column="56" />
+            <state vertical-scroll-proportion="0.66790354" vertical-offset="0" max-vertical-offset="720">
+              <caret line="24" column="46" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -221,7 +221,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Cidr.FilesView" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -242,6 +241,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Cidr.FilesView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -341,11 +341,11 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289941" sideWeight="0.49969193" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33846155" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33846155" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -775,8 +775,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ServiceStackXCode/Info.plist">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.77922076" vertical-offset="0" max-vertical-offset="690">
-          <caret line="28" column="56" selection-start-line="28" selection-start-column="56" selection-end-line="28" selection-end-column="56" />
+        <state vertical-scroll-proportion="0.66790354" vertical-offset="0" max-vertical-offset="720">
+          <caret line="24" column="46" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
           <folding />
         </state>
       </provider>
