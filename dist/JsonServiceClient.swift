@@ -627,32 +627,80 @@ extension Double : StringSerializable
 
 extension NSTimeInterval
 {
-    public func toTimeIntervalString() -> String {
+    /*
+    public String toXsdDuration() {
+    StringBuilder sb = new StringBuilder("P");
+    
+    double d = getTotalSeconds();
+    
+    long totalSeconds = (long) (d);
+    long remainingMs = (long)((d - totalSeconds) * 1000);
+    long sec = (totalSeconds >= 60 ? totalSeconds % 60 : totalSeconds);
+    long min = (totalSeconds = (totalSeconds / 60)) >= 60 ? totalSeconds % 60 : totalSeconds;
+    long hours = (totalSeconds = (totalSeconds / 60)) >= 24 ? totalSeconds % 24 : totalSeconds;
+    long days = (totalSeconds = (totalSeconds / 24)) >= 30 ? totalSeconds % 30 : totalSeconds;
+    
+    if (days > 0) {
+    sb.append(days + "D");
+    }
+    
+    if (hours + min + sec + remainingMs > 0) {
+    sb.append("T");
+    if (hours > 0) {
+    sb.append(hours + "H");
+    }
+    if (min > 0) {
+    sb.append(min + "M");
+    }
+    
+    if (remainingMs > 0) {
+    sb.append(sec + "." + String.format("%03d", remainingMs) + "S");
+    }
+    else if (sec > 0) {
+    sb.append(sec + "S");
+    }
+    }
+    
+    String xsdDuration = sb.toString();
+    return xsdDuration;
+    }    */
+    
+    public func toXsdDuration() -> String {
         var sb = "P"
         
-        let d = NSDate(timeIntervalSinceNow: self)
-        let now = NSDate()
-        let diff = NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitDay,fromDate:now,toDate:d,options:NSCalendarOptions(0))
-
-        if diff.day > 0 {
-            sb += "\(diff.day)D"
+        let d = self
+        var totalSeconds = Int(d)
+        let remainingMs = Int((d - Double(totalSeconds)) * 1000)
+        let sec = (totalSeconds >= 60 ? totalSeconds % 60 : totalSeconds)
+        totalSeconds = (totalSeconds / 60)
+        let min = totalSeconds >= 60 ? totalSeconds % 60 : totalSeconds
+        totalSeconds = (totalSeconds / 60)
+        let hours = totalSeconds >= 24 ? totalSeconds % 24 : totalSeconds
+        totalSeconds = (totalSeconds / 24)
+        let days = totalSeconds >= 30 ? totalSeconds % 30 : totalSeconds
+        
+        if (days > 0) {
+            sb += "\(days)D"
         }
         
-        let c = d.components()
-        if c.hour > 0 {
-            sb += "\(c.hour)H"
-        }
-        if c.minute > 0 {
-            sb += "\(c.minute)M"
-        }
+        if (hours + min + sec + remainingMs > 0) {
+            sb += "T"
 
-        var dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "SSS"
-        let strMs = dateFormatter.stringFromDate(d)
-
-        sb += strMs != "000"
-            ? "\(c.second).\(strMs)S"
-            : c.second > 0 ? "\(c.second)S" : ""
+            if (hours > 0) {
+                sb += "\(hours)H";
+            }
+            if (min > 0) {
+                sb += "\(min)M";
+            }
+            
+            if (remainingMs > 0) {
+                let padMs = String(format:"%03d", remainingMs)
+                sb += "\(sec).\(padMs)S"
+            }
+            else if (sec > 0) {
+                sb += "\(sec)S"
+            }
+        }
         
         return sb
     }

@@ -36,6 +36,7 @@
 		51D1551E1A7C6BA700D2F2A3 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D1551C1A7C6BA700D2F2A3 /* DateExtensions.swift */; };
 		51E7AD711A7C96CF00B65526 /* StringExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E7AD701A7C96CF00B65526 /* StringExtensionsTests.swift */; };
 		51E7AD731A7CA1CC00B65526 /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E7AD721A7CA1CC00B65526 /* DateExtensionsTests.swift */; };
+		51F280AC1ABF5FDE00AD3933 /* JsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F280AB1ABF5FDE00AD3933 /* JsonTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		51D1551C1A7C6BA700D2F2A3 /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		51E7AD701A7C96CF00B65526 /* StringExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensionsTests.swift; sourceTree = "<group>"; };
 		51E7AD721A7CA1CC00B65526 /* DateExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensionsTests.swift; sourceTree = "<group>"; };
+		51F280AB1ABF5FDE00AD3933 /* JsonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +156,7 @@
 				51D1550D1A7C552B00D2F2A3 /* TestDtosJsonTests.swift */,
 				51E7AD701A7C96CF00B65526 /* StringExtensionsTests.swift */,
 				51E7AD721A7CA1CC00B65526 /* DateExtensionsTests.swift */,
+				51F280AB1ABF5FDE00AD3933 /* JsonTests.swift */,
 			);
 			path = ServiceStackClientTests;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				51D1550E1A7C552B00D2F2A3 /* AssertUtils.swift in Sources */,
 				51D1551B1A7C6B9B00D2F2A3 /* StringExtensions.swift in Sources */,
 				51E7AD731A7CA1CC00B65526 /* DateExtensionsTests.swift in Sources */,
+				51F280AC1ABF5FDE00AD3933 /* JsonTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

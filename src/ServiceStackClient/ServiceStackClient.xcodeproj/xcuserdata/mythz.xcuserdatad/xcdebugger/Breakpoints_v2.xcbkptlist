@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "306"
             endingLineNumber = "306"
-            landmarkName = "fromTimeIntervalObject(_:)"
+            landmarkName = "fromTimeIntervalString(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
