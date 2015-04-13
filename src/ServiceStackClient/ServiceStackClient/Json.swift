@@ -17,7 +17,7 @@ public class JObject
     }
     
     func append(name: String, json: String?) {
-        if sb.count > 0 {
+        if sb.length > 0 {
             sb += ","
         }
         if let s = json {
@@ -52,7 +52,7 @@ public class JArray
     }
     
     func append(json:String?) {
-        if countElements(sb) > 0 {
+        if count(sb) > 0 {
             sb += ","
         }
         sb += json != nil ? "\(json!)" : "null"
@@ -136,7 +136,7 @@ extension Character : StringSerializable
     }
     
     public static func fromString(string: String) -> Character? {
-        return string.count > 0 ? string[0] : nil
+        return string.length > 0 ? string[0] : nil
     }
     
     public static func fromObject(any:AnyObject) -> Character?
@@ -162,7 +162,7 @@ extension NSDate : StringSerializable
     
     public class func fromString(string: String) -> NSDate? {
         var str = string.hasPrefix("\\")
-            ? string[1..<string.count]
+            ? string[1..<string.length]
             : string
         let wcfJsonPrefix = "/Date("
         if str.hasPrefix(wcfJsonPrefix) {
@@ -265,7 +265,7 @@ extension NSTimeInterval
         var seconds = 0
         var ms = 0.0
   
-        let t = string[1..<string.count].splitOnFirst("T") //strip P
+        let t = string[1..<string.length].splitOnFirst("T") //strip P
         
         let hasTime = t.count == 2
         
@@ -635,25 +635,25 @@ public class List<T>
 
 public protocol HasReflect {
     typealias T : HasReflect
-    class func reflect() -> Type<T>
+    static func reflect() -> Type<T>
     init()
 }
 
 public protocol Convertible {
     typealias T
-    class var typeName:String { get }
-    class func fromObject(any:AnyObject) -> T?
+    static var typeName:String { get }
+    static func fromObject(any:AnyObject) -> T?
 }
 
 public protocol JsonSerializable : HasReflect, StringSerializable {
     func toJson() -> String
-    class func fromJson(json:String) -> T?
+    static func fromJson(json:String) -> T?
 }
 			
 public protocol StringSerializable : Convertible {
     func toJson() -> String
     func toString() -> String
-    class func fromString(string:String) -> T?
+    static func fromString(string:String) -> T?
 }
 
 
@@ -861,7 +861,7 @@ public class JProperty<T : HasReflect, P : StringSerializable> : PropertyType
 public class JOptionalProperty<T : HasReflect, P : StringSerializable> : PropertyType
 {
     public var get:(T) -> P?
-    public var set:(T,P) -> Void
+    public var set:(T,P?) -> Void
     
     init(name:String, get:(T) -> P?, set:(T,P?) -> Void)
     {
@@ -932,7 +932,7 @@ public class JObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyTyp
 public class JOptionalObjectProperty<T : HasReflect, P : JsonSerializable where P : HasReflect> : PropertyType
 {
     public var get:(T) -> P?
-    public var set:(T,P) -> Void
+    public var set:(T,P?) -> Void
     
     init(name:String, get:(T) -> P?, set:(T,P?) -> Void)
     {
@@ -1096,12 +1096,12 @@ public class JDictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashab
                     for item in array {
                         if let map = item as? NSDictionary {
                             for (subK, subV) in map {
-                                values[K.fromObject(subK)! as K] = P.fromObject(subV) as? P
+                                values[K.fromObject(subK)! as! K] = P.fromObject(subV) as? P
                             }
                         }
                     }
                 }
-                to[K.fromObject(k) as K] = values
+                to[K.fromObject(k) as! K] = values
             }
             set(instance,to)
         }
@@ -1134,7 +1134,7 @@ public class JArrayProperty<T : HasReflect, P : StringSerializable> : PropertyTy
         var sb = ""
         
         for item in propValues {
-            if sb.count > 0 {
+            if sb.length > 0 {
                 sb += ","
             }
             var str:String = "null"
@@ -1186,7 +1186,7 @@ public class JOptionalArrayProperty<T : HasReflect, P : StringSerializable> : Pr
         var sb = ""
         if let propValues = get(instance) {
             for item in propValues {
-                if sb.count > 0 {
+                if sb.length > 0 {
                     sb += ","
                 }
                 var str:String = "null"
@@ -1243,7 +1243,7 @@ public class JArrayObjectProperty<T : HasReflect, P : JsonSerializable> : Proper
         var sb = ""
         
         for item in propValues {
-            if sb.count > 0 {
+            if sb.length > 0 {
                 sb += ","
             }
             var str:String = "null"
@@ -1298,7 +1298,7 @@ public class JOptionalArrayObjectProperty<T : HasReflect, P : JsonSerializable> 
         
         if let propValues = get(instance) {
             for item in propValues {
-                if sb.count > 0 {
+                if sb.length > 0 {
                     sb += ","
                 }
                 var str:String = "null"
@@ -1371,7 +1371,7 @@ func jsonString(str:String?) -> String {
             var error:NSError?
             if let encodedData = NSJSONSerialization.dataWithJSONObject([s], options:NSJSONWritingOptions.allZeros, error:&error) {
                 if let encodedJson = encodedData.toUtf8String() {
-                    return encodedJson[1..<encodedJson.count-1] //strip []
+                    return encodedJson[1..<encodedJson.length-1] //strip []
                 }
             }
         }        

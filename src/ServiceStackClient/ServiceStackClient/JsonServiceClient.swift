@@ -109,11 +109,11 @@ public class JsonServiceClient : ServiceClient
     }
     
     func getItem(map:NSDictionary, key:String) -> AnyObject? {
-        return map[String(key[0]).lowercaseString + key[1..<key.count]] ?? map[String(key[0]).uppercaseString + key[1..<key.count]]
+        return map[String(key[0]).lowercaseString + key[1..<key.length]] ?? map[String(key[0]).uppercaseString + key[1..<key.length]]
     }
     
     func populateResponseStatusFields(inout errorInfo:[NSObject : AnyObject], withObject:AnyObject) {
-        if let status = getItem(withObject as NSDictionary, key: "ResponseStatus") as? NSDictionary {
+        if let status = getItem(withObject as! NSDictionary, key: "ResponseStatus") as? NSDictionary {
             if let errorCode = getItem(status, key: "errorCode") as? NSString {
                 errorInfo["errorCode"] = errorCode
             }
@@ -164,7 +164,7 @@ public class JsonServiceClient : ServiceClient
         }
         
         if let json = NSString(data: data, encoding: NSUTF8StringEncoding) {
-            if let dto = T.reflect().fromJson(intoResponse, json: json, error:error) {
+            if let dto = T.reflect().fromJson(intoResponse, json: json as String, error:error) {
                 return dto
             }
         }
@@ -177,13 +177,13 @@ public class JsonServiceClient : ServiceClient
         var sb = ""
         for pi in typeInfo.properties {
             if let strValue = pi.stringValue(dto) {
-                sb += sb.count == 0 ? "?" : "&"
+                sb += sb.length == 0 ? "?" : "&"
                 sb += "\(pi.name.urlEncode()!)=\(strValue.urlEncode()!)"
             }
         }
         
         for (key,value) in query {
-            sb += sb.count == 0 ? "?" : "&"
+            sb += sb.length == 0 ? "?" : "&"
             sb += "\(key)=\(value.urlEncode()!)"
         }
         

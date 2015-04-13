@@ -1,67 +1,21 @@
-/*
-Copyright 2014 Max Howell <mxcl@me.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
 import Foundation
-import ObjectiveC.runtime;
 
-//misc.swift
-let Q = NSOperationQueue()
 
-private var asskey = "PMKSfjadfl"
-private let policy = UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC) as objc_AssociationPolicy
 
-func PMKRetain(obj: AnyObject) {
-    objc_setAssociatedObject(obj, &asskey, obj, policy)
-}
-
-func PMKRelease(obj: AnyObject) {
-    objc_setAssociatedObject(obj, &asskey, nil, policy)
-}
-
-func noop() {}
-
-//constants.swift
-public let PMKErrorDomain = "PMKErrorDomain"
-public let PMKURLErrorFailingDataKey = "PMKURLErrorFailingDataKey"
-public let PMKURLErrorFailingStringKey = "PMKURLErrorFailingStringKey"
-public let PMKURLErrorFailingURLResponseKey = "PMKURLErrorFailingURLResponseKey"
-public let PMKJSONErrorJSONObjectKey = "PMKJSONErrorJSONObjectKey"
-public let PMKJSONError = 1
-
-public let NoSuchRecord = 2
-
-private enum State<T> {
+private enum State {
     case Pending(Handlers)
-    case Fulfilled(@autoclosure () -> T) //TODO use plain T, once Swift compiler matures
+    case Fulfilled(Any)
     case Rejected(Error)
 }
 
-//Promise.swift
+
+
 public class Promise<T> {
     private let barrier = dispatch_queue_create("org.promisekit.barrier", DISPATCH_QUEUE_CONCURRENT)
-    private var _state: State<T>
+    private var _state: State
     
-    private var state: State<T> {
-        var result: State<T>?
+    private var state: State {
+        var result: State?
         dispatch_sync(barrier) { result = self._state }
         return result!
     }
@@ -92,7 +46,7 @@ public class Promise<T> {
     public var value: T? {
         switch state {
         case .Fulfilled(let value):
-            return value()
+            return (value as! T)
         default:
             return nil
         }
@@ -111,31 +65,33 @@ public class Promise<T> {
         }
     }
     
-    public init(_ body:(fulfill:(T) -> Void, reject:(NSError) -> Void) -> Void) {
+    public init(_ body:(fulfill: (T) -> Void, reject: (NSError) -> Void) -> Void) {
         _state = .Pending(Handlers())
         
-        let resolver = { (newstate: State<T>) -> Void in
+        let resolver = { (newstate: State) -> Void in
             var handlers = Array<()->()>()
             dispatch_barrier_sync(self.barrier) {
                 switch self._state {
                 case .Pending(let Ω):
                     self._state = newstate
                     handlers = Ω.bodies
-                    Ω.bodies.removeAll(keepCapacity: false)
                 default:
-                    noop()
+                    break
                 }
             }
             for handler in handlers { handler() }
         }
         
-        body({ resolver(.Fulfilled($0)) }, { error in
-            if let pmkerror = error as? Error {
-                pmkerror.consumed = false
-                resolver(.Rejected(pmkerror))
-            } else {
-                resolver(.Rejected(Error(domain: error.domain, code: error.code, userInfo: error.userInfo)))
-            }
+        body(fulfill: { value->() in
+            resolver(.Fulfilled(value))
+            return
+            }, reject: { error in
+                if let pmkerror = error as? Error {
+                    pmkerror.consumed = false
+                    resolver(.Rejected(pmkerror))
+                } else {
+                    resolver(.Rejected(Error(domain: error.domain, code: error.code, userInfo: error.userInfo)))
+                }
         })
     }
     
@@ -161,7 +117,7 @@ public class Promise<T> {
                 case .Rejected(let error):
                     reject(error)
                 case .Fulfilled(let value):
-                    dispatch_async(q) { fulfill(body(value())) }
+                    dispatch_async(q) { fulfill(body(value as! T)) }
                 case .Pending:
                     abort()
                 }
@@ -185,12 +141,12 @@ public class Promise<T> {
                     reject(error)
                 case .Fulfilled(let value):
                     dispatch_async(q) {
-                        let promise = body(value())
+                        let promise = body(value as! T)
                         switch promise.state {
                         case .Rejected(let error):
                             reject(error)
                         case .Fulfilled(let value):
-                            fulfill(value())
+                            fulfill(value as! U)
                         case .Pending(let handlers):
                             dispatch_barrier_sync(promise.barrier) {
                                 handlers.append {
@@ -198,7 +154,7 @@ public class Promise<T> {
                                     case .Rejected(let error):
                                         reject(error)
                                     case .Fulfilled(let value):
-                                        fulfill(value())
+                                        fulfill(value as! U)
                                     case .Pending:
                                         abort()
                                     }
@@ -223,6 +179,14 @@ public class Promise<T> {
         }
     }
     
+    public func thenInBackground<U>(body:(T) -> U) -> Promise<U> {
+        return then(onQueue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), body: body)
+    }
+    
+    public func thenInBackground<U>(body:(T) -> Promise<U>) -> Promise<U> {
+        return then(onQueue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), body: body)
+    }
+    
     public func catch(onQueue q:dispatch_queue_t = dispatch_get_main_queue(), body:(NSError) -> T) -> Promise<T> {
         return Promise<T>{ (fulfill, _) in
             let handler = { ()->() in
@@ -233,7 +197,7 @@ public class Promise<T> {
                         fulfill(body(error))
                     }
                 case .Fulfilled(let value):
-                    fulfill(value())
+                    fulfill(value as! T)
                 case .Pending:
                     abort()
                 }
@@ -258,7 +222,7 @@ public class Promise<T> {
                     body(error)
                 }
             case .Fulfilled:
-                noop()
+                break
             case .Pending:
                 abort()
             }
@@ -279,14 +243,14 @@ public class Promise<T> {
             let handler = { ()->() in
                 switch self.state {
                 case .Fulfilled(let value):
-                    fulfill(value())
+                    fulfill(value as! T)
                 case .Rejected(let error):
                     dispatch_async(q) {
                         error.consumed = true
                         let promise = body(error)
                         switch promise.state {
                         case .Fulfilled(let value):
-                            fulfill(value())
+                            fulfill(value as! T)
                         case .Rejected(let error):
                             dispatch_async(q) { reject(error) }
                         case .Pending(let handlers):
@@ -296,7 +260,7 @@ public class Promise<T> {
                                     case .Rejected(let error):
                                         reject(error)
                                     case .Fulfilled(let value):
-                                        fulfill(value())
+                                        fulfill(value as! T)
                                     case .Pending:
                                         abort()
                                     }
@@ -330,7 +294,7 @@ public class Promise<T> {
                 case .Fulfilled(let value):
                     dispatch_async(q) {
                         body()
-                        fulfill(value())
+                        fulfill(value as! T)
                     }
                 case .Rejected(let error):
                     dispatch_async(q) {
@@ -353,19 +317,42 @@ public class Promise<T> {
     }
     
     /**
-    Immediate resolution of body if the promise is fulfilled.
+    If the promise is fulfilled, body is called immediately, if the promise
+    is pending, body is called as soon as the promise is resolved on the
+    queue that it was resolved upon.
+    
+    Usually handlers are called inside a `dispatch_async` even if the promise
+    is already resolved.
     
     Please note, there are good reasons that `then` does not call `body`
-    immediately if the promise is already fulfilled. If you don’t understand
-    the implications of unleashing zalgo, you should not under any
-    cirumstances use this function!
+    immediately. If you don’t understand the implications of unleashing
+    zalgo, you should not under any cirumstances use this function!
+    
+    At the very least be aware your handler probably won’t be called the main
+    thread if the promise is pending.
     */
-    public func thenUnleashZalgo(body:(T)->Void) -> Void {
-        if let obj = value {
-            body(obj)
-        } else {
-            then(body)
+    public func thenUnleashZalgo<U>(body: (T) -> U) -> Promise<U> {
+        let (promise, fulfill, reject) = Promise<U>.defer()
+        
+        switch state {
+        case .Fulfilled(let value):
+            fulfill(body(value as! T))
+        case .Rejected(let error):
+            reject(error)
+        case .Pending(let handlers):
+            handlers.append({
+                switch self.state {
+                case .Fulfilled(let value):
+                    fulfill(body(value as! T))
+                case .Rejected(let error):
+                    reject(error)
+                case .Pending:
+                    abort()
+                }
+            })
         }
+        
+        return promise
     }
     
     public func voidify() -> Promise<Void> {
@@ -397,9 +384,11 @@ public class Promise<T> {
     }
 }
 
+
 public var PMKUnhandledErrorHandler = { (error: NSError) in
     NSLog("%@", "PromiseKit: Unhandled error: \(error)")
 }
+
 
 private class Error : NSError {
     var consumed: Bool = false  //TODO strictly, should be atomic
@@ -410,6 +399,8 @@ private class Error : NSError {
         }
     }
 }
+
+
 
 /**
 When accessing handlers from the State enum, the array
@@ -432,9 +423,11 @@ private class Handlers: SequenceType {
     }
 }
 
+
+
 extension Promise: DebugPrintable {
     public var debugDescription: String {
-        var state: State<T>?
+        var state: State?
         dispatch_sync(barrier) {
             state = self._state
         }
@@ -447,12 +440,14 @@ extension Promise: DebugPrintable {
             }
             return "Promise: Pending with \(count!) handlers"
         case .Fulfilled(let value):
-            return "Promise: Fulfilled with value: \(value())"
+            return "Promise: Fulfilled with value: \(value)"
         case .Rejected(let error):
             return "Promise: Rejected with error: \(error)"
         }
     }
 }
+
+
 
 func dispatch_promise<T>(/*to q:dispatch_queue_t = dispatch_get_global_queue(0, 0),*/ body:() -> AnyObject) -> Promise<T> {
     let q = dispatch_get_global_queue(0, 0)
@@ -460,9 +455,9 @@ func dispatch_promise<T>(/*to q:dispatch_queue_t = dispatch_get_global_queue(0, 
         dispatch_async(q) {
             let obj: AnyObject = body()
             if obj is NSError {
-                reject(obj as NSError)
+                reject(obj as! NSError)
             } else {
-                fulfill(obj as T)
+                fulfill(obj as! T)
             }
         }
     }

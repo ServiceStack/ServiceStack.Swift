@@ -24,14 +24,14 @@ public extension NSDate {
         c.month = month
         c.day = day
         
-        let gregorian = NSCalendar(identifier:NSGregorianCalendar)
+        let gregorian = NSCalendar(identifier:NSCalendarIdentifierGregorian)
         let d = gregorian?.dateFromComponents(c)
         self.init(timeInterval:0, sinceDate:d!)
     }
     
     public func components() -> NSDateComponents {
         let components  = NSCalendar.currentCalendar().components(
-            NSCalendarUnit.DayCalendarUnit | NSCalendarUnit.MonthCalendarUnit | NSCalendarUnit.YearCalendarUnit,
+            NSCalendarUnit.CalendarUnitDay | NSCalendarUnit.CalendarUnitMonth | NSCalendarUnit.CalendarUnitYear,
             fromDate: self)
         
         return components
@@ -76,12 +76,12 @@ public extension NSDate {
         var dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.timeZone = isUtc ? NSTimeZone(abbreviation: "UTC") : NSTimeZone.localTimeZone()
-        dateFormatter.dateFormat = string.count == 19
+        dateFormatter.dateFormat = string.length == 19
             ? "yyyy-MM-dd'T'HH:mm:ss"
             : "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS"
         
         return isUtc
-            ? dateFormatter.dateFromString(string[0..<string.count-1])
+            ? dateFormatter.dateFromString(string[0..<string.length-1])
             : dateFormatter.dateFromString(string)
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 
 public extension String
 {
-    public var count: Int { return countElements(self) }
+    public var length: Int { return count(self) }
     
     public func contains(s:String) -> Bool {
         return (self as NSString).containsString(s)
@@ -37,7 +37,7 @@ public extension String
     }
     
     public func combinePath(path:String) -> String {
-        return (self.hasSuffix("/") ? self : self + "/") + (path.hasPrefix("/") ? path[1..<path.count] : path)
+        return (self.hasSuffix("/") ? self : self + "/") + (path.hasPrefix("/") ? path[1..<path.length] : path)
     }
     
     public func splitOnFirst(separator:String) -> [String] {
@@ -101,7 +101,7 @@ extension Array
     func print() -> String {
         var sb = ""
         for item in self {
-            if sb.count > 0 {
+            if sb.length > 0 {
                 sb += ","
             }
             sb += "\(item)"
