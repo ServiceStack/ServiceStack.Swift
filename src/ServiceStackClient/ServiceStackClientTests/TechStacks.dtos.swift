@@ -1,20 +1,20 @@
 /* Options:
-Date: 2015-02-02 07:42:29
+Date: 2015-04-13 15:59:54
 Version: 1
 BaseUrl: http://techstacks.io
 
 BaseClass: NSObject
-//AddResponseStatus: False
 //AddModelExtensions: True
 //AddServiceStackTypes: True
-//InitializeCollections: True
-//AddImplicitVersion:
 //IncludeTypes:
 //ExcludeTypes:
-//DefaultNamespaces: Foundation
+//AddResponseStatus: False
+//AddImplicitVersion:
+//InitializeCollections: True
+//DefaultImports: Foundation
 */
 
-import Foundation
+import Foundation;
 
 public class Technology : TechnologyBase
 {
@@ -89,10 +89,10 @@ public class Option : NSObject
     required public override init(){}
     // @DataMember(Name="name")
     public var name:String?
-    
+
     // @DataMember(Name="title")
     public var title:String?
-    
+
     // @DataMember(Name="value")
     public var value:TechnologyTier?
 }
@@ -113,6 +113,18 @@ public class TechnologyInfo : NSObject
     public var name:String?
     public var logoUrl:String?
     public var stacksCount:Int?
+}
+
+public class Post : NSObject
+{
+    required public override init(){}
+    public var id:Int?
+    public var userId:String?
+    public var userName:String?
+    public var date:String?
+    public var shortDate:String?
+    public var textHtml:String?
+    public var comments:[PostComment] = []
 }
 
 public class TechnologyBase : NSObject
@@ -143,10 +155,10 @@ public class ResponseError : NSObject
     required public override init(){}
     // @DataMember(Order=1, EmitDefaultValue=false)
     public var errorCode:String?
-    
+
     // @DataMember(Order=2, EmitDefaultValue=false)
     public var fieldName:String?
-    
+
     // @DataMember(Order=3, EmitDefaultValue=false)
     public var message:String?
 }
@@ -176,13 +188,13 @@ public class QueryBase : NSObject
     required public override init(){}
     // @DataMember(Order=1)
     public var skip:Int?
-    
+
     // @DataMember(Order=2)
     public var take:Int?
-    
+
     // @DataMember(Order=3)
     public var orderBy:String?
-    
+
     // @DataMember(Order=4)
     public var orderByDesc:String?
 }
@@ -193,6 +205,18 @@ public class TechnologyInStack : TechnologyBase
     public var technologyId:Int64?
     public var technologyStackId:Int64?
     public var justification:String?
+}
+
+public class PostComment : NSObject
+{
+    required public override init(){}
+    public var id:Int?
+    public var postId:Int?
+    public var userId:String?
+    public var userName:String?
+    public var date:String?
+    public var shortDate:String?
+    public var textHtml:String?
 }
 
 public class LogoUrlApprovalResponse : NSObject
@@ -256,21 +280,21 @@ public class GetAllTechnologiesResponse : NSObject
 }
 
 // @DataContract
-public class QueryResponse<Technology : JsonSerializable> : NSObject
+public class QueryResponse<T : JsonSerializable> : NSObject
 {
     required public override init(){}
     // @DataMember(Order=1)
     public var offset:Int?
-    
+
     // @DataMember(Order=2)
     public var total:Int?
-    
+
     // @DataMember(Order=3)
-    public var results:[Technology] = []
-    
+    public var results:[T] = []
+
     // @DataMember(Order=4)
     public var meta:[String:String] = [:]
-    
+
     // @DataMember(Order=5)
     public var responseStatus:ResponseStatus?
 }
@@ -305,9 +329,9 @@ public class GetAllTechnologyStacksResponse : NSObject
 public class GetTechnologyStackResponse : NSObject
 {
     required public override init(){}
-    public var responseStatus:ResponseStatus?
     public var created:NSDate?
     public var result:TechStackDetails?
+    public var responseStatus:ResponseStatus?
 }
 
 public class GetTechnologyStackPreviousVersionsResponse : NSObject
@@ -337,6 +361,15 @@ public class OverviewResponse : NSObject
     public var topTechnologies:[TechnologyInfo] = []
     public var latestTechStacks:[TechStackDetails] = []
     public var topTechnologiesByTier:[TechnologyTier:[TechnologyInfo]] = [:]
+    public var responseStatus:ResponseStatus?
+}
+
+public class AppOverviewResponse : NSObject
+{
+    required public override init(){}
+    public var created:NSDate?
+    public var allTiers:[Option] = []
+    public var topTechnologies:[TechnologyInfo] = []
     public var responseStatus:ResponseStatus?
 }
 
@@ -387,22 +420,22 @@ public class AuthenticateResponse : NSObject
     required public override init(){}
     // @DataMember(Order=1)
     public var userId:String?
-    
+
     // @DataMember(Order=2)
     public var sessionId:String?
-    
+
     // @DataMember(Order=3)
     public var userName:String?
-    
+
     // @DataMember(Order=4)
     public var displayName:String?
-    
+
     // @DataMember(Order=5)
     public var referrerUrl:String?
-    
+
     // @DataMember(Order=6)
     public var responseStatus:ResponseStatus?
-    
+
     // @DataMember(Order=7)
     public var meta:[String:String] = [:]
 }
@@ -427,7 +460,7 @@ public class UnAssignRolesResponse : NSObject
 public class LogoUrlApproval : NSObject, IReturn
 {
     typealias Return = LogoUrlApprovalResponse
-    
+
     required public override init(){}
     public var technologyId:Int64?
     public var approved:Bool?
@@ -437,7 +470,7 @@ public class LogoUrlApproval : NSObject, IReturn
 public class LockTechStack : NSObject, IReturn
 {
     typealias Return = LockStackResponse
-    
+
     required public override init(){}
     public var technologyStackId:Int64?
     public var isLocked:Bool?
@@ -447,7 +480,7 @@ public class LockTechStack : NSObject, IReturn
 public class LockTech : NSObject, IReturn
 {
     typealias Return = LockStackResponse
-    
+
     required public override init(){}
     public var technologyId:Int64?
     public var isLocked:Bool?
@@ -502,7 +535,7 @@ public class SessionInfo : NSObject
 public class CreateTechnology : NSObject, IReturn
 {
     typealias Return = CreateTechnologyResponse
-    
+
     required public override init(){}
     public var name:String?
     public var vendorName:String?
@@ -518,7 +551,7 @@ public class CreateTechnology : NSObject, IReturn
 public class UpdateTechnology : NSObject, IReturn
 {
     typealias Return = UpdateTechnologyResponse
-    
+
     required public override init(){}
     public var id:Int64?
     public var name:String?
@@ -535,7 +568,7 @@ public class UpdateTechnology : NSObject, IReturn
 public class DeleteTechnology : NSObject, IReturn
 {
     typealias Return = DeleteTechnologyResponse
-    
+
     required public override init(){}
     public var id:Int64?
 }
@@ -544,7 +577,7 @@ public class DeleteTechnology : NSObject, IReturn
 public class GetTechnology : NSObject, IReturn
 {
     typealias Return = GetTechnologyResponse
-    
+
     required public override init(){}
     public var reload:Bool?
     public var slug:String?
@@ -554,7 +587,7 @@ public class GetTechnology : NSObject, IReturn
 public class GetTechnologyPreviousVersions : NSObject, IReturn
 {
     typealias Return = GetTechnologyPreviousVersionsResponse
-    
+
     required public override init(){}
     public var slug:String?
 }
@@ -563,7 +596,7 @@ public class GetTechnologyPreviousVersions : NSObject, IReturn
 public class GetTechnologyFavoriteDetails : NSObject, IReturn
 {
     typealias Return = GetTechnologyFavoriteDetailsResponse
-    
+
     required public override init(){}
     public var slug:String?
     public var reload:Bool?
@@ -573,15 +606,16 @@ public class GetTechnologyFavoriteDetails : NSObject, IReturn
 public class GetAllTechnologies : NSObject, IReturn
 {
     typealias Return = GetAllTechnologiesResponse
-    
+
     required public override init(){}
 }
 
 // @Route("/technology/search")
+// @AutoQueryViewer(Title="Find Technologies", Description="Explore different Technologies", IconUrl="/img/app/tech-white-75.png", DefaultSearchField="Tier", DefaultSearchType="=", DefaultSearchText="Data")
 public class FindTechnologies<Technology : JsonSerializable> : QueryBase_1<Technology>, IReturn
 {
     typealias Return = QueryResponse<Technology>
-    
+
     required public init(){}
     public var name:String?
     public var reload:Bool?
@@ -591,7 +625,7 @@ public class FindTechnologies<Technology : JsonSerializable> : QueryBase_1<Techn
 public class CreateTechnologyStack : NSObject, IReturn
 {
     typealias Return = CreateTechnologyStackResponse
-    
+
     required public override init(){}
     public var name:String?
     public var vendorName:String?
@@ -607,7 +641,7 @@ public class CreateTechnologyStack : NSObject, IReturn
 public class UpdateTechnologyStack : NSObject, IReturn
 {
     typealias Return = UpdateTechnologyStackResponse
-    
+
     required public override init(){}
     public var id:Int64?
     public var name:String?
@@ -624,7 +658,7 @@ public class UpdateTechnologyStack : NSObject, IReturn
 public class DeleteTechnologyStack : NSObject, IReturn
 {
     typealias Return = DeleteTechnologyStackResponse
-    
+
     required public override init(){}
     public var id:Int64?
 }
@@ -633,7 +667,7 @@ public class DeleteTechnologyStack : NSObject, IReturn
 public class GetAllTechnologyStacks : NSObject, IReturn
 {
     typealias Return = GetAllTechnologyStacksResponse
-    
+
     required public override init(){}
 }
 
@@ -641,7 +675,7 @@ public class GetAllTechnologyStacks : NSObject, IReturn
 public class GetTechnologyStack : NSObject, IReturn
 {
     typealias Return = GetTechnologyStackResponse
-    
+
     required public override init(){}
     public var reload:Bool?
     public var slug:String?
@@ -651,7 +685,7 @@ public class GetTechnologyStack : NSObject, IReturn
 public class GetTechnologyStackPreviousVersions : NSObject, IReturn
 {
     typealias Return = GetTechnologyStackPreviousVersionsResponse
-    
+
     required public override init(){}
     public var slug:String?
 }
@@ -660,7 +694,7 @@ public class GetTechnologyStackPreviousVersions : NSObject, IReturn
 public class GetTechnologyStackFavoriteDetails : NSObject, IReturn
 {
     typealias Return = GetTechnologyStackFavoriteDetailsResponse
-    
+
     required public override init(){}
     public var slug:String?
     public var reload:Bool?
@@ -670,7 +704,7 @@ public class GetTechnologyStackFavoriteDetails : NSObject, IReturn
 public class GetConfig : NSObject, IReturn
 {
     typealias Return = GetConfigResponse
-    
+
     required public override init(){}
 }
 
@@ -678,16 +712,26 @@ public class GetConfig : NSObject, IReturn
 public class Overview : NSObject, IReturn
 {
     typealias Return = OverviewResponse
-    
+
+    required public override init(){}
+    public var reload:Bool?
+}
+
+// @Route("/app-overview")
+public class AppOverview : NSObject, IReturn
+{
+    typealias Return = AppOverviewResponse
+
     required public override init(){}
     public var reload:Bool?
 }
 
 // @Route("/techstacks/search")
+// @AutoQueryViewer(Title="Find Technology Stacks", Description="Explore different Technology Stacks", IconUrl="/img/app/stacks-white-75.png", DefaultSearchField="Description", DefaultSearchType="Contains", DefaultSearchText="ServiceStack")
 public class FindTechStacks<TechnologyStack : JsonSerializable> : QueryBase_1<TechnologyStack>, IReturn
 {
     typealias Return = QueryResponse<TechnologyStack>
-    
+
     required public init(){}
     public var reload:Bool?
 }
@@ -696,7 +740,7 @@ public class FindTechStacks<TechnologyStack : JsonSerializable> : QueryBase_1<Te
 public class GetFavoriteTechStack : NSObject, IReturn
 {
     typealias Return = GetFavoriteTechStackResponse
-    
+
     required public override init(){}
     public var technologyStackId:Int?
 }
@@ -705,7 +749,7 @@ public class GetFavoriteTechStack : NSObject, IReturn
 public class AddFavoriteTechStack : NSObject, IReturn
 {
     typealias Return = FavoriteTechStackResponse
-    
+
     required public override init(){}
     public var technologyStackId:Int?
 }
@@ -714,7 +758,7 @@ public class AddFavoriteTechStack : NSObject, IReturn
 public class RemoveFavoriteTechStack : NSObject, IReturn
 {
     typealias Return = FavoriteTechStackResponse
-    
+
     required public override init(){}
     public var technologyStackId:Int?
 }
@@ -723,7 +767,7 @@ public class RemoveFavoriteTechStack : NSObject, IReturn
 public class GetFavoriteTechnologies : NSObject, IReturn
 {
     typealias Return = GetFavoriteTechnologiesResponse
-    
+
     required public override init(){}
     public var technologyId:Int?
 }
@@ -732,7 +776,7 @@ public class GetFavoriteTechnologies : NSObject, IReturn
 public class AddFavoriteTechnology : NSObject, IReturn
 {
     typealias Return = FavoriteTechnologyResponse
-    
+
     required public override init(){}
     public var technologyId:Int?
 }
@@ -741,7 +785,7 @@ public class AddFavoriteTechnology : NSObject, IReturn
 public class RemoveFavoriteTechnology : NSObject, IReturn
 {
     typealias Return = FavoriteTechnologyResponse
-    
+
     required public override init(){}
     public var technologyId:Int?
 }
@@ -750,7 +794,7 @@ public class RemoveFavoriteTechnology : NSObject, IReturn
 public class GetUserFeed : NSObject, IReturn
 {
     typealias Return = GetUserFeedResponse
-    
+
     required public override init(){}
 }
 
@@ -758,7 +802,7 @@ public class GetUserFeed : NSObject, IReturn
 public class GetUserInfo : NSObject, IReturn
 {
     typealias Return = GetUserInfoResponse
-    
+
     required public override init(){}
     public var reload:Bool?
     public var userName:String?
@@ -772,50 +816,50 @@ public class GetUserInfo : NSObject, IReturn
 public class Authenticate : NSObject, IReturn
 {
     typealias Return = AuthenticateResponse
-    
+
     required public override init(){}
     // @DataMember(Order=1)
     public var provider:String?
-    
+
     // @DataMember(Order=2)
     public var state:String?
-    
+
     // @DataMember(Order=3)
     public var oauth_token:String?
-    
+
     // @DataMember(Order=4)
     public var oauth_verifier:String?
-    
+
     // @DataMember(Order=5)
     public var userName:String?
-    
+
     // @DataMember(Order=6)
     public var password:String?
-    
+
     // @DataMember(Order=7)
     public var rememberMe:Bool?
-    
+
     // @DataMember(Order=8)
     public var Continue:String?
-    
+
     // @DataMember(Order=9)
     public var nonce:String?
-    
+
     // @DataMember(Order=10)
     public var uri:String?
-    
+
     // @DataMember(Order=11)
     public var response:String?
-    
+
     // @DataMember(Order=12)
     public var qop:String?
-    
+
     // @DataMember(Order=13)
     public var nc:String?
-    
+
     // @DataMember(Order=14)
     public var cnonce:String?
-    
+
     // @DataMember(Order=15)
     public var meta:[String:String] = [:]
 }
@@ -824,7 +868,7 @@ public class Authenticate : NSObject, IReturn
 public class AssignRoles : NSObject, IReturn
 {
     typealias Return = AssignRolesResponse
-    
+
     required public override init(){}
     public var userName:String?
     public var permissions:[String] = []
@@ -835,18 +879,26 @@ public class AssignRoles : NSObject, IReturn
 public class UnAssignRoles : NSObject, IReturn
 {
     typealias Return = UnAssignRolesResponse
-    
+
     required public override init(){}
     public var userName:String?
     public var permissions:[String] = []
     public var roles:[String] = []
 }
 
+// @Route("/posts")
+public class QueryPosts<Post : JsonSerializable> : QueryBase_1<Post>, IReturn
+{
+    typealias Return = QueryResponse<Post>
+
+    required public init(){}
+}
+
 
 extension Technology : JsonSerializable
 {
-    public class var typeName:String { return "Technology" }
-    public class func reflect() -> Type<Technology> {
+    public static var typeName:String { return "Technology" }
+    public static func reflect() -> Type<Technology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Technology>(
             properties: [
                 Type<Technology>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
@@ -871,16 +923,16 @@ extension Technology : JsonSerializable
     public func toJson() -> String {
         return Technology.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> Technology? {
+    public static func fromJson(json:String) -> Technology? {
         return Technology.reflect().fromJson(Technology(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> Technology? {
+    public static func fromObject(any:AnyObject) -> Technology? {
         return Technology.reflect().fromObject(Technology(), any:any)
     }
     public func toString() -> String {
         return Technology.reflect().toString(self)
     }
-    public class func fromString(string:String) -> Technology? {
+    public static func fromString(string:String) -> Technology? {
         return Technology.reflect().fromString(Technology(), string: string)
     }
 }
@@ -929,8 +981,8 @@ extension TechnologyTier : StringSerializable
 
 extension ResponseStatus : JsonSerializable
 {
-    public class var typeName:String { return "ResponseStatus" }
-    public class func reflect() -> Type<ResponseStatus> {
+    public static var typeName:String { return "ResponseStatus" }
+    public static func reflect() -> Type<ResponseStatus> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<ResponseStatus>(
             properties: [
                 Type<ResponseStatus>.optionalProperty("errorCode", get: { $0.errorCode }, set: { $0.errorCode = $1 }),
@@ -942,24 +994,24 @@ extension ResponseStatus : JsonSerializable
     public func toJson() -> String {
         return ResponseStatus.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> ResponseStatus? {
+    public static func fromJson(json:String) -> ResponseStatus? {
         return ResponseStatus.reflect().fromJson(ResponseStatus(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> ResponseStatus? {
+    public static func fromObject(any:AnyObject) -> ResponseStatus? {
         return ResponseStatus.reflect().fromObject(ResponseStatus(), any:any)
     }
     public func toString() -> String {
         return ResponseStatus.reflect().toString(self)
     }
-    public class func fromString(string:String) -> ResponseStatus? {
+    public static func fromString(string:String) -> ResponseStatus? {
         return ResponseStatus.reflect().fromString(ResponseStatus(), string: string)
     }
 }
 
 extension TechnologyStack : JsonSerializable
 {
-    public class var typeName:String { return "TechnologyStack" }
-    public class func reflect() -> Type<TechnologyStack> {
+    public static var typeName:String { return "TechnologyStack" }
+    public static func reflect() -> Type<TechnologyStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechnologyStack>(
             properties: [
                 Type<TechnologyStack>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
@@ -982,24 +1034,24 @@ extension TechnologyStack : JsonSerializable
     public func toJson() -> String {
         return TechnologyStack.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> TechnologyStack? {
+    public static func fromJson(json:String) -> TechnologyStack? {
         return TechnologyStack.reflect().fromJson(TechnologyStack(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> TechnologyStack? {
+    public static func fromObject(any:AnyObject) -> TechnologyStack? {
         return TechnologyStack.reflect().fromObject(TechnologyStack(), any:any)
     }
     public func toString() -> String {
         return TechnologyStack.reflect().toString(self)
     }
-    public class func fromString(string:String) -> TechnologyStack? {
+    public static func fromString(string:String) -> TechnologyStack? {
         return TechnologyStack.reflect().fromString(TechnologyStack(), string: string)
     }
 }
 
 extension TechnologyHistory : JsonSerializable
 {
-    public class var typeName:String { return "TechnologyHistory" }
-    public class func reflect() -> Type<TechnologyHistory> {
+    public static var typeName:String { return "TechnologyHistory" }
+    public static func reflect() -> Type<TechnologyHistory> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechnologyHistory>(
             properties: [
                 Type<TechnologyHistory>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
@@ -1026,24 +1078,24 @@ extension TechnologyHistory : JsonSerializable
     public func toJson() -> String {
         return TechnologyHistory.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> TechnologyHistory? {
+    public static func fromJson(json:String) -> TechnologyHistory? {
         return TechnologyHistory.reflect().fromJson(TechnologyHistory(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> TechnologyHistory? {
+    public static func fromObject(any:AnyObject) -> TechnologyHistory? {
         return TechnologyHistory.reflect().fromObject(TechnologyHistory(), any:any)
     }
     public func toString() -> String {
         return TechnologyHistory.reflect().toString(self)
     }
-    public class func fromString(string:String) -> TechnologyHistory? {
+    public static func fromString(string:String) -> TechnologyHistory? {
         return TechnologyHistory.reflect().fromString(TechnologyHistory(), string: string)
     }
 }
 
 extension TechStackDetails : JsonSerializable
 {
-    public class var typeName:String { return "TechStackDetails" }
-    public class func reflect() -> Type<TechStackDetails> {
+    public static var typeName:String { return "TechStackDetails" }
+    public static func reflect() -> Type<TechStackDetails> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechStackDetails>(
             properties: [
                 Type<TechStackDetails>.optionalProperty("detailsHtml", get: { $0.detailsHtml }, set: { $0.detailsHtml = $1 }),
@@ -1068,24 +1120,24 @@ extension TechStackDetails : JsonSerializable
     public func toJson() -> String {
         return TechStackDetails.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> TechStackDetails? {
+    public static func fromJson(json:String) -> TechStackDetails? {
         return TechStackDetails.reflect().fromJson(TechStackDetails(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> TechStackDetails? {
+    public static func fromObject(any:AnyObject) -> TechStackDetails? {
         return TechStackDetails.reflect().fromObject(TechStackDetails(), any:any)
     }
     public func toString() -> String {
         return TechStackDetails.reflect().toString(self)
     }
-    public class func fromString(string:String) -> TechStackDetails? {
+    public static func fromString(string:String) -> TechStackDetails? {
         return TechStackDetails.reflect().fromString(TechStackDetails(), string: string)
     }
 }
 
 extension TechnologyStackHistory : JsonSerializable
 {
-    public class var typeName:String { return "TechnologyStackHistory" }
-    public class func reflect() -> Type<TechnologyStackHistory> {
+    public static var typeName:String { return "TechnologyStackHistory" }
+    public static func reflect() -> Type<TechnologyStackHistory> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechnologyStackHistory>(
             properties: [
                 Type<TechnologyStackHistory>.optionalProperty("technologyStackId", get: { $0.technologyStackId }, set: { $0.technologyStackId = $1 }),
@@ -1111,24 +1163,24 @@ extension TechnologyStackHistory : JsonSerializable
     public func toJson() -> String {
         return TechnologyStackHistory.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> TechnologyStackHistory? {
+    public static func fromJson(json:String) -> TechnologyStackHistory? {
         return TechnologyStackHistory.reflect().fromJson(TechnologyStackHistory(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> TechnologyStackHistory? {
+    public static func fromObject(any:AnyObject) -> TechnologyStackHistory? {
         return TechnologyStackHistory.reflect().fromObject(TechnologyStackHistory(), any:any)
     }
     public func toString() -> String {
         return TechnologyStackHistory.reflect().toString(self)
     }
-    public class func fromString(string:String) -> TechnologyStackHistory? {
+    public static func fromString(string:String) -> TechnologyStackHistory? {
         return TechnologyStackHistory.reflect().fromString(TechnologyStackHistory(), string: string)
     }
 }
 
 extension Option : JsonSerializable
 {
-    public class var typeName:String { return "Option" }
-    public class func reflect() -> Type<Option> {
+    public static var typeName:String { return "Option" }
+    public static func reflect() -> Type<Option> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Option>(
             properties: [
                 Type<Option>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -1139,24 +1191,24 @@ extension Option : JsonSerializable
     public func toJson() -> String {
         return Option.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> Option? {
+    public static func fromJson(json:String) -> Option? {
         return Option.reflect().fromJson(Option(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> Option? {
+    public static func fromObject(any:AnyObject) -> Option? {
         return Option.reflect().fromObject(Option(), any:any)
     }
     public func toString() -> String {
         return Option.reflect().toString(self)
     }
-    public class func fromString(string:String) -> Option? {
+    public static func fromString(string:String) -> Option? {
         return Option.reflect().fromString(Option(), string: string)
     }
 }
 
 extension UserInfo : JsonSerializable
 {
-    public class var typeName:String { return "UserInfo" }
-    public class func reflect() -> Type<UserInfo> {
+    public static var typeName:String { return "UserInfo" }
+    public static func reflect() -> Type<UserInfo> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UserInfo>(
             properties: [
                 Type<UserInfo>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
@@ -1167,24 +1219,24 @@ extension UserInfo : JsonSerializable
     public func toJson() -> String {
         return UserInfo.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> UserInfo? {
+    public static func fromJson(json:String) -> UserInfo? {
         return UserInfo.reflect().fromJson(UserInfo(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> UserInfo? {
+    public static func fromObject(any:AnyObject) -> UserInfo? {
         return UserInfo.reflect().fromObject(UserInfo(), any:any)
     }
     public func toString() -> String {
         return UserInfo.reflect().toString(self)
     }
-    public class func fromString(string:String) -> UserInfo? {
+    public static func fromString(string:String) -> UserInfo? {
         return UserInfo.reflect().fromString(UserInfo(), string: string)
     }
 }
 
 extension TechnologyInfo : JsonSerializable
 {
-    public class var typeName:String { return "TechnologyInfo" }
-    public class func reflect() -> Type<TechnologyInfo> {
+    public static var typeName:String { return "TechnologyInfo" }
+    public static func reflect() -> Type<TechnologyInfo> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechnologyInfo>(
             properties: [
                 Type<TechnologyInfo>.optionalProperty("tier", get: { $0.tier }, set: { $0.tier = $1 }),
@@ -1197,24 +1249,56 @@ extension TechnologyInfo : JsonSerializable
     public func toJson() -> String {
         return TechnologyInfo.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> TechnologyInfo? {
+    public static func fromJson(json:String) -> TechnologyInfo? {
         return TechnologyInfo.reflect().fromJson(TechnologyInfo(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> TechnologyInfo? {
+    public static func fromObject(any:AnyObject) -> TechnologyInfo? {
         return TechnologyInfo.reflect().fromObject(TechnologyInfo(), any:any)
     }
     public func toString() -> String {
         return TechnologyInfo.reflect().toString(self)
     }
-    public class func fromString(string:String) -> TechnologyInfo? {
+    public static func fromString(string:String) -> TechnologyInfo? {
         return TechnologyInfo.reflect().fromString(TechnologyInfo(), string: string)
+    }
+}
+
+extension Post : JsonSerializable
+{
+    public static var typeName:String { return "Post" }
+    public static func reflect() -> Type<Post> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<Post>(
+            properties: [
+                Type<Post>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+                Type<Post>.optionalProperty("userId", get: { $0.userId }, set: { $0.userId = $1 }),
+                Type<Post>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
+                Type<Post>.optionalProperty("date", get: { $0.date }, set: { $0.date = $1 }),
+                Type<Post>.optionalProperty("shortDate", get: { $0.shortDate }, set: { $0.shortDate = $1 }),
+                Type<Post>.optionalProperty("textHtml", get: { $0.textHtml }, set: { $0.textHtml = $1 }),
+                Type<Post>.arrayProperty("comments", get: { $0.comments }, set: { $0.comments = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return Post.reflect().toJson(self)
+    }
+    public static func fromJson(json:String) -> Post? {
+        return Post.reflect().fromJson(Post(), json: json)
+    }
+    public static func fromObject(any:AnyObject) -> Post? {
+        return Post.reflect().fromObject(Post(), any:any)
+    }
+    public func toString() -> String {
+        return Post.reflect().toString(self)
+    }
+    public static func fromString(string:String) -> Post? {
+        return Post.reflect().fromString(Post(), string: string)
     }
 }
 
 extension ResponseError : JsonSerializable
 {
-    public class var typeName:String { return "ResponseError" }
-    public class func reflect() -> Type<ResponseError> {
+    public static var typeName:String { return "ResponseError" }
+    public static func reflect() -> Type<ResponseError> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<ResponseError>(
             properties: [
                 Type<ResponseError>.optionalProperty("errorCode", get: { $0.errorCode }, set: { $0.errorCode = $1 }),
@@ -1225,24 +1309,24 @@ extension ResponseError : JsonSerializable
     public func toJson() -> String {
         return ResponseError.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> ResponseError? {
+    public static func fromJson(json:String) -> ResponseError? {
         return ResponseError.reflect().fromJson(ResponseError(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> ResponseError? {
+    public static func fromObject(any:AnyObject) -> ResponseError? {
         return ResponseError.reflect().fromObject(ResponseError(), any:any)
     }
     public func toString() -> String {
         return ResponseError.reflect().toString(self)
     }
-    public class func fromString(string:String) -> ResponseError? {
+    public static func fromString(string:String) -> ResponseError? {
         return ResponseError.reflect().fromString(ResponseError(), string: string)
     }
 }
 
 extension TechnologyInStack : JsonSerializable
 {
-    public class var typeName:String { return "TechnologyInStack" }
-    public class func reflect() -> Type<TechnologyInStack> {
+    public static var typeName:String { return "TechnologyInStack" }
+    public static func reflect() -> Type<TechnologyInStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<TechnologyInStack>(
             properties: [
                 Type<TechnologyInStack>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
@@ -1270,24 +1354,56 @@ extension TechnologyInStack : JsonSerializable
     public func toJson() -> String {
         return TechnologyInStack.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> TechnologyInStack? {
+    public static func fromJson(json:String) -> TechnologyInStack? {
         return TechnologyInStack.reflect().fromJson(TechnologyInStack(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> TechnologyInStack? {
+    public static func fromObject(any:AnyObject) -> TechnologyInStack? {
         return TechnologyInStack.reflect().fromObject(TechnologyInStack(), any:any)
     }
     public func toString() -> String {
         return TechnologyInStack.reflect().toString(self)
     }
-    public class func fromString(string:String) -> TechnologyInStack? {
+    public static func fromString(string:String) -> TechnologyInStack? {
         return TechnologyInStack.reflect().fromString(TechnologyInStack(), string: string)
+    }
+}
+
+extension PostComment : JsonSerializable
+{
+    public static var typeName:String { return "PostComment" }
+    public static func reflect() -> Type<PostComment> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<PostComment>(
+            properties: [
+                Type<PostComment>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+                Type<PostComment>.optionalProperty("postId", get: { $0.postId }, set: { $0.postId = $1 }),
+                Type<PostComment>.optionalProperty("userId", get: { $0.userId }, set: { $0.userId = $1 }),
+                Type<PostComment>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
+                Type<PostComment>.optionalProperty("date", get: { $0.date }, set: { $0.date = $1 }),
+                Type<PostComment>.optionalProperty("shortDate", get: { $0.shortDate }, set: { $0.shortDate = $1 }),
+                Type<PostComment>.optionalProperty("textHtml", get: { $0.textHtml }, set: { $0.textHtml = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return PostComment.reflect().toJson(self)
+    }
+    public static func fromJson(json:String) -> PostComment? {
+        return PostComment.reflect().fromJson(PostComment(), json: json)
+    }
+    public static func fromObject(any:AnyObject) -> PostComment? {
+        return PostComment.reflect().fromObject(PostComment(), any:any)
+    }
+    public func toString() -> String {
+        return PostComment.reflect().toString(self)
+    }
+    public static func fromString(string:String) -> PostComment? {
+        return PostComment.reflect().fromString(PostComment(), string: string)
     }
 }
 
 extension LogoUrlApprovalResponse : JsonSerializable
 {
-    public class var typeName:String { return "LogoUrlApprovalResponse" }
-    public class func reflect() -> Type<LogoUrlApprovalResponse> {
+    public static var typeName:String { return "LogoUrlApprovalResponse" }
+    public static func reflect() -> Type<LogoUrlApprovalResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<LogoUrlApprovalResponse>(
             properties: [
                 Type<LogoUrlApprovalResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
@@ -1296,24 +1412,24 @@ extension LogoUrlApprovalResponse : JsonSerializable
     public func toJson() -> String {
         return LogoUrlApprovalResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> LogoUrlApprovalResponse? {
+    public static func fromJson(json:String) -> LogoUrlApprovalResponse? {
         return LogoUrlApprovalResponse.reflect().fromJson(LogoUrlApprovalResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> LogoUrlApprovalResponse? {
+    public static func fromObject(any:AnyObject) -> LogoUrlApprovalResponse? {
         return LogoUrlApprovalResponse.reflect().fromObject(LogoUrlApprovalResponse(), any:any)
     }
     public func toString() -> String {
         return LogoUrlApprovalResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> LogoUrlApprovalResponse? {
+    public static func fromString(string:String) -> LogoUrlApprovalResponse? {
         return LogoUrlApprovalResponse.reflect().fromString(LogoUrlApprovalResponse(), string: string)
     }
 }
 
 extension LockStackResponse : JsonSerializable
 {
-    public class var typeName:String { return "LockStackResponse" }
-    public class func reflect() -> Type<LockStackResponse> {
+    public static var typeName:String { return "LockStackResponse" }
+    public static func reflect() -> Type<LockStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<LockStackResponse>(
             properties: [
             ]))
@@ -1321,24 +1437,24 @@ extension LockStackResponse : JsonSerializable
     public func toJson() -> String {
         return LockStackResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> LockStackResponse? {
+    public static func fromJson(json:String) -> LockStackResponse? {
         return LockStackResponse.reflect().fromJson(LockStackResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> LockStackResponse? {
+    public static func fromObject(any:AnyObject) -> LockStackResponse? {
         return LockStackResponse.reflect().fromObject(LockStackResponse(), any:any)
     }
     public func toString() -> String {
         return LockStackResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> LockStackResponse? {
+    public static func fromString(string:String) -> LockStackResponse? {
         return LockStackResponse.reflect().fromString(LockStackResponse(), string: string)
     }
 }
 
 extension CreateTechnologyResponse : JsonSerializable
 {
-    public class var typeName:String { return "CreateTechnologyResponse" }
-    public class func reflect() -> Type<CreateTechnologyResponse> {
+    public static var typeName:String { return "CreateTechnologyResponse" }
+    public static func reflect() -> Type<CreateTechnologyResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<CreateTechnologyResponse>(
             properties: [
                 Type<CreateTechnologyResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
@@ -1348,24 +1464,24 @@ extension CreateTechnologyResponse : JsonSerializable
     public func toJson() -> String {
         return CreateTechnologyResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> CreateTechnologyResponse? {
+    public static func fromJson(json:String) -> CreateTechnologyResponse? {
         return CreateTechnologyResponse.reflect().fromJson(CreateTechnologyResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> CreateTechnologyResponse? {
+    public static func fromObject(any:AnyObject) -> CreateTechnologyResponse? {
         return CreateTechnologyResponse.reflect().fromObject(CreateTechnologyResponse(), any:any)
     }
     public func toString() -> String {
         return CreateTechnologyResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> CreateTechnologyResponse? {
+    public static func fromString(string:String) -> CreateTechnologyResponse? {
         return CreateTechnologyResponse.reflect().fromString(CreateTechnologyResponse(), string: string)
     }
 }
 
 extension UpdateTechnologyResponse : JsonSerializable
 {
-    public class var typeName:String { return "UpdateTechnologyResponse" }
-    public class func reflect() -> Type<UpdateTechnologyResponse> {
+    public static var typeName:String { return "UpdateTechnologyResponse" }
+    public static func reflect() -> Type<UpdateTechnologyResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UpdateTechnologyResponse>(
             properties: [
                 Type<UpdateTechnologyResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
@@ -1375,24 +1491,24 @@ extension UpdateTechnologyResponse : JsonSerializable
     public func toJson() -> String {
         return UpdateTechnologyResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> UpdateTechnologyResponse? {
+    public static func fromJson(json:String) -> UpdateTechnologyResponse? {
         return UpdateTechnologyResponse.reflect().fromJson(UpdateTechnologyResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> UpdateTechnologyResponse? {
+    public static func fromObject(any:AnyObject) -> UpdateTechnologyResponse? {
         return UpdateTechnologyResponse.reflect().fromObject(UpdateTechnologyResponse(), any:any)
     }
     public func toString() -> String {
         return UpdateTechnologyResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> UpdateTechnologyResponse? {
+    public static func fromString(string:String) -> UpdateTechnologyResponse? {
         return UpdateTechnologyResponse.reflect().fromString(UpdateTechnologyResponse(), string: string)
     }
 }
 
 extension DeleteTechnologyResponse : JsonSerializable
 {
-    public class var typeName:String { return "DeleteTechnologyResponse" }
-    public class func reflect() -> Type<DeleteTechnologyResponse> {
+    public static var typeName:String { return "DeleteTechnologyResponse" }
+    public static func reflect() -> Type<DeleteTechnologyResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<DeleteTechnologyResponse>(
             properties: [
                 Type<DeleteTechnologyResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
@@ -1402,24 +1518,24 @@ extension DeleteTechnologyResponse : JsonSerializable
     public func toJson() -> String {
         return DeleteTechnologyResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> DeleteTechnologyResponse? {
+    public static func fromJson(json:String) -> DeleteTechnologyResponse? {
         return DeleteTechnologyResponse.reflect().fromJson(DeleteTechnologyResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> DeleteTechnologyResponse? {
+    public static func fromObject(any:AnyObject) -> DeleteTechnologyResponse? {
         return DeleteTechnologyResponse.reflect().fromObject(DeleteTechnologyResponse(), any:any)
     }
     public func toString() -> String {
         return DeleteTechnologyResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> DeleteTechnologyResponse? {
+    public static func fromString(string:String) -> DeleteTechnologyResponse? {
         return DeleteTechnologyResponse.reflect().fromString(DeleteTechnologyResponse(), string: string)
     }
 }
 
 extension GetTechnologyResponse : JsonSerializable
 {
-    public class var typeName:String { return "GetTechnologyResponse" }
-    public class func reflect() -> Type<GetTechnologyResponse> {
+    public static var typeName:String { return "GetTechnologyResponse" }
+    public static func reflect() -> Type<GetTechnologyResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyResponse>(
             properties: [
                 Type<GetTechnologyResponse>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
@@ -1431,24 +1547,24 @@ extension GetTechnologyResponse : JsonSerializable
     public func toJson() -> String {
         return GetTechnologyResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetTechnologyResponse? {
+    public static func fromJson(json:String) -> GetTechnologyResponse? {
         return GetTechnologyResponse.reflect().fromJson(GetTechnologyResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetTechnologyResponse? {
+    public static func fromObject(any:AnyObject) -> GetTechnologyResponse? {
         return GetTechnologyResponse.reflect().fromObject(GetTechnologyResponse(), any:any)
     }
     public func toString() -> String {
         return GetTechnologyResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetTechnologyResponse? {
+    public static func fromString(string:String) -> GetTechnologyResponse? {
         return GetTechnologyResponse.reflect().fromString(GetTechnologyResponse(), string: string)
     }
 }
 
 extension GetTechnologyPreviousVersionsResponse : JsonSerializable
 {
-    public class var typeName:String { return "GetTechnologyPreviousVersionsResponse" }
-    public class func reflect() -> Type<GetTechnologyPreviousVersionsResponse> {
+    public static var typeName:String { return "GetTechnologyPreviousVersionsResponse" }
+    public static func reflect() -> Type<GetTechnologyPreviousVersionsResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyPreviousVersionsResponse>(
             properties: [
                 Type<GetTechnologyPreviousVersionsResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
@@ -1457,24 +1573,24 @@ extension GetTechnologyPreviousVersionsResponse : JsonSerializable
     public func toJson() -> String {
         return GetTechnologyPreviousVersionsResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetTechnologyPreviousVersionsResponse? {
+    public static func fromJson(json:String) -> GetTechnologyPreviousVersionsResponse? {
         return GetTechnologyPreviousVersionsResponse.reflect().fromJson(GetTechnologyPreviousVersionsResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetTechnologyPreviousVersionsResponse? {
+    public static func fromObject(any:AnyObject) -> GetTechnologyPreviousVersionsResponse? {
         return GetTechnologyPreviousVersionsResponse.reflect().fromObject(GetTechnologyPreviousVersionsResponse(), any:any)
     }
     public func toString() -> String {
         return GetTechnologyPreviousVersionsResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetTechnologyPreviousVersionsResponse? {
+    public static func fromString(string:String) -> GetTechnologyPreviousVersionsResponse? {
         return GetTechnologyPreviousVersionsResponse.reflect().fromString(GetTechnologyPreviousVersionsResponse(), string: string)
     }
 }
 
 extension GetTechnologyFavoriteDetailsResponse : JsonSerializable
 {
-    public class var typeName:String { return "GetTechnologyFavoriteDetailsResponse" }
-    public class func reflect() -> Type<GetTechnologyFavoriteDetailsResponse> {
+    public static var typeName:String { return "GetTechnologyFavoriteDetailsResponse" }
+    public static func reflect() -> Type<GetTechnologyFavoriteDetailsResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyFavoriteDetailsResponse>(
             properties: [
                 Type<GetTechnologyFavoriteDetailsResponse>.arrayProperty("users", get: { $0.users }, set: { $0.users = $1 }),
@@ -1484,24 +1600,24 @@ extension GetTechnologyFavoriteDetailsResponse : JsonSerializable
     public func toJson() -> String {
         return GetTechnologyFavoriteDetailsResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetTechnologyFavoriteDetailsResponse? {
+    public static func fromJson(json:String) -> GetTechnologyFavoriteDetailsResponse? {
         return GetTechnologyFavoriteDetailsResponse.reflect().fromJson(GetTechnologyFavoriteDetailsResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetTechnologyFavoriteDetailsResponse? {
+    public static func fromObject(any:AnyObject) -> GetTechnologyFavoriteDetailsResponse? {
         return GetTechnologyFavoriteDetailsResponse.reflect().fromObject(GetTechnologyFavoriteDetailsResponse(), any:any)
     }
     public func toString() -> String {
         return GetTechnologyFavoriteDetailsResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetTechnologyFavoriteDetailsResponse? {
+    public static func fromString(string:String) -> GetTechnologyFavoriteDetailsResponse? {
         return GetTechnologyFavoriteDetailsResponse.reflect().fromString(GetTechnologyFavoriteDetailsResponse(), string: string)
     }
 }
 
 extension GetAllTechnologiesResponse : JsonSerializable
 {
-    public class var typeName:String { return "GetAllTechnologiesResponse" }
-    public class func reflect() -> Type<GetAllTechnologiesResponse> {
+    public static var typeName:String { return "GetAllTechnologiesResponse" }
+    public static func reflect() -> Type<GetAllTechnologiesResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetAllTechnologiesResponse>(
             properties: [
                 Type<GetAllTechnologiesResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
@@ -1510,54 +1626,54 @@ extension GetAllTechnologiesResponse : JsonSerializable
     public func toJson() -> String {
         return GetAllTechnologiesResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetAllTechnologiesResponse? {
+    public static func fromJson(json:String) -> GetAllTechnologiesResponse? {
         return GetAllTechnologiesResponse.reflect().fromJson(GetAllTechnologiesResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetAllTechnologiesResponse? {
+    public static func fromObject(any:AnyObject) -> GetAllTechnologiesResponse? {
         return GetAllTechnologiesResponse.reflect().fromObject(GetAllTechnologiesResponse(), any:any)
     }
     public func toString() -> String {
         return GetAllTechnologiesResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetAllTechnologiesResponse? {
+    public static func fromString(string:String) -> GetAllTechnologiesResponse? {
         return GetAllTechnologiesResponse.reflect().fromString(GetAllTechnologiesResponse(), string: string)
     }
 }
 
 extension QueryResponse : JsonSerializable
 {
-    public class var typeName:String { return "QueryResponse<Technology>" }
-    public class func reflect() -> Type<QueryResponse<Technology>> {
-        return TypeConfig.config() ?? TypeConfig.configure(Type<QueryResponse<Technology>>(
+    public static var typeName:String { return "QueryResponse<T>" }
+    public static func reflect() -> Type<QueryResponse<T>> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<QueryResponse<T>>(
             properties: [
-                Type<QueryResponse<Technology>>.optionalProperty("offset", get: { $0.offset }, set: { $0.offset = $1 }),
-                Type<QueryResponse<Technology>>.optionalProperty("total", get: { $0.total }, set: { $0.total = $1 }),
-                Type<QueryResponse<Technology>>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
-                Type<QueryResponse<Technology>>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
-                Type<QueryResponse<Technology>>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+                Type<QueryResponse<T>>.optionalProperty("offset", get: { $0.offset }, set: { $0.offset = $1 }),
+                Type<QueryResponse<T>>.optionalProperty("total", get: { $0.total }, set: { $0.total = $1 }),
+                Type<QueryResponse<T>>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
+                Type<QueryResponse<T>>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
+                Type<QueryResponse<T>>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
             ]))
     }
     public func toJson() -> String {
-        return QueryResponse<Technology>.reflect().toJson(self)
+        return QueryResponse<T>.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> QueryResponse<Technology>? {
-        return QueryResponse<Technology>.reflect().fromJson(QueryResponse<Technology>(), json: json)
+    public static func fromJson(json:String) -> QueryResponse<T>? {
+        return QueryResponse<T>.reflect().fromJson(QueryResponse<T>(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> QueryResponse<Technology>? {
-        return QueryResponse<Technology>.reflect().fromObject(QueryResponse<Technology>(), any:any)
+    public static func fromObject(any:AnyObject) -> QueryResponse<T>? {
+        return QueryResponse<T>.reflect().fromObject(QueryResponse<T>(), any:any)
     }
     public func toString() -> String {
-        return QueryResponse<Technology>.reflect().toString(self)
+        return QueryResponse<T>.reflect().toString(self)
     }
-    public class func fromString(string:String) -> QueryResponse<Technology>? {
-        return QueryResponse<Technology>.reflect().fromString(QueryResponse<Technology>(), string: string)
+    public static func fromString(string:String) -> QueryResponse<T>? {
+        return QueryResponse<T>.reflect().fromString(QueryResponse<T>(), string: string)
     }
 }
 
 extension CreateTechnologyStackResponse : JsonSerializable
 {
-    public class var typeName:String { return "CreateTechnologyStackResponse" }
-    public class func reflect() -> Type<CreateTechnologyStackResponse> {
+    public static var typeName:String { return "CreateTechnologyStackResponse" }
+    public static func reflect() -> Type<CreateTechnologyStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<CreateTechnologyStackResponse>(
             properties: [
                 Type<CreateTechnologyStackResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
@@ -1567,24 +1683,24 @@ extension CreateTechnologyStackResponse : JsonSerializable
     public func toJson() -> String {
         return CreateTechnologyStackResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> CreateTechnologyStackResponse? {
+    public static func fromJson(json:String) -> CreateTechnologyStackResponse? {
         return CreateTechnologyStackResponse.reflect().fromJson(CreateTechnologyStackResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> CreateTechnologyStackResponse? {
+    public static func fromObject(any:AnyObject) -> CreateTechnologyStackResponse? {
         return CreateTechnologyStackResponse.reflect().fromObject(CreateTechnologyStackResponse(), any:any)
     }
     public func toString() -> String {
         return CreateTechnologyStackResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> CreateTechnologyStackResponse? {
+    public static func fromString(string:String) -> CreateTechnologyStackResponse? {
         return CreateTechnologyStackResponse.reflect().fromString(CreateTechnologyStackResponse(), string: string)
     }
 }
 
 extension UpdateTechnologyStackResponse : JsonSerializable
 {
-    public class var typeName:String { return "UpdateTechnologyStackResponse" }
-    public class func reflect() -> Type<UpdateTechnologyStackResponse> {
+    public static var typeName:String { return "UpdateTechnologyStackResponse" }
+    public static func reflect() -> Type<UpdateTechnologyStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UpdateTechnologyStackResponse>(
             properties: [
                 Type<UpdateTechnologyStackResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
@@ -1594,24 +1710,24 @@ extension UpdateTechnologyStackResponse : JsonSerializable
     public func toJson() -> String {
         return UpdateTechnologyStackResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> UpdateTechnologyStackResponse? {
+    public static func fromJson(json:String) -> UpdateTechnologyStackResponse? {
         return UpdateTechnologyStackResponse.reflect().fromJson(UpdateTechnologyStackResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> UpdateTechnologyStackResponse? {
+    public static func fromObject(any:AnyObject) -> UpdateTechnologyStackResponse? {
         return UpdateTechnologyStackResponse.reflect().fromObject(UpdateTechnologyStackResponse(), any:any)
     }
     public func toString() -> String {
         return UpdateTechnologyStackResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> UpdateTechnologyStackResponse? {
+    public static func fromString(string:String) -> UpdateTechnologyStackResponse? {
         return UpdateTechnologyStackResponse.reflect().fromString(UpdateTechnologyStackResponse(), string: string)
     }
 }
 
 extension DeleteTechnologyStackResponse : JsonSerializable
 {
-    public class var typeName:String { return "DeleteTechnologyStackResponse" }
-    public class func reflect() -> Type<DeleteTechnologyStackResponse> {
+    public static var typeName:String { return "DeleteTechnologyStackResponse" }
+    public static func reflect() -> Type<DeleteTechnologyStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<DeleteTechnologyStackResponse>(
             properties: [
                 Type<DeleteTechnologyStackResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
@@ -1621,24 +1737,24 @@ extension DeleteTechnologyStackResponse : JsonSerializable
     public func toJson() -> String {
         return DeleteTechnologyStackResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> DeleteTechnologyStackResponse? {
+    public static func fromJson(json:String) -> DeleteTechnologyStackResponse? {
         return DeleteTechnologyStackResponse.reflect().fromJson(DeleteTechnologyStackResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> DeleteTechnologyStackResponse? {
+    public static func fromObject(any:AnyObject) -> DeleteTechnologyStackResponse? {
         return DeleteTechnologyStackResponse.reflect().fromObject(DeleteTechnologyStackResponse(), any:any)
     }
     public func toString() -> String {
         return DeleteTechnologyStackResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> DeleteTechnologyStackResponse? {
+    public static func fromString(string:String) -> DeleteTechnologyStackResponse? {
         return DeleteTechnologyStackResponse.reflect().fromString(DeleteTechnologyStackResponse(), string: string)
     }
 }
 
 extension GetAllTechnologyStacksResponse : JsonSerializable
 {
-    public class var typeName:String { return "GetAllTechnologyStacksResponse" }
-    public class func reflect() -> Type<GetAllTechnologyStacksResponse> {
+    public static var typeName:String { return "GetAllTechnologyStacksResponse" }
+    public static func reflect() -> Type<GetAllTechnologyStacksResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetAllTechnologyStacksResponse>(
             properties: [
                 Type<GetAllTechnologyStacksResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
@@ -1647,52 +1763,52 @@ extension GetAllTechnologyStacksResponse : JsonSerializable
     public func toJson() -> String {
         return GetAllTechnologyStacksResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetAllTechnologyStacksResponse? {
+    public static func fromJson(json:String) -> GetAllTechnologyStacksResponse? {
         return GetAllTechnologyStacksResponse.reflect().fromJson(GetAllTechnologyStacksResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetAllTechnologyStacksResponse? {
+    public static func fromObject(any:AnyObject) -> GetAllTechnologyStacksResponse? {
         return GetAllTechnologyStacksResponse.reflect().fromObject(GetAllTechnologyStacksResponse(), any:any)
     }
     public func toString() -> String {
         return GetAllTechnologyStacksResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetAllTechnologyStacksResponse? {
+    public static func fromString(string:String) -> GetAllTechnologyStacksResponse? {
         return GetAllTechnologyStacksResponse.reflect().fromString(GetAllTechnologyStacksResponse(), string: string)
     }
 }
 
 extension GetTechnologyStackResponse : JsonSerializable
 {
-    public class var typeName:String { return "GetTechnologyStackResponse" }
-    public class func reflect() -> Type<GetTechnologyStackResponse> {
+    public static var typeName:String { return "GetTechnologyStackResponse" }
+    public static func reflect() -> Type<GetTechnologyStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStackResponse>(
             properties: [
-                Type<GetTechnologyStackResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
                 Type<GetTechnologyStackResponse>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
                 Type<GetTechnologyStackResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
+                Type<GetTechnologyStackResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
             ]))
     }
     public func toJson() -> String {
         return GetTechnologyStackResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetTechnologyStackResponse? {
+    public static func fromJson(json:String) -> GetTechnologyStackResponse? {
         return GetTechnologyStackResponse.reflect().fromJson(GetTechnologyStackResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetTechnologyStackResponse? {
+    public static func fromObject(any:AnyObject) -> GetTechnologyStackResponse? {
         return GetTechnologyStackResponse.reflect().fromObject(GetTechnologyStackResponse(), any:any)
     }
     public func toString() -> String {
         return GetTechnologyStackResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetTechnologyStackResponse? {
+    public static func fromString(string:String) -> GetTechnologyStackResponse? {
         return GetTechnologyStackResponse.reflect().fromString(GetTechnologyStackResponse(), string: string)
     }
 }
 
 extension GetTechnologyStackPreviousVersionsResponse : JsonSerializable
 {
-    public class var typeName:String { return "GetTechnologyStackPreviousVersionsResponse" }
-    public class func reflect() -> Type<GetTechnologyStackPreviousVersionsResponse> {
+    public static var typeName:String { return "GetTechnologyStackPreviousVersionsResponse" }
+    public static func reflect() -> Type<GetTechnologyStackPreviousVersionsResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStackPreviousVersionsResponse>(
             properties: [
                 Type<GetTechnologyStackPreviousVersionsResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
@@ -1701,24 +1817,24 @@ extension GetTechnologyStackPreviousVersionsResponse : JsonSerializable
     public func toJson() -> String {
         return GetTechnologyStackPreviousVersionsResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetTechnologyStackPreviousVersionsResponse? {
+    public static func fromJson(json:String) -> GetTechnologyStackPreviousVersionsResponse? {
         return GetTechnologyStackPreviousVersionsResponse.reflect().fromJson(GetTechnologyStackPreviousVersionsResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetTechnologyStackPreviousVersionsResponse? {
+    public static func fromObject(any:AnyObject) -> GetTechnologyStackPreviousVersionsResponse? {
         return GetTechnologyStackPreviousVersionsResponse.reflect().fromObject(GetTechnologyStackPreviousVersionsResponse(), any:any)
     }
     public func toString() -> String {
         return GetTechnologyStackPreviousVersionsResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetTechnologyStackPreviousVersionsResponse? {
+    public static func fromString(string:String) -> GetTechnologyStackPreviousVersionsResponse? {
         return GetTechnologyStackPreviousVersionsResponse.reflect().fromString(GetTechnologyStackPreviousVersionsResponse(), string: string)
     }
 }
 
 extension GetTechnologyStackFavoriteDetailsResponse : JsonSerializable
 {
-    public class var typeName:String { return "GetTechnologyStackFavoriteDetailsResponse" }
-    public class func reflect() -> Type<GetTechnologyStackFavoriteDetailsResponse> {
+    public static var typeName:String { return "GetTechnologyStackFavoriteDetailsResponse" }
+    public static func reflect() -> Type<GetTechnologyStackFavoriteDetailsResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStackFavoriteDetailsResponse>(
             properties: [
                 Type<GetTechnologyStackFavoriteDetailsResponse>.arrayProperty("users", get: { $0.users }, set: { $0.users = $1 }),
@@ -1728,24 +1844,24 @@ extension GetTechnologyStackFavoriteDetailsResponse : JsonSerializable
     public func toJson() -> String {
         return GetTechnologyStackFavoriteDetailsResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetTechnologyStackFavoriteDetailsResponse? {
+    public static func fromJson(json:String) -> GetTechnologyStackFavoriteDetailsResponse? {
         return GetTechnologyStackFavoriteDetailsResponse.reflect().fromJson(GetTechnologyStackFavoriteDetailsResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetTechnologyStackFavoriteDetailsResponse? {
+    public static func fromObject(any:AnyObject) -> GetTechnologyStackFavoriteDetailsResponse? {
         return GetTechnologyStackFavoriteDetailsResponse.reflect().fromObject(GetTechnologyStackFavoriteDetailsResponse(), any:any)
     }
     public func toString() -> String {
         return GetTechnologyStackFavoriteDetailsResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetTechnologyStackFavoriteDetailsResponse? {
+    public static func fromString(string:String) -> GetTechnologyStackFavoriteDetailsResponse? {
         return GetTechnologyStackFavoriteDetailsResponse.reflect().fromString(GetTechnologyStackFavoriteDetailsResponse(), string: string)
     }
 }
 
 extension GetConfigResponse : JsonSerializable
 {
-    public class var typeName:String { return "GetConfigResponse" }
-    public class func reflect() -> Type<GetConfigResponse> {
+    public static var typeName:String { return "GetConfigResponse" }
+    public static func reflect() -> Type<GetConfigResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetConfigResponse>(
             properties: [
                 Type<GetConfigResponse>.arrayProperty("allTiers", get: { $0.allTiers }, set: { $0.allTiers = $1 }),
@@ -1754,24 +1870,24 @@ extension GetConfigResponse : JsonSerializable
     public func toJson() -> String {
         return GetConfigResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetConfigResponse? {
+    public static func fromJson(json:String) -> GetConfigResponse? {
         return GetConfigResponse.reflect().fromJson(GetConfigResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetConfigResponse? {
+    public static func fromObject(any:AnyObject) -> GetConfigResponse? {
         return GetConfigResponse.reflect().fromObject(GetConfigResponse(), any:any)
     }
     public func toString() -> String {
         return GetConfigResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetConfigResponse? {
+    public static func fromString(string:String) -> GetConfigResponse? {
         return GetConfigResponse.reflect().fromString(GetConfigResponse(), string: string)
     }
 }
 
 extension OverviewResponse : JsonSerializable
 {
-    public class var typeName:String { return "OverviewResponse" }
-    public class func reflect() -> Type<OverviewResponse> {
+    public static var typeName:String { return "OverviewResponse" }
+    public static func reflect() -> Type<OverviewResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<OverviewResponse>(
             properties: [
                 Type<OverviewResponse>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
@@ -1785,24 +1901,53 @@ extension OverviewResponse : JsonSerializable
     public func toJson() -> String {
         return OverviewResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> OverviewResponse? {
+    public static func fromJson(json:String) -> OverviewResponse? {
         return OverviewResponse.reflect().fromJson(OverviewResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> OverviewResponse? {
+    public static func fromObject(any:AnyObject) -> OverviewResponse? {
         return OverviewResponse.reflect().fromObject(OverviewResponse(), any:any)
     }
     public func toString() -> String {
         return OverviewResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> OverviewResponse? {
+    public static func fromString(string:String) -> OverviewResponse? {
         return OverviewResponse.reflect().fromString(OverviewResponse(), string: string)
+    }
+}
+
+extension AppOverviewResponse : JsonSerializable
+{
+    public static var typeName:String { return "AppOverviewResponse" }
+    public static func reflect() -> Type<AppOverviewResponse> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<AppOverviewResponse>(
+            properties: [
+                Type<AppOverviewResponse>.optionalProperty("created", get: { $0.created }, set: { $0.created = $1 }),
+                Type<AppOverviewResponse>.arrayProperty("allTiers", get: { $0.allTiers }, set: { $0.allTiers = $1 }),
+                Type<AppOverviewResponse>.arrayProperty("topTechnologies", get: { $0.topTechnologies }, set: { $0.topTechnologies = $1 }),
+                Type<AppOverviewResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return AppOverviewResponse.reflect().toJson(self)
+    }
+    public static func fromJson(json:String) -> AppOverviewResponse? {
+        return AppOverviewResponse.reflect().fromJson(AppOverviewResponse(), json: json)
+    }
+    public static func fromObject(any:AnyObject) -> AppOverviewResponse? {
+        return AppOverviewResponse.reflect().fromObject(AppOverviewResponse(), any:any)
+    }
+    public func toString() -> String {
+        return AppOverviewResponse.reflect().toString(self)
+    }
+    public static func fromString(string:String) -> AppOverviewResponse? {
+        return AppOverviewResponse.reflect().fromString(AppOverviewResponse(), string: string)
     }
 }
 
 extension GetFavoriteTechStackResponse : JsonSerializable
 {
-    public class var typeName:String { return "GetFavoriteTechStackResponse" }
-    public class func reflect() -> Type<GetFavoriteTechStackResponse> {
+    public static var typeName:String { return "GetFavoriteTechStackResponse" }
+    public static func reflect() -> Type<GetFavoriteTechStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetFavoriteTechStackResponse>(
             properties: [
                 Type<GetFavoriteTechStackResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
@@ -1811,24 +1956,24 @@ extension GetFavoriteTechStackResponse : JsonSerializable
     public func toJson() -> String {
         return GetFavoriteTechStackResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetFavoriteTechStackResponse? {
+    public static func fromJson(json:String) -> GetFavoriteTechStackResponse? {
         return GetFavoriteTechStackResponse.reflect().fromJson(GetFavoriteTechStackResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetFavoriteTechStackResponse? {
+    public static func fromObject(any:AnyObject) -> GetFavoriteTechStackResponse? {
         return GetFavoriteTechStackResponse.reflect().fromObject(GetFavoriteTechStackResponse(), any:any)
     }
     public func toString() -> String {
         return GetFavoriteTechStackResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetFavoriteTechStackResponse? {
+    public static func fromString(string:String) -> GetFavoriteTechStackResponse? {
         return GetFavoriteTechStackResponse.reflect().fromString(GetFavoriteTechStackResponse(), string: string)
     }
 }
 
 extension FavoriteTechStackResponse : JsonSerializable
 {
-    public class var typeName:String { return "FavoriteTechStackResponse" }
-    public class func reflect() -> Type<FavoriteTechStackResponse> {
+    public static var typeName:String { return "FavoriteTechStackResponse" }
+    public static func reflect() -> Type<FavoriteTechStackResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<FavoriteTechStackResponse>(
             properties: [
                 Type<FavoriteTechStackResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
@@ -1837,24 +1982,24 @@ extension FavoriteTechStackResponse : JsonSerializable
     public func toJson() -> String {
         return FavoriteTechStackResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> FavoriteTechStackResponse? {
+    public static func fromJson(json:String) -> FavoriteTechStackResponse? {
         return FavoriteTechStackResponse.reflect().fromJson(FavoriteTechStackResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> FavoriteTechStackResponse? {
+    public static func fromObject(any:AnyObject) -> FavoriteTechStackResponse? {
         return FavoriteTechStackResponse.reflect().fromObject(FavoriteTechStackResponse(), any:any)
     }
     public func toString() -> String {
         return FavoriteTechStackResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> FavoriteTechStackResponse? {
+    public static func fromString(string:String) -> FavoriteTechStackResponse? {
         return FavoriteTechStackResponse.reflect().fromString(FavoriteTechStackResponse(), string: string)
     }
 }
 
 extension GetFavoriteTechnologiesResponse : JsonSerializable
 {
-    public class var typeName:String { return "GetFavoriteTechnologiesResponse" }
-    public class func reflect() -> Type<GetFavoriteTechnologiesResponse> {
+    public static var typeName:String { return "GetFavoriteTechnologiesResponse" }
+    public static func reflect() -> Type<GetFavoriteTechnologiesResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetFavoriteTechnologiesResponse>(
             properties: [
                 Type<GetFavoriteTechnologiesResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
@@ -1863,24 +2008,24 @@ extension GetFavoriteTechnologiesResponse : JsonSerializable
     public func toJson() -> String {
         return GetFavoriteTechnologiesResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetFavoriteTechnologiesResponse? {
+    public static func fromJson(json:String) -> GetFavoriteTechnologiesResponse? {
         return GetFavoriteTechnologiesResponse.reflect().fromJson(GetFavoriteTechnologiesResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetFavoriteTechnologiesResponse? {
+    public static func fromObject(any:AnyObject) -> GetFavoriteTechnologiesResponse? {
         return GetFavoriteTechnologiesResponse.reflect().fromObject(GetFavoriteTechnologiesResponse(), any:any)
     }
     public func toString() -> String {
         return GetFavoriteTechnologiesResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetFavoriteTechnologiesResponse? {
+    public static func fromString(string:String) -> GetFavoriteTechnologiesResponse? {
         return GetFavoriteTechnologiesResponse.reflect().fromString(GetFavoriteTechnologiesResponse(), string: string)
     }
 }
 
 extension FavoriteTechnologyResponse : JsonSerializable
 {
-    public class var typeName:String { return "FavoriteTechnologyResponse" }
-    public class func reflect() -> Type<FavoriteTechnologyResponse> {
+    public static var typeName:String { return "FavoriteTechnologyResponse" }
+    public static func reflect() -> Type<FavoriteTechnologyResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<FavoriteTechnologyResponse>(
             properties: [
                 Type<FavoriteTechnologyResponse>.optionalObjectProperty("result", get: { $0.result }, set: { $0.result = $1 }),
@@ -1889,24 +2034,24 @@ extension FavoriteTechnologyResponse : JsonSerializable
     public func toJson() -> String {
         return FavoriteTechnologyResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> FavoriteTechnologyResponse? {
+    public static func fromJson(json:String) -> FavoriteTechnologyResponse? {
         return FavoriteTechnologyResponse.reflect().fromJson(FavoriteTechnologyResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> FavoriteTechnologyResponse? {
+    public static func fromObject(any:AnyObject) -> FavoriteTechnologyResponse? {
         return FavoriteTechnologyResponse.reflect().fromObject(FavoriteTechnologyResponse(), any:any)
     }
     public func toString() -> String {
         return FavoriteTechnologyResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> FavoriteTechnologyResponse? {
+    public static func fromString(string:String) -> FavoriteTechnologyResponse? {
         return FavoriteTechnologyResponse.reflect().fromString(FavoriteTechnologyResponse(), string: string)
     }
 }
 
 extension GetUserFeedResponse : JsonSerializable
 {
-    public class var typeName:String { return "GetUserFeedResponse" }
-    public class func reflect() -> Type<GetUserFeedResponse> {
+    public static var typeName:String { return "GetUserFeedResponse" }
+    public static func reflect() -> Type<GetUserFeedResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetUserFeedResponse>(
             properties: [
                 Type<GetUserFeedResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
@@ -1915,24 +2060,24 @@ extension GetUserFeedResponse : JsonSerializable
     public func toJson() -> String {
         return GetUserFeedResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetUserFeedResponse? {
+    public static func fromJson(json:String) -> GetUserFeedResponse? {
         return GetUserFeedResponse.reflect().fromJson(GetUserFeedResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetUserFeedResponse? {
+    public static func fromObject(any:AnyObject) -> GetUserFeedResponse? {
         return GetUserFeedResponse.reflect().fromObject(GetUserFeedResponse(), any:any)
     }
     public func toString() -> String {
         return GetUserFeedResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetUserFeedResponse? {
+    public static func fromString(string:String) -> GetUserFeedResponse? {
         return GetUserFeedResponse.reflect().fromString(GetUserFeedResponse(), string: string)
     }
 }
 
 extension GetUserInfoResponse : JsonSerializable
 {
-    public class var typeName:String { return "GetUserInfoResponse" }
-    public class func reflect() -> Type<GetUserInfoResponse> {
+    public static var typeName:String { return "GetUserInfoResponse" }
+    public static func reflect() -> Type<GetUserInfoResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetUserInfoResponse>(
             properties: [
                 Type<GetUserInfoResponse>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
@@ -1946,24 +2091,24 @@ extension GetUserInfoResponse : JsonSerializable
     public func toJson() -> String {
         return GetUserInfoResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetUserInfoResponse? {
+    public static func fromJson(json:String) -> GetUserInfoResponse? {
         return GetUserInfoResponse.reflect().fromJson(GetUserInfoResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetUserInfoResponse? {
+    public static func fromObject(any:AnyObject) -> GetUserInfoResponse? {
         return GetUserInfoResponse.reflect().fromObject(GetUserInfoResponse(), any:any)
     }
     public func toString() -> String {
         return GetUserInfoResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetUserInfoResponse? {
+    public static func fromString(string:String) -> GetUserInfoResponse? {
         return GetUserInfoResponse.reflect().fromString(GetUserInfoResponse(), string: string)
     }
 }
 
 extension AuthenticateResponse : JsonSerializable
 {
-    public class var typeName:String { return "AuthenticateResponse" }
-    public class func reflect() -> Type<AuthenticateResponse> {
+    public static var typeName:String { return "AuthenticateResponse" }
+    public static func reflect() -> Type<AuthenticateResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AuthenticateResponse>(
             properties: [
                 Type<AuthenticateResponse>.optionalProperty("userId", get: { $0.userId }, set: { $0.userId = $1 }),
@@ -1978,24 +2123,24 @@ extension AuthenticateResponse : JsonSerializable
     public func toJson() -> String {
         return AuthenticateResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> AuthenticateResponse? {
+    public static func fromJson(json:String) -> AuthenticateResponse? {
         return AuthenticateResponse.reflect().fromJson(AuthenticateResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> AuthenticateResponse? {
+    public static func fromObject(any:AnyObject) -> AuthenticateResponse? {
         return AuthenticateResponse.reflect().fromObject(AuthenticateResponse(), any:any)
     }
     public func toString() -> String {
         return AuthenticateResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> AuthenticateResponse? {
+    public static func fromString(string:String) -> AuthenticateResponse? {
         return AuthenticateResponse.reflect().fromString(AuthenticateResponse(), string: string)
     }
 }
 
 extension AssignRolesResponse : JsonSerializable
 {
-    public class var typeName:String { return "AssignRolesResponse" }
-    public class func reflect() -> Type<AssignRolesResponse> {
+    public static var typeName:String { return "AssignRolesResponse" }
+    public static func reflect() -> Type<AssignRolesResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AssignRolesResponse>(
             properties: [
                 Type<AssignRolesResponse>.arrayProperty("allRoles", get: { $0.allRoles }, set: { $0.allRoles = $1 }),
@@ -2006,24 +2151,24 @@ extension AssignRolesResponse : JsonSerializable
     public func toJson() -> String {
         return AssignRolesResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> AssignRolesResponse? {
+    public static func fromJson(json:String) -> AssignRolesResponse? {
         return AssignRolesResponse.reflect().fromJson(AssignRolesResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> AssignRolesResponse? {
+    public static func fromObject(any:AnyObject) -> AssignRolesResponse? {
         return AssignRolesResponse.reflect().fromObject(AssignRolesResponse(), any:any)
     }
     public func toString() -> String {
         return AssignRolesResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> AssignRolesResponse? {
+    public static func fromString(string:String) -> AssignRolesResponse? {
         return AssignRolesResponse.reflect().fromString(AssignRolesResponse(), string: string)
     }
 }
 
 extension UnAssignRolesResponse : JsonSerializable
 {
-    public class var typeName:String { return "UnAssignRolesResponse" }
-    public class func reflect() -> Type<UnAssignRolesResponse> {
+    public static var typeName:String { return "UnAssignRolesResponse" }
+    public static func reflect() -> Type<UnAssignRolesResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UnAssignRolesResponse>(
             properties: [
                 Type<UnAssignRolesResponse>.arrayProperty("allRoles", get: { $0.allRoles }, set: { $0.allRoles = $1 }),
@@ -2034,24 +2179,24 @@ extension UnAssignRolesResponse : JsonSerializable
     public func toJson() -> String {
         return UnAssignRolesResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> UnAssignRolesResponse? {
+    public static func fromJson(json:String) -> UnAssignRolesResponse? {
         return UnAssignRolesResponse.reflect().fromJson(UnAssignRolesResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> UnAssignRolesResponse? {
+    public static func fromObject(any:AnyObject) -> UnAssignRolesResponse? {
         return UnAssignRolesResponse.reflect().fromObject(UnAssignRolesResponse(), any:any)
     }
     public func toString() -> String {
         return UnAssignRolesResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> UnAssignRolesResponse? {
+    public static func fromString(string:String) -> UnAssignRolesResponse? {
         return UnAssignRolesResponse.reflect().fromString(UnAssignRolesResponse(), string: string)
     }
 }
 
 extension LogoUrlApproval : JsonSerializable
 {
-    public class var typeName:String { return "LogoUrlApproval" }
-    public class func reflect() -> Type<LogoUrlApproval> {
+    public static var typeName:String { return "LogoUrlApproval" }
+    public static func reflect() -> Type<LogoUrlApproval> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<LogoUrlApproval>(
             properties: [
                 Type<LogoUrlApproval>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
@@ -2061,24 +2206,24 @@ extension LogoUrlApproval : JsonSerializable
     public func toJson() -> String {
         return LogoUrlApproval.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> LogoUrlApproval? {
+    public static func fromJson(json:String) -> LogoUrlApproval? {
         return LogoUrlApproval.reflect().fromJson(LogoUrlApproval(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> LogoUrlApproval? {
+    public static func fromObject(any:AnyObject) -> LogoUrlApproval? {
         return LogoUrlApproval.reflect().fromObject(LogoUrlApproval(), any:any)
     }
     public func toString() -> String {
         return LogoUrlApproval.reflect().toString(self)
     }
-    public class func fromString(string:String) -> LogoUrlApproval? {
+    public static func fromString(string:String) -> LogoUrlApproval? {
         return LogoUrlApproval.reflect().fromString(LogoUrlApproval(), string: string)
     }
 }
 
 extension LockTechStack : JsonSerializable
 {
-    public class var typeName:String { return "LockTechStack" }
-    public class func reflect() -> Type<LockTechStack> {
+    public static var typeName:String { return "LockTechStack" }
+    public static func reflect() -> Type<LockTechStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<LockTechStack>(
             properties: [
                 Type<LockTechStack>.optionalProperty("technologyStackId", get: { $0.technologyStackId }, set: { $0.technologyStackId = $1 }),
@@ -2088,24 +2233,24 @@ extension LockTechStack : JsonSerializable
     public func toJson() -> String {
         return LockTechStack.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> LockTechStack? {
+    public static func fromJson(json:String) -> LockTechStack? {
         return LockTechStack.reflect().fromJson(LockTechStack(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> LockTechStack? {
+    public static func fromObject(any:AnyObject) -> LockTechStack? {
         return LockTechStack.reflect().fromObject(LockTechStack(), any:any)
     }
     public func toString() -> String {
         return LockTechStack.reflect().toString(self)
     }
-    public class func fromString(string:String) -> LockTechStack? {
+    public static func fromString(string:String) -> LockTechStack? {
         return LockTechStack.reflect().fromString(LockTechStack(), string: string)
     }
 }
 
 extension LockTech : JsonSerializable
 {
-    public class var typeName:String { return "LockTech" }
-    public class func reflect() -> Type<LockTech> {
+    public static var typeName:String { return "LockTech" }
+    public static func reflect() -> Type<LockTech> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<LockTech>(
             properties: [
                 Type<LockTech>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
@@ -2115,24 +2260,24 @@ extension LockTech : JsonSerializable
     public func toJson() -> String {
         return LockTech.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> LockTech? {
+    public static func fromJson(json:String) -> LockTech? {
         return LockTech.reflect().fromJson(LockTech(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> LockTech? {
+    public static func fromObject(any:AnyObject) -> LockTech? {
         return LockTech.reflect().fromObject(LockTech(), any:any)
     }
     public func toString() -> String {
         return LockTech.reflect().toString(self)
     }
-    public class func fromString(string:String) -> LockTech? {
+    public static func fromString(string:String) -> LockTech? {
         return LockTech.reflect().fromString(LockTech(), string: string)
     }
 }
 
 extension Ping : JsonSerializable
 {
-    public class var typeName:String { return "Ping" }
-    public class func reflect() -> Type<Ping> {
+    public static var typeName:String { return "Ping" }
+    public static func reflect() -> Type<Ping> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Ping>(
             properties: [
             ]))
@@ -2140,24 +2285,24 @@ extension Ping : JsonSerializable
     public func toJson() -> String {
         return Ping.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> Ping? {
+    public static func fromJson(json:String) -> Ping? {
         return Ping.reflect().fromJson(Ping(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> Ping? {
+    public static func fromObject(any:AnyObject) -> Ping? {
         return Ping.reflect().fromObject(Ping(), any:any)
     }
     public func toString() -> String {
         return Ping.reflect().toString(self)
     }
-    public class func fromString(string:String) -> Ping? {
+    public static func fromString(string:String) -> Ping? {
         return Ping.reflect().fromString(Ping(), string: string)
     }
 }
 
 extension FallbackForClientRoutes : JsonSerializable
 {
-    public class var typeName:String { return "FallbackForClientRoutes" }
-    public class func reflect() -> Type<FallbackForClientRoutes> {
+    public static var typeName:String { return "FallbackForClientRoutes" }
+    public static func reflect() -> Type<FallbackForClientRoutes> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<FallbackForClientRoutes>(
             properties: [
                 Type<FallbackForClientRoutes>.optionalProperty("pathInfo", get: { $0.pathInfo }, set: { $0.pathInfo = $1 }),
@@ -2166,24 +2311,24 @@ extension FallbackForClientRoutes : JsonSerializable
     public func toJson() -> String {
         return FallbackForClientRoutes.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> FallbackForClientRoutes? {
+    public static func fromJson(json:String) -> FallbackForClientRoutes? {
         return FallbackForClientRoutes.reflect().fromJson(FallbackForClientRoutes(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> FallbackForClientRoutes? {
+    public static func fromObject(any:AnyObject) -> FallbackForClientRoutes? {
         return FallbackForClientRoutes.reflect().fromObject(FallbackForClientRoutes(), any:any)
     }
     public func toString() -> String {
         return FallbackForClientRoutes.reflect().toString(self)
     }
-    public class func fromString(string:String) -> FallbackForClientRoutes? {
+    public static func fromString(string:String) -> FallbackForClientRoutes? {
         return FallbackForClientRoutes.reflect().fromString(FallbackForClientRoutes(), string: string)
     }
 }
 
 extension ClientAllTechnologyStacks : JsonSerializable
 {
-    public class var typeName:String { return "ClientAllTechnologyStacks" }
-    public class func reflect() -> Type<ClientAllTechnologyStacks> {
+    public static var typeName:String { return "ClientAllTechnologyStacks" }
+    public static func reflect() -> Type<ClientAllTechnologyStacks> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<ClientAllTechnologyStacks>(
             properties: [
             ]))
@@ -2191,24 +2336,24 @@ extension ClientAllTechnologyStacks : JsonSerializable
     public func toJson() -> String {
         return ClientAllTechnologyStacks.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> ClientAllTechnologyStacks? {
+    public static func fromJson(json:String) -> ClientAllTechnologyStacks? {
         return ClientAllTechnologyStacks.reflect().fromJson(ClientAllTechnologyStacks(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> ClientAllTechnologyStacks? {
+    public static func fromObject(any:AnyObject) -> ClientAllTechnologyStacks? {
         return ClientAllTechnologyStacks.reflect().fromObject(ClientAllTechnologyStacks(), any:any)
     }
     public func toString() -> String {
         return ClientAllTechnologyStacks.reflect().toString(self)
     }
-    public class func fromString(string:String) -> ClientAllTechnologyStacks? {
+    public static func fromString(string:String) -> ClientAllTechnologyStacks? {
         return ClientAllTechnologyStacks.reflect().fromString(ClientAllTechnologyStacks(), string: string)
     }
 }
 
 extension ClientAllTechnologies : JsonSerializable
 {
-    public class var typeName:String { return "ClientAllTechnologies" }
-    public class func reflect() -> Type<ClientAllTechnologies> {
+    public static var typeName:String { return "ClientAllTechnologies" }
+    public static func reflect() -> Type<ClientAllTechnologies> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<ClientAllTechnologies>(
             properties: [
             ]))
@@ -2216,24 +2361,24 @@ extension ClientAllTechnologies : JsonSerializable
     public func toJson() -> String {
         return ClientAllTechnologies.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> ClientAllTechnologies? {
+    public static func fromJson(json:String) -> ClientAllTechnologies? {
         return ClientAllTechnologies.reflect().fromJson(ClientAllTechnologies(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> ClientAllTechnologies? {
+    public static func fromObject(any:AnyObject) -> ClientAllTechnologies? {
         return ClientAllTechnologies.reflect().fromObject(ClientAllTechnologies(), any:any)
     }
     public func toString() -> String {
         return ClientAllTechnologies.reflect().toString(self)
     }
-    public class func fromString(string:String) -> ClientAllTechnologies? {
+    public static func fromString(string:String) -> ClientAllTechnologies? {
         return ClientAllTechnologies.reflect().fromString(ClientAllTechnologies(), string: string)
     }
 }
 
 extension ClientTechnology : JsonSerializable
 {
-    public class var typeName:String { return "ClientTechnology" }
-    public class func reflect() -> Type<ClientTechnology> {
+    public static var typeName:String { return "ClientTechnology" }
+    public static func reflect() -> Type<ClientTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<ClientTechnology>(
             properties: [
                 Type<ClientTechnology>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
@@ -2242,24 +2387,24 @@ extension ClientTechnology : JsonSerializable
     public func toJson() -> String {
         return ClientTechnology.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> ClientTechnology? {
+    public static func fromJson(json:String) -> ClientTechnology? {
         return ClientTechnology.reflect().fromJson(ClientTechnology(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> ClientTechnology? {
+    public static func fromObject(any:AnyObject) -> ClientTechnology? {
         return ClientTechnology.reflect().fromObject(ClientTechnology(), any:any)
     }
     public func toString() -> String {
         return ClientTechnology.reflect().toString(self)
     }
-    public class func fromString(string:String) -> ClientTechnology? {
+    public static func fromString(string:String) -> ClientTechnology? {
         return ClientTechnology.reflect().fromString(ClientTechnology(), string: string)
     }
 }
 
 extension ClientUser : JsonSerializable
 {
-    public class var typeName:String { return "ClientUser" }
-    public class func reflect() -> Type<ClientUser> {
+    public static var typeName:String { return "ClientUser" }
+    public static func reflect() -> Type<ClientUser> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<ClientUser>(
             properties: [
                 Type<ClientUser>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
@@ -2268,24 +2413,24 @@ extension ClientUser : JsonSerializable
     public func toJson() -> String {
         return ClientUser.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> ClientUser? {
+    public static func fromJson(json:String) -> ClientUser? {
         return ClientUser.reflect().fromJson(ClientUser(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> ClientUser? {
+    public static func fromObject(any:AnyObject) -> ClientUser? {
         return ClientUser.reflect().fromObject(ClientUser(), any:any)
     }
     public func toString() -> String {
         return ClientUser.reflect().toString(self)
     }
-    public class func fromString(string:String) -> ClientUser? {
+    public static func fromString(string:String) -> ClientUser? {
         return ClientUser.reflect().fromString(ClientUser(), string: string)
     }
 }
 
 extension SessionInfo : JsonSerializable
 {
-    public class var typeName:String { return "SessionInfo" }
-    public class func reflect() -> Type<SessionInfo> {
+    public static var typeName:String { return "SessionInfo" }
+    public static func reflect() -> Type<SessionInfo> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<SessionInfo>(
             properties: [
             ]))
@@ -2293,24 +2438,24 @@ extension SessionInfo : JsonSerializable
     public func toJson() -> String {
         return SessionInfo.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> SessionInfo? {
+    public static func fromJson(json:String) -> SessionInfo? {
         return SessionInfo.reflect().fromJson(SessionInfo(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> SessionInfo? {
+    public static func fromObject(any:AnyObject) -> SessionInfo? {
         return SessionInfo.reflect().fromObject(SessionInfo(), any:any)
     }
     public func toString() -> String {
         return SessionInfo.reflect().toString(self)
     }
-    public class func fromString(string:String) -> SessionInfo? {
+    public static func fromString(string:String) -> SessionInfo? {
         return SessionInfo.reflect().fromString(SessionInfo(), string: string)
     }
 }
 
 extension CreateTechnology : JsonSerializable
 {
-    public class var typeName:String { return "CreateTechnology" }
-    public class func reflect() -> Type<CreateTechnology> {
+    public static var typeName:String { return "CreateTechnology" }
+    public static func reflect() -> Type<CreateTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<CreateTechnology>(
             properties: [
                 Type<CreateTechnology>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -2326,24 +2471,24 @@ extension CreateTechnology : JsonSerializable
     public func toJson() -> String {
         return CreateTechnology.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> CreateTechnology? {
+    public static func fromJson(json:String) -> CreateTechnology? {
         return CreateTechnology.reflect().fromJson(CreateTechnology(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> CreateTechnology? {
+    public static func fromObject(any:AnyObject) -> CreateTechnology? {
         return CreateTechnology.reflect().fromObject(CreateTechnology(), any:any)
     }
     public func toString() -> String {
         return CreateTechnology.reflect().toString(self)
     }
-    public class func fromString(string:String) -> CreateTechnology? {
+    public static func fromString(string:String) -> CreateTechnology? {
         return CreateTechnology.reflect().fromString(CreateTechnology(), string: string)
     }
 }
 
 extension UpdateTechnology : JsonSerializable
 {
-    public class var typeName:String { return "UpdateTechnology" }
-    public class func reflect() -> Type<UpdateTechnology> {
+    public static var typeName:String { return "UpdateTechnology" }
+    public static func reflect() -> Type<UpdateTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UpdateTechnology>(
             properties: [
                 Type<UpdateTechnology>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
@@ -2360,24 +2505,24 @@ extension UpdateTechnology : JsonSerializable
     public func toJson() -> String {
         return UpdateTechnology.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> UpdateTechnology? {
+    public static func fromJson(json:String) -> UpdateTechnology? {
         return UpdateTechnology.reflect().fromJson(UpdateTechnology(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> UpdateTechnology? {
+    public static func fromObject(any:AnyObject) -> UpdateTechnology? {
         return UpdateTechnology.reflect().fromObject(UpdateTechnology(), any:any)
     }
     public func toString() -> String {
         return UpdateTechnology.reflect().toString(self)
     }
-    public class func fromString(string:String) -> UpdateTechnology? {
+    public static func fromString(string:String) -> UpdateTechnology? {
         return UpdateTechnology.reflect().fromString(UpdateTechnology(), string: string)
     }
 }
 
 extension DeleteTechnology : JsonSerializable
 {
-    public class var typeName:String { return "DeleteTechnology" }
-    public class func reflect() -> Type<DeleteTechnology> {
+    public static var typeName:String { return "DeleteTechnology" }
+    public static func reflect() -> Type<DeleteTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<DeleteTechnology>(
             properties: [
                 Type<DeleteTechnology>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
@@ -2386,24 +2531,24 @@ extension DeleteTechnology : JsonSerializable
     public func toJson() -> String {
         return DeleteTechnology.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> DeleteTechnology? {
+    public static func fromJson(json:String) -> DeleteTechnology? {
         return DeleteTechnology.reflect().fromJson(DeleteTechnology(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> DeleteTechnology? {
+    public static func fromObject(any:AnyObject) -> DeleteTechnology? {
         return DeleteTechnology.reflect().fromObject(DeleteTechnology(), any:any)
     }
     public func toString() -> String {
         return DeleteTechnology.reflect().toString(self)
     }
-    public class func fromString(string:String) -> DeleteTechnology? {
+    public static func fromString(string:String) -> DeleteTechnology? {
         return DeleteTechnology.reflect().fromString(DeleteTechnology(), string: string)
     }
 }
 
 extension GetTechnology : JsonSerializable
 {
-    public class var typeName:String { return "GetTechnology" }
-    public class func reflect() -> Type<GetTechnology> {
+    public static var typeName:String { return "GetTechnology" }
+    public static func reflect() -> Type<GetTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnology>(
             properties: [
                 Type<GetTechnology>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
@@ -2413,24 +2558,24 @@ extension GetTechnology : JsonSerializable
     public func toJson() -> String {
         return GetTechnology.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetTechnology? {
+    public static func fromJson(json:String) -> GetTechnology? {
         return GetTechnology.reflect().fromJson(GetTechnology(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetTechnology? {
+    public static func fromObject(any:AnyObject) -> GetTechnology? {
         return GetTechnology.reflect().fromObject(GetTechnology(), any:any)
     }
     public func toString() -> String {
         return GetTechnology.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetTechnology? {
+    public static func fromString(string:String) -> GetTechnology? {
         return GetTechnology.reflect().fromString(GetTechnology(), string: string)
     }
 }
 
 extension GetTechnologyPreviousVersions : JsonSerializable
 {
-    public class var typeName:String { return "GetTechnologyPreviousVersions" }
-    public class func reflect() -> Type<GetTechnologyPreviousVersions> {
+    public static var typeName:String { return "GetTechnologyPreviousVersions" }
+    public static func reflect() -> Type<GetTechnologyPreviousVersions> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyPreviousVersions>(
             properties: [
                 Type<GetTechnologyPreviousVersions>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
@@ -2439,24 +2584,24 @@ extension GetTechnologyPreviousVersions : JsonSerializable
     public func toJson() -> String {
         return GetTechnologyPreviousVersions.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetTechnologyPreviousVersions? {
+    public static func fromJson(json:String) -> GetTechnologyPreviousVersions? {
         return GetTechnologyPreviousVersions.reflect().fromJson(GetTechnologyPreviousVersions(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetTechnologyPreviousVersions? {
+    public static func fromObject(any:AnyObject) -> GetTechnologyPreviousVersions? {
         return GetTechnologyPreviousVersions.reflect().fromObject(GetTechnologyPreviousVersions(), any:any)
     }
     public func toString() -> String {
         return GetTechnologyPreviousVersions.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetTechnologyPreviousVersions? {
+    public static func fromString(string:String) -> GetTechnologyPreviousVersions? {
         return GetTechnologyPreviousVersions.reflect().fromString(GetTechnologyPreviousVersions(), string: string)
     }
 }
 
 extension GetTechnologyFavoriteDetails : JsonSerializable
 {
-    public class var typeName:String { return "GetTechnologyFavoriteDetails" }
-    public class func reflect() -> Type<GetTechnologyFavoriteDetails> {
+    public static var typeName:String { return "GetTechnologyFavoriteDetails" }
+    public static func reflect() -> Type<GetTechnologyFavoriteDetails> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyFavoriteDetails>(
             properties: [
                 Type<GetTechnologyFavoriteDetails>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
@@ -2466,24 +2611,24 @@ extension GetTechnologyFavoriteDetails : JsonSerializable
     public func toJson() -> String {
         return GetTechnologyFavoriteDetails.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetTechnologyFavoriteDetails? {
+    public static func fromJson(json:String) -> GetTechnologyFavoriteDetails? {
         return GetTechnologyFavoriteDetails.reflect().fromJson(GetTechnologyFavoriteDetails(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetTechnologyFavoriteDetails? {
+    public static func fromObject(any:AnyObject) -> GetTechnologyFavoriteDetails? {
         return GetTechnologyFavoriteDetails.reflect().fromObject(GetTechnologyFavoriteDetails(), any:any)
     }
     public func toString() -> String {
         return GetTechnologyFavoriteDetails.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetTechnologyFavoriteDetails? {
+    public static func fromString(string:String) -> GetTechnologyFavoriteDetails? {
         return GetTechnologyFavoriteDetails.reflect().fromString(GetTechnologyFavoriteDetails(), string: string)
     }
 }
 
 extension GetAllTechnologies : JsonSerializable
 {
-    public class var typeName:String { return "GetAllTechnologies" }
-    public class func reflect() -> Type<GetAllTechnologies> {
+    public static var typeName:String { return "GetAllTechnologies" }
+    public static func reflect() -> Type<GetAllTechnologies> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetAllTechnologies>(
             properties: [
             ]))
@@ -2491,24 +2636,24 @@ extension GetAllTechnologies : JsonSerializable
     public func toJson() -> String {
         return GetAllTechnologies.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetAllTechnologies? {
+    public static func fromJson(json:String) -> GetAllTechnologies? {
         return GetAllTechnologies.reflect().fromJson(GetAllTechnologies(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetAllTechnologies? {
+    public static func fromObject(any:AnyObject) -> GetAllTechnologies? {
         return GetAllTechnologies.reflect().fromObject(GetAllTechnologies(), any:any)
     }
     public func toString() -> String {
         return GetAllTechnologies.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetAllTechnologies? {
+    public static func fromString(string:String) -> GetAllTechnologies? {
         return GetAllTechnologies.reflect().fromString(GetAllTechnologies(), string: string)
     }
 }
 
 extension FindTechnologies : JsonSerializable
 {
-    public class var typeName:String { return "FindTechnologies" }
-    public class func reflect() -> Type<FindTechnologies> {
+    public static var typeName:String { return "FindTechnologies" }
+    public static func reflect() -> Type<FindTechnologies> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<FindTechnologies>(
             properties: [
                 Type<FindTechnologies>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -2522,24 +2667,24 @@ extension FindTechnologies : JsonSerializable
     public func toJson() -> String {
         return FindTechnologies.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> FindTechnologies? {
+    public static func fromJson(json:String) -> FindTechnologies? {
         return FindTechnologies.reflect().fromJson(FindTechnologies(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> FindTechnologies? {
+    public static func fromObject(any:AnyObject) -> FindTechnologies? {
         return FindTechnologies.reflect().fromObject(FindTechnologies(), any:any)
     }
     public func toString() -> String {
         return FindTechnologies.reflect().toString(self)
     }
-    public class func fromString(string:String) -> FindTechnologies? {
+    public static func fromString(string:String) -> FindTechnologies? {
         return FindTechnologies.reflect().fromString(FindTechnologies(), string: string)
     }
 }
 
 extension CreateTechnologyStack : JsonSerializable
 {
-    public class var typeName:String { return "CreateTechnologyStack" }
-    public class func reflect() -> Type<CreateTechnologyStack> {
+    public static var typeName:String { return "CreateTechnologyStack" }
+    public static func reflect() -> Type<CreateTechnologyStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<CreateTechnologyStack>(
             properties: [
                 Type<CreateTechnologyStack>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -2555,24 +2700,24 @@ extension CreateTechnologyStack : JsonSerializable
     public func toJson() -> String {
         return CreateTechnologyStack.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> CreateTechnologyStack? {
+    public static func fromJson(json:String) -> CreateTechnologyStack? {
         return CreateTechnologyStack.reflect().fromJson(CreateTechnologyStack(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> CreateTechnologyStack? {
+    public static func fromObject(any:AnyObject) -> CreateTechnologyStack? {
         return CreateTechnologyStack.reflect().fromObject(CreateTechnologyStack(), any:any)
     }
     public func toString() -> String {
         return CreateTechnologyStack.reflect().toString(self)
     }
-    public class func fromString(string:String) -> CreateTechnologyStack? {
+    public static func fromString(string:String) -> CreateTechnologyStack? {
         return CreateTechnologyStack.reflect().fromString(CreateTechnologyStack(), string: string)
     }
 }
 
 extension UpdateTechnologyStack : JsonSerializable
 {
-    public class var typeName:String { return "UpdateTechnologyStack" }
-    public class func reflect() -> Type<UpdateTechnologyStack> {
+    public static var typeName:String { return "UpdateTechnologyStack" }
+    public static func reflect() -> Type<UpdateTechnologyStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UpdateTechnologyStack>(
             properties: [
                 Type<UpdateTechnologyStack>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
@@ -2589,24 +2734,24 @@ extension UpdateTechnologyStack : JsonSerializable
     public func toJson() -> String {
         return UpdateTechnologyStack.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> UpdateTechnologyStack? {
+    public static func fromJson(json:String) -> UpdateTechnologyStack? {
         return UpdateTechnologyStack.reflect().fromJson(UpdateTechnologyStack(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> UpdateTechnologyStack? {
+    public static func fromObject(any:AnyObject) -> UpdateTechnologyStack? {
         return UpdateTechnologyStack.reflect().fromObject(UpdateTechnologyStack(), any:any)
     }
     public func toString() -> String {
         return UpdateTechnologyStack.reflect().toString(self)
     }
-    public class func fromString(string:String) -> UpdateTechnologyStack? {
+    public static func fromString(string:String) -> UpdateTechnologyStack? {
         return UpdateTechnologyStack.reflect().fromString(UpdateTechnologyStack(), string: string)
     }
 }
 
 extension DeleteTechnologyStack : JsonSerializable
 {
-    public class var typeName:String { return "DeleteTechnologyStack" }
-    public class func reflect() -> Type<DeleteTechnologyStack> {
+    public static var typeName:String { return "DeleteTechnologyStack" }
+    public static func reflect() -> Type<DeleteTechnologyStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<DeleteTechnologyStack>(
             properties: [
                 Type<DeleteTechnologyStack>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
@@ -2615,24 +2760,24 @@ extension DeleteTechnologyStack : JsonSerializable
     public func toJson() -> String {
         return DeleteTechnologyStack.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> DeleteTechnologyStack? {
+    public static func fromJson(json:String) -> DeleteTechnologyStack? {
         return DeleteTechnologyStack.reflect().fromJson(DeleteTechnologyStack(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> DeleteTechnologyStack? {
+    public static func fromObject(any:AnyObject) -> DeleteTechnologyStack? {
         return DeleteTechnologyStack.reflect().fromObject(DeleteTechnologyStack(), any:any)
     }
     public func toString() -> String {
         return DeleteTechnologyStack.reflect().toString(self)
     }
-    public class func fromString(string:String) -> DeleteTechnologyStack? {
+    public static func fromString(string:String) -> DeleteTechnologyStack? {
         return DeleteTechnologyStack.reflect().fromString(DeleteTechnologyStack(), string: string)
     }
 }
 
 extension GetAllTechnologyStacks : JsonSerializable
 {
-    public class var typeName:String { return "GetAllTechnologyStacks" }
-    public class func reflect() -> Type<GetAllTechnologyStacks> {
+    public static var typeName:String { return "GetAllTechnologyStacks" }
+    public static func reflect() -> Type<GetAllTechnologyStacks> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetAllTechnologyStacks>(
             properties: [
             ]))
@@ -2640,24 +2785,24 @@ extension GetAllTechnologyStacks : JsonSerializable
     public func toJson() -> String {
         return GetAllTechnologyStacks.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetAllTechnologyStacks? {
+    public static func fromJson(json:String) -> GetAllTechnologyStacks? {
         return GetAllTechnologyStacks.reflect().fromJson(GetAllTechnologyStacks(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetAllTechnologyStacks? {
+    public static func fromObject(any:AnyObject) -> GetAllTechnologyStacks? {
         return GetAllTechnologyStacks.reflect().fromObject(GetAllTechnologyStacks(), any:any)
     }
     public func toString() -> String {
         return GetAllTechnologyStacks.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetAllTechnologyStacks? {
+    public static func fromString(string:String) -> GetAllTechnologyStacks? {
         return GetAllTechnologyStacks.reflect().fromString(GetAllTechnologyStacks(), string: string)
     }
 }
 
 extension GetTechnologyStack : JsonSerializable
 {
-    public class var typeName:String { return "GetTechnologyStack" }
-    public class func reflect() -> Type<GetTechnologyStack> {
+    public static var typeName:String { return "GetTechnologyStack" }
+    public static func reflect() -> Type<GetTechnologyStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStack>(
             properties: [
                 Type<GetTechnologyStack>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
@@ -2667,24 +2812,24 @@ extension GetTechnologyStack : JsonSerializable
     public func toJson() -> String {
         return GetTechnologyStack.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetTechnologyStack? {
+    public static func fromJson(json:String) -> GetTechnologyStack? {
         return GetTechnologyStack.reflect().fromJson(GetTechnologyStack(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetTechnologyStack? {
+    public static func fromObject(any:AnyObject) -> GetTechnologyStack? {
         return GetTechnologyStack.reflect().fromObject(GetTechnologyStack(), any:any)
     }
     public func toString() -> String {
         return GetTechnologyStack.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetTechnologyStack? {
+    public static func fromString(string:String) -> GetTechnologyStack? {
         return GetTechnologyStack.reflect().fromString(GetTechnologyStack(), string: string)
     }
 }
 
 extension GetTechnologyStackPreviousVersions : JsonSerializable
 {
-    public class var typeName:String { return "GetTechnologyStackPreviousVersions" }
-    public class func reflect() -> Type<GetTechnologyStackPreviousVersions> {
+    public static var typeName:String { return "GetTechnologyStackPreviousVersions" }
+    public static func reflect() -> Type<GetTechnologyStackPreviousVersions> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStackPreviousVersions>(
             properties: [
                 Type<GetTechnologyStackPreviousVersions>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
@@ -2693,24 +2838,24 @@ extension GetTechnologyStackPreviousVersions : JsonSerializable
     public func toJson() -> String {
         return GetTechnologyStackPreviousVersions.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetTechnologyStackPreviousVersions? {
+    public static func fromJson(json:String) -> GetTechnologyStackPreviousVersions? {
         return GetTechnologyStackPreviousVersions.reflect().fromJson(GetTechnologyStackPreviousVersions(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetTechnologyStackPreviousVersions? {
+    public static func fromObject(any:AnyObject) -> GetTechnologyStackPreviousVersions? {
         return GetTechnologyStackPreviousVersions.reflect().fromObject(GetTechnologyStackPreviousVersions(), any:any)
     }
     public func toString() -> String {
         return GetTechnologyStackPreviousVersions.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetTechnologyStackPreviousVersions? {
+    public static func fromString(string:String) -> GetTechnologyStackPreviousVersions? {
         return GetTechnologyStackPreviousVersions.reflect().fromString(GetTechnologyStackPreviousVersions(), string: string)
     }
 }
 
 extension GetTechnologyStackFavoriteDetails : JsonSerializable
 {
-    public class var typeName:String { return "GetTechnologyStackFavoriteDetails" }
-    public class func reflect() -> Type<GetTechnologyStackFavoriteDetails> {
+    public static var typeName:String { return "GetTechnologyStackFavoriteDetails" }
+    public static func reflect() -> Type<GetTechnologyStackFavoriteDetails> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetTechnologyStackFavoriteDetails>(
             properties: [
                 Type<GetTechnologyStackFavoriteDetails>.optionalProperty("slug", get: { $0.slug }, set: { $0.slug = $1 }),
@@ -2720,24 +2865,24 @@ extension GetTechnologyStackFavoriteDetails : JsonSerializable
     public func toJson() -> String {
         return GetTechnologyStackFavoriteDetails.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetTechnologyStackFavoriteDetails? {
+    public static func fromJson(json:String) -> GetTechnologyStackFavoriteDetails? {
         return GetTechnologyStackFavoriteDetails.reflect().fromJson(GetTechnologyStackFavoriteDetails(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetTechnologyStackFavoriteDetails? {
+    public static func fromObject(any:AnyObject) -> GetTechnologyStackFavoriteDetails? {
         return GetTechnologyStackFavoriteDetails.reflect().fromObject(GetTechnologyStackFavoriteDetails(), any:any)
     }
     public func toString() -> String {
         return GetTechnologyStackFavoriteDetails.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetTechnologyStackFavoriteDetails? {
+    public static func fromString(string:String) -> GetTechnologyStackFavoriteDetails? {
         return GetTechnologyStackFavoriteDetails.reflect().fromString(GetTechnologyStackFavoriteDetails(), string: string)
     }
 }
 
 extension GetConfig : JsonSerializable
 {
-    public class var typeName:String { return "GetConfig" }
-    public class func reflect() -> Type<GetConfig> {
+    public static var typeName:String { return "GetConfig" }
+    public static func reflect() -> Type<GetConfig> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetConfig>(
             properties: [
             ]))
@@ -2745,24 +2890,24 @@ extension GetConfig : JsonSerializable
     public func toJson() -> String {
         return GetConfig.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetConfig? {
+    public static func fromJson(json:String) -> GetConfig? {
         return GetConfig.reflect().fromJson(GetConfig(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetConfig? {
+    public static func fromObject(any:AnyObject) -> GetConfig? {
         return GetConfig.reflect().fromObject(GetConfig(), any:any)
     }
     public func toString() -> String {
         return GetConfig.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetConfig? {
+    public static func fromString(string:String) -> GetConfig? {
         return GetConfig.reflect().fromString(GetConfig(), string: string)
     }
 }
 
 extension Overview : JsonSerializable
 {
-    public class var typeName:String { return "Overview" }
-    public class func reflect() -> Type<Overview> {
+    public static var typeName:String { return "Overview" }
+    public static func reflect() -> Type<Overview> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Overview>(
             properties: [
                 Type<Overview>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
@@ -2771,24 +2916,50 @@ extension Overview : JsonSerializable
     public func toJson() -> String {
         return Overview.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> Overview? {
+    public static func fromJson(json:String) -> Overview? {
         return Overview.reflect().fromJson(Overview(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> Overview? {
+    public static func fromObject(any:AnyObject) -> Overview? {
         return Overview.reflect().fromObject(Overview(), any:any)
     }
     public func toString() -> String {
         return Overview.reflect().toString(self)
     }
-    public class func fromString(string:String) -> Overview? {
+    public static func fromString(string:String) -> Overview? {
         return Overview.reflect().fromString(Overview(), string: string)
+    }
+}
+
+extension AppOverview : JsonSerializable
+{
+    public static var typeName:String { return "AppOverview" }
+    public static func reflect() -> Type<AppOverview> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<AppOverview>(
+            properties: [
+                Type<AppOverview>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return AppOverview.reflect().toJson(self)
+    }
+    public static func fromJson(json:String) -> AppOverview? {
+        return AppOverview.reflect().fromJson(AppOverview(), json: json)
+    }
+    public static func fromObject(any:AnyObject) -> AppOverview? {
+        return AppOverview.reflect().fromObject(AppOverview(), any:any)
+    }
+    public func toString() -> String {
+        return AppOverview.reflect().toString(self)
+    }
+    public static func fromString(string:String) -> AppOverview? {
+        return AppOverview.reflect().fromString(AppOverview(), string: string)
     }
 }
 
 extension FindTechStacks : JsonSerializable
 {
-    public class var typeName:String { return "FindTechStacks" }
-    public class func reflect() -> Type<FindTechStacks> {
+    public static var typeName:String { return "FindTechStacks" }
+    public static func reflect() -> Type<FindTechStacks> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<FindTechStacks>(
             properties: [
                 Type<FindTechStacks>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
@@ -2801,24 +2972,24 @@ extension FindTechStacks : JsonSerializable
     public func toJson() -> String {
         return FindTechStacks.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> FindTechStacks? {
+    public static func fromJson(json:String) -> FindTechStacks? {
         return FindTechStacks.reflect().fromJson(FindTechStacks(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> FindTechStacks? {
+    public static func fromObject(any:AnyObject) -> FindTechStacks? {
         return FindTechStacks.reflect().fromObject(FindTechStacks(), any:any)
     }
     public func toString() -> String {
         return FindTechStacks.reflect().toString(self)
     }
-    public class func fromString(string:String) -> FindTechStacks? {
+    public static func fromString(string:String) -> FindTechStacks? {
         return FindTechStacks.reflect().fromString(FindTechStacks(), string: string)
     }
 }
 
 extension GetFavoriteTechStack : JsonSerializable
 {
-    public class var typeName:String { return "GetFavoriteTechStack" }
-    public class func reflect() -> Type<GetFavoriteTechStack> {
+    public static var typeName:String { return "GetFavoriteTechStack" }
+    public static func reflect() -> Type<GetFavoriteTechStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetFavoriteTechStack>(
             properties: [
                 Type<GetFavoriteTechStack>.optionalProperty("technologyStackId", get: { $0.technologyStackId }, set: { $0.technologyStackId = $1 }),
@@ -2827,24 +2998,24 @@ extension GetFavoriteTechStack : JsonSerializable
     public func toJson() -> String {
         return GetFavoriteTechStack.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetFavoriteTechStack? {
+    public static func fromJson(json:String) -> GetFavoriteTechStack? {
         return GetFavoriteTechStack.reflect().fromJson(GetFavoriteTechStack(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetFavoriteTechStack? {
+    public static func fromObject(any:AnyObject) -> GetFavoriteTechStack? {
         return GetFavoriteTechStack.reflect().fromObject(GetFavoriteTechStack(), any:any)
     }
     public func toString() -> String {
         return GetFavoriteTechStack.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetFavoriteTechStack? {
+    public static func fromString(string:String) -> GetFavoriteTechStack? {
         return GetFavoriteTechStack.reflect().fromString(GetFavoriteTechStack(), string: string)
     }
 }
 
 extension AddFavoriteTechStack : JsonSerializable
 {
-    public class var typeName:String { return "AddFavoriteTechStack" }
-    public class func reflect() -> Type<AddFavoriteTechStack> {
+    public static var typeName:String { return "AddFavoriteTechStack" }
+    public static func reflect() -> Type<AddFavoriteTechStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AddFavoriteTechStack>(
             properties: [
                 Type<AddFavoriteTechStack>.optionalProperty("technologyStackId", get: { $0.technologyStackId }, set: { $0.technologyStackId = $1 }),
@@ -2853,24 +3024,24 @@ extension AddFavoriteTechStack : JsonSerializable
     public func toJson() -> String {
         return AddFavoriteTechStack.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> AddFavoriteTechStack? {
+    public static func fromJson(json:String) -> AddFavoriteTechStack? {
         return AddFavoriteTechStack.reflect().fromJson(AddFavoriteTechStack(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> AddFavoriteTechStack? {
+    public static func fromObject(any:AnyObject) -> AddFavoriteTechStack? {
         return AddFavoriteTechStack.reflect().fromObject(AddFavoriteTechStack(), any:any)
     }
     public func toString() -> String {
         return AddFavoriteTechStack.reflect().toString(self)
     }
-    public class func fromString(string:String) -> AddFavoriteTechStack? {
+    public static func fromString(string:String) -> AddFavoriteTechStack? {
         return AddFavoriteTechStack.reflect().fromString(AddFavoriteTechStack(), string: string)
     }
 }
 
 extension RemoveFavoriteTechStack : JsonSerializable
 {
-    public class var typeName:String { return "RemoveFavoriteTechStack" }
-    public class func reflect() -> Type<RemoveFavoriteTechStack> {
+    public static var typeName:String { return "RemoveFavoriteTechStack" }
+    public static func reflect() -> Type<RemoveFavoriteTechStack> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<RemoveFavoriteTechStack>(
             properties: [
                 Type<RemoveFavoriteTechStack>.optionalProperty("technologyStackId", get: { $0.technologyStackId }, set: { $0.technologyStackId = $1 }),
@@ -2879,24 +3050,24 @@ extension RemoveFavoriteTechStack : JsonSerializable
     public func toJson() -> String {
         return RemoveFavoriteTechStack.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> RemoveFavoriteTechStack? {
+    public static func fromJson(json:String) -> RemoveFavoriteTechStack? {
         return RemoveFavoriteTechStack.reflect().fromJson(RemoveFavoriteTechStack(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> RemoveFavoriteTechStack? {
+    public static func fromObject(any:AnyObject) -> RemoveFavoriteTechStack? {
         return RemoveFavoriteTechStack.reflect().fromObject(RemoveFavoriteTechStack(), any:any)
     }
     public func toString() -> String {
         return RemoveFavoriteTechStack.reflect().toString(self)
     }
-    public class func fromString(string:String) -> RemoveFavoriteTechStack? {
+    public static func fromString(string:String) -> RemoveFavoriteTechStack? {
         return RemoveFavoriteTechStack.reflect().fromString(RemoveFavoriteTechStack(), string: string)
     }
 }
 
 extension GetFavoriteTechnologies : JsonSerializable
 {
-    public class var typeName:String { return "GetFavoriteTechnologies" }
-    public class func reflect() -> Type<GetFavoriteTechnologies> {
+    public static var typeName:String { return "GetFavoriteTechnologies" }
+    public static func reflect() -> Type<GetFavoriteTechnologies> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetFavoriteTechnologies>(
             properties: [
                 Type<GetFavoriteTechnologies>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
@@ -2905,24 +3076,24 @@ extension GetFavoriteTechnologies : JsonSerializable
     public func toJson() -> String {
         return GetFavoriteTechnologies.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetFavoriteTechnologies? {
+    public static func fromJson(json:String) -> GetFavoriteTechnologies? {
         return GetFavoriteTechnologies.reflect().fromJson(GetFavoriteTechnologies(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetFavoriteTechnologies? {
+    public static func fromObject(any:AnyObject) -> GetFavoriteTechnologies? {
         return GetFavoriteTechnologies.reflect().fromObject(GetFavoriteTechnologies(), any:any)
     }
     public func toString() -> String {
         return GetFavoriteTechnologies.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetFavoriteTechnologies? {
+    public static func fromString(string:String) -> GetFavoriteTechnologies? {
         return GetFavoriteTechnologies.reflect().fromString(GetFavoriteTechnologies(), string: string)
     }
 }
 
 extension AddFavoriteTechnology : JsonSerializable
 {
-    public class var typeName:String { return "AddFavoriteTechnology" }
-    public class func reflect() -> Type<AddFavoriteTechnology> {
+    public static var typeName:String { return "AddFavoriteTechnology" }
+    public static func reflect() -> Type<AddFavoriteTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AddFavoriteTechnology>(
             properties: [
                 Type<AddFavoriteTechnology>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
@@ -2931,24 +3102,24 @@ extension AddFavoriteTechnology : JsonSerializable
     public func toJson() -> String {
         return AddFavoriteTechnology.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> AddFavoriteTechnology? {
+    public static func fromJson(json:String) -> AddFavoriteTechnology? {
         return AddFavoriteTechnology.reflect().fromJson(AddFavoriteTechnology(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> AddFavoriteTechnology? {
+    public static func fromObject(any:AnyObject) -> AddFavoriteTechnology? {
         return AddFavoriteTechnology.reflect().fromObject(AddFavoriteTechnology(), any:any)
     }
     public func toString() -> String {
         return AddFavoriteTechnology.reflect().toString(self)
     }
-    public class func fromString(string:String) -> AddFavoriteTechnology? {
+    public static func fromString(string:String) -> AddFavoriteTechnology? {
         return AddFavoriteTechnology.reflect().fromString(AddFavoriteTechnology(), string: string)
     }
 }
 
 extension RemoveFavoriteTechnology : JsonSerializable
 {
-    public class var typeName:String { return "RemoveFavoriteTechnology" }
-    public class func reflect() -> Type<RemoveFavoriteTechnology> {
+    public static var typeName:String { return "RemoveFavoriteTechnology" }
+    public static func reflect() -> Type<RemoveFavoriteTechnology> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<RemoveFavoriteTechnology>(
             properties: [
                 Type<RemoveFavoriteTechnology>.optionalProperty("technologyId", get: { $0.technologyId }, set: { $0.technologyId = $1 }),
@@ -2957,24 +3128,24 @@ extension RemoveFavoriteTechnology : JsonSerializable
     public func toJson() -> String {
         return RemoveFavoriteTechnology.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> RemoveFavoriteTechnology? {
+    public static func fromJson(json:String) -> RemoveFavoriteTechnology? {
         return RemoveFavoriteTechnology.reflect().fromJson(RemoveFavoriteTechnology(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> RemoveFavoriteTechnology? {
+    public static func fromObject(any:AnyObject) -> RemoveFavoriteTechnology? {
         return RemoveFavoriteTechnology.reflect().fromObject(RemoveFavoriteTechnology(), any:any)
     }
     public func toString() -> String {
         return RemoveFavoriteTechnology.reflect().toString(self)
     }
-    public class func fromString(string:String) -> RemoveFavoriteTechnology? {
+    public static func fromString(string:String) -> RemoveFavoriteTechnology? {
         return RemoveFavoriteTechnology.reflect().fromString(RemoveFavoriteTechnology(), string: string)
     }
 }
 
 extension GetUserFeed : JsonSerializable
 {
-    public class var typeName:String { return "GetUserFeed" }
-    public class func reflect() -> Type<GetUserFeed> {
+    public static var typeName:String { return "GetUserFeed" }
+    public static func reflect() -> Type<GetUserFeed> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetUserFeed>(
             properties: [
             ]))
@@ -2982,24 +3153,24 @@ extension GetUserFeed : JsonSerializable
     public func toJson() -> String {
         return GetUserFeed.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetUserFeed? {
+    public static func fromJson(json:String) -> GetUserFeed? {
         return GetUserFeed.reflect().fromJson(GetUserFeed(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetUserFeed? {
+    public static func fromObject(any:AnyObject) -> GetUserFeed? {
         return GetUserFeed.reflect().fromObject(GetUserFeed(), any:any)
     }
     public func toString() -> String {
         return GetUserFeed.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetUserFeed? {
+    public static func fromString(string:String) -> GetUserFeed? {
         return GetUserFeed.reflect().fromString(GetUserFeed(), string: string)
     }
 }
 
 extension GetUserInfo : JsonSerializable
 {
-    public class var typeName:String { return "GetUserInfo" }
-    public class func reflect() -> Type<GetUserInfo> {
+    public static var typeName:String { return "GetUserInfo" }
+    public static func reflect() -> Type<GetUserInfo> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<GetUserInfo>(
             properties: [
                 Type<GetUserInfo>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
@@ -3009,24 +3180,24 @@ extension GetUserInfo : JsonSerializable
     public func toJson() -> String {
         return GetUserInfo.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> GetUserInfo? {
+    public static func fromJson(json:String) -> GetUserInfo? {
         return GetUserInfo.reflect().fromJson(GetUserInfo(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> GetUserInfo? {
+    public static func fromObject(any:AnyObject) -> GetUserInfo? {
         return GetUserInfo.reflect().fromObject(GetUserInfo(), any:any)
     }
     public func toString() -> String {
         return GetUserInfo.reflect().toString(self)
     }
-    public class func fromString(string:String) -> GetUserInfo? {
+    public static func fromString(string:String) -> GetUserInfo? {
         return GetUserInfo.reflect().fromString(GetUserInfo(), string: string)
     }
 }
 
 extension Authenticate : JsonSerializable
 {
-    public class var typeName:String { return "Authenticate" }
-    public class func reflect() -> Type<Authenticate> {
+    public static var typeName:String { return "Authenticate" }
+    public static func reflect() -> Type<Authenticate> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Authenticate>(
             properties: [
                 Type<Authenticate>.optionalProperty("provider", get: { $0.provider }, set: { $0.provider = $1 }),
@@ -3049,24 +3220,24 @@ extension Authenticate : JsonSerializable
     public func toJson() -> String {
         return Authenticate.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> Authenticate? {
+    public static func fromJson(json:String) -> Authenticate? {
         return Authenticate.reflect().fromJson(Authenticate(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> Authenticate? {
+    public static func fromObject(any:AnyObject) -> Authenticate? {
         return Authenticate.reflect().fromObject(Authenticate(), any:any)
     }
     public func toString() -> String {
         return Authenticate.reflect().toString(self)
     }
-    public class func fromString(string:String) -> Authenticate? {
+    public static func fromString(string:String) -> Authenticate? {
         return Authenticate.reflect().fromString(Authenticate(), string: string)
     }
 }
 
 extension AssignRoles : JsonSerializable
 {
-    public class var typeName:String { return "AssignRoles" }
-    public class func reflect() -> Type<AssignRoles> {
+    public static var typeName:String { return "AssignRoles" }
+    public static func reflect() -> Type<AssignRoles> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AssignRoles>(
             properties: [
                 Type<AssignRoles>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
@@ -3077,24 +3248,24 @@ extension AssignRoles : JsonSerializable
     public func toJson() -> String {
         return AssignRoles.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> AssignRoles? {
+    public static func fromJson(json:String) -> AssignRoles? {
         return AssignRoles.reflect().fromJson(AssignRoles(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> AssignRoles? {
+    public static func fromObject(any:AnyObject) -> AssignRoles? {
         return AssignRoles.reflect().fromObject(AssignRoles(), any:any)
     }
     public func toString() -> String {
         return AssignRoles.reflect().toString(self)
     }
-    public class func fromString(string:String) -> AssignRoles? {
+    public static func fromString(string:String) -> AssignRoles? {
         return AssignRoles.reflect().fromString(AssignRoles(), string: string)
     }
 }
 
 extension UnAssignRoles : JsonSerializable
 {
-    public class var typeName:String { return "UnAssignRoles" }
-    public class func reflect() -> Type<UnAssignRoles> {
+    public static var typeName:String { return "UnAssignRoles" }
+    public static func reflect() -> Type<UnAssignRoles> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<UnAssignRoles>(
             properties: [
                 Type<UnAssignRoles>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
@@ -3105,185 +3276,45 @@ extension UnAssignRoles : JsonSerializable
     public func toJson() -> String {
         return UnAssignRoles.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> UnAssignRoles? {
+    public static func fromJson(json:String) -> UnAssignRoles? {
         return UnAssignRoles.reflect().fromJson(UnAssignRoles(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> UnAssignRoles? {
+    public static func fromObject(any:AnyObject) -> UnAssignRoles? {
         return UnAssignRoles.reflect().fromObject(UnAssignRoles(), any:any)
     }
     public func toString() -> String {
         return UnAssignRoles.reflect().toString(self)
     }
-    public class func fromString(string:String) -> UnAssignRoles? {
+    public static func fromString(string:String) -> UnAssignRoles? {
         return UnAssignRoles.reflect().fromString(UnAssignRoles(), string: string)
     }
 }
 
-
-
-// Needs to be defined in the same file as SS RespnseStatus DTO's otherwise Swift segfaults.
-
-/* Options:
-Date: 2015-02-02 06:57:20
-Version: 1
-BaseUrl: http://test.servicestack.net
-
-BaseClass: NSObject
-//AddResponseStatus: False
-//AddModelExtensions: True
-//AddServiceStackTypes: True
-//InitializeCollections: True
-//AddImplicitVersion:
-IncludeTypes: ThrowType,ThrowTypeResponse,ThrowValidation,ThrowValidationResponse
-//ExcludeTypes:
-//DefaultNamespaces: Foundation
-*/
-
-import Foundation
-
-public class ThrowTypeResponse : NSObject
+extension QueryPosts : JsonSerializable
 {
-    required public override init(){}
-    public var responseStatus:ResponseStatus?
-}
-
-public class ThrowValidationResponse : NSObject
-{
-    required public override init(){}
-    public var age:Int?
-    public var required:String?
-    public var email:String?
-    public var responseStatus:ResponseStatus?
-}
-
-// @Route("/throw/{Type}")
-public class ThrowType : NSObject, IReturn
-{
-    typealias Return = ThrowTypeResponse
-    
-    required public override init(){}
-    public var type:String?
-    public var message:String?
-}
-
-// @Route("/throwvalidation")
-public class ThrowValidation : NSObject, IReturn
-{
-    typealias Return = ThrowValidationResponse
-    
-    required public override init(){}
-    public var age:Int?
-    public var required:String?
-    public var email:String?
-}
-
-
-extension ThrowTypeResponse : JsonSerializable
-{
-    public class var typeName:String { return "ThrowTypeResponse" }
-    public class func reflect() -> Type<ThrowTypeResponse> {
-        return TypeConfig.config() ?? TypeConfig.configure(Type<ThrowTypeResponse>(
+    public static var typeName:String { return "QueryPosts" }
+    public static func reflect() -> Type<QueryPosts> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<QueryPosts>(
             properties: [
-                Type<ThrowTypeResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+                Type<QueryPosts>.optionalProperty("skip", get: { $0.skip }, set: { $0.skip = $1 }),
+                Type<QueryPosts>.optionalProperty("take", get: { $0.take }, set: { $0.take = $1 }),
+                Type<QueryPosts>.optionalProperty("orderBy", get: { $0.orderBy }, set: { $0.orderBy = $1 }),
+                Type<QueryPosts>.optionalProperty("orderByDesc", get: { $0.orderByDesc }, set: { $0.orderByDesc = $1 }),
             ]))
     }
     public func toJson() -> String {
-        return ThrowTypeResponse.reflect().toJson(self)
+        return QueryPosts.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> ThrowTypeResponse? {
-        return ThrowTypeResponse.reflect().fromJson(ThrowTypeResponse(), json: json)
+    public static func fromJson(json:String) -> QueryPosts? {
+        return QueryPosts.reflect().fromJson(QueryPosts(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> ThrowTypeResponse? {
-        return ThrowTypeResponse.reflect().fromObject(ThrowTypeResponse(), any:any)
-    }
-    public func toString() -> String {
-        return ThrowTypeResponse.reflect().toString(self)
-    }
-    public class func fromString(string:String) -> ThrowTypeResponse? {
-        return ThrowTypeResponse.reflect().fromString(ThrowTypeResponse(), string: string)
-    }
-}
-
-extension ThrowValidationResponse : JsonSerializable
-{
-    public class var typeName:String { return "ThrowValidationResponse" }
-    public class func reflect() -> Type<ThrowValidationResponse> {
-        return TypeConfig.config() ?? TypeConfig.configure(Type<ThrowValidationResponse>(
-            properties: [
-                Type<ThrowValidationResponse>.optionalProperty("age", get: { $0.age }, set: { $0.age = $1 }),
-                Type<ThrowValidationResponse>.optionalProperty("required", get: { $0.required }, set: { $0.required = $1 }),
-                Type<ThrowValidationResponse>.optionalProperty("email", get: { $0.email }, set: { $0.email = $1 }),
-                Type<ThrowValidationResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
-            ]))
-    }
-    public func toJson() -> String {
-        return ThrowValidationResponse.reflect().toJson(self)
-    }
-    public class func fromJson(json:String) -> ThrowValidationResponse? {
-        return ThrowValidationResponse.reflect().fromJson(ThrowValidationResponse(), json: json)
-    }
-    public class func fromObject(any:AnyObject) -> ThrowValidationResponse? {
-        return ThrowValidationResponse.reflect().fromObject(ThrowValidationResponse(), any:any)
+    public static func fromObject(any:AnyObject) -> QueryPosts? {
+        return QueryPosts.reflect().fromObject(QueryPosts(), any:any)
     }
     public func toString() -> String {
-        return ThrowValidationResponse.reflect().toString(self)
+        return QueryPosts.reflect().toString(self)
     }
-    public class func fromString(string:String) -> ThrowValidationResponse? {
-        return ThrowValidationResponse.reflect().fromString(ThrowValidationResponse(), string: string)
-    }
-}
-
-extension ThrowType : JsonSerializable
-{
-    public class var typeName:String { return "ThrowType" }
-    public class func reflect() -> Type<ThrowType> {
-        return TypeConfig.config() ?? TypeConfig.configure(Type<ThrowType>(
-            properties: [
-                Type<ThrowType>.optionalProperty("type", get: { $0.type }, set: { $0.type = $1 }),
-                Type<ThrowType>.optionalProperty("message", get: { $0.message }, set: { $0.message = $1 }),
-            ]))
-    }
-    public func toJson() -> String {
-        return ThrowType.reflect().toJson(self)
-    }
-    public class func fromJson(json:String) -> ThrowType? {
-        return ThrowType.reflect().fromJson(ThrowType(), json: json)
-    }
-    public class func fromObject(any:AnyObject) -> ThrowType? {
-        return ThrowType.reflect().fromObject(ThrowType(), any:any)
-    }
-    public func toString() -> String {
-        return ThrowType.reflect().toString(self)
-    }
-    public class func fromString(string:String) -> ThrowType? {
-        return ThrowType.reflect().fromString(ThrowType(), string: string)
-    }
-}
-
-extension ThrowValidation : JsonSerializable
-{
-    public class var typeName:String { return "ThrowValidation" }
-    public class func reflect() -> Type<ThrowValidation> {
-        return TypeConfig.config() ?? TypeConfig.configure(Type<ThrowValidation>(
-            properties: [
-                Type<ThrowValidation>.optionalProperty("age", get: { $0.age }, set: { $0.age = $1 }),
-                Type<ThrowValidation>.optionalProperty("required", get: { $0.required }, set: { $0.required = $1 }),
-                Type<ThrowValidation>.optionalProperty("email", get: { $0.email }, set: { $0.email = $1 }),
-            ]))
-    }
-    public func toJson() -> String {
-        return ThrowValidation.reflect().toJson(self)
-    }
-    public class func fromJson(json:String) -> ThrowValidation? {
-        return ThrowValidation.reflect().fromJson(ThrowValidation(), json: json)
-    }
-    public class func fromObject(any:AnyObject) -> ThrowValidation? {
-        return ThrowValidation.reflect().fromObject(ThrowValidation(), any:any)
-    }
-    public func toString() -> String {
-        return ThrowValidation.reflect().toString(self)
-    }
-    public class func fromString(string:String) -> ThrowValidation? {
-        return ThrowValidation.reflect().fromString(ThrowValidation(), string: string)
+    public static func fromString(string:String) -> QueryPosts? {
+        return QueryPosts.reflect().fromString(QueryPosts(), string: string)
     }
 }

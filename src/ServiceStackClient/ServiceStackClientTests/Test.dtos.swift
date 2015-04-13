@@ -1,12 +1,12 @@
 /* Options:
-Date: 2015-02-23 09:43:18
+Date: 2015-04-13 16:03:08
 Version: 1
 BaseUrl: http://test.servicestack.net
 
 //BaseClass:
 //AddModelExtensions: True
 //AddServiceStackTypes: True
-IncludeTypes: HelloAllTypes,HelloAllTypesResponse,AllTypes,AllCollectionTypes,Poco,SubType
+IncludeTypes: HelloAllTypes,HelloAllTypesResponse,AllTypes,AllCollectionTypes,Poco,SubType,ThrowType,ThrowTypeResponse,ThrowValidation,ThrowValidationResponse
 //ExcludeTypes:
 //AddResponseStatus: False
 //AddImplicitVersion:
@@ -72,6 +72,21 @@ public class SubType
     public var name:String?
 }
 
+public class ThrowTypeResponse
+{
+    required public init(){}
+    public var responseStatus:ResponseStatus?
+}
+
+public class ThrowValidationResponse
+{
+    required public init(){}
+    public var age:Int?
+    public var required:String?
+    public var email:String?
+    public var responseStatus:ResponseStatus?
+}
+
 public class HelloAllTypesResponse
 {
     required public init(){}
@@ -80,10 +95,31 @@ public class HelloAllTypesResponse
     public var allCollectionTypes:AllCollectionTypes?
 }
 
+// @Route("/throw/{Type}")
+public class ThrowType : IReturn
+{
+    typealias Return = ThrowTypeResponse
+
+    required public init(){}
+    public var type:String?
+    public var message:String?
+}
+
+// @Route("/throwvalidation")
+public class ThrowValidation : IReturn
+{
+    typealias Return = ThrowValidationResponse
+
+    required public init(){}
+    public var age:Int?
+    public var required:String?
+    public var email:String?
+}
+
 public class HelloAllTypes : IReturn
 {
     typealias Return = HelloAllTypesResponse
-    
+
     required public init(){}
     public var name:String?
     public var allTypes:AllTypes?
@@ -93,8 +129,8 @@ public class HelloAllTypes : IReturn
 
 extension AllTypes : JsonSerializable
 {
-    public class var typeName:String { return "AllTypes" }
-    public class func reflect() -> Type<AllTypes> {
+    public static var typeName:String { return "AllTypes" }
+    public static func reflect() -> Type<AllTypes> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AllTypes>(
             properties: [
                 Type<AllTypes>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
@@ -127,24 +163,24 @@ extension AllTypes : JsonSerializable
     public func toJson() -> String {
         return AllTypes.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> AllTypes? {
+    public static func fromJson(json:String) -> AllTypes? {
         return AllTypes.reflect().fromJson(AllTypes(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> AllTypes? {
+    public static func fromObject(any:AnyObject) -> AllTypes? {
         return AllTypes.reflect().fromObject(AllTypes(), any:any)
     }
     public func toString() -> String {
         return AllTypes.reflect().toString(self)
     }
-    public class func fromString(string:String) -> AllTypes? {
+    public static func fromString(string:String) -> AllTypes? {
         return AllTypes.reflect().fromString(AllTypes(), string: string)
     }
 }
 
 extension AllCollectionTypes : JsonSerializable
 {
-    public class var typeName:String { return "AllCollectionTypes" }
-    public class func reflect() -> Type<AllCollectionTypes> {
+    public static var typeName:String { return "AllCollectionTypes" }
+    public static func reflect() -> Type<AllCollectionTypes> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<AllCollectionTypes>(
             properties: [
                 Type<AllCollectionTypes>.arrayProperty("intArray", get: { $0.intArray }, set: { $0.intArray = $1 }),
@@ -160,24 +196,24 @@ extension AllCollectionTypes : JsonSerializable
     public func toJson() -> String {
         return AllCollectionTypes.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> AllCollectionTypes? {
+    public static func fromJson(json:String) -> AllCollectionTypes? {
         return AllCollectionTypes.reflect().fromJson(AllCollectionTypes(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> AllCollectionTypes? {
+    public static func fromObject(any:AnyObject) -> AllCollectionTypes? {
         return AllCollectionTypes.reflect().fromObject(AllCollectionTypes(), any:any)
     }
     public func toString() -> String {
         return AllCollectionTypes.reflect().toString(self)
     }
-    public class func fromString(string:String) -> AllCollectionTypes? {
+    public static func fromString(string:String) -> AllCollectionTypes? {
         return AllCollectionTypes.reflect().fromString(AllCollectionTypes(), string: string)
     }
 }
 
 extension Poco : JsonSerializable
 {
-    public class var typeName:String { return "Poco" }
-    public class func reflect() -> Type<Poco> {
+    public static var typeName:String { return "Poco" }
+    public static func reflect() -> Type<Poco> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<Poco>(
             properties: [
                 Type<Poco>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -186,24 +222,24 @@ extension Poco : JsonSerializable
     public func toJson() -> String {
         return Poco.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> Poco? {
+    public static func fromJson(json:String) -> Poco? {
         return Poco.reflect().fromJson(Poco(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> Poco? {
+    public static func fromObject(any:AnyObject) -> Poco? {
         return Poco.reflect().fromObject(Poco(), any:any)
     }
     public func toString() -> String {
         return Poco.reflect().toString(self)
     }
-    public class func fromString(string:String) -> Poco? {
+    public static func fromString(string:String) -> Poco? {
         return Poco.reflect().fromString(Poco(), string: string)
     }
 }
 
 extension SubType : JsonSerializable
 {
-    public class var typeName:String { return "SubType" }
-    public class func reflect() -> Type<SubType> {
+    public static var typeName:String { return "SubType" }
+    public static func reflect() -> Type<SubType> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<SubType>(
             properties: [
                 Type<SubType>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
@@ -213,24 +249,79 @@ extension SubType : JsonSerializable
     public func toJson() -> String {
         return SubType.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> SubType? {
+    public static func fromJson(json:String) -> SubType? {
         return SubType.reflect().fromJson(SubType(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> SubType? {
+    public static func fromObject(any:AnyObject) -> SubType? {
         return SubType.reflect().fromObject(SubType(), any:any)
     }
     public func toString() -> String {
         return SubType.reflect().toString(self)
     }
-    public class func fromString(string:String) -> SubType? {
+    public static func fromString(string:String) -> SubType? {
         return SubType.reflect().fromString(SubType(), string: string)
+    }
+}
+
+extension ThrowTypeResponse : JsonSerializable
+{
+    public static var typeName:String { return "ThrowTypeResponse" }
+    public static func reflect() -> Type<ThrowTypeResponse> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<ThrowTypeResponse>(
+            properties: [
+                Type<ThrowTypeResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return ThrowTypeResponse.reflect().toJson(self)
+    }
+    public static func fromJson(json:String) -> ThrowTypeResponse? {
+        return ThrowTypeResponse.reflect().fromJson(ThrowTypeResponse(), json: json)
+    }
+    public static func fromObject(any:AnyObject) -> ThrowTypeResponse? {
+        return ThrowTypeResponse.reflect().fromObject(ThrowTypeResponse(), any:any)
+    }
+    public func toString() -> String {
+        return ThrowTypeResponse.reflect().toString(self)
+    }
+    public static func fromString(string:String) -> ThrowTypeResponse? {
+        return ThrowTypeResponse.reflect().fromString(ThrowTypeResponse(), string: string)
+    }
+}
+
+extension ThrowValidationResponse : JsonSerializable
+{
+    public static var typeName:String { return "ThrowValidationResponse" }
+    public static func reflect() -> Type<ThrowValidationResponse> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<ThrowValidationResponse>(
+            properties: [
+                Type<ThrowValidationResponse>.optionalProperty("age", get: { $0.age }, set: { $0.age = $1 }),
+                Type<ThrowValidationResponse>.optionalProperty("required", get: { $0.required }, set: { $0.required = $1 }),
+                Type<ThrowValidationResponse>.optionalProperty("email", get: { $0.email }, set: { $0.email = $1 }),
+                Type<ThrowValidationResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return ThrowValidationResponse.reflect().toJson(self)
+    }
+    public static func fromJson(json:String) -> ThrowValidationResponse? {
+        return ThrowValidationResponse.reflect().fromJson(ThrowValidationResponse(), json: json)
+    }
+    public static func fromObject(any:AnyObject) -> ThrowValidationResponse? {
+        return ThrowValidationResponse.reflect().fromObject(ThrowValidationResponse(), any:any)
+    }
+    public func toString() -> String {
+        return ThrowValidationResponse.reflect().toString(self)
+    }
+    public static func fromString(string:String) -> ThrowValidationResponse? {
+        return ThrowValidationResponse.reflect().fromString(ThrowValidationResponse(), string: string)
     }
 }
 
 extension HelloAllTypesResponse : JsonSerializable
 {
-    public class var typeName:String { return "HelloAllTypesResponse" }
-    public class func reflect() -> Type<HelloAllTypesResponse> {
+    public static var typeName:String { return "HelloAllTypesResponse" }
+    public static func reflect() -> Type<HelloAllTypesResponse> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<HelloAllTypesResponse>(
             properties: [
                 Type<HelloAllTypesResponse>.optionalProperty("result", get: { $0.result }, set: { $0.result = $1 }),
@@ -241,24 +332,79 @@ extension HelloAllTypesResponse : JsonSerializable
     public func toJson() -> String {
         return HelloAllTypesResponse.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> HelloAllTypesResponse? {
+    public static func fromJson(json:String) -> HelloAllTypesResponse? {
         return HelloAllTypesResponse.reflect().fromJson(HelloAllTypesResponse(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> HelloAllTypesResponse? {
+    public static func fromObject(any:AnyObject) -> HelloAllTypesResponse? {
         return HelloAllTypesResponse.reflect().fromObject(HelloAllTypesResponse(), any:any)
     }
     public func toString() -> String {
         return HelloAllTypesResponse.reflect().toString(self)
     }
-    public class func fromString(string:String) -> HelloAllTypesResponse? {
+    public static func fromString(string:String) -> HelloAllTypesResponse? {
         return HelloAllTypesResponse.reflect().fromString(HelloAllTypesResponse(), string: string)
+    }
+}
+
+extension ThrowType : JsonSerializable
+{
+    public static var typeName:String { return "ThrowType" }
+    public static func reflect() -> Type<ThrowType> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<ThrowType>(
+            properties: [
+                Type<ThrowType>.optionalProperty("type", get: { $0.type }, set: { $0.type = $1 }),
+                Type<ThrowType>.optionalProperty("message", get: { $0.message }, set: { $0.message = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return ThrowType.reflect().toJson(self)
+    }
+    public static func fromJson(json:String) -> ThrowType? {
+        return ThrowType.reflect().fromJson(ThrowType(), json: json)
+    }
+    public static func fromObject(any:AnyObject) -> ThrowType? {
+        return ThrowType.reflect().fromObject(ThrowType(), any:any)
+    }
+    public func toString() -> String {
+        return ThrowType.reflect().toString(self)
+    }
+    public static func fromString(string:String) -> ThrowType? {
+        return ThrowType.reflect().fromString(ThrowType(), string: string)
+    }
+}
+
+extension ThrowValidation : JsonSerializable
+{
+    public static var typeName:String { return "ThrowValidation" }
+    public static func reflect() -> Type<ThrowValidation> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<ThrowValidation>(
+            properties: [
+                Type<ThrowValidation>.optionalProperty("age", get: { $0.age }, set: { $0.age = $1 }),
+                Type<ThrowValidation>.optionalProperty("required", get: { $0.required }, set: { $0.required = $1 }),
+                Type<ThrowValidation>.optionalProperty("email", get: { $0.email }, set: { $0.email = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return ThrowValidation.reflect().toJson(self)
+    }
+    public static func fromJson(json:String) -> ThrowValidation? {
+        return ThrowValidation.reflect().fromJson(ThrowValidation(), json: json)
+    }
+    public static func fromObject(any:AnyObject) -> ThrowValidation? {
+        return ThrowValidation.reflect().fromObject(ThrowValidation(), any:any)
+    }
+    public func toString() -> String {
+        return ThrowValidation.reflect().toString(self)
+    }
+    public static func fromString(string:String) -> ThrowValidation? {
+        return ThrowValidation.reflect().fromString(ThrowValidation(), string: string)
     }
 }
 
 extension HelloAllTypes : JsonSerializable
 {
-    public class var typeName:String { return "HelloAllTypes" }
-    public class func reflect() -> Type<HelloAllTypes> {
+    public static var typeName:String { return "HelloAllTypes" }
+    public static func reflect() -> Type<HelloAllTypes> {
         return TypeConfig.config() ?? TypeConfig.configure(Type<HelloAllTypes>(
             properties: [
                 Type<HelloAllTypes>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
@@ -269,16 +415,16 @@ extension HelloAllTypes : JsonSerializable
     public func toJson() -> String {
         return HelloAllTypes.reflect().toJson(self)
     }
-    public class func fromJson(json:String) -> HelloAllTypes? {
+    public static func fromJson(json:String) -> HelloAllTypes? {
         return HelloAllTypes.reflect().fromJson(HelloAllTypes(), json: json)
     }
-    public class func fromObject(any:AnyObject) -> HelloAllTypes? {
+    public static func fromObject(any:AnyObject) -> HelloAllTypes? {
         return HelloAllTypes.reflect().fromObject(HelloAllTypes(), any:any)
     }
     public func toString() -> String {
         return HelloAllTypes.reflect().toString(self)
     }
-    public class func fromString(string:String) -> HelloAllTypes? {
+    public static func fromString(string:String) -> HelloAllTypes? {
         return HelloAllTypes.reflect().fromString(HelloAllTypes(), string: string)
     }
 }

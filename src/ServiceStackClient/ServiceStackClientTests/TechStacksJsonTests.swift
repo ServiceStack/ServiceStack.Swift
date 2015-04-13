@@ -66,7 +66,7 @@ class TechStacksJsonTests: XCTestCase
         let bytes = NSData(contentsOfFile: path!)
         let json = NSString(data: bytes!, encoding: NSUTF8StringEncoding)
         
-        let dto = OverviewResponse.fromJson(json!)!
+        let dto = OverviewResponse.fromJson(json! as String)!
         
         XCTAssertEqual(dto.topUsers.count, 6)
         XCTAssertEqual(dto.topUsers[0].userName!, "demisbellot")

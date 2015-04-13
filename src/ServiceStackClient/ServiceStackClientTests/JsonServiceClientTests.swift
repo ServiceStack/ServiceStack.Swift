@@ -42,7 +42,7 @@ class JsonServiceClientTests: XCTestCase {
                 asyncTest.fulfill()
             })
         
-        waitForExpectationsWithTimeout(5, { (error) in
+        waitForExpectationsWithTimeout(5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -83,7 +83,7 @@ class JsonServiceClientTests: XCTestCase {
                 asyncTest.fulfill()
             })
         
-        waitForExpectationsWithTimeout(5, { (error) in
+        waitForExpectationsWithTimeout(5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -114,7 +114,7 @@ class JsonServiceClientTests: XCTestCase {
                 asyncTest.fulfill()
             })
         
-        waitForExpectationsWithTimeout(5, { (error) in
+        waitForExpectationsWithTimeout(5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -139,7 +139,7 @@ class JsonServiceClientTests: XCTestCase {
                 asyncTest.fulfill()
             })
         
-        waitForExpectationsWithTimeout(5, { (error) in
+        waitForExpectationsWithTimeout(5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -171,7 +171,7 @@ class JsonServiceClientTests: XCTestCase {
                 asyncTest.fulfill()
             })
         
-        waitForExpectationsWithTimeout(5, { (error) in
+        waitForExpectationsWithTimeout(5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -219,7 +219,7 @@ class JsonServiceClientTests: XCTestCase {
         request.message = "not here"
         
         testClient.putAsync(request)
-            .catch({ (responseError:NSError) -> Void in
+            .catch(body: { (responseError:NSError) -> Void in
                 XCTAssertNotNil(responseError)
                 XCTAssertNotNil(localError)
                 XCTAssertNotNil(globalError)
@@ -232,7 +232,7 @@ class JsonServiceClientTests: XCTestCase {
                 asyncTest.fulfill()
             })
 
-        waitForExpectationsWithTimeout(5, { (error) in
+        waitForExpectationsWithTimeout(5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -277,7 +277,7 @@ class JsonServiceClientTests: XCTestCase {
         request.email = "invalidemail"
 
         testClient.postAsync(request)
-            .catch({ (responseError:NSError) -> Void in
+            .catch(body: { (responseError:NSError) -> Void in
 
                 XCTAssertNotNil(responseError)
                 
@@ -302,7 +302,7 @@ class JsonServiceClientTests: XCTestCase {
                 asyncTest.fulfill()
             })
         
-        waitForExpectationsWithTimeout(5, { (error) in
+        waitForExpectationsWithTimeout(5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
