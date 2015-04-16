@@ -716,6 +716,9 @@ public class Type<T : HasReflect> : TypeAccessor
     }
     
     func fromJson<T>(instance:T, json:String, error:NSErrorPointer) -> T? {
+        if instance is NSString || instance is String {
+            return json as? T
+        }
         if let map = parseJson(json,error) as? NSDictionary {
             return populate(instance, map, propertiesMap)
         }
