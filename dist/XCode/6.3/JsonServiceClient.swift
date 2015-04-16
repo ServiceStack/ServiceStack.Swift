@@ -536,39 +536,6 @@ extension String : StringSerializable
     }
 }
 
-extension NSString : JsonSerializable
-{
-    public static var typeName:String { return "NSString" }
-    
-    public static func reflect() -> Type<NSString> {
-        return Type<NSString>(properties:[])
-    }
-    
-    public func toString() -> String {
-        return self as String
-    }
-    
-    public func toJson() -> String {
-        return jsonString(self as String)
-    }
-    
-    public static func fromJson(json:String) -> NSString? {
-        return parseJson(json) as? NSString
-    }
-    
-    public static func fromString(string: String) -> NSString? {
-        return string
-    }
-    
-    public static func fromObject(any:AnyObject) -> NSString?
-    {
-        switch any {
-        case let s as NSString: return s
-        default:return nil
-        }
-    }
-}
-
 extension Character : StringSerializable
 {
     public static var typeName:String { return "Character" }
