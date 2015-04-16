@@ -511,9 +511,15 @@ func parseJsonBytes(bytes:NSData, error:NSErrorPointer) -> AnyObject? {
     return parsedObject
 }
 
-extension String : StringSerializable
+extension String : JsonSerializable
 {
     public static var typeName:String { return "String" }
+
+    public static func reflect() -> Type<String> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<String>(
+            properties: [
+            ]))
+    }
     
     public func toString() -> String {
         return self
@@ -521,6 +527,10 @@ extension String : StringSerializable
     
     public func toJson() -> String {
         return jsonString(self)
+    }
+
+    public static func fromJson(json:String) -> String? {
+        return parseJson(json) as? String
     }
     
     public static func fromString(string: String) -> String? {
