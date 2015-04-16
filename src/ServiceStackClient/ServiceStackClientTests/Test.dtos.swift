@@ -1,12 +1,12 @@
 /* Options:
-Date: 2015-04-13 16:03:08
+Date: 2015-04-16 16:46:08
 Version: 1
 BaseUrl: http://test.servicestack.net
 
 //BaseClass:
 //AddModelExtensions: True
 //AddServiceStackTypes: True
-IncludeTypes: HelloAllTypes,HelloAllTypesResponse,AllTypes,AllCollectionTypes,Poco,SubType,ThrowType,ThrowTypeResponse,ThrowValidation,ThrowValidationResponse
+IncludeTypes: HelloAllTypes,HelloAllTypesResponse,AllTypes,AllCollectionTypes,Poco,SubType,ThrowType,ThrowTypeResponse,ThrowValidation,ThrowValidationResponse,HelloString
 //ExcludeTypes:
 //AddResponseStatus: False
 //AddImplicitVersion:
@@ -124,6 +124,14 @@ public class HelloAllTypes : IReturn
     public var name:String?
     public var allTypes:AllTypes?
     public var allCollectionTypes:AllCollectionTypes?
+}
+
+public class HelloString : IReturn
+{
+    typealias Return = String
+
+    required public init(){}
+    public var name:String?
 }
 
 
@@ -426,5 +434,31 @@ extension HelloAllTypes : JsonSerializable
     }
     public static func fromString(string:String) -> HelloAllTypes? {
         return HelloAllTypes.reflect().fromString(HelloAllTypes(), string: string)
+    }
+}
+
+extension HelloString : JsonSerializable
+{
+    public static var typeName:String { return "HelloString" }
+    public static func reflect() -> Type<HelloString> {
+        return TypeConfig.config() ?? TypeConfig.configure(Type<HelloString>(
+            properties: [
+                Type<HelloString>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
+            ]))
+    }
+    public func toJson() -> String {
+        return HelloString.reflect().toJson(self)
+    }
+    public static func fromJson(json:String) -> HelloString? {
+        return HelloString.reflect().fromJson(HelloString(), json: json)
+    }
+    public static func fromObject(any:AnyObject) -> HelloString? {
+        return HelloString.reflect().fromObject(HelloString(), any:any)
+    }
+    public func toString() -> String {
+        return HelloString.reflect().toString(self)
+    }
+    public static func fromString(string:String) -> HelloString? {
+        return HelloString.reflect().fromString(HelloString(), string: string)
     }
 }
