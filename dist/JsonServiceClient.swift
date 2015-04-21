@@ -112,11 +112,11 @@ public class JsonServiceClient : ServiceClient
     }
     
     func getItem(map:NSDictionary, key:String) -> AnyObject? {
-        return map[String(key[0]).lowercaseString + key[1..<key.count]] ?? map[String(key[0]).uppercaseString + key[1..<key.count]]
+        return map[String(key[0]).lowercaseString + key[1..<key.length]] ?? map[String(key[0]).uppercaseString + key[1..<key.length]]
     }
     
     func populateResponseStatusFields(inout errorInfo:[NSObject : AnyObject], withObject:AnyObject) {
-        if let status = getItem(withObject as NSDictionary, key: "ResponseStatus") as? NSDictionary {
+        if let status = getItem(withObject as! NSDictionary, key: "ResponseStatus") as? NSDictionary {
             if let errorCode = getItem(status, key: "errorCode") as? NSString {
                 errorInfo["errorCode"] = errorCode
             }
@@ -167,7 +167,7 @@ public class JsonServiceClient : ServiceClient
         }
         
         if let json = NSString(data: data, encoding: NSUTF8StringEncoding) {
-            if let dto = T.reflect().fromJson(intoResponse, json: json, error:error) {
+            if let dto = T.reflect().fromJson(intoResponse, json: json as String, error:error) {
                 return dto
             }
         }
@@ -180,13 +180,13 @@ public class JsonServiceClient : ServiceClient
         var sb = ""
         for pi in typeInfo.properties {
             if let strValue = pi.stringValue(dto) {
-                sb += sb.count == 0 ? "?" : "&"
+                sb += sb.length == 0 ? "?" : "&"
                 sb += "\(pi.name.urlEncode()!)=\(strValue.urlEncode()!)"
             }
         }
         
         for (key,value) in query {
-            sb += sb.count == 0 ? "?" : "&"
+            sb += sb.length == 0 ? "?" : "&"
             sb += "\(key)=\(value.urlEncode()!)"
         }
         
@@ -430,7 +430,7 @@ public class JObject
     }
     
     func append(name: String, json: String?) {
-        if sb.count > 0 {
+        if sb.length > 0 {
             sb += ","
         }
         if let s = json {
@@ -465,7 +465,7 @@ public class JArray
     }
     
     func append(json:String?) {
-        if countElements(sb) > 0 {
+        if count(sb) > 0 {
             sb += ","
         }
         sb += json != nil ? "\(json!)" : "null"
@@ -549,7 +549,7 @@ extension Character : StringSerializable
     }
     
     public static func fromString(string: String) -> Character? {
-        return string.count > 0 ? string[0] : nil
+        return string.length > 0 ? string[0] : nil
     }
     
     public static func fromObject(any:AnyObject) -> Character?
@@ -575,7 +575,7 @@ extension NSDate : StringSerializable
     
     public class func fromString(string: String) -> NSDate? {
         var str = string.hasPrefix("\\")
-            ? string[1..<string.count]
+            ? string[1..<string.length]
             : string
         let wcfJsonPrefix = "/Date("
         if str.hasPrefix(wcfJsonPrefix) {
@@ -627,32 +627,42 @@ extension Double : StringSerializable
 
 extension NSTimeInterval
 {
-    public func toTimeIntervalString() -> String {
+    public func toXsdDuration() -> String {
         var sb = "P"
         
-        let d = NSDate(timeIntervalSinceNow: self)
-        let now = NSDate()
-        let diff = NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitDay,fromDate:now,toDate:d,options:NSCalendarOptions(0))
-
-        if diff.day > 0 {
-            sb += "\(diff.day)D"
+        let d = self
+        var totalSeconds = Int(d)
+        let remainingMs = Int((d - Double(totalSeconds)) * 1000)
+        let sec = (totalSeconds >= 60 ? totalSeconds % 60 : totalSeconds)
+        totalSeconds = (totalSeconds / 60)
+        let min = totalSeconds >= 60 ? totalSeconds % 60 : totalSeconds
+        totalSeconds = (totalSeconds / 60)
+        let hours = totalSeconds >= 24 ? totalSeconds % 24 : totalSeconds
+        totalSeconds = (totalSeconds / 24)
+        let days = totalSeconds >= 30 ? totalSeconds % 30 : totalSeconds
+        
+        if (days > 0) {
+            sb += "\(days)D"
         }
         
-        let c = d.components()
-        if c.hour > 0 {
-            sb += "\(c.hour)H"
-        }
-        if c.minute > 0 {
-            sb += "\(c.minute)M"
-        }
+        if (hours + min + sec + remainingMs > 0) {
+            sb += "T"
 
-        var dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "SSS"
-        let strMs = dateFormatter.stringFromDate(d)
-
-        sb += strMs != "000"
-            ? "\(c.second).\(strMs)S"
-            : c.second > 0 ? "\(c.second)S" : ""
+            if (hours > 0) {
+                sb += "\(hours)H";
+            }
+            if (min > 0) {
+                sb += "\(min)M";
+            }
+            
+            if (remainingMs > 0) {
+                let padMs = String(format:"%03d", remainingMs)
+                sb += "\(sec).\(padMs)S"
+            }
+            else if (sec > 0) {
+                sb += "\(sec)S"
+            }
+        }
         
         return sb
     }
@@ -668,7 +678,7 @@ extension NSTimeInterval
         var seconds = 0
         var ms = 0.0
   
-        let t = string[1..<string.count].splitOnFirst("T") //strip P
+        let t = string[1..<string.length].splitOnFirst("T") //strip P
         
         let hasTime = t.count == 2
         
@@ -1038,25 +1048,25 @@ public class List<T>
 
 public protocol HasReflect {
     typealias T : HasReflect
-    class func reflect() -> Type<T>
+    static func reflect() -> Type<T>
     init()
 }
 
 public protocol Convertible {
     typealias T
-    class var typeName:String { get }
-    class func fromObject(any:AnyObject) -> T?
+    static var typeName:String { get }
+    static func fromObject(any:AnyObject) -> T?
 }
 
 public protocol JsonSerializable : HasReflect, StringSerializable {
     func toJson() -> String
-    class func fromJson(json:String) -> T?
+    static func fromJson(json:String) -> T?
 }
 			
 public protocol StringSerializable : Convertible {
     func toJson() -> String
     func toString() -> String
-    class func fromString(string:String) -> T?
+    static func fromString(string:String) -> T?
 }
 
 
@@ -1119,6 +1129,9 @@ public class Type<T : HasReflect> : TypeAccessor
     }
     
     func fromJson<T>(instance:T, json:String, error:NSErrorPointer) -> T? {
+        if instance is NSString || instance is String {
+            return json as? T
+        }
         if let map = parseJson(json,error) as? NSDictionary {
             return populate(instance, map, propertiesMap)
         }
@@ -1264,7 +1277,7 @@ public class JProperty<T : HasReflect, P : StringSerializable> : PropertyType
 public class JOptionalProperty<T : HasReflect, P : StringSerializable> : PropertyType
 {
     public var get:(T) -> P?
-    public var set:(T,P) -> Void
+    public var set:(T,P?) -> Void
     
     init(name:String, get:(T) -> P?, set:(T,P?) -> Void)
     {
@@ -1335,7 +1348,7 @@ public class JObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyTyp
 public class JOptionalObjectProperty<T : HasReflect, P : JsonSerializable where P : HasReflect> : PropertyType
 {
     public var get:(T) -> P?
-    public var set:(T,P) -> Void
+    public var set:(T,P?) -> Void
     
     init(name:String, get:(T) -> P?, set:(T,P?) -> Void)
     {
@@ -1499,12 +1512,12 @@ public class JDictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashab
                     for item in array {
                         if let map = item as? NSDictionary {
                             for (subK, subV) in map {
-                                values[K.fromObject(subK)! as K] = P.fromObject(subV) as? P
+                                values[K.fromObject(subK)! as! K] = P.fromObject(subV) as? P
                             }
                         }
                     }
                 }
-                to[K.fromObject(k) as K] = values
+                to[K.fromObject(k) as! K] = values
             }
             set(instance,to)
         }
@@ -1537,7 +1550,7 @@ public class JArrayProperty<T : HasReflect, P : StringSerializable> : PropertyTy
         var sb = ""
         
         for item in propValues {
-            if sb.count > 0 {
+            if sb.length > 0 {
                 sb += ","
             }
             var str:String = "null"
@@ -1589,7 +1602,7 @@ public class JOptionalArrayProperty<T : HasReflect, P : StringSerializable> : Pr
         var sb = ""
         if let propValues = get(instance) {
             for item in propValues {
-                if sb.count > 0 {
+                if sb.length > 0 {
                     sb += ","
                 }
                 var str:String = "null"
@@ -1646,7 +1659,7 @@ public class JArrayObjectProperty<T : HasReflect, P : JsonSerializable> : Proper
         var sb = ""
         
         for item in propValues {
-            if sb.count > 0 {
+            if sb.length > 0 {
                 sb += ","
             }
             var str:String = "null"
@@ -1701,7 +1714,7 @@ public class JOptionalArrayObjectProperty<T : HasReflect, P : JsonSerializable> 
         
         if let propValues = get(instance) {
             for item in propValues {
-                if sb.count > 0 {
+                if sb.length > 0 {
                     sb += ","
                 }
                 var str:String = "null"
@@ -1774,7 +1787,7 @@ func jsonString(str:String?) -> String {
             var error:NSError?
             if let encodedData = NSJSONSerialization.dataWithJSONObject([s], options:NSJSONWritingOptions.allZeros, error:&error) {
                 if let encodedJson = encodedData.toUtf8String() {
-                    return encodedJson[1..<encodedJson.count-1] //strip []
+                    return encodedJson[1..<encodedJson.length-1] //strip []
                 }
             }
         }        
@@ -1789,7 +1802,7 @@ func jsonString(str:String?) -> String {
 
 public extension String
 {
-    public var count: Int { return countElements(self) }
+    public var length: Int { return count(self) }
     
     public func contains(s:String) -> Bool {
         return (self as NSString).containsString(s)
@@ -1816,7 +1829,7 @@ public extension String
     }
     
     public func combinePath(path:String) -> String {
-        return (self.hasSuffix("/") ? self : self + "/") + (path.hasPrefix("/") ? path[1..<path.count] : path)
+        return (self.hasSuffix("/") ? self : self + "/") + (path.hasPrefix("/") ? path[1..<path.length] : path)
     }
     
     public func splitOnFirst(separator:String) -> [String] {
@@ -1880,7 +1893,7 @@ extension Array
     func print() -> String {
         var sb = ""
         for item in self {
-            if sb.count > 0 {
+            if sb.length > 0 {
                 sb += ","
             }
             sb += "\(item)"
@@ -1936,14 +1949,14 @@ public extension NSDate {
         c.month = month
         c.day = day
         
-        let gregorian = NSCalendar(identifier:NSGregorianCalendar)
+        let gregorian = NSCalendar(identifier:NSCalendarIdentifierGregorian)
         let d = gregorian?.dateFromComponents(c)
         self.init(timeInterval:0, sinceDate:d!)
     }
     
     public func components() -> NSDateComponents {
         let components  = NSCalendar.currentCalendar().components(
-            NSCalendarUnit.DayCalendarUnit | NSCalendarUnit.MonthCalendarUnit | NSCalendarUnit.YearCalendarUnit,
+            NSCalendarUnit.CalendarUnitDay | NSCalendarUnit.CalendarUnitMonth | NSCalendarUnit.CalendarUnitYear,
             fromDate: self)
         
         return components
@@ -1988,12 +2001,12 @@ public extension NSDate {
         var dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.timeZone = isUtc ? NSTimeZone(abbreviation: "UTC") : NSTimeZone.localTimeZone()
-        dateFormatter.dateFormat = string.count == 19
+        dateFormatter.dateFormat = string.length == 19
             ? "yyyy-MM-dd'T'HH:mm:ss"
             : "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS"
         
         return isUtc
-            ? dateFormatter.dateFromString(string[0..<string.count-1])
+            ? dateFormatter.dateFromString(string[0..<string.length-1])
             : dateFormatter.dateFromString(string)
     }
 }
@@ -2015,65 +2028,23 @@ public func <=(lhs: NSDate, rhs: NSDate) -> Bool {
 public func ==(lhs: NSDate, rhs: NSDate) -> Bool {
     return lhs.compare(rhs) == NSComparisonResult.OrderedSame
 }
-/*
-Copyright 2014 Max Howell <mxcl@me.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
 
 
-let Q = NSOperationQueue()
 
-private var asskey = "PMKSfjadfl"
-private let policy = UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC) as objc_AssociationPolicy
-
-func PMKRetain(obj: AnyObject) {
-    objc_setAssociatedObject(obj, &asskey, obj, policy)
-}
-
-func PMKRelease(obj: AnyObject) {
-    objc_setAssociatedObject(obj, &asskey, nil, policy)
-}
-
-func noop() {}
-
-public let PMKErrorDomain = "PMKErrorDomain"
-public let PMKURLErrorFailingDataKey = "PMKURLErrorFailingDataKey"
-public let PMKURLErrorFailingStringKey = "PMKURLErrorFailingStringKey"
-public let PMKURLErrorFailingURLResponseKey = "PMKURLErrorFailingURLResponseKey"
-public let PMKJSONErrorJSONObjectKey = "PMKJSONErrorJSONObjectKey"
-public let PMKJSONError = 1
-
-public let NoSuchRecord = 2
-
-private enum State<T> {
+private enum State {
     case Pending(Handlers)
-    case Fulfilled(@autoclosure () -> T) //TODO use plain T, once Swift compiler matures
+    case Fulfilled(Any)
     case Rejected(Error)
 }
 
+
+
 public class Promise<T> {
     private let barrier = dispatch_queue_create("org.promisekit.barrier", DISPATCH_QUEUE_CONCURRENT)
-    private var _state: State<T>
+    private var _state: State
     
-    private var state: State<T> {
-        var result: State<T>?
+    private var state: State {
+        var result: State?
         dispatch_sync(barrier) { result = self._state }
         return result!
     }
@@ -2104,7 +2075,7 @@ public class Promise<T> {
     public var value: T? {
         switch state {
         case .Fulfilled(let value):
-            return value()
+            return (value as! T)
         default:
             return nil
         }
@@ -2123,31 +2094,33 @@ public class Promise<T> {
         }
     }
     
-    public init(_ body:(fulfill:(T) -> Void, reject:(NSError) -> Void) -> Void) {
+    public init(_ body:(fulfill: (T) -> Void, reject: (NSError) -> Void) -> Void) {
         _state = .Pending(Handlers())
         
-        let resolver = { (newstate: State<T>) -> Void in
+        let resolver = { (newstate: State) -> Void in
             var handlers = Array<()->()>()
             dispatch_barrier_sync(self.barrier) {
                 switch self._state {
                 case .Pending(let Ω):
                     self._state = newstate
                     handlers = Ω.bodies
-                    Ω.bodies.removeAll(keepCapacity: false)
                 default:
-                    noop()
+                    break
                 }
             }
             for handler in handlers { handler() }
         }
         
-        body({ resolver(.Fulfilled($0)) }, { error in
-            if let pmkerror = error as? Error {
-                pmkerror.consumed = false
-                resolver(.Rejected(pmkerror))
-            } else {
-                resolver(.Rejected(Error(domain: error.domain, code: error.code, userInfo: error.userInfo)))
-            }
+        body(fulfill: { value->() in
+            resolver(.Fulfilled(value))
+            return
+            }, reject: { error in
+                if let pmkerror = error as? Error {
+                    pmkerror.consumed = false
+                    resolver(.Rejected(pmkerror))
+                } else {
+                    resolver(.Rejected(Error(domain: error.domain, code: error.code, userInfo: error.userInfo)))
+                }
         })
     }
     
@@ -2173,7 +2146,7 @@ public class Promise<T> {
                 case .Rejected(let error):
                     reject(error)
                 case .Fulfilled(let value):
-                    dispatch_async(q) { fulfill(body(value())) }
+                    dispatch_async(q) { fulfill(body(value as! T)) }
                 case .Pending:
                     abort()
                 }
@@ -2197,12 +2170,12 @@ public class Promise<T> {
                     reject(error)
                 case .Fulfilled(let value):
                     dispatch_async(q) {
-                        let promise = body(value())
+                        let promise = body(value as! T)
                         switch promise.state {
                         case .Rejected(let error):
                             reject(error)
                         case .Fulfilled(let value):
-                            fulfill(value())
+                            fulfill(value as! U)
                         case .Pending(let handlers):
                             dispatch_barrier_sync(promise.barrier) {
                                 handlers.append {
@@ -2210,7 +2183,7 @@ public class Promise<T> {
                                     case .Rejected(let error):
                                         reject(error)
                                     case .Fulfilled(let value):
-                                        fulfill(value())
+                                        fulfill(value as! U)
                                     case .Pending:
                                         abort()
                                     }
@@ -2235,6 +2208,14 @@ public class Promise<T> {
         }
     }
     
+    public func thenInBackground<U>(body:(T) -> U) -> Promise<U> {
+        return then(onQueue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), body: body)
+    }
+    
+    public func thenInBackground<U>(body:(T) -> Promise<U>) -> Promise<U> {
+        return then(onQueue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), body: body)
+    }
+    
     public func catch(onQueue q:dispatch_queue_t = dispatch_get_main_queue(), body:(NSError) -> T) -> Promise<T> {
         return Promise<T>{ (fulfill, _) in
             let handler = { ()->() in
@@ -2245,7 +2226,7 @@ public class Promise<T> {
                         fulfill(body(error))
                     }
                 case .Fulfilled(let value):
-                    fulfill(value())
+                    fulfill(value as! T)
                 case .Pending:
                     abort()
                 }
@@ -2270,7 +2251,7 @@ public class Promise<T> {
                     body(error)
                 }
             case .Fulfilled:
-                noop()
+                break
             case .Pending:
                 abort()
             }
@@ -2291,14 +2272,14 @@ public class Promise<T> {
             let handler = { ()->() in
                 switch self.state {
                 case .Fulfilled(let value):
-                    fulfill(value())
+                    fulfill(value as! T)
                 case .Rejected(let error):
                     dispatch_async(q) {
                         error.consumed = true
                         let promise = body(error)
                         switch promise.state {
                         case .Fulfilled(let value):
-                            fulfill(value())
+                            fulfill(value as! T)
                         case .Rejected(let error):
                             dispatch_async(q) { reject(error) }
                         case .Pending(let handlers):
@@ -2308,7 +2289,7 @@ public class Promise<T> {
                                     case .Rejected(let error):
                                         reject(error)
                                     case .Fulfilled(let value):
-                                        fulfill(value())
+                                        fulfill(value as! T)
                                     case .Pending:
                                         abort()
                                     }
@@ -2342,7 +2323,7 @@ public class Promise<T> {
                 case .Fulfilled(let value):
                     dispatch_async(q) {
                         body()
-                        fulfill(value())
+                        fulfill(value as! T)
                     }
                 case .Rejected(let error):
                     dispatch_async(q) {
@@ -2365,19 +2346,42 @@ public class Promise<T> {
     }
     
     /**
-    Immediate resolution of body if the promise is fulfilled.
+    If the promise is fulfilled, body is called immediately, if the promise
+    is pending, body is called as soon as the promise is resolved on the
+    queue that it was resolved upon.
+    
+    Usually handlers are called inside a `dispatch_async` even if the promise
+    is already resolved.
     
     Please note, there are good reasons that `then` does not call `body`
-    immediately if the promise is already fulfilled. If you don’t understand
-    the implications of unleashing zalgo, you should not under any
-    cirumstances use this function!
+    immediately. If you don’t understand the implications of unleashing
+    zalgo, you should not under any cirumstances use this function!
+    
+    At the very least be aware your handler probably won’t be called the main
+    thread if the promise is pending.
     */
-    public func thenUnleashZalgo(body:(T)->Void) -> Void {
-        if let obj = value {
-            body(obj)
-        } else {
-            then(body)
+    public func thenUnleashZalgo<U>(body: (T) -> U) -> Promise<U> {
+        let (promise, fulfill, reject) = Promise<U>.defer()
+        
+        switch state {
+        case .Fulfilled(let value):
+            fulfill(body(value as! T))
+        case .Rejected(let error):
+            reject(error)
+        case .Pending(let handlers):
+            handlers.append({
+                switch self.state {
+                case .Fulfilled(let value):
+                    fulfill(body(value as! T))
+                case .Rejected(let error):
+                    reject(error)
+                case .Pending:
+                    abort()
+                }
+            })
         }
+        
+        return promise
     }
     
     public func voidify() -> Promise<Void> {
@@ -2409,9 +2413,11 @@ public class Promise<T> {
     }
 }
 
+
 public var PMKUnhandledErrorHandler = { (error: NSError) in
     NSLog("%@", "PromiseKit: Unhandled error: \(error)")
 }
+
 
 private class Error : NSError {
     var consumed: Bool = false  //TODO strictly, should be atomic
@@ -2422,6 +2428,8 @@ private class Error : NSError {
         }
     }
 }
+
+
 
 /**
 When accessing handlers from the State enum, the array
@@ -2444,9 +2452,11 @@ private class Handlers: SequenceType {
     }
 }
 
+
+
 extension Promise: DebugPrintable {
     public var debugDescription: String {
-        var state: State<T>?
+        var state: State?
         dispatch_sync(barrier) {
             state = self._state
         }
@@ -2459,12 +2469,14 @@ extension Promise: DebugPrintable {
             }
             return "Promise: Pending with \(count!) handlers"
         case .Fulfilled(let value):
-            return "Promise: Fulfilled with value: \(value())"
+            return "Promise: Fulfilled with value: \(value)"
         case .Rejected(let error):
             return "Promise: Rejected with error: \(error)"
         }
     }
 }
+
+
 
 func dispatch_promise<T>(/*to q:dispatch_queue_t = dispatch_get_global_queue(0, 0),*/ body:() -> AnyObject) -> Promise<T> {
     let q = dispatch_get_global_queue(0, 0)
@@ -2472,9 +2484,9 @@ func dispatch_promise<T>(/*to q:dispatch_queue_t = dispatch_get_global_queue(0, 
         dispatch_async(q) {
             let obj: AnyObject = body()
             if obj is NSError {
-                reject(obj as NSError)
+                reject(obj as! NSError)
             } else {
-                fulfill(obj as T)
+                fulfill(obj as! T)
             }
         }
     }
