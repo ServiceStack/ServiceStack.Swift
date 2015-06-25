@@ -51,38 +51,42 @@ NSString *const updateRefMenuName = @"Update ServiceStack Reference";
         // Create menu items, initialize UI, etc.
 
         // Sample Menu Item:
-        NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"File"];
-        if (menuItem) {
-            NSMenuItem *addRefMenuItem = [[NSMenuItem alloc] initWithTitle:addRefMenuName action:@selector(addReference) keyEquivalent:@""];
-            NSMenuItem *updateRefMenuItem = [[NSMenuItem alloc] initWithTitle:updateRefMenuName action:@selector(updateReference) keyEquivalent:@""];
-            updateRefMenuItem.enabled = false;
-            [addRefMenuItem setTarget:self];
-            [updateRefMenuItem setTarget:self];
-            updateRefMenuItem.enabled = false;
-            SEL originalSelector = @selector(validateMenuItem:);
-            SEL swizzledSelector = @selector(validateUpdateRefMenuItem:);
-
-            Class class = [self class];
-
-            Method originalMethod = class_getInstanceMethod(class, originalSelector);
-            Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
-
-            BOOL didAddMethod =
-                    class_addMethod(class,
-                            originalSelector,
-                            method_getImplementation(swizzledMethod),
-                            method_getTypeEncoding(swizzledMethod));
-            if (didAddMethod) {
-                class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
-            } else {
-                method_exchangeImplementations(originalMethod, swizzledMethod);
-            }
-            [[menuItem submenu] insertItem:addRefMenuItem atIndex:3];
-            [[menuItem submenu] insertItem:updateRefMenuItem atIndex:4];
-        }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self setupMenu:[[NSApp mainMenu] itemWithTitle:@"File"]];
+        }];
     }
     return self;
 }
+
+-(void)setupMenu: (NSMenuItem*)menuItem {
+    if (menuItem) {
+        NSMenuItem *addRefMenuItem = [[NSMenuItem alloc] initWithTitle:addRefMenuName action:@selector(addReference) keyEquivalent:@""];
+        NSMenuItem *updateRefMenuItem = [[NSMenuItem alloc] initWithTitle:updateRefMenuName action:@selector(updateReference) keyEquivalent:@""];
+        updateRefMenuItem.enabled = false;
+        [addRefMenuItem setTarget:self];
+        [updateRefMenuItem setTarget:self];
+        updateRefMenuItem.enabled = false;
+        SEL originalSelector = @selector(validateMenuItem:);
+        SEL swizzledSelector = @selector(validateUpdateRefMenuItem:);
+
+        Class class = [self class];
+
+        Method originalMethod = class_getInstanceMethod(class, originalSelector);
+        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+
+        BOOL didAddMethod =
+                class_addMethod(class,
+                        originalSelector,
+                        method_getImplementation(swizzledMethod),
+                        method_getTypeEncoding(swizzledMethod));
+        if (didAddMethod) {
+            class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+        } else {
+            method_exchangeImplementations(originalMethod, swizzledMethod);
+        }
+        [[menuItem submenu] insertItem:addRefMenuItem atIndex:3];
+        [[menuItem submenu] insertItem:updateRefMenuItem atIndex:4];
+    }}
 
 - (void)addReference {
     self.controllerWindow = [[AddReference alloc] initWithWindowNibName:@"AddReference"];

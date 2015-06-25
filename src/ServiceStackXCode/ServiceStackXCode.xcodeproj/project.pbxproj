@@ -26,19 +26,8 @@
 		EDFB53501A7A32BC003C0063 /* XcodeProjectManipulation.m in Sources */ = {isa = PBXBuildFile; fileRef = EDFB534F1A7A32BC003C0063 /* XcodeProjectManipulation.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		60BCF5F4BEC1861F3E419A2D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 60BCF0395C3CFE42F7563688 /* xcproj.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DD76FA10486AA7600D96B5E;
-			remoteInfo = xcproj;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		60BCF026CA9C43FBCC24BF61 /* logo-400.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "logo-400.icns"; sourceTree = "<group>"; };
-		60BCF0395C3CFE42F7563688 /* xcproj.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = xcproj.xcodeproj; path = xcproj/xcproj.xcodeproj; sourceTree = "<group>"; };
 		60BCF2AA8B3A45BB088CE303 /* GetDtoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetDtoDelegate.m; sourceTree = "<group>"; };
 		60BCF59EC10448161386F201 /* GetDtoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetDtoDelegate.h; sourceTree = "<group>"; };
 		60BCF7975305CC3E64BDC994 /* pkg.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = pkg.json; sourceTree = "<group>"; };
@@ -94,14 +83,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		60BCFB2AFA4A5E67F0197480 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				60BCFF4E50DCFC5A4AEB3139 /* xcproj */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		ED96D1431A79A5D300B23CF7 = {
 			isa = PBXGroup;
 			children = (
@@ -110,7 +91,6 @@
 				ED96D14E1A79A5D300B23CF7 /* Frameworks */,
 				ED96D14D1A79A5D300B23CF7 /* Products */,
 				4A7750654652C48B93ADA423 /* Pods */,
-				60BCF0395C3CFE42F7563688 /* xcproj.xcodeproj */,
 				60BCF7975305CC3E64BDC994 /* pkg.json */,
 				60BCF026CA9C43FBCC24BF61 /* logo-400.icns */,
 			);
@@ -217,28 +197,12 @@
 			mainGroup = ED96D1431A79A5D300B23CF7;
 			productRefGroup = ED96D14D1A79A5D300B23CF7 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 60BCFB2AFA4A5E67F0197480 /* Products */;
-					ProjectRef = 60BCF0395C3CFE42F7563688 /* xcproj.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				ED96D14B1A79A5D300B23CF7 /* ServiceStackXCode */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		60BCFF4E50DCFC5A4AEB3139 /* xcproj */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = xcproj;
-			remoteRef = 60BCF5F4BEC1861F3E419A2D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		ED96D1491A79A5D300B23CF7 /* Resources */ = {
