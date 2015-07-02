@@ -1,3 +1,4 @@
+#if true
 //
 //  JsonTests.swift
 //  ServiceStackClient
@@ -28,3 +29,5 @@ class JsonTests: XCTestCase {
     }
 
 }
+    
+#endif

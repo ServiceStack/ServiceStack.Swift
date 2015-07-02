@@ -1,3 +1,4 @@
+#if true
 //
 //  ParentChildTests.swift
 //  SerializationUtils
@@ -5,8 +6,6 @@
 //  Created by Demis Bellot on 1/21/15.
 //  Copyright (c) 2015 ServiceStack LLC. All rights reserved.
 //
-
-#if true
 
 import UIKit
 import XCTest

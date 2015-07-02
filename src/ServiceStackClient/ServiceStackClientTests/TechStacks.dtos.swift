@@ -1,13 +1,13 @@
 /* Options:
-Date: 2015-04-13 15:59:54
+Date: 2015-07-02 18:43:21
 Version: 1
 BaseUrl: http://techstacks.io
 
-BaseClass: NSObject
+//BaseClass:
 //AddModelExtensions: True
 //AddServiceStackTypes: True
 //IncludeTypes:
-//ExcludeTypes:
+ExcludeTypes: QueryResponse,FindTechnologies,FindTechStacks,QueryPosts
 //AddResponseStatus: False
 //AddImplicitVersion:
 //InitializeCollections: True
@@ -35,18 +35,18 @@ public enum TechnologyTier : Int
 }
 
 // @DataContract
-public class ResponseStatus : NSObject
+public class ResponseStatus
 {
-    required public override init(){}
+    required public init(){}
     // @DataMember(Order=1)
     public var errorCode:String?
-    
+
     // @DataMember(Order=2)
     public var message:String?
-    
+
     // @DataMember(Order=3)
     public var stackTrace:String?
-    
+
     // @DataMember(Order=4)
     public var errors:[ResponseError] = []
 }
@@ -84,9 +84,9 @@ public class TechnologyStackHistory : TechnologyStackBase
 }
 
 // @DataContract
-public class Option : NSObject
+public class Option
 {
-    required public override init(){}
+    required public init(){}
     // @DataMember(Name="name")
     public var name:String?
 
@@ -97,17 +97,17 @@ public class Option : NSObject
     public var value:TechnologyTier?
 }
 
-public class UserInfo : NSObject
+public class UserInfo
 {
-    required public override init(){}
+    required public init(){}
     public var userName:String?
     public var avatarUrl:String?
     public var stacksCount:Int?
 }
 
-public class TechnologyInfo : NSObject
+public class TechnologyInfo
 {
-    required public override init(){}
+    required public init(){}
     public var tier:TechnologyTier?
     public var slug:String?
     public var name:String?
@@ -115,9 +115,9 @@ public class TechnologyInfo : NSObject
     public var stacksCount:Int?
 }
 
-public class Post : NSObject
+public class Post
 {
-    required public override init(){}
+    required public init(){}
     public var id:Int?
     public var userId:String?
     public var userName:String?
@@ -127,9 +127,9 @@ public class Post : NSObject
     public var comments:[PostComment] = []
 }
 
-public class TechnologyBase : NSObject
+public class TechnologyBase
 {
-    required public override init(){}
+    required public init(){}
     public var id:Int64?
     public var name:String?
     public var vendorName:String?
@@ -150,9 +150,9 @@ public class TechnologyBase : NSObject
 }
 
 // @DataContract
-public class ResponseError : NSObject
+public class ResponseError
 {
-    required public override init(){}
+    required public init(){}
     // @DataMember(Order=1, EmitDefaultValue=false)
     public var errorCode:String?
 
@@ -163,9 +163,9 @@ public class ResponseError : NSObject
     public var message:String?
 }
 
-public class TechnologyStackBase : NSObject
+public class TechnologyStackBase
 {
-    required public override init(){}
+    required public init(){}
     public var id:Int64?
     public var name:String?
     public var vendorName:String?
@@ -183,9 +183,9 @@ public class TechnologyStackBase : NSObject
     public var lastStatusUpdate:NSDate?
 }
 
-public class QueryBase : NSObject
+public class QueryBase
 {
-    required public override init(){}
+    required public init(){}
     // @DataMember(Order=1)
     public var skip:Int?
 
@@ -207,9 +207,9 @@ public class TechnologyInStack : TechnologyBase
     public var justification:String?
 }
 
-public class PostComment : NSObject
+public class PostComment
 {
-    required public override init(){}
+    required public init(){}
     public var id:Int?
     public var postId:Int?
     public var userId:String?
@@ -219,143 +219,123 @@ public class PostComment : NSObject
     public var textHtml:String?
 }
 
-public class LogoUrlApprovalResponse : NSObject
+public class LogoUrlApprovalResponse
 {
-    required public override init(){}
+    required public init(){}
     public var result:Technology?
 }
 
-public class LockStackResponse : NSObject
+public class LockStackResponse
 {
-    required public override init(){}
+    required public init(){}
 }
 
-public class CreateTechnologyResponse : NSObject
+public class CreateTechnologyResponse
 {
-    required public override init(){}
-    public var result:Technology?
-    public var responseStatus:ResponseStatus?
-}
-
-public class UpdateTechnologyResponse : NSObject
-{
-    required public override init(){}
+    required public init(){}
     public var result:Technology?
     public var responseStatus:ResponseStatus?
 }
 
-public class DeleteTechnologyResponse : NSObject
+public class UpdateTechnologyResponse
 {
-    required public override init(){}
+    required public init(){}
     public var result:Technology?
     public var responseStatus:ResponseStatus?
 }
 
-public class GetTechnologyResponse : NSObject
+public class DeleteTechnologyResponse
 {
-    required public override init(){}
+    required public init(){}
+    public var result:Technology?
+    public var responseStatus:ResponseStatus?
+}
+
+public class GetTechnologyResponse
+{
+    required public init(){}
     public var created:NSDate?
     public var technology:Technology?
     public var technologyStacks:[TechnologyStack] = []
     public var responseStatus:ResponseStatus?
 }
 
-public class GetTechnologyPreviousVersionsResponse : NSObject
+public class GetTechnologyPreviousVersionsResponse
 {
-    required public override init(){}
+    required public init(){}
     public var results:[TechnologyHistory] = []
 }
 
-public class GetTechnologyFavoriteDetailsResponse : NSObject
+public class GetTechnologyFavoriteDetailsResponse
 {
-    required public override init(){}
+    required public init(){}
     public var users:[String] = []
     public var favoriteCount:Int?
 }
 
-public class GetAllTechnologiesResponse : NSObject
+public class GetAllTechnologiesResponse
 {
-    required public override init(){}
+    required public init(){}
     public var results:[Technology] = []
 }
 
-// @DataContract
-public class QueryResponse<T : JsonSerializable> : NSObject
+public class CreateTechnologyStackResponse
 {
-    required public override init(){}
-    // @DataMember(Order=1)
-    public var offset:Int?
-
-    // @DataMember(Order=2)
-    public var total:Int?
-
-    // @DataMember(Order=3)
-    public var results:[T] = []
-
-    // @DataMember(Order=4)
-    public var meta:[String:String] = [:]
-
-    // @DataMember(Order=5)
-    public var responseStatus:ResponseStatus?
-}
-
-public class CreateTechnologyStackResponse : NSObject
-{
-    required public override init(){}
+    required public init(){}
     public var result:TechStackDetails?
     public var responseStatus:ResponseStatus?
 }
 
-public class UpdateTechnologyStackResponse : NSObject
+public class UpdateTechnologyStackResponse
 {
-    required public override init(){}
+    required public init(){}
     public var result:TechStackDetails?
     public var responseStatus:ResponseStatus?
 }
 
-public class DeleteTechnologyStackResponse : NSObject
+public class DeleteTechnologyStackResponse
 {
-    required public override init(){}
+    required public init(){}
     public var result:TechStackDetails?
     public var responseStatus:ResponseStatus?
 }
 
-public class GetAllTechnologyStacksResponse : NSObject
+public class GetAllTechnologyStacksResponse
 {
-    required public override init(){}
+    required public init(){}
     public var results:[TechnologyStack] = []
 }
 
-public class GetTechnologyStackResponse : NSObject
+public class GetTechnologyStackResponse
 {
-    required public override init(){}
+    required public init(){}
     public var created:NSDate?
     public var result:TechStackDetails?
     public var responseStatus:ResponseStatus?
 }
 
-public class GetTechnologyStackPreviousVersionsResponse : NSObject
+public class GetTechnologyStackPreviousVersionsResponse
 {
-    required public override init(){}
+    required public init(){}
     public var results:[TechnologyStackHistory] = []
 }
 
-public class GetTechnologyStackFavoriteDetailsResponse : NSObject
+public class GetTechnologyStackFavoriteDetailsResponse
 {
-    required public override init(){}
+    required public init(){}
     public var users:[String] = []
     public var favoriteCount:Int?
 }
 
-public class GetConfigResponse : NSObject
+public class GetConfigResponse
 {
-    required public override init(){}
+    required public init(){}
     public var allTiers:[Option] = []
 }
 
-public class OverviewResponse : NSObject
+public class OverviewResponse
 {
-    required public override init(){}
+    required public init(){}
     public var created:NSDate?
     public var topUsers:[UserInfo] = []
     public var topTechnologies:[TechnologyInfo] = []
@@ -364,48 +344,48 @@ public class OverviewResponse : NSObject
     public var responseStatus:ResponseStatus?
 }
 
-public class AppOverviewResponse : NSObject
+public class AppOverviewResponse
 {
-    required public override init(){}
+    required public init(){}
     public var created:NSDate?
     public var allTiers:[Option] = []
     public var topTechnologies:[TechnologyInfo] = []
     public var responseStatus:ResponseStatus?
 }
 
-public class GetFavoriteTechStackResponse : NSObject
+public class GetFavoriteTechStackResponse
 {
-    required public override init(){}
+    required public init(){}
     public var results:[TechnologyStack] = []
 }
 
-public class FavoriteTechStackResponse : NSObject
+public class FavoriteTechStackResponse
 {
-    required public override init(){}
+    required public init(){}
     public var result:TechnologyStack?
 }
 
-public class GetFavoriteTechnologiesResponse : NSObject
+public class GetFavoriteTechnologiesResponse
 {
-    required public override init(){}
+    required public init(){}
     public var results:[Technology] = []
 }
 
-public class FavoriteTechnologyResponse : NSObject
+public class FavoriteTechnologyResponse
 {
-    required public override init(){}
+    required public init(){}
     public var result:Technology?
 }
 
-public class GetUserFeedResponse : NSObject
+public class GetUserFeedResponse
 {
-    required public override init(){}
+    required public init(){}
     public var results:[TechStackDetails] = []
 }
 
-public class GetUserInfoResponse : NSObject
+public class GetUserInfoResponse
 {
-    required public override init(){}
+    required public init(){}
     public var userName:String?
     public var created:NSDate?
     public var avatarUrl:String?
@@ -415,9 +395,9 @@ public class GetUserInfoResponse : NSObject
 }
 
 // @DataContract
-public class AuthenticateResponse : NSObject
+public class AuthenticateResponse
 {
-    required public override init(){}
+    required public init(){}
     // @DataMember(Order=1)
     public var userId:String?
 
@@ -440,103 +420,103 @@ public class AuthenticateResponse : NSObject
     public var meta:[String:String] = [:]
 }
 
-public class AssignRolesResponse : NSObject
+public class AssignRolesResponse
 {
-    required public override init(){}
+    required public init(){}
     public var allRoles:[String] = []
     public var allPermissions:[String] = []
     public var responseStatus:ResponseStatus?
 }
 
-public class UnAssignRolesResponse : NSObject
+public class UnAssignRolesResponse
 {
-    required public override init(){}
+    required public init(){}
     public var allRoles:[String] = []
     public var allPermissions:[String] = []
     public var responseStatus:ResponseStatus?
 }
 
 // @Route("/admin/technology/{TechnologyId}/logo")
-public class LogoUrlApproval : NSObject, IReturn
+public class LogoUrlApproval : IReturn
 {
     typealias Return = LogoUrlApprovalResponse
 
-    required public override init(){}
+    required public init(){}
     public var technologyId:Int64?
     public var approved:Bool?
 }
 
 // @Route("/admin/techstacks/{TechnologyStackId}/lock")
-public class LockTechStack : NSObject, IReturn
+public class LockTechStack : IReturn
 {
     typealias Return = LockStackResponse
 
-    required public override init(){}
+    required public init(){}
     public var technologyStackId:Int64?
     public var isLocked:Bool?
 }
 
 // @Route("/admin/technology/{TechnologyId}/lock")
-public class LockTech : NSObject, IReturn
+public class LockTech : IReturn
 {
     typealias Return = LockStackResponse
 
-    required public override init(){}
+    required public init(){}
     public var technologyId:Int64?
     public var isLocked:Bool?
 }
 
 // @Route("/ping")
-public class Ping : NSObject
+public class Ping
 {
-    required public override init(){}
+    required public init(){}
 }
 
 // @Route("/{PathInfo*}")
-public class FallbackForClientRoutes : NSObject
+public class FallbackForClientRoutes
 {
-    required public override init(){}
+    required public init(){}
     public var pathInfo:String?
 }
 
 // @Route("/stacks")
-public class ClientAllTechnologyStacks : NSObject
+public class ClientAllTechnologyStacks
 {
-    required public override init(){}
+    required public init(){}
 }
 
 // @Route("/tech")
-public class ClientAllTechnologies : NSObject
+public class ClientAllTechnologies
 {
-    required public override init(){}
+    required public init(){}
 }
 
 // @Route("/tech/{Slug}")
-public class ClientTechnology : NSObject
+public class ClientTechnology
 {
-    required public override init(){}
+    required public init(){}
     public var slug:String?
 }
 
 // @Route("/users/{UserName}")
-public class ClientUser : NSObject
+public class ClientUser
 {
-    required public override init(){}
+    required public init(){}
     public var userName:String?
 }
 
 // @Route("/my-session")
-public class SessionInfo : NSObject
+public class SessionInfo
 {
-    required public override init(){}
+    required public init(){}
 }
 
 // @Route("/technology", "POST")
-public class CreateTechnology : NSObject, IReturn
+public class CreateTechnology : IReturn
 {
     typealias Return = CreateTechnologyResponse
 
-    required public override init(){}
+    required public init(){}
     public var name:String?
     public var vendorName:String?
     public var vendorUrl:String?
@@ -548,11 +528,11 @@ public class CreateTechnology : NSObject, IReturn
 }
 
 // @Route("/technology/{Id}", "PUT")
-public class UpdateTechnology : NSObject, IReturn
+public class UpdateTechnology : IReturn
 {
     typealias Return = UpdateTechnologyResponse
 
-    required public override init(){}
+    required public init(){}
     public var id:Int64?
     public var name:String?
     public var vendorName:String?
@@ -565,68 +545,57 @@ public class UpdateTechnology : NSObject, IReturn
 }
 
 // @Route("/technology/{Id}", "DELETE")
-public class DeleteTechnology : NSObject, IReturn
+public class DeleteTechnology : IReturn
 {
     typealias Return = DeleteTechnologyResponse
 
-    required public override init(){}
+    required public init(){}
     public var id:Int64?
 }
 
 // @Route("/technology/{Slug}")
-public class GetTechnology : NSObject, IReturn
+public class GetTechnology : IReturn
 {
     typealias Return = GetTechnologyResponse
 
-    required public override init(){}
+    required public init(){}
     public var reload:Bool?
     public var slug:String?
 }
 
 // @Route("/technology/{Slug}/previous-versions", "GET")
-public class GetTechnologyPreviousVersions : NSObject, IReturn
+public class GetTechnologyPreviousVersions : IReturn
 {
     typealias Return = GetTechnologyPreviousVersionsResponse
 
-    required public override init(){}
+    required public init(){}
     public var slug:String?
 }
 
 // @Route("/technology/{Slug}/favorites")
-public class GetTechnologyFavoriteDetails : NSObject, IReturn
+public class GetTechnologyFavoriteDetails : IReturn
 {
     typealias Return = GetTechnologyFavoriteDetailsResponse
 
-    required public override init(){}
+    required public init(){}
     public var slug:String?
     public var reload:Bool?
 }
 
 // @Route("/technology", "GET")
-public class GetAllTechnologies : NSObject, IReturn
+public class GetAllTechnologies : IReturn
 {
     typealias Return = GetAllTechnologiesResponse
 
-    required public override init(){}
-}
-
-// @Route("/technology/search")
-// @AutoQueryViewer(Title="Find Technologies", Description="Explore different Technologies", IconUrl="/img/app/tech-white-75.png", DefaultSearchField="Tier", DefaultSearchType="=", DefaultSearchText="Data")
-public class FindTechnologies<Technology : JsonSerializable> : QueryBase_1<Technology>, IReturn
-{
-    typealias Return = QueryResponse<Technology>
-
     required public init(){}
-    public var name:String?
-    public var reload:Bool?
 }
 
 // @Route("/techstacks", "POST")
-public class CreateTechnologyStack : NSObject, IReturn
+public class CreateTechnologyStack : IReturn
 {
     typealias Return = CreateTechnologyStackResponse
 
-    required public override init(){}
+    required public init(){}
     public var name:String?
     public var vendorName:String?
     public var appUrl:String?
@@ -638,11 +607,11 @@ public class CreateTechnologyStack : NSObject, IReturn
 }
 
 // @Route("/techstacks/{Id}", "PUT")
-public class UpdateTechnologyStack : NSObject, IReturn
+public class UpdateTechnologyStack : IReturn
 {
     typealias Return = UpdateTechnologyStackResponse
 
-    required public override init(){}
+    required public init(){}
     public var id:Int64?
     public var name:String?
     public var vendorName:String?
@@ -655,155 +624,145 @@ public class UpdateTechnologyStack : NSObject, IReturn
 }
 
 // @Route("/techstacks/{Id}", "DELETE")
-public class DeleteTechnologyStack : NSObject, IReturn
+public class DeleteTechnologyStack : IReturn
 {
     typealias Return = DeleteTechnologyStackResponse
 
-    required public override init(){}
+    required public init(){}
     public var id:Int64?
 }
 
 // @Route("/techstacks", "GET")
-public class GetAllTechnologyStacks : NSObject, IReturn
+public class GetAllTechnologyStacks : IReturn
 {
     typealias Return = GetAllTechnologyStacksResponse
 
-    required public override init(){}
+    required public init(){}
 }
 
 // @Route("/techstacks/{Slug}", "GET")
-public class GetTechnologyStack : NSObject, IReturn
+public class GetTechnologyStack : IReturn
 {
     typealias Return = GetTechnologyStackResponse
 
-    required public override init(){}
+    required public init(){}
     public var reload:Bool?
     public var slug:String?
 }
 
 // @Route("/techstacks/{Slug}/previous-versions", "GET")
-public class GetTechnologyStackPreviousVersions : NSObject, IReturn
+public class GetTechnologyStackPreviousVersions : IReturn
 {
     typealias Return = GetTechnologyStackPreviousVersionsResponse
 
-    required public override init(){}
+    required public init(){}
     public var slug:String?
 }
 
 // @Route("/techstacks/{Slug}/favorites")
-public class GetTechnologyStackFavoriteDetails : NSObject, IReturn
+public class GetTechnologyStackFavoriteDetails : IReturn
 {
     typealias Return = GetTechnologyStackFavoriteDetailsResponse
 
-    required public override init(){}
+    required public init(){}
     public var slug:String?
     public var reload:Bool?
 }
 
 // @Route("/config")
-public class GetConfig : NSObject, IReturn
+public class GetConfig : IReturn
 {
     typealias Return = GetConfigResponse
 
-    required public override init(){}
+    required public init(){}
 }
 
 // @Route("/overview")
-public class Overview : NSObject, IReturn
+public class Overview : IReturn
 {
     typealias Return = OverviewResponse
 
-    required public override init(){}
+    required public init(){}
     public var reload:Bool?
 }
 
 // @Route("/app-overview")
-public class AppOverview : NSObject, IReturn
+public class AppOverview : IReturn
 {
     typealias Return = AppOverviewResponse
-
-    required public override init(){}
-    public var reload:Bool?
-}
-
-// @Route("/techstacks/search")
-// @AutoQueryViewer(Title="Find Technology Stacks", Description="Explore different Technology Stacks", IconUrl="/img/app/stacks-white-75.png", DefaultSearchField="Description", DefaultSearchType="Contains", DefaultSearchText="ServiceStack")
-public class FindTechStacks<TechnologyStack : JsonSerializable> : QueryBase_1<TechnologyStack>, IReturn
-{
-    typealias Return = QueryResponse<TechnologyStack>
 
     required public init(){}
     public var reload:Bool?
 }
 
 // @Route("/favorites/techtacks", "GET")
-public class GetFavoriteTechStack : NSObject, IReturn
+public class GetFavoriteTechStack : IReturn
 {
     typealias Return = GetFavoriteTechStackResponse
 
-    required public override init(){}
+    required public init(){}
     public var technologyStackId:Int?
 }
 
 // @Route("/favorites/techtacks/{TechnologyStackId}", "PUT")
-public class AddFavoriteTechStack : NSObject, IReturn
+public class AddFavoriteTechStack : IReturn
 {
     typealias Return = FavoriteTechStackResponse
 
-    required public override init(){}
+    required public init(){}
     public var technologyStackId:Int?
 }
 
 // @Route("/favorites/techtacks/{TechnologyStackId}", "DELETE")
-public class RemoveFavoriteTechStack : NSObject, IReturn
+public class RemoveFavoriteTechStack : IReturn
 {
     typealias Return = FavoriteTechStackResponse
 
-    required public override init(){}
+    required public init(){}
     public var technologyStackId:Int?
 }
 
 // @Route("/favorites/technology", "GET")
-public class GetFavoriteTechnologies : NSObject, IReturn
+public class GetFavoriteTechnologies : IReturn
 {
     typealias Return = GetFavoriteTechnologiesResponse
 
-    required public override init(){}
+    required public init(){}
     public var technologyId:Int?
 }
 
 // @Route("/favorites/technology/{TechnologyId}", "PUT")
-public class AddFavoriteTechnology : NSObject, IReturn
+public class AddFavoriteTechnology : IReturn
 {
     typealias Return = FavoriteTechnologyResponse
 
-    required public override init(){}
+    required public init(){}
     public var technologyId:Int?
 }
 
 // @Route("/favorites/technology/{TechnologyId}", "DELETE")
-public class RemoveFavoriteTechnology : NSObject, IReturn
+public class RemoveFavoriteTechnology : IReturn
 {
     typealias Return = FavoriteTechnologyResponse
 
-    required public override init(){}
+    required public init(){}
     public var technologyId:Int?
 }
 
 // @Route("/my-feed")
-public class GetUserFeed : NSObject, IReturn
+public class GetUserFeed : IReturn
 {
     typealias Return = GetUserFeedResponse
 
-    required public override init(){}
+    required public init(){}
 }
 
 // @Route("/userinfo/{UserName}")
-public class GetUserInfo : NSObject, IReturn
+public class GetUserInfo : IReturn
 {
     typealias Return = GetUserInfoResponse
 
-    required public override init(){}
+    required public init(){}
     public var reload:Bool?
     public var userName:String?
 }
@@ -813,11 +772,11 @@ public class GetUserInfo : NSObject, IReturn
 // @Route("/authenticate")
 // @Route("/authenticate/{provider}")
 // @DataContract
-public class Authenticate : NSObject, IReturn
+public class Authenticate : IReturn
 {
     typealias Return = AuthenticateResponse
 
-    required public override init(){}
+    required public init(){}
     // @DataMember(Order=1)
     public var provider:String?
 
@@ -865,33 +824,25 @@ public class Authenticate : NSObject, IReturn
 }
 
 // @Route("/assignroles")
-public class AssignRoles : NSObject, IReturn
+public class AssignRoles : IReturn
 {
     typealias Return = AssignRolesResponse
 
-    required public override init(){}
+    required public init(){}
     public var userName:String?
     public var permissions:[String] = []
     public var roles:[String] = []
 }
 
 // @Route("/unassignroles")
-public class UnAssignRoles : NSObject, IReturn
+public class UnAssignRoles : IReturn
 {
     typealias Return = UnAssignRolesResponse
 
-    required public override init(){}
+    required public init(){}
     public var userName:String?
     public var permissions:[String] = []
     public var roles:[String] = []
-}
-
-// @Route("/posts")
-public class QueryPosts<Post : JsonSerializable> : QueryBase_1<Post>, IReturn
-{
-    typealias Return = QueryResponse<Post>
-
-    required public init(){}
 }
 
 
@@ -1637,36 +1588,6 @@ extension GetAllTechnologiesResponse : JsonSerializable
     }
     public static func fromString(string:String) -> GetAllTechnologiesResponse? {
         return GetAllTechnologiesResponse.reflect().fromString(GetAllTechnologiesResponse(), string: string)
-    }
-}
-
-extension QueryResponse : JsonSerializable
-{
-    public static var typeName:String { return "QueryResponse<T>" }
-    public static func reflect() -> Type<QueryResponse<T>> {
-        return TypeConfig.config() ?? TypeConfig.configure(Type<QueryResponse<T>>(
-            properties: [
-                Type<QueryResponse<T>>.optionalProperty("offset", get: { $0.offset }, set: { $0.offset = $1 }),
-                Type<QueryResponse<T>>.optionalProperty("total", get: { $0.total }, set: { $0.total = $1 }),
-                Type<QueryResponse<T>>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
-                Type<QueryResponse<T>>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
-                Type<QueryResponse<T>>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
-            ]))
-    }
-    public func toJson() -> String {
-        return QueryResponse<T>.reflect().toJson(self)
-    }
-    public static func fromJson(json:String) -> QueryResponse<T>? {
-        return QueryResponse<T>.reflect().fromJson(QueryResponse<T>(), json: json)
-    }
-    public static func fromObject(any:AnyObject) -> QueryResponse<T>? {
-        return QueryResponse<T>.reflect().fromObject(QueryResponse<T>(), any:any)
-    }
-    public func toString() -> String {
-        return QueryResponse<T>.reflect().toString(self)
-    }
-    public static func fromString(string:String) -> QueryResponse<T>? {
-        return QueryResponse<T>.reflect().fromString(QueryResponse<T>(), string: string)
     }
 }
 
@@ -2650,37 +2571,6 @@ extension GetAllTechnologies : JsonSerializable
     }
 }
 
-extension FindTechnologies : JsonSerializable
-{
-    public static var typeName:String { return "FindTechnologies" }
-    public static func reflect() -> Type<FindTechnologies> {
-        return TypeConfig.config() ?? TypeConfig.configure(Type<FindTechnologies>(
-            properties: [
-                Type<FindTechnologies>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
-                Type<FindTechnologies>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
-                Type<FindTechnologies>.optionalProperty("skip", get: { $0.skip }, set: { $0.skip = $1 }),
-                Type<FindTechnologies>.optionalProperty("take", get: { $0.take }, set: { $0.take = $1 }),
-                Type<FindTechnologies>.optionalProperty("orderBy", get: { $0.orderBy }, set: { $0.orderBy = $1 }),
-                Type<FindTechnologies>.optionalProperty("orderByDesc", get: { $0.orderByDesc }, set: { $0.orderByDesc = $1 }),
-            ]))
-    }
-    public func toJson() -> String {
-        return FindTechnologies.reflect().toJson(self)
-    }
-    public static func fromJson(json:String) -> FindTechnologies? {
-        return FindTechnologies.reflect().fromJson(FindTechnologies(), json: json)
-    }
-    public static func fromObject(any:AnyObject) -> FindTechnologies? {
-        return FindTechnologies.reflect().fromObject(FindTechnologies(), any:any)
-    }
-    public func toString() -> String {
-        return FindTechnologies.reflect().toString(self)
-    }
-    public static func fromString(string:String) -> FindTechnologies? {
-        return FindTechnologies.reflect().fromString(FindTechnologies(), string: string)
-    }
-}
-
 extension CreateTechnologyStack : JsonSerializable
 {
     public static var typeName:String { return "CreateTechnologyStack" }
@@ -2953,36 +2843,6 @@ extension AppOverview : JsonSerializable
     }
     public static func fromString(string:String) -> AppOverview? {
         return AppOverview.reflect().fromString(AppOverview(), string: string)
-    }
-}
-
-extension FindTechStacks : JsonSerializable
-{
-    public static var typeName:String { return "FindTechStacks" }
-    public static func reflect() -> Type<FindTechStacks> {
-        return TypeConfig.config() ?? TypeConfig.configure(Type<FindTechStacks>(
-            properties: [
-                Type<FindTechStacks>.optionalProperty("reload", get: { $0.reload }, set: { $0.reload = $1 }),
-                Type<FindTechStacks>.optionalProperty("skip", get: { $0.skip }, set: { $0.skip = $1 }),
-                Type<FindTechStacks>.optionalProperty("take", get: { $0.take }, set: { $0.take = $1 }),
-                Type<FindTechStacks>.optionalProperty("orderBy", get: { $0.orderBy }, set: { $0.orderBy = $1 }),
-                Type<FindTechStacks>.optionalProperty("orderByDesc", get: { $0.orderByDesc }, set: { $0.orderByDesc = $1 }),
-            ]))
-    }
-    public func toJson() -> String {
-        return FindTechStacks.reflect().toJson(self)
-    }
-    public static func fromJson(json:String) -> FindTechStacks? {
-        return FindTechStacks.reflect().fromJson(FindTechStacks(), json: json)
-    }
-    public static func fromObject(any:AnyObject) -> FindTechStacks? {
-        return FindTechStacks.reflect().fromObject(FindTechStacks(), any:any)
-    }
-    public func toString() -> String {
-        return FindTechStacks.reflect().toString(self)
-    }
-    public static func fromString(string:String) -> FindTechStacks? {
-        return FindTechStacks.reflect().fromString(FindTechStacks(), string: string)
     }
 }
 
@@ -3287,34 +3147,5 @@ extension UnAssignRoles : JsonSerializable
     }
     public static func fromString(string:String) -> UnAssignRoles? {
         return UnAssignRoles.reflect().fromString(UnAssignRoles(), string: string)
-    }
-}
-
-extension QueryPosts : JsonSerializable
-{
-    public static var typeName:String { return "QueryPosts" }
-    public static func reflect() -> Type<QueryPosts> {
-        return TypeConfig.config() ?? TypeConfig.configure(Type<QueryPosts>(
-            properties: [
-                Type<QueryPosts>.optionalProperty("skip", get: { $0.skip }, set: { $0.skip = $1 }),
-                Type<QueryPosts>.optionalProperty("take", get: { $0.take }, set: { $0.take = $1 }),
-                Type<QueryPosts>.optionalProperty("orderBy", get: { $0.orderBy }, set: { $0.orderBy = $1 }),
-                Type<QueryPosts>.optionalProperty("orderByDesc", get: { $0.orderByDesc }, set: { $0.orderByDesc = $1 }),
-            ]))
-    }
-    public func toJson() -> String {
-        return QueryPosts.reflect().toJson(self)
-    }
-    public static func fromJson(json:String) -> QueryPosts? {
-        return QueryPosts.reflect().fromJson(QueryPosts(), json: json)
-    }
-    public static func fromObject(any:AnyObject) -> QueryPosts? {
-        return QueryPosts.reflect().fromObject(QueryPosts(), any:any)
-    }
-    public func toString() -> String {
-        return QueryPosts.reflect().toString(self)
-    }
-    public static func fromString(string:String) -> QueryPosts? {
-        return QueryPosts.reflect().fromString(QueryPosts(), string: string)
     }
 }

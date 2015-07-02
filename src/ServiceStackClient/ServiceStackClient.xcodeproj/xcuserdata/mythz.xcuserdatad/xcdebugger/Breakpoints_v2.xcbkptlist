@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ServiceStackClientTests/StringExtensionsTests.swift"
-            timestampString = "444373141.940124"
+            timestampString = "457562711.407509"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11"
-            endingLineNumber = "11"
+            startingLineNumber = "12"
+            endingLineNumber = "12"
             landmarkName = "StringExtensionsTests"
             landmarkType = "3">
          </BreakpointContent>

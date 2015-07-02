@@ -1,3 +1,4 @@
+#if true
 //
 //  DateExtensionsTests.swift
 //  ServiceStackClient
@@ -41,3 +42,5 @@ class DateExtensionsTests: XCTestCase {
     }
 
 }
+    
+#endif

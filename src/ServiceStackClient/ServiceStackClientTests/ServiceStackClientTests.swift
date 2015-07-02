@@ -1,3 +1,4 @@
+#if true
 //
 //  ServiceStackClientTests.swift
 //  ServiceStackClientTests
@@ -34,3 +35,4 @@ class ServiceStackClientTests: XCTestCase {
     }
     
 }
+#endif

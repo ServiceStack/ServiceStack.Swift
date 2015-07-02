@@ -1,3 +1,4 @@
+#if true
 //
 //  StringExtensionsTests.swift
 //  ServiceStackClient
@@ -17,7 +18,7 @@ class StringExtensionsTests: XCTestCase {
         XCTAssertEqual("1::2::3".splitOnFirst("::"), ["1","2::3"])
 
         XCTAssertEqual("1H".splitOnFirst("H"), ["1",""])
-}
+    }
     
     func test_Can_splitOnLast() {
         XCTAssertEqual("1,2,3".splitOnLast(","), ["1,2","3"])
@@ -53,3 +54,5 @@ class StringExtensionsTests: XCTestCase {
         XCTAssertEqual(jsonString("=== normal string ==="), "\"=== normal string ===\"")
     }
 }
+    
+#endif

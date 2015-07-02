@@ -1,3 +1,4 @@
+#if true
 //
 //  NativeExtensionsTests.swift
 //  ServiceStackClientTests
@@ -28,3 +29,5 @@ class NativeExtensionsTests: XCTestCase {
     }
 
 }
+    
+#endif

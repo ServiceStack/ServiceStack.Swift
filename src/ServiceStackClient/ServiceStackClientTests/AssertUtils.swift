@@ -1,3 +1,4 @@
+#if true
 //
 //  AssertUtils.swift
 //  ServiceStackClientTests
@@ -18,3 +19,5 @@ func assertEquals<T : Equatable>(expected:[T], actual:[T]) {
         XCTAssertEqual(expected[i], actual[i])
     }
 }
+
+#endif

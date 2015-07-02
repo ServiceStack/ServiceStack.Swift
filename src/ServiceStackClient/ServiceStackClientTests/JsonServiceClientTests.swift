@@ -93,41 +93,6 @@ class JsonServiceClientTests: XCTestCase {
         self.assertGetTechnologyResponse(response!)
     }
     
-    func test_Can_call_FindTechnologies_AutoQuery_Service() {
-        let request = FindTechnologies<Technology>()
-        request.name = "ServiceStack"
-        
-        let response = client.get(request)!
-        
-        XCTAssertEqual(response.results.count, 1)
-    }
-    
-    func test_Can_call_FindTechnologies_AutoQuery_Service_Async() {
-        let asyncTest = expectationWithDescription("asyncTest")
-
-        let request = FindTechnologies<Technology>()
-        request.name = "ServiceStack"
-        
-        let response = client.getAsync(request)
-        .then(body:{(r:QueryResponse<Technology>) -> Void in
-                XCTAssertEqual(r.results.count, 1)
-                asyncTest.fulfill()
-            })
-        
-        waitForExpectationsWithTimeout(5, handler: { (error) in
-            XCTAssertNil(error, "Error")
-        })
-    }
-    
-    func test_Can_call_FindTechnologies_AutoQuery_Implicit_Service() {
-        let request = FindTechnologies<Technology>()
-        request.take = 5
-        
-        let response = client.get(request, query:["DescriptionContains":"framework"])!
-        
-        XCTAssertEqual(response.results.count, 5)
-    }
-    
     func test_Can_POST_Test_HelloAllTypes_async() {
         let asyncTest = expectationWithDescription("asyncTest")
         
@@ -175,7 +140,45 @@ class JsonServiceClientTests: XCTestCase {
             XCTAssertNil(error, "Error")
         })
     }
+
+#if false //AutoQuery
+    func test_Can_call_FindTechnologies_AutoQuery_Service() {
+        let request = FindTechnologies<Technology>()
+        request.name = "ServiceStack"
+        
+        let response = client.get(request)!
+        
+        XCTAssertEqual(response.results.count, 1)
+    }
     
+    func test_Can_call_FindTechnologies_AutoQuery_Service_Async() {
+        let asyncTest = expectationWithDescription("asyncTest")
+        
+        let request = FindTechnologies<Technology>()
+        request.name = "ServiceStack"
+        
+        let response = client.getAsync(request)
+            .then(body:{(r:QueryResponse<Technology>) -> Void in
+                XCTAssertEqual(r.results.count, 1)
+                asyncTest.fulfill()
+            })
+        
+        waitForExpectationsWithTimeout(5, handler: { (error) in
+            XCTAssertNil(error, "Error")
+        })
+    }
+    
+    func test_Can_call_FindTechnologies_AutoQuery_Implicit_Service() {
+        let request = FindTechnologies<Technology>()
+        request.take = 5
+        
+        let response = client.get(request, query:["DescriptionContains":"framework"])!
+        
+        XCTAssertEqual(response.results.count, 5)
+    }
+#endif
+    
+#if false //shared error dtos
     func test_Does_handle_404_Error() {
         var testClient = JsonServiceClient(baseUrl: "http://test.servicestack.net")
         
@@ -323,6 +326,8 @@ class JsonServiceClientTests: XCTestCase {
         XCTAssertEqual(response.required!, request.required!)
         XCTAssertEqual(response.email!, request.email!)
     }
+
+#endif
 
     
     /* 
