@@ -39,11 +39,20 @@ public extension String
     public func combinePath(path:String) -> String {
         return (self.hasSuffix("/") ? self : self + "/") + (path.hasPrefix("/") ? path[1..<path.length] : path)
     }
-    
+
     public func splitOnFirst(separator:String) -> [String] {
+        return splitOnFirst(separator, startIndex: 0)
+    }
+    
+    public func splitOnFirst(separator:String, startIndex:Int) -> [String] {
         var to = [String]()
-        if let range = self.rangeOfString(separator) {
-            to.append(self[startIndex..<range.startIndex])
+        
+        let startRange = advance(self.startIndex, startIndex)
+        if let range = self.rangeOfString(separator,
+            options: NSStringCompareOptions.LiteralSearch,
+            range: Range<String.Index>(start: startRange, end: self.endIndex))
+        {
+            to.append(self[self.startIndex..<range.startIndex])
             to.append(self[range.endIndex..<endIndex])
         }
         else {

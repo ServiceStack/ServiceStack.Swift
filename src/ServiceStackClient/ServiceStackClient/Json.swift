@@ -166,7 +166,12 @@ extension NSDate : StringSerializable
             : string
         let wcfJsonPrefix = "/Date("
         if str.hasPrefix(wcfJsonPrefix) {
-            let unixTime = (str.splitOnFirst("(")[1].splitOnLast(")")[0].splitOnFirst("-")[0].splitOnFirst("+")[0] as NSString).doubleValue
+            let body = str.splitOnFirst("(")[1].splitOnLast(")")[0]
+            let unixTime = (
+                body
+                    .splitOnFirst("-", startIndex:1)[0]
+                    .splitOnFirst("+", startIndex:1)[0] as NSString
+            ).doubleValue
             return NSDate(timeIntervalSince1970: unixTime / 1000) //ms -> secs
         }
         

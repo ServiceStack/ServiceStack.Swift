@@ -17,6 +17,10 @@ class DateExtensionsTests: XCTestCase {
         XCTAssertEqual(NSDate.fromString("/Date(978325200000+0000)/")!, NSDate(year: 2001, month: 1, day: 1))
     }
     
+    func test_Can_parse_pre_UnixTime(){
+        XCTAssertEqual(NSDate.fromString("\\/Date(-30610224000)\\/")!, NSDate(timeIntervalSince1970: -30610224000 / 1000))
+    }
+    
     func test_Can_Parse_ISO8601_Date() {
         println("2001-01-01T00:00:00".length)
         XCTAssertEqual(NSDate.fromString("2001-01-01T00:00:00.0000000")!, NSDate(year: 2001, month: 1, day: 1))
