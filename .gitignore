@@ -8,3 +8,5 @@ src/JsonServiceClient/JsonServiceClient.xcodeproj/project.xcworkspace/xcuserdata
 src/ServiceStackXCode/xcproj/
 
 src/ServiceStackXCode/.idea/workspace.xml
+
+*.xcbkptlist
