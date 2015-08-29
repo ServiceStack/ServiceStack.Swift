@@ -20,6 +20,16 @@ public extension String
         return (self as String).stringByTrimmingCharactersInSet(.whitespaceCharacterSet())
     }
     
+    public func trimEnd(needle: Character) -> String {
+        var i: Int = count(self) - 1, j: Int = i
+        
+        while i >= 0 && self[advance(self.startIndex, i)] == needle {
+            --i
+        }
+        
+        return self.substringWithRange(Range<String.Index>(start: self.startIndex, end: advance(self.endIndex, -(j - i))))
+    }
+    
     public subscript (i: Int) -> Character {
         return self[advance(self.startIndex, i)]
     }

@@ -26,6 +26,36 @@ class JsonTests: XCTestCase {
 
         let oneAll:NSTimeInterval = oneDay + oneHour + oneMin + oneSec + oneMs
         XCTAssertEqual(oneAll.toXsdDuration(),"P1DT1H1M1.001S")
+        
+        let oneTick:NSTimeInterval = 1 / NSTimeInterval.ticksPerSecond
+        XCTAssertEqual(oneTick.toXsdDuration(),"PT0.0000001S")
+        let zero:NSTimeInterval = NSTimeInterval(0)
+        XCTAssertEqual(zero.toXsdDuration(),"PT0S")
+        let tenYears:NSTimeInterval = 10 * 365 * 24 * 60 * 60
+        XCTAssertEqual(tenYears.toXsdDuration(),"P3650D")
+    }
+    
+    func test_can_deserialize_TimeSpan() {
+        let oneDay:NSTimeInterval = 24 * 60 * 60
+        XCTAssertEqual(NSTimeInterval.fromXsdDuration("P1D")!, oneDay)
+        let oneHour:NSTimeInterval = 60 * 60
+        XCTAssertEqual(NSTimeInterval.fromXsdDuration("PT1H")!, oneHour)
+        let oneMin:NSTimeInterval = 60
+        XCTAssertEqual(NSTimeInterval.fromXsdDuration("PT1M")!, oneMin)
+        let oneSec:NSTimeInterval = 1
+        XCTAssertEqual(NSTimeInterval.fromXsdDuration("PT1S")!, oneSec)
+        let oneMs:NSTimeInterval = 0.001
+        XCTAssertEqual(NSTimeInterval.fromXsdDuration("PT0.001S")!, oneMs)
+        
+        let oneAll:NSTimeInterval = oneDay + oneHour + oneMin + oneSec + oneMs
+        XCTAssertEqual(NSTimeInterval.fromXsdDuration("P1DT1H1M1.001S")!, oneAll)
+        
+        let oneTick:NSTimeInterval = 1 / NSTimeInterval.ticksPerSecond
+        XCTAssertEqual(NSTimeInterval.fromXsdDuration("PT0.0000001S")!, oneTick)
+        let zero:NSTimeInterval = NSTimeInterval(0)
+        XCTAssertEqual(NSTimeInterval.fromXsdDuration("PT0S")!, zero)
+        let tenYears:NSTimeInterval = 10 * 365 * 24 * 60 * 60
+        XCTAssertEqual(NSTimeInterval.fromXsdDuration("P3650D")!, tenYears)
     }
 
 }

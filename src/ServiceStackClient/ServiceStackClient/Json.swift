@@ -219,40 +219,43 @@ extension Double : StringSerializable
 
 extension NSTimeInterval
 {
+    public static let ticksPerSecond:Double = 10000000;
+    
     public func toXsdDuration() -> String {
         var sb = "P"
         
-        let d = self
-        var totalSeconds = Int(d)
-        let remainingMs = Int((d - Double(totalSeconds)) * 1000)
-        let sec = (totalSeconds >= 60 ? totalSeconds % 60 : totalSeconds)
-        totalSeconds = (totalSeconds / 60)
-        let min = totalSeconds >= 60 ? totalSeconds % 60 : totalSeconds
-        totalSeconds = (totalSeconds / 60)
-        let hours = totalSeconds >= 24 ? totalSeconds % 24 : totalSeconds
-        totalSeconds = (totalSeconds / 24)
-        let days = totalSeconds >= 30 ? totalSeconds % 30 : totalSeconds
+        let totalSeconds:Double = self
+        let wholeSeconds = Int(totalSeconds)
+        var seconds = wholeSeconds
+        let sec = (seconds >= 60 ? seconds % 60 : seconds)
+        seconds = (seconds / 60)
+        let min = seconds >= 60 ? seconds % 60 : seconds
+        seconds = (seconds / 60)
+        let hours = seconds >= 24 ? seconds % 24 : seconds
+        let days = seconds / 24
+        let remainingSecs:Double = Double(sec) + (totalSeconds - Double(wholeSeconds))
         
-        if (days > 0) {
+        if days > 0 {
             sb += "\(days)D"
         }
         
-        if (hours + min + sec + remainingMs > 0) {
-            sb += "T"
+        if days == 0 || Double(hours + min + sec) + remainingSecs > 0 {
 
-            if (hours > 0) {
+            sb += "T"
+            if hours > 0 {
                 sb += "\(hours)H";
             }
-            if (min > 0) {
+            if min > 0 {
                 sb += "\(min)M";
             }
             
-            if (remainingMs > 0) {
-                let padMs = String(format:"%03d", remainingMs)
-                sb += "\(sec).\(padMs)S"
+            if remainingSecs > 0 {
+                var secFmt = String(format:"%.7f", remainingSecs)
+                secFmt = secFmt.trimEnd("0").trimEnd(".")
+                sb += "\(secFmt)S"
             }
-            else if (sec > 0) {
-                sb += "\(sec)S"
+            else if sb.length == 2 { //PT
+                sb += "0S"
             }
         }
         
@@ -261,6 +264,10 @@ extension NSTimeInterval
     
     public func toTimeIntervalJson() -> String {
         return jsonString(toString())
+    }
+    
+    public static func fromXsdDuration(xsdString:String) -> NSTimeInterval?  {
+        return NSTimeInterval.fromTimeIntervalString(xsdString)
     }
     
     public static func fromTimeIntervalString(string:String) -> NSTimeInterval? {
