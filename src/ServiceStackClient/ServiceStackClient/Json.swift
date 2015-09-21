@@ -730,6 +730,63 @@ extension Bool : StringSerializable
     }
 }
 
+public class ResponseStatus
+{
+    required public init(){}
+    public var errorCode:String?
+    public var message:String?
+    public var stackTrace:String?
+    public var errors:[ResponseError] = []
+    public var meta:[String:String] = [:]
+}
+
+extension ResponseStatus : JsonSerializable
+{
+    public static var typeName:String { return "ResponseStatus" }
+    public static var metadata = Metadata.create([
+        Type<ResponseStatus>.optionalProperty("errorCode", get: { $0.errorCode }, set: { $0.errorCode = $1 }),
+        Type<ResponseStatus>.optionalProperty("message", get: { $0.message }, set: { $0.message = $1 }),
+        Type<ResponseStatus>.optionalProperty("stackTrace", get: { $0.stackTrace }, set: { $0.stackTrace = $1 }),
+        Type<ResponseStatus>.arrayProperty("errors", get: { $0.errors }, set: { $0.errors = $1 }),
+        Type<ResponseStatus>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
+        ])
+}
+
+public class ResponseError
+{
+    required public init(){}
+    public var errorCode:String?
+    public var fieldName:String?
+    public var message:String?
+    public var meta:[String:String] = [:]
+}
+
+extension ResponseError : JsonSerializable
+{
+    public static var typeName:String { return "ResponseError" }
+    public static var metadata = Metadata.create([
+        Type<ResponseError>.optionalProperty("errorCode", get: { $0.errorCode }, set: { $0.errorCode = $1 }),
+        Type<ResponseError>.optionalProperty("fieldName", get: { $0.fieldName }, set: { $0.fieldName = $1 }),
+        Type<ResponseError>.optionalProperty("message", get: { $0.message }, set: { $0.message = $1 }),
+        Type<ResponseError>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
+        ])
+}
+
+public class ErrorResponse
+{
+    required public init(){}
+    public var responseStatus:ResponseStatus?
+}
+
+extension ErrorResponse : JsonSerializable
+{
+    public static var typeName:String { return "ResponseError" }
+    public static var metadata = Metadata.create([
+        Type<ErrorResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+        ])
+}
+
+
 
 public class List<T>
 {

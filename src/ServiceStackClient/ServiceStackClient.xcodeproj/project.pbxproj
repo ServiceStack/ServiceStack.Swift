@@ -29,7 +29,7 @@
 		51D155131A7C552B00D2F2A3 /* TechStacksJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D1550A1A7C552B00D2F2A3 /* TechStacksJsonTests.swift */; };
 		51D155141A7C552B00D2F2A3 /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D1550B1A7C552B00D2F2A3 /* Template.swift */; };
 		51D155151A7C552B00D2F2A3 /* Test.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D1550C1A7C552B00D2F2A3 /* Test.dtos.swift */; };
-		51D155161A7C552B00D2F2A3 /* TestDtosJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D1550D1A7C552B00D2F2A3 /* TestDtosJsonTests.swift */; };
+		51D155161A7C552B00D2F2A3 /* TechStacksDtosJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D1550D1A7C552B00D2F2A3 /* TechStacksDtosJsonTests.swift */; };
 		51D155181A7C553F00D2F2A3 /* overview.json in Resources */ = {isa = PBXBuildFile; fileRef = 51D155171A7C553F00D2F2A3 /* overview.json */; };
 		51D1551A1A7C6B9B00D2F2A3 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D155191A7C6B9B00D2F2A3 /* StringExtensions.swift */; };
 		51D1551B1A7C6B9B00D2F2A3 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D155191A7C6B9B00D2F2A3 /* StringExtensions.swift */; };
@@ -72,7 +72,7 @@
 		51D1550A1A7C552B00D2F2A3 /* TechStacksJsonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechStacksJsonTests.swift; sourceTree = "<group>"; };
 		51D1550B1A7C552B00D2F2A3 /* Template.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
 		51D1550C1A7C552B00D2F2A3 /* Test.dtos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.dtos.swift; sourceTree = "<group>"; };
-		51D1550D1A7C552B00D2F2A3 /* TestDtosJsonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDtosJsonTests.swift; sourceTree = "<group>"; };
+		51D1550D1A7C552B00D2F2A3 /* TechStacksDtosJsonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechStacksDtosJsonTests.swift; sourceTree = "<group>"; };
 		51D155171A7C553F00D2F2A3 /* overview.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = overview.json; sourceTree = "<group>"; };
 		51D155191A7C6B9B00D2F2A3 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		51D1551C1A7C6BA700D2F2A3 /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
@@ -157,7 +157,7 @@
 				51D155081A7C552B00D2F2A3 /* SerializeParentChildTests.swift */,
 				51D1550A1A7C552B00D2F2A3 /* TechStacksJsonTests.swift */,
 				51D1550B1A7C552B00D2F2A3 /* Template.swift */,
-				51D1550D1A7C552B00D2F2A3 /* TestDtosJsonTests.swift */,
+				51D1550D1A7C552B00D2F2A3 /* TechStacksDtosJsonTests.swift */,
 				51E7AD701A7C96CF00B65526 /* StringExtensionsTests.swift */,
 				51E7AD721A7CA1CC00B65526 /* DateExtensionsTests.swift */,
 				51F280AB1ABF5FDE00AD3933 /* JsonTests.swift */,
@@ -311,7 +311,7 @@
 				51D154FC1A7C550900D2F2A3 /* Explore.swift in Sources */,
 				5151BCD31BAFC08400DF72D2 /* ServiceClientTechStacksTests.swift in Sources */,
 				51D1550F1A7C552B00D2F2A3 /* JsonServiceClientTests.swift in Sources */,
-				51D155161A7C552B00D2F2A3 /* TestDtosJsonTests.swift in Sources */,
+				51D155161A7C552B00D2F2A3 /* TechStacksDtosJsonTests.swift in Sources */,
 				51D154FE1A7C550900D2F2A3 /* Json.swift in Sources */,
 				51D155001A7C550900D2F2A3 /* JsonServiceClient.swift in Sources */,
 				51D155121A7C552B00D2F2A3 /* TechStacks.dtos.swift in Sources */,
