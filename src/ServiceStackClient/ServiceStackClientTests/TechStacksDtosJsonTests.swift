@@ -9,7 +9,7 @@
 
 import XCTest
 
-class TestDtosJsonTests: XCTestCase {
+class TechStacksDtosJsonTests: XCTestCase {
     
     func test_Can_serialize_Empty_Technology() {
         var dto = Technology()
