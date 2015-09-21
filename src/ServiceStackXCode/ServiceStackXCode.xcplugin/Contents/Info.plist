@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>14D136</string>
+	<string>14F27</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
@@ -20,22 +20,26 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleSupportedPlatforms</key>
+	<array>
+		<string>MacOSX</string>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>6E35b</string>
+	<string>7A220</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>14D125</string>
+	<string>15A278</string>
 	<key>DTSDKName</key>
-	<string>macosx10.10</string>
+	<string>macosx10.11</string>
 	<key>DTXcode</key>
-	<string>0640</string>
+	<string>0700</string>
 	<key>DTXcodeBuild</key>
-	<string>6E35b</string>
+	<string>7A220</string>
 	<key>DVTPlugInCompatibilityUUIDs</key>
 	<array>
 		<string>7FDF5C7A-131F-4ABB-9EDC-8C5F8F0B8A90</string>
@@ -45,6 +49,7 @@
 		<string>A16FF353-8441-459E-A50C-B071F53F51B7</string>
 		<string>9F75337B-21B4-4ADC-B558-F9CADF7073A7</string>
 		<string>992275C1-432A-4CF7-B659-D84ED6D42D3F</string>
+		<string>0420B86A-AA43-4792-9ED0-6FE0F2B16A13</string>
 	</array>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.10</string>
