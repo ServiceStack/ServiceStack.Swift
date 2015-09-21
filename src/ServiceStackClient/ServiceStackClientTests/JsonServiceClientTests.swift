@@ -236,13 +236,13 @@ class JsonServiceClientTests: XCTestCase {
      
         do {
             try client.get(HelloReturnVoid())
-            XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Get)
+            XCTAssertEqual(methods.last, HttpMethods.Get)
             try client.post(HelloReturnVoid())
-            XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Post)
+            XCTAssertEqual(methods.last, HttpMethods.Post)
             try client.put(HelloReturnVoid())
-            XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Put)
+            XCTAssertEqual(methods.last, HttpMethods.Put)
             try client.delete(HelloReturnVoid())
-            XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Delete)
+            XCTAssertEqual(methods.last, HttpMethods.Delete)
         } catch {
             XCTFail()
         }
@@ -259,11 +259,11 @@ class JsonServiceClientTests: XCTestCase {
         
         client.getAsync(HelloReturnVoid())
             .then({
-                XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Get)
+                XCTAssertEqual(methods.last, HttpMethods.Get)
 
                 client.postAsync(HelloReturnVoid())
                     .then({
-                        XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Post)
+                        XCTAssertEqual(methods.last, HttpMethods.Post)
                         asyncTest.fulfill()
                     })
             })

@@ -92,16 +92,6 @@ public class JsonServiceClient : ServiceClient
         static var onError:((NSError) -> Void)?
     }
     
-    public struct HttpMethods {
-        static let Get = "GET"
-        static let Post = "POST"
-        static let Put = "PUT"
-        static let Delete = "DELTE"
-        static let Head = "HEAD"
-        static let Option = "OPTION"
-        static let Patch = "PATCH"
-    }
-    
     public init(baseUrl:String)
     {
         self.baseUrl = baseUrl.hasSuffix("/") ? baseUrl : baseUrl + "/"
@@ -314,6 +304,64 @@ public class JsonServiceClient : ServiceClient
             : baseUrl.combinePath(relativeOrAbsoluteUrl)
     }
     
+    func hasRequestBody(httpMethod:String) -> Bool
+    {
+        switch httpMethod {
+            case HttpMethods.Get, HttpMethods.Delete, HttpMethods.Head, HttpMethods.Options:
+                return false
+            default:
+                return true
+        }
+    }
+    
+    func getSendMethod<T : JsonSerializable>(request:T) -> String {
+        return request is IGet ?
+             HttpMethods.Get
+            : request is IPost ?
+              HttpMethods.Post
+            : request is IPut ?
+              HttpMethods.Put
+            : request is IDelete ?
+              HttpMethods.Delete
+            : request is IPatch ?
+              HttpMethods.Patch :
+              HttpMethods.Post;
+    }
+    
+    public func send<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return {
+        let httpMethod = getSendMethod(request)
+        return hasRequestBody(httpMethod)
+            ? try send(T.Return(), request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:httpMethod, request:request))
+            : try send(T.Return(), request: self.createRequest(self.createUrl(request), httpMethod:httpMethod))
+    }
+    
+    public func send<T : IReturnVoid where T : JsonSerializable>(request:T) throws {
+        let httpMethod = getSendMethod(request)
+        if hasRequestBody(httpMethod) {
+            try send(ReturnVoid.void, request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:httpMethod, request:request))
+        }
+        else {
+            try send(ReturnVoid.void, request: self.createRequest(self.createUrl(request), httpMethod:httpMethod))
+        }
+    }
+    
+    public func sendAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return> {
+        let httpMethod = getSendMethod(request)
+        return hasRequestBody(httpMethod)
+            ? sendAsync(T.Return(), request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:httpMethod, request:request))
+            : sendAsync(T.Return(), request: self.createRequest(self.createUrl(request), httpMethod:httpMethod))
+    }
+    
+    public func sendAsync<T : IReturnVoid where T : JsonSerializable>(request:T) -> Promise<Void> {
+        let httpMethod = getSendMethod(request)
+        return hasRequestBody(httpMethod)
+            ? sendAsync(ReturnVoid.void, request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Post, request:request))
+              .then({ x -> Void in })
+            : sendAsync(ReturnVoid.void, request: self.createRequest(self.createUrl(request), httpMethod:HttpMethods.Get))
+                .then({ x -> Void in })
+    }
+   
+    
     public func get<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return {
         return try send(T.Return(), request: self.createRequest(self.createUrl(request), httpMethod:HttpMethods.Get))
     }
@@ -521,4 +569,14 @@ extension NSHTTPURLResponse {
     }
 }
 
+public struct HttpMethods
+{
+    static let Get = "GET"
+    static let Post = "POST"
+    static let Put = "PUT"
+    static let Delete = "DELTE"
+    static let Head = "HEAD"
+    static let Options = "OPTIONS"
+    static let Patch = "PATCH"
+}
 
