@@ -9,76 +9,44 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ServiceStackClientTests/StringExtensionsTests.swift"
-            timestampString = "457562711.407509"
+            filePath = "ServiceStackClient/JsonServiceClient.swift"
+            timestampString = "464520712.221984"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "12"
-            endingLineNumber = "12"
-            landmarkName = "StringExtensionsTests"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ServiceStackClient/Json.swift"
-            timestampString = "462517925.875917"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "313"
-            endingLineNumber = "313"
-            landmarkName = "fromTimeIntervalString(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ServiceStackClient/Json.swift"
-            timestampString = "462517299.201988"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
-            landmarkName = "toXsdDuration()"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
+            landmarkName = "send(_:request:)"
             landmarkType = "5">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "ext.ServiceStackClientTests.Swift.Double.toXsdDuration (Swift.Double)() -&gt; Swift.String"
+                  symbolName = "ServiceStackClientTests.JsonServiceClient.send &lt;A where A: ServiceStackClientTests.JsonSerializable&gt; (ServiceStackClientTests.JsonServiceClient)(A, request : ObjectiveC.NSMutableURLRequest) throws -&gt; A"
                   moduleName = "ServiceStackClientTests"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mythz/src/ServiceStack.Swift/src/ServiceStackClient/ServiceStackClient/Json.swift"
-                  timestampString = "462517321.271695"
+                  urlString = "file:///Users/mythz/src/ServiceStack.Swift/src/ServiceStackClient/ServiceStackClient/JsonServiceClient.swift"
+                  timestampString = "464519647.449136"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "254"
-                  endingLineNumber = "254"
-                  offsetFromSymbolStart = "2206">
+                  startingLineNumber = "252"
+                  endingLineNumber = "252"
+                  offsetFromSymbolStart = "659">
                </Location>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "ext.ServiceStackClient.Swift.Double.toXsdDuration (Swift.Double)() -&gt; Swift.String"
+                  symbolName = "ServiceStackClient.JsonServiceClient.send &lt;A where A: ServiceStackClient.JsonSerializable&gt; (ServiceStackClient.JsonServiceClient)(A, request : ObjectiveC.NSMutableURLRequest) throws -&gt; A"
                   moduleName = "ServiceStackClient"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mythz/src/ServiceStack.Swift/src/ServiceStackClient/ServiceStackClient/Json.swift"
-                  timestampString = "462517321.278578"
+                  urlString = "file:///Users/mythz/src/ServiceStack.Swift/src/ServiceStackClient/ServiceStackClient/JsonServiceClient.swift"
+                  timestampString = "464519647.449414"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "254"
-                  endingLineNumber = "254"
-                  offsetFromSymbolStart = "2206">
+                  startingLineNumber = "252"
+                  endingLineNumber = "252"
+                  offsetFromSymbolStart = "659">
                </Location>
             </Locations>
          </BreakpointContent>

@@ -1,4 +1,4 @@
-#if true
+#if false
  //
 //  TechStacksJsonTests.swift
 //  ServiceStackClientTests
@@ -13,11 +13,11 @@ import XCTest
 class TechStacksJsonTests: XCTestCase
 {
     func test_Can_serialize_Empty_Option() {
-        var dto = Option()
+        let dto = Option()
         
-        var json = Option.reflect().toJson(dto)
+        let json = Option.reflect().toJson(dto)
         
-        println(json)
+        print(json)
         
         XCTAssertEqual(json,
             "{\"name\":null,\"title\":null,\"value\":null}")
@@ -26,7 +26,7 @@ class TechStacksJsonTests: XCTestCase
     func test_Can_deserialize_Empty_Option() {
         let json = "{\"name\":null,\"title\":null,\"value\":null}"
         
-        var dto = Option.fromJson(json)!
+        let dto = Option.fromJson(json)!
         
         XCTAssertNil(dto.name)
         XCTAssertNil(dto.title)
@@ -37,7 +37,7 @@ class TechStacksJsonTests: XCTestCase
     func test_Can_deserialize_Full_Option() {
         let json = "{\"name\":\"name\",\"title\":\"title\",\"value\":\"ProgrammingLanguage\"}"
         
-        var dto = Option.fromJson(json)!
+        let dto = Option.fromJson(json)!
         
         XCTAssertEqual(dto.name!, "name")
         XCTAssertEqual(dto.title!, "title")
@@ -45,14 +45,14 @@ class TechStacksJsonTests: XCTestCase
     }
     
     func test_Can_serialize_Full_Option() {
-        var dto = Option()
+        let dto = Option()
         dto.name = "name"
         dto.title = "title"
         dto.value = TechnologyTier.ProgrammingLanguage
         
-        var json = Option.reflect().toJson(dto)
+        let json = Option.reflect().toJson(dto)
         
-        println(json)
+        print(json)
         
         XCTAssertEqual(json,
             "{\"name\":\"name\",\"title\":\"title\",\"value\":\"ProgrammingLanguage\"}")

@@ -22,7 +22,7 @@ class DateExtensionsTests: XCTestCase {
     }
     
     func test_Can_Parse_ISO8601_Date() {
-        println("2001-01-01T00:00:00".length)
+        print("2001-01-01T00:00:00".length)
         XCTAssertEqual(NSDate.fromString("2001-01-01T00:00:00.0000000")!, NSDate(year: 2001, month: 1, day: 1))
         XCTAssertEqual(NSDate.fromString("2001-01-01T00:00:00.000")!, NSDate(year: 2001, month: 1, day: 1))
         XCTAssertEqual(NSDate.fromString("2001-01-01T00:00:00")!, NSDate(year: 2001, month: 1, day: 1))

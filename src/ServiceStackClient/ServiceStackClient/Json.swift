@@ -33,7 +33,7 @@ public class JObject
     }
     
     class func toJson<K : Hashable, V : JsonSerializable where K : StringSerializable>(map:[K:V]) -> String? {
-        var jb = JObject()
+        let jb = JObject()
         
         for (k,v) in map {
             jb.append(k.toString(), json: v.toJson())
@@ -52,7 +52,7 @@ public class JArray
     }
     
     func append(json:String?) {
-        if count(sb) > 0 {
+        if sb.characters.count > 0 {
             sb += ","
         }
         sb += json != nil ? "\(json!)" : "null"
@@ -65,37 +65,119 @@ public class JArray
 
 public class JValue
 {
-    class func unwrap(any:Any) -> Any? {
-        let mi:MirrorType = reflect(any)
-        if mi.disposition != .Optional {
+    static func unwrap(any:Any) -> Any {
+        
+        let mi = Mirror(reflecting: any)
+        if mi.displayStyle != .Optional {
             return any
         }
-        if mi.count == 0 { return nil } // Optional.None
-        let (name,some) = mi[0]
-        return some.value
+        
+        if mi.children.count == 0 { return NSNull() }
+        let (_, some) = mi.children.first!
+        return some
     }
 }
 
 func parseJson(json:String) -> AnyObject? {
-    var error: NSError?
-    return parseJson(json, &error)
+    do {
+        return try parseJsonThrows(json)
+    } catch _ {
+        return nil
+    }
 }
 
-func parseJson(json:String, error:NSErrorPointer) -> AnyObject? {
+func parseJsonThrows(json:String) throws -> AnyObject {
     let data = json.dataUsingEncoding(NSUTF8StringEncoding)!
-    return parseJsonBytes(data, error)
+    return try parseJsonBytesThrows(data)
 }
 
 func parseJsonBytes(bytes:NSData) -> AnyObject? {
-    var error: NSError?
-    return parseJsonBytes(bytes, &error)
+    do {
+        return try parseJsonBytesThrows(bytes)
+    } catch _ {
+        return nil
+    }
 }
 
-func parseJsonBytes(bytes:NSData, error:NSErrorPointer) -> AnyObject? {
-    let parsedObject: AnyObject? = NSJSONSerialization.JSONObjectWithData(bytes,
-        options: NSJSONReadingOptions.AllowFragments,
-        error:error)
-    return parsedObject
+func parseJsonBytesThrows(bytes:NSData) throws -> AnyObject {
+    var error: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
+    let parsedObject: AnyObject?
+    do {
+        parsedObject = try NSJSONSerialization.JSONObjectWithData(bytes,
+                options: NSJSONReadingOptions.AllowFragments)
+    } catch let error1 as NSError {
+        error = error1
+        parsedObject = nil
+    }
+    if let value = parsedObject {
+        return value
+    }
+    throw error
+}
+
+extension NSString : JsonSerializable
+{
+    public static var typeName:String { return "NSString" }
+    
+    public static var metadata:Metadata = Metadata.create([])
+    
+    public func toString() -> String {
+        return self as String
+    }
+    
+    public func toJson() -> String {
+        return jsonString(self as String)
+    }
+    
+    public static func fromJson(json:String) -> NSString? {
+        return parseJson(json) as? NSString
+    }
+    
+    public static func fromString(string: String) -> NSString? {
+        return string
+    }
+    
+    public static func fromObject(any:AnyObject) -> NSString?
+    {
+        switch any {
+        case let s as NSString: return s
+        default:return nil
+        }
+    }
+}
+
+public class ReturnVoid {
+    public required init(){}
+}
+
+extension ReturnVoid : JsonSerializable
+{
+    public static let void = ReturnVoid()
+    
+    public static var typeName:String { return "ReturnVoid" }
+    
+    public static var metadata:Metadata = Metadata.create([])
+    
+    public func toString() -> String {
+        return ""
+    }
+    
+    public func toJson() -> String {
+        return ""
+    }
+    
+    public static func fromJson(json:String) -> NSString? {
+        return nil
+    }
+    
+    public static func fromString(string: String) -> NSString? {
+        return nil
+    }
+    
+    public static func fromObject(any:AnyObject) -> NSString?
+    {
+        return nil
+    }
 }
 
 extension String : StringSerializable
@@ -120,6 +202,15 @@ extension String : StringSerializable
         case let s as String: return s
         default:return nil
         }
+    }
+}
+
+extension String : JsonSerializable
+{
+    public static var metadata:Metadata = Metadata.create([])
+    
+    public static func fromJson(json:String) -> String? {
+        return parseJson(json) as? String
     }
 }
 
@@ -161,7 +252,7 @@ extension NSDate : StringSerializable
     }
     
     public class func fromString(string: String) -> NSDate? {
-        var str = string.hasPrefix("\\")
+        let str = string.hasPrefix("\\")
             ? string[1..<string.length]
             : string
         let wcfJsonPrefix = "/Date("
@@ -283,7 +374,7 @@ extension NSTimeInterval
         
         let d = t[0].splitOnFirst("D")
         if d.count == 2 {
-            if let day = d[0].toInt() {
+            if let day = Int(d[0]) {
                 days = day
             }
         }
@@ -291,14 +382,14 @@ extension NSTimeInterval
         if hasTime {
             let h = t[1].splitOnFirst("H")
             if h.count == 2 {
-                if let hour = h[0].toInt() {
+                if let hour = Int(h[0]) {
                     hours = hour
                 }
             }
             
             let m = h.last!.splitOnFirst("M")
             if m.count == 2 {
-                if let min = m[0].toInt() {
+                if let min = Int(m[0]) {
                     minutes = min
                 }
             }
@@ -346,7 +437,7 @@ extension Int : StringSerializable
     }
     
     public static func fromString(str: String) -> Int? {
-        return str.toInt()
+        return Int(str)
     }
     
     public static func fromObject(any:AnyObject) -> Int?
@@ -372,7 +463,7 @@ extension Int8 : StringSerializable
     }
     
     public static func fromString(str: String) -> Int8? {
-        if let int = str.toInt() {
+        if let int = Int(str) {
             return Int8(int)
         }
         return nil
@@ -401,7 +492,7 @@ extension Int16 : StringSerializable
     }
     
     public static func fromString(str: String) -> Int16? {
-        if let int = str.toInt() {
+        if let int = Int(str) {
             return Int16(int)
         }
         return nil
@@ -430,7 +521,7 @@ extension Int32 : StringSerializable
     }
     
     public static func fromString(str: String) -> Int32? {
-        if let int = str.toInt() {
+        if let int = Int(str) {
             return Int32(int)
         }
         return nil
@@ -485,7 +576,7 @@ extension UInt8 : StringSerializable
     }
     
     public static func fromString(str: String) -> UInt8? {
-        if let int = str.toInt() {
+        if let int = Int(str) {
             return UInt8(int)
         }
         return nil
@@ -514,7 +605,7 @@ extension UInt16 : StringSerializable
     }
     
     public static func fromString(str: String) -> UInt16? {
-        if let int = str.toInt() {
+        if let int = Int(str) {
             return UInt16(int)
         }
         return nil
@@ -543,7 +634,7 @@ extension UInt32 : StringSerializable
     }
     
     public static func fromString(str: String) -> UInt32? {
-        if let int = str.toInt() {
+        if let int = Int(str) {
             return UInt32(int)
         }
         return nil
@@ -645,9 +736,9 @@ public class List<T>
     required public init(){}
 }
 
-public protocol HasReflect {
-    typealias T : HasReflect
-    static func reflect() -> Type<T>
+public protocol HasMetadata {
+    static var typeName:String { get }
+    static var metadata:Metadata { get }
     init()
 }
 
@@ -657,7 +748,7 @@ public protocol Convertible {
     static func fromObject(any:AnyObject) -> T?
 }
 
-public protocol JsonSerializable : HasReflect, StringSerializable {
+public protocol JsonSerializable : HasMetadata, StringSerializable {
     func toJson() -> String
     static func fromJson(json:String) -> T?
 }
@@ -669,12 +760,10 @@ public protocol StringSerializable : Convertible {
 }
 
 
-public func populate<T>(instance:T, map:NSDictionary, propertiesMap:[String:PropertyType]) -> T {
+public func populate<T : HasMetadata>(instance:T, map:NSDictionary, propertiesMap:[String:PropertyType]) -> T {
     for (key, obj) in map {
         if let p = propertiesMap[key.lowercaseString] {
-            //insanely this prevents a EXC_BAD_INSTRUCTION when accessing parent.doubleOptional! with a value!
-            //"\(obj)"
-            p.setValue(instance, value: obj)
+            p.setValueAny(instance as! AnyObject, value: obj)
         }
     }
     return instance
@@ -684,16 +773,83 @@ public func populateFromDictionary<T : JsonSerializable>(instance:T, map:[NSObje
     for (key, obj) in map {
         if let strKey = key as? String {
             if let p = propertiesMap[strKey.lowercaseString] {
-                p.setValue(instance, value: obj)
+                p.setValueAny(instance as! AnyObject, value: obj)
             }
         }
     }
     return instance
 }
 
+public class Metadata {
+    public var properties:[PropertyType] = []
+    public var propertyMap:[String:PropertyType] = [:]
+   
+    public init(properties:[PropertyType]) {
+        self.properties = properties
+        for p in properties {
+            propertyMap[p.name.lowercaseString] = p
+        }
+    }
+    
+    static func create(properties:[PropertyType]) -> Metadata {
+        return Metadata(properties: properties)
+    }
+}
+
+extension HasMetadata
+{
+    public static var properties:[PropertyType] {
+        return Self.metadata.properties
+    }
+    
+    public static var propertyMap:[String:PropertyType] {
+        return Self.metadata.propertyMap
+    }
+    
+    public func toJson() -> String {
+        let jb = JObject()
+        for p in Self.properties {
+            if let value = p.jsonValueAny(self) {
+                jb.append(p.name, json: value)
+            } else {
+                jb.append(p.name, json: "null")
+            }
+        }
+        return jb.toJson()
+    }
+
+    public static func fromJson(json:String) -> Self? {
+//        if self is NSString || self is String {
+//            if let value = json as? Self {
+//                return value
+//            }
+//        }
+        if let map = parseJson(json) as? NSDictionary {
+            return populate(Self(), map: map, propertiesMap: Self.propertyMap)
+        }
+        return nil
+    }
+
+    public static func fromObject(any:AnyObject) -> Self? {
+        switch any {
+        case let s as String: return fromJson(s)
+        case let map as NSDictionary: return populate(Self(), map: map, propertiesMap: Self.propertyMap)
+        default: return nil
+        }
+    }
+
+    public func toString() -> String {
+        return toJson()
+    }
+
+    public static func fromString(string:String) -> Self? {
+        return fromJson(string)
+    }
+}
+
 public class TypeAccessor {}
 
-public class Type<T : HasReflect> : TypeAccessor
+public class Type<T : HasMetadata> : TypeAccessor
 {
     var properties: [PropertyType]
     var propertiesMap = [String:PropertyType]()
@@ -707,10 +863,10 @@ public class Type<T : HasReflect> : TypeAccessor
         }
     }
     
-    public func toJson<T>(instance:T) -> String {
-        var jb = JObject()
-        for p in properties {
-            if let value = p.jsonValue(instance) {
+    static public func toJson(instance:T) -> String {
+        let jb = JObject()
+        for p in T.properties {
+            if let value = p.jsonValueAny(instance) {
                 jb.append(p.name, json: value)
             } else {
                 jb.append(p.name, json: "null")
@@ -719,36 +875,19 @@ public class Type<T : HasReflect> : TypeAccessor
         return jb.toJson()
     }
     
-    public func toString<T>(instance:T) -> String {
+    static public func toString(instance:T) -> String {
         return toJson(instance)
     }
     
-    func fromJson<T : JsonSerializable>(json:String) -> T? {
+    static func fromJson<T : JsonSerializable>(json:String) -> T? {
         return fromJson(T(), json: json)
     }
     
-    func fromJson<T>(instance:T, json:String, error:NSErrorPointer) -> T? {
-        if instance is NSString || instance is String {
-            return json as? T
-        }
-        if let map = parseJson(json,error) as? NSDictionary {
-            return populate(instance, map, propertiesMap)
-        }
-        return nil
-    }
-    
-    func fromJson<T>(instance:T, json:String) -> T? {
-        if let map = parseJson(json, nil) as? NSDictionary {
-            return populate(instance, map, propertiesMap)
-        }
-        return nil
-    }
-    
-    func fromString(instance:T, string:String) -> T? {
+    static func fromString<T : JsonSerializable>(instance:T, string:String) -> T? {
         return fromJson(instance, json: string)
     }
     
-    func fromObject(instance:T, any:AnyObject) -> T? {
+    static func fromObject<T : JsonSerializable>(instance:T, any:AnyObject) -> T? {
         switch any {
         case let s as String: return fromJson(instance, json: s)
         case let map as NSDictionary: return Type<T>.fromDictionary(instance, map: map)
@@ -756,8 +895,20 @@ public class Type<T : HasReflect> : TypeAccessor
         }
     }
     
-    class func fromDictionary(instance:T, map:NSDictionary) -> T {
-        return populate(instance, map, T.reflect().propertiesMap)
+    static func fromJson<T : JsonSerializable>(instance:T, json:String) -> T? {
+        if instance is NSString || instance is String {
+            if let value = json as? T {
+                return value
+            }
+        }
+        if let map = parseJson(json) as? NSDictionary {
+            return populate(instance, map: map, propertiesMap: T.propertyMap)
+        }
+        return nil
+    }
+    
+    static func fromDictionary<T : HasMetadata>(instance:T, map:NSDictionary) -> T {
+        return populate(instance, map: map, propertiesMap: T.propertyMap)
     }
     
     public class func property<P : StringSerializable>(name:String, get:(T) -> P, set:(T,P) -> Void) -> PropertyType
@@ -823,23 +974,67 @@ public class PropertyType {
         self.name = name
     }
     
-    public func jsonValue<T>(instance:T) -> String? {
+    public func jsonValueAny(instance:Any) -> String? {
         return nil
     }
     
-    public func setValue<T>(instance:T, value:AnyObject) {
+    public func setValueAny(instance:Any, value:AnyObject) {
     }
     
-    public func getValue<T>(instance:T) -> Any? {
+    public func getValueAny(instance:Any) -> Any? {
         return nil
     }
     
-    public func stringValue<T>(instance:T) -> String? {
+    public func stringValueAny(instance:Any) -> String? {
+        return nil
+    }
+    
+    public func getName() -> String {
+        return self.name
+    }
+}
+
+public class PropertyBase<T : HasMetadata> : PropertyType {
+
+    override init(name:String) {
+        super.init(name: name)
+    }
+    
+    public override func jsonValueAny(instance:Any) -> String? {
+        return jsonValue(instance as! T)
+    }
+    
+    public func jsonValue(instance:T) -> String? {
+        return nil
+    }
+    
+    public override func setValueAny(instance:Any, value:AnyObject) {
+        if let t = instance as? T {
+            setValue(t, value: value)
+        }
+    }
+    
+    public func setValue(instance:T, value:AnyObject) {
+    }
+    
+    public override func getValueAny(instance:Any) -> Any? {
+        return getValue(instance as! T)
+    }
+    
+    public func getValue(instance:T) -> Any? {
+        return nil
+    }
+    
+    public override func stringValueAny(instance:Any) -> String? {
+        return stringValue(instance as! T)
+    }
+    
+    public func stringValue(instance:T) -> String? {
         return nil
     }
 }
 
-public class JProperty<T : HasReflect, P : StringSerializable> : PropertyType
+public class JProperty<T : HasMetadata, P : StringSerializable> : PropertyBase<T>
 {
     public var get:(T) -> P
     public var set:(T,P) -> Void
@@ -873,7 +1068,7 @@ public class JProperty<T : HasReflect, P : StringSerializable> : PropertyType
     }
 }
 
-public class JOptionalProperty<T : HasReflect, P : StringSerializable> : PropertyType
+public class JOptionalProperty<T : HasMetadata, P : StringSerializable> : PropertyBase<T>
 {
     public var get:(T) -> P?
     public var set:(T,P?) -> Void
@@ -899,6 +1094,13 @@ public class JOptionalProperty<T : HasReflect, P : StringSerializable> : Propert
         return super.jsonValue(instance)
     }
     
+    public override func getValue(instance:T) -> Any? {
+        if let p = get(instance) {
+            return p
+        }
+        return nil
+    }
+    
     public override func setValue(instance:T, value:AnyObject) {
         if let p = value as? P {
             set(instance, p)
@@ -910,7 +1112,7 @@ public class JOptionalProperty<T : HasReflect, P : StringSerializable> : Propert
 }
 
 
-public class JObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
+public class JObjectProperty<T : HasMetadata, P : JsonSerializable> : PropertyBase<T>
 {
     public var get:(T) -> P
     public var set:(T,P) -> Void
@@ -944,7 +1146,7 @@ public class JObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyTyp
     }
 }
 
-public class JOptionalObjectProperty<T : HasReflect, P : JsonSerializable where P : HasReflect> : PropertyType
+public class JOptionalObjectProperty<T : HasMetadata, P : JsonSerializable where P : HasMetadata> : PropertyBase<T>
 {
     public var get:(T) -> P?
     public var set:(T,P?) -> Void
@@ -958,7 +1160,7 @@ public class JOptionalObjectProperty<T : HasReflect, P : JsonSerializable where 
     
     public override func jsonValue(instance:T) -> String? {
         if let propValue = get(instance) {
-            var strValue = propValue.toJson()
+            let strValue = propValue.toJson()
             return strValue
         }
         return super.jsonValue(instance)
@@ -972,7 +1174,7 @@ public class JOptionalObjectProperty<T : HasReflect, P : JsonSerializable where 
     }
 }
 
-public class JDictionaryProperty<T : HasReflect, K : Hashable, P : StringSerializable where K : StringSerializable> : PropertyType
+public class JDictionaryProperty<T : HasMetadata, K : Hashable, P : StringSerializable where K : StringSerializable> : PropertyBase<T>
 {
     public var get:(T) -> [K:P]
     public var set:(T,[K:P]) -> Void
@@ -995,7 +1197,7 @@ public class JDictionaryProperty<T : HasReflect, K : Hashable, P : StringSeriali
     public override func jsonValue(instance:T) -> String? {
         let map = get(instance)
         
-        var jb = JObject()
+        let jb = JObject()
         for (key, value) in map {
             jb.append(key.toString(), json:value.toJson())
         }
@@ -1017,7 +1219,7 @@ public class JDictionaryProperty<T : HasReflect, K : Hashable, P : StringSeriali
     }
 }
 
-public class JDictionaryArrayProperty<T : HasReflect, K : Hashable, P : StringSerializable where K : StringSerializable, K == K.T> : PropertyType
+public class JDictionaryArrayProperty<T : HasMetadata, K : Hashable, P : StringSerializable where K : StringSerializable, K == K.T> : PropertyBase<T>
 {
     public var get:(T) -> [K:[P]]
     public var set:(T,[K:[P]]) -> Void
@@ -1040,9 +1242,9 @@ public class JDictionaryArrayProperty<T : HasReflect, K : Hashable, P : StringSe
     public override func jsonValue(instance:T) -> String? {
         let map = get(instance)
 
-        var jb = JObject()
+        let jb = JObject()
         for (key, values) in map {
-            var ja = JArray()
+            let ja = JArray()
             for v in values {
                 ja.append(v.toJson())
             }
@@ -1072,7 +1274,7 @@ public class JDictionaryArrayProperty<T : HasReflect, K : Hashable, P : StringSe
     }
 }
 
-public class JDictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashable, P : JsonSerializable where K : StringSerializable> : PropertyType
+public class JDictionaryArrayDictionaryObjectProperty<T : HasMetadata, K : Hashable, P : JsonSerializable where K : StringSerializable> : PropertyBase<T>
 {
     public var get:(T) -> [K:[K:P]]
     public var set:(T,[K:[K:P]]) -> Void
@@ -1095,8 +1297,8 @@ public class JDictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashab
     public override func jsonValue(instance:T) -> String? {
         let map = get(instance)
         
-        var jb = JObject()
-        for (key, values:[K:P]) in map {
+        let jb = JObject()
+        for (key, values) in map {
             jb.append(key.toString(), json:JObject.toJson(values))
         }
         return jb.toJson()
@@ -1123,7 +1325,7 @@ public class JDictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashab
     }
 }
 
-public class JArrayProperty<T : HasReflect, P : StringSerializable> : PropertyType
+public class JArrayProperty<T : HasMetadata, P : StringSerializable> : PropertyBase<T>
 {
     public var get:(T) -> [P]
     public var set:(T,[P]) -> Void
@@ -1177,7 +1379,7 @@ public class JArrayProperty<T : HasReflect, P : StringSerializable> : PropertyTy
     }
 }
 
-public class JOptionalArrayProperty<T : HasReflect, P : StringSerializable> : PropertyType
+public class JOptionalArrayProperty<T : HasMetadata, P : StringSerializable> : PropertyBase<T>
 {
     public var get:(T) -> [P]?
     public var set:(T,[P]?) -> Void
@@ -1232,7 +1434,7 @@ public class JOptionalArrayProperty<T : HasReflect, P : StringSerializable> : Pr
     }
 }
 
-public class JArrayObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
+public class JArrayObjectProperty<T : HasMetadata, P : JsonSerializable> : PropertyBase<T>
 {
     public var get:(T) -> [P]
     public var set:(T,[P]) -> Void
@@ -1286,7 +1488,7 @@ public class JArrayObjectProperty<T : HasReflect, P : JsonSerializable> : Proper
     }
 }
 
-public class JOptionalArrayObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
+public class JOptionalArrayObjectProperty<T : HasMetadata, P : JsonSerializable> : PropertyBase<T>
 {
     public var get:(T) -> [P]?
     public var set:(T,[P]?) -> Void
@@ -1307,8 +1509,6 @@ public class JOptionalArrayObjectProperty<T : HasReflect, P : JsonSerializable> 
     }
     
     public override func jsonValue(instance:T) -> String? {
-        let propValues = get(instance)
-        
         var sb = ""
         
         if let propValues = get(instance) {
@@ -1381,14 +1581,13 @@ class Utils
 
 func jsonString(str:String?) -> String {
     if let s = str {
-        if let stringWithEscapeChars = s.rangeOfCharacterFromSet(Utils.escapeChars()) {
-            //TODO: rewrite to encode manually to avoid unnecessary conversions
-            var error:NSError?
-            if let encodedData = NSJSONSerialization.dataWithJSONObject([s], options:NSJSONWritingOptions.allZeros, error:&error) {
+        if let _ = s.rangeOfCharacterFromSet(Utils.escapeChars()) {
+            do {
+                let encodedData = try NSJSONSerialization.dataWithJSONObject([s], options:NSJSONWritingOptions())
                 if let encodedJson = encodedData.toUtf8String() {
                     return encodedJson[1..<encodedJson.length-1] //strip []
                 }
-            }
+            } catch { }
         }        
         return "\"\(s)\""
     }

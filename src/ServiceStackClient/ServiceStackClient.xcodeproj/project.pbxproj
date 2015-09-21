@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5151BCD31BAFC08400DF72D2 /* ServiceClientTechStacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5151BCD21BAFC08400DF72D2 /* ServiceClientTechStacksTests.swift */; settings = {ASSET_TAGS = (); }; };
 		51D154DD1A7C543E00D2F2A3 /* ServiceStackClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 51D154DC1A7C543E00D2F2A3 /* ServiceStackClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51D154E31A7C543E00D2F2A3 /* ServiceStackClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D154D71A7C543E00D2F2A3 /* ServiceStackClient.framework */; };
 		51D154EA1A7C543E00D2F2A3 /* ServiceStackClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D154E91A7C543E00D2F2A3 /* ServiceStackClientTests.swift */; };
@@ -50,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5151BCD21BAFC08400DF72D2 /* ServiceClientTechStacksTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceClientTechStacksTests.swift; sourceTree = "<group>"; };
 		51D154D71A7C543E00D2F2A3 /* ServiceStackClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ServiceStackClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51D154DB1A7C543E00D2F2A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51D154DC1A7C543E00D2F2A3 /* ServiceStackClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServiceStackClient.h; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				51E7AD701A7C96CF00B65526 /* StringExtensionsTests.swift */,
 				51E7AD721A7CA1CC00B65526 /* DateExtensionsTests.swift */,
 				51F280AB1ABF5FDE00AD3933 /* JsonTests.swift */,
+				5151BCD21BAFC08400DF72D2 /* ServiceClientTechStacksTests.swift */,
 			);
 			path = ServiceStackClientTests;
 			sourceTree = "<group>";
@@ -225,7 +228,9 @@
 		51D154CE1A7C543E00D2F2A3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "ServiceStack LLC";
 				TargetAttributes = {
 					51D154D61A7C543E00D2F2A3 = {
@@ -301,6 +306,7 @@
 				51D155151A7C552B00D2F2A3 /* Test.dtos.swift in Sources */,
 				51D155141A7C552B00D2F2A3 /* Template.swift in Sources */,
 				51D154FC1A7C550900D2F2A3 /* Explore.swift in Sources */,
+				5151BCD31BAFC08400DF72D2 /* ServiceClientTechStacksTests.swift in Sources */,
 				51D1550F1A7C552B00D2F2A3 /* JsonServiceClientTests.swift in Sources */,
 				51D155161A7C552B00D2F2A3 /* TestDtosJsonTests.swift in Sources */,
 				51D154FE1A7C550900D2F2A3 /* Json.swift in Sources */,
@@ -346,6 +352,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -421,6 +428,7 @@
 				INFOPLIST_FILE = ServiceStackClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.servicestack.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -438,6 +446,7 @@
 				INFOPLIST_FILE = ServiceStackClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.servicestack.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -457,6 +466,7 @@
 				INFOPLIST_FILE = ServiceStackClientTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.servicestack.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -471,6 +481,7 @@
 				INFOPLIST_FILE = ServiceStackClientTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.servicestack.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

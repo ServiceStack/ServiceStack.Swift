@@ -11,86 +11,10 @@ import XCTest
 
 class JsonServiceClientTests: XCTestCase {
     var client:JsonServiceClient!
-    var testClient:JsonServiceClient!
     
     override func setUp() {
         super.setUp()
-        client = JsonServiceClient(baseUrl: "http://techstacks.io")
-        testClient = JsonServiceClient(baseUrl: "http://test.servicestack.net")
-    }
-    
-    func assertOverviewResponse(r:OverviewResponse) {
-        XCTAssertNotNil(r)
-        XCTAssertGreaterThan(r.topUsers.count, 0)
-        XCTAssertGreaterThan(r.topTechnologies.count, 0)
-        XCTAssertGreaterThan(r.latestTechStacks.count, 0)
-        XCTAssertGreaterThan(r.latestTechStacks[0].technologyChoices.count, 0)
-        XCTAssertGreaterThan(r.topTechnologiesByTier.count, 0)
-    }
-    
-    func test_Can_GET_TechStacks_Overview() {
-        let response = client.get(Overview())
-        self.assertOverviewResponse(response!)
-    }
-    
-    func test_Can_GET_TechStacks_Overview_Aync() {
-        let asyncTest = expectationWithDescription("asyncTest")
-        
-        client.getAsync(Overview())
-            .then(body: {(r:OverviewResponse) -> Void in
-                self.assertOverviewResponse(r)
-                asyncTest.fulfill()
-            })
-        
-        waitForExpectationsWithTimeout(5, handler: { (error) in
-            XCTAssertNil(error, "Error")
-        })
-    }
-    
-    func test_Can_GET_TechStacks_Overview_with_relative_url() {
-        let response:OverviewResponse? = client.get("/overview")
-        self.assertOverviewResponse(response!)
-    }
-    
-    func test_Can_GET_TechStacks_Overview_with_absolute_url() {
-        let response:OverviewResponse? = client.get("http://techstacks.io/overview")
-        self.assertOverviewResponse(response!)
-    }
-    
-    func assertGetTechnologyResponse(r:GetTechnologyResponse) {
-        XCTAssertNotNil(r)
-        XCTAssertEqual(r.technology!.name!, "ServiceStack")
-        XCTAssertGreaterThan(r.technologyStacks.count, 0)
-    }
-    
-    func test_Can_GET_GetTechnology_with_params() {
-        var requestDto = GetTechnology()
-        requestDto.slug = "servicestack"
-        let response = client.get(requestDto)
-        self.assertGetTechnologyResponse(response!)
-    }
-    
-    func test_Can_GET_GetTechnology_with_params_Async() {
-        
-        let asyncTest = expectationWithDescription("asyncTest")
-        
-        var requestDto = GetTechnology()
-        requestDto.slug = "servicestack"
-        
-        client.getAsync(requestDto)
-            .then(body: {(r:GetTechnologyResponse) -> Void in
-                self.assertGetTechnologyResponse(r)
-                asyncTest.fulfill()
-            })
-        
-        waitForExpectationsWithTimeout(5, handler: { (error) in
-            XCTAssertNil(error, "Error")
-        })
-    }
-    
-    func test_Can_GET_GetTechnology_with_url() {
-        let response:GetTechnologyResponse? = client.get("/technology/servicestack")
-        self.assertGetTechnologyResponse(response!)
+        client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
     }
     
     func test_Can_POST_Test_HelloAllTypes_async() {
@@ -98,9 +22,9 @@ class JsonServiceClientTests: XCTestCase {
         
         let request = createHelloAllTypes()
         
-        testClient.postAsync(request)
-            .then(body: {(r:HelloAllTypesResponse) -> Void in
-                self.assertHelloAllTypesResponse(r, expected: request)
+        client.postAsync(request)
+            .then({
+                self.assertHelloAllTypesResponse($0, expected: request)
                 asyncTest.fulfill()
             })
         
@@ -112,17 +36,25 @@ class JsonServiceClientTests: XCTestCase {
     func test_Can_POST_Test_HelloAllTypes() {
         let request = createHelloAllTypes()
         
-        var response = testClient.post(request)!
-        
-        self.assertHelloAllTypesResponse(response, expected: request)
+        do {
+            let response = try client.post(request)
+            
+            self.assertHelloAllTypesResponse(response, expected: request)
+        } catch let e as NSError {
+            XCTFail("\(e)")
+        }
     }
     
     func test_Can_PUT_Test_HelloAllTypes() {
         let request = createHelloAllTypes()
-        
-        var response = testClient.put(request)!
-        
-        self.assertHelloAllTypesResponse(response, expected: request)
+
+        do {
+            let response = try client.put(request)
+            
+            self.assertHelloAllTypesResponse(response, expected: request)
+        } catch {
+            XCTFail()
+        }
     }
     
     func test_Can_PUT_Test_HelloAllTypes_Async() {
@@ -130,8 +62,8 @@ class JsonServiceClientTests: XCTestCase {
         
         let request = createHelloAllTypes()
         
-        testClient.putAsync(request)
-            .then(body: {(r:HelloAllTypesResponse) -> Void in
+        client.putAsync(request)
+            .then({(r:HelloAllTypesResponse) in
                 self.assertHelloAllTypesResponse(r, expected: request)
                 asyncTest.fulfill()
             })
@@ -140,89 +72,52 @@ class JsonServiceClientTests: XCTestCase {
             XCTAssertNil(error, "Error")
         })
     }
-
-#if false //AutoQuery
-    func test_Can_call_FindTechnologies_AutoQuery_Service() {
-        let request = FindTechnologies<Technology>()
-        request.name = "ServiceStack"
-        
-        let response = client.get(request)!
-        
-        XCTAssertEqual(response.results.count, 1)
-    }
     
-    func test_Can_call_FindTechnologies_AutoQuery_Service_Async() {
-        let asyncTest = expectationWithDescription("asyncTest")
-        
-        let request = FindTechnologies<Technology>()
-        request.name = "ServiceStack"
-        
-        let response = client.getAsync(request)
-            .then(body:{(r:QueryResponse<Technology>) -> Void in
-                XCTAssertEqual(r.results.count, 1)
-                asyncTest.fulfill()
-            })
-        
-        waitForExpectationsWithTimeout(5, handler: { (error) in
-            XCTAssertNil(error, "Error")
-        })
-    }
-    
-    func test_Can_call_FindTechnologies_AutoQuery_Implicit_Service() {
-        let request = FindTechnologies<Technology>()
-        request.take = 5
-        
-        let response = client.get(request, query:["DescriptionContains":"framework"])!
-        
-        XCTAssertEqual(response.results.count, 5)
-    }
-#endif
-    
-#if false //shared error dtos
     func test_Does_handle_404_Error() {
-        var testClient = JsonServiceClient(baseUrl: "http://test.servicestack.net")
+        let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
         
         var globalError:NSError?
         JsonServiceClient.Global.onError = { globalError = $0 }
         
         var localError:NSError?
-        testClient.onError = { localError = $0 }
+        client.onError = { localError = $0 }
         
-        var request = ThrowType()
+        let request = ThrowType()
         request.type = "NotFound"
         request.message = "not here"
         
-        var responseError:NSError?
-        let response = testClient.put(request, error: &responseError)
-        XCTAssertNil(response)
-        
-        XCTAssertNotNil(responseError)
-        XCTAssertNotNil(localError)
-        XCTAssertNotNil(globalError)
-        
-        let status:ResponseStatus = responseError!.convertUserInfo()!
-        XCTAssertEqual(status.errorCode!, "not here")
-        XCTAssertEqual(status.message!, "not here")
-        XCTAssertNotNil(status.stackTrace!)
+        do {
+            let response = try client.put(request)
+            XCTAssertNil(response)
+        } catch let responseError as NSError {
+            XCTAssertNotNil(responseError)
+            XCTAssertNotNil(localError)
+            XCTAssertNotNil(globalError)
+            
+            let status:ResponseStatus = responseError.convertUserInfo()!
+            XCTAssertEqual(status.errorCode!, "not here")
+            XCTAssertEqual(status.message!, "not here")
+            XCTAssertNotNil(status.stackTrace!)
+        }
     }
     
     func test_Does_handle_404_Error_Async() {
         let asyncTest = expectationWithDescription("asyncTest")
 
-        let testClient = JsonServiceClient(baseUrl: "http://test.servicestack.net")
+        let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
         
         var globalError:NSError?
         JsonServiceClient.Global.onError = { globalError = $0 }
         
         var localError:NSError?
-        testClient.onError = { localError = $0 }
+        client.onError = { localError = $0 }
         
-        var request = ThrowType()
+        let request = ThrowType()
         request.type = "NotFound"
         request.message = "not here"
         
-        testClient.putAsync(request)
-            .catch(body: { (responseError:NSError) -> Void in
+        client.putAsync(request)
+            .error({ (responseError:NSError) in
                 XCTAssertNotNil(responseError)
                 XCTAssertNotNil(localError)
                 XCTAssertNotNil(globalError)
@@ -242,45 +137,49 @@ class JsonServiceClientTests: XCTestCase {
     
     func test_Does_handle_ValidationException() {
         
-        let testClient = JsonServiceClient(baseUrl: "http://test.servicestack.net")
+        let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
         
-        var request = ThrowValidation()
+        let request = ThrowValidation()
         request.email = "invalidemail"
-        var responseError:NSError?
-        let response = testClient.post(request, error: &responseError)
-        XCTAssertNil(response)
         
-        XCTAssertNotNil(responseError)
-        
-        let status:ResponseStatus = responseError!.convertUserInfo()!
-        XCTAssertEqual(status.errors.count, 3)
-        
-        XCTAssertEqual(status.errorCode!, status.errors[0].errorCode!)
-        XCTAssertEqual(status.message!, status.errors[0].message!)
-        
-        XCTAssertEqual(status.errors[0].errorCode!, "InclusiveBetween")
-        XCTAssertEqual(status.errors[0].message!, "'Age' must be between 1 and 120. You entered 0.")
-        XCTAssertEqual(status.errors[0].fieldName!, "Age")
-        
-        XCTAssertEqual(status.errors[1].errorCode!, "NotEmpty")
-        XCTAssertEqual(status.errors[1].message!, "'Required' should not be empty.")
-        XCTAssertEqual(status.errors[1].fieldName!, "Required")
-        
-        XCTAssertEqual(status.errors[2].errorCode!, "Email")
-        XCTAssertEqual(status.errors[2].message!, "'Email' is not a valid email address.")
-        XCTAssertEqual(status.errors[2].fieldName!, "Email")
+        do {
+            let response = try client.post(request)
+            XCTAssertNil(response)
+            XCTFail("Should throw")
+        } catch let responseError as NSError {
+            
+            XCTAssertNotNil(responseError)
+            
+            let status:ResponseStatus = responseError.convertUserInfo()!
+            XCTAssertEqual(status.errors.count, 3)
+            
+            XCTAssertEqual(status.errorCode!, status.errors[0].errorCode!)
+            XCTAssertEqual(status.message!, status.errors[0].message!)
+            
+            XCTAssertEqual(status.errors[0].errorCode!, "InclusiveBetween")
+            XCTAssertEqual(status.errors[0].message!, "'Age' must be between 1 and 120. You entered 0.")
+            XCTAssertEqual(status.errors[0].fieldName!, "Age")
+            
+            XCTAssertEqual(status.errors[1].errorCode!, "NotEmpty")
+            XCTAssertEqual(status.errors[1].message!, "'Required' should not be empty.")
+            XCTAssertEqual(status.errors[1].fieldName!, "Required")
+            
+            XCTAssertEqual(status.errors[2].errorCode!, "Email")
+            XCTAssertEqual(status.errors[2].message!, "'Email' is not a valid email address.")
+            XCTAssertEqual(status.errors[2].fieldName!, "Email")
+        }
     }
     
     func test_Does_handle_ValidationException_Async() {
         let asyncTest = expectationWithDescription("asyncTest")
 
-        let testClient = JsonServiceClient(baseUrl: "http://test.servicestack.net")
+        let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
         
-        var request = ThrowValidation()
+        let request = ThrowValidation()
         request.email = "invalidemail"
 
-        testClient.postAsync(request)
-            .catch(body: { (responseError:NSError) -> Void in
+        client.postAsync(request)
+            .error({ (responseError:NSError) in
 
                 XCTAssertNotNil(responseError)
                 
@@ -311,31 +210,75 @@ class JsonServiceClientTests: XCTestCase {
     }
     
     func test_Can_POST_valid_ThrowValidation_request() {
-        let testClient = JsonServiceClient(baseUrl: "http://test.servicestack.net")
+        let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
         
-        var request = ThrowValidation()
+        let request = ThrowValidation()
         request.age = 21
         request.required = "foo"
         request.email = "my@gmail.com"
 
-        var responseError:NSError?
-        let response = testClient.post(request, error: &responseError)!
-        XCTAssertNil(responseError)
-        
-        XCTAssertEqual(response.age!, request.age!)
-        XCTAssertEqual(response.required!, request.required!)
-        XCTAssertEqual(response.email!, request.email!)
+        do {
+            let response = try client.post(request)
+            XCTAssertEqual(response.age!, request.age!)
+            XCTAssertEqual(response.required!, request.required!)
+            XCTAssertEqual(response.email!, request.email!)
+        } catch {
+            XCTFail()
+        }
     }
 
-#endif
+    func test_Can_send_ReturnVoid() {
+        let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
+        
+        var methods = [String]()
+        
+        client.requestFilter = { (req:NSMutableURLRequest) in methods.append(req.HTTPMethod) }
+     
+        do {
+            try client.get(HelloReturnVoid())
+            XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Get)
+            try client.post(HelloReturnVoid())
+            XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Post)
+            try client.put(HelloReturnVoid())
+            XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Put)
+            try client.delete(HelloReturnVoid())
+            XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Delete)
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    func test_Can_send_ReturnVoid_Async() {
+        let asyncTest = expectationWithDescription("asyncTest")
 
+        let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
+        
+        var methods = [String]()
+        
+        client.requestFilter = { (req:NSMutableURLRequest) in methods.append(req.HTTPMethod) }
+        
+        client.getAsync(HelloReturnVoid())
+            .then({
+                XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Get)
+
+                client.postAsync(HelloReturnVoid())
+                    .then({
+                        XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Post)
+                        asyncTest.fulfill()
+                    })
+            })
+
+        waitForExpectationsWithTimeout(5, handler: { (error) in
+            XCTAssertNil(error, "Error")
+        })
+    }
     
     /* 
      * TEST HELPERS 
      */
     
     func createHelloAllTypes() -> HelloAllTypes {
-        var dto = HelloAllTypes()
+        let dto = HelloAllTypes()
         dto.name = "name"
         dto.allTypes = createAllTypes()
         dto.allCollectionTypes = createAllCollectionTypes()
@@ -349,7 +292,7 @@ class JsonServiceClientTests: XCTestCase {
     }
     
     func createAllTypes() -> AllTypes {
-        var to = AllTypes()
+        let to = AllTypes()
         to.id = 1
         to.char = Character("c")
         to.byte = Int8(2)
@@ -371,7 +314,7 @@ class JsonServiceClientTests: XCTestCase {
         to.stringMap = ["A":"D","B":"E","C":"F"]
         to.intStringMap = [1:"A",2:"B",3:"C"]
         
-        var subType = SubType()
+        let subType = SubType()
         subType.id = 1
         subType.name = "name"
         to.subType = subType
@@ -380,22 +323,22 @@ class JsonServiceClientTests: XCTestCase {
     }
     
     func createPoco(name:String?="name") -> Poco {
-        var to = Poco()
+        let to = Poco()
         to.name = name
         return to
     }
     
     func createAllCollectionTypes() -> AllCollectionTypes {
-        var to = AllCollectionTypes()
+        let to = AllCollectionTypes()
         to.intArray = [1,2,3]
         to.intList = [4,5,6]
         to.stringArray = ["A","B","C"]
         to.stringList = ["D","E","F"]
-        to.pocoArray.append(createPoco(name: "pocoArray"))
-        to.pocoList.append(createPoco(name: "pocoList"))
-        to.pocoLookup["A"] = [createPoco(name: "B"),createPoco(name: "C")]
-        to.pocoLookup["D"] = [createPoco(name: "E"),createPoco(name: "F")]
-        to.pocoLookupMap["A"] = ["B":createPoco(name: "C"),"D":createPoco(name: "E")]
+        to.pocoArray.append(createPoco("pocoArray"))
+        to.pocoList.append(createPoco("pocoList"))
+        to.pocoLookup["A"] = [createPoco("B"),createPoco("C")]
+        to.pocoLookup["D"] = [createPoco("E"),createPoco("F")]
+        to.pocoLookupMap["A"] = ["B":createPoco("C"),"D":createPoco("E")]
         
         return to
     }
@@ -421,7 +364,7 @@ class JsonServiceClientTests: XCTestCase {
         XCTAssertEqual(actual.count, expected.count)
         for (k,values) in actual {
             XCTAssertEqual(values.count, expected[k]!.count)
-            for (subK,subV) in values {
+            for (subK,_) in values {
                 XCTAssertEqual(values[subK]!, expected[k]![subK]!)
             }
         }

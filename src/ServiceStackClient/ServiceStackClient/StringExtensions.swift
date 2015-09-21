@@ -10,7 +10,7 @@ import Foundation
 
 public extension String
 {
-    public var length: Int { return count(self) }
+    public var length: Int { return self.characters.count }
     
     public func contains(s:String) -> Bool {
         return (self as NSString).containsString(s)
@@ -21,17 +21,17 @@ public extension String
     }
     
     public func trimEnd(needle: Character) -> String {
-        var i: Int = count(self) - 1, j: Int = i
+        var i: Int = self.characters.count - 1, j: Int = i
         
-        while i >= 0 && self[advance(self.startIndex, i)] == needle {
+        while i >= 0 && self[self.startIndex.advancedBy(i)] == needle {
             --i
         }
         
-        return self.substringWithRange(Range<String.Index>(start: self.startIndex, end: advance(self.endIndex, -(j - i))))
+        return self.substringWithRange(Range<String.Index>(start: self.startIndex, end: self.endIndex.advancedBy(-(j - i))))
     }
     
     public subscript (i: Int) -> Character {
-        return self[advance(self.startIndex, i)]
+        return self[self.startIndex.advancedBy(i)]
     }
     
     public subscript (i: Int) -> String {
@@ -39,7 +39,7 @@ public extension String
     }
     
     public subscript (r: Range<Int>) -> String {
-        return substringWithRange(Range(start: advance(startIndex, r.startIndex), end: advance(startIndex, r.endIndex)))
+        return substringWithRange(Range(start: startIndex.advancedBy(r.startIndex), end: startIndex.advancedBy(r.endIndex)))
     }
     
     public func urlEncode() -> String? {
@@ -57,7 +57,7 @@ public extension String
     public func splitOnFirst(separator:String, startIndex:Int) -> [String] {
         var to = [String]()
         
-        let startRange = advance(self.startIndex, startIndex)
+        let startRange = self.startIndex.advancedBy(startIndex)
         if let range = self.rangeOfString(separator,
             options: NSStringCompareOptions.LiteralSearch,
             range: Range<String.Index>(start: startRange, end: self.endIndex))
@@ -89,14 +89,14 @@ public extension String
     
     public func indexOf(needle:String) -> Int {
         if let range = self.rangeOfString(needle) {
-            return distance(startIndex, range.startIndex)
+            return startIndex.distanceTo(range.startIndex)
         }
         return -1
     }
     
     public func lastIndexOf(needle:String) -> Int {
         if let range = self.rangeOfString(needle, options:NSStringCompareOptions.BackwardsSearch) {
-            return distance(startIndex, range.startIndex)
+            return startIndex.distanceTo(range.startIndex)
         }
         return -1
     }
@@ -110,7 +110,7 @@ public extension String
     }
     
     public func print() -> String {
-        println(self)
+        Swift.print(self)
         return self
     }
 }
@@ -125,7 +125,7 @@ extension Array
             }
             sb += "\(item)"
         }
-        println(sb)
+        Swift.print(sb)
         return sb
     }
 }
@@ -151,10 +151,7 @@ extension NSError
     }
 
     func populateUserInfo<T : JsonSerializable>(instance:T) -> T? {
-        if let userInfo = self.userInfo {
-            let to = populateFromDictionary(T(), userInfo, T.reflect().propertiesMap)
-            return to
-        }
-        return nil
+        let to = populateFromDictionary(T(), map: self.userInfo, propertiesMap: T.propertyMap)
+        return to
     }
 }

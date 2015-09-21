@@ -19,7 +19,7 @@ public extension NSDate {
     }
     
     public convenience init(year:Int, month:Int, day:Int) {
-        var c = NSDateComponents()
+        let c = NSDateComponents()
         c.year = year
         c.month = month
         c.day = day
@@ -31,7 +31,7 @@ public extension NSDate {
     
     public func components() -> NSDateComponents {
         let components  = NSCalendar.currentCalendar().components(
-            NSCalendarUnit.CalendarUnitDay | NSCalendarUnit.CalendarUnitMonth | NSCalendarUnit.CalendarUnitYear,
+            [NSCalendarUnit.Day, NSCalendarUnit.Month, NSCalendarUnit.Year],
             fromDate: self)
         
         return components
@@ -64,7 +64,7 @@ public extension NSDate {
     }
     
     public var isoDateString:String {
-        var dateFormatter = NSDateFormatter()
+        let dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC")
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
@@ -73,7 +73,7 @@ public extension NSDate {
     
     public class func fromIsoDateString(string:String) -> NSDate? {
         let isUtc = string.hasSuffix("Z")
-        var dateFormatter = NSDateFormatter()
+        let dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.timeZone = isUtc ? NSTimeZone(abbreviation: "UTC") : NSTimeZone.localTimeZone()
         dateFormatter.dateFormat = string.length == 19
