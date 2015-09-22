@@ -193,7 +193,7 @@ class JsonServiceClientTests: XCTestCase {
         request.email = "invalidemail"
 
         client.postAsync(request)
-            .error({ (responseError:NSError) in
+            .error({ responseError in
 
                 XCTAssertNotNil(responseError)
                 

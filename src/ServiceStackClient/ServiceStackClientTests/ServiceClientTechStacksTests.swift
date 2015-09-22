@@ -31,10 +31,10 @@ class ServiceClientTechStacksTests: XCTestCase {
         let asyncTest = expectationWithDescription("asyncTest")
         
         client.getAsync(Overview())
-            .then({(r:OverviewResponse) -> Void in
+            .then { r in
                 self.assertOverviewResponse(r)
                 asyncTest.fulfill()
-            })
+            }
         
         waitForExpectationsWithTimeout(5, handler: { (error) in
             XCTAssertNil(error, "Error")
