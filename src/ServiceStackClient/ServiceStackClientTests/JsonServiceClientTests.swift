@@ -45,6 +45,20 @@ class JsonServiceClientTests: XCTestCase {
         }
     }
     
+    func test_Can_GET_Test_AllTypes() {
+        let request = createAllTypes()
+        request.subType = nil
+        request.dateTime = nil
+        
+        do {
+            let response = try client.get(request)
+            
+            self.assertAllTypes(response, expected: request)
+        } catch let e as NSError {
+            XCTFail("\(e)")
+        }
+    }
+    
     func test_Can_PUT_Test_HelloAllTypes() {
         let request = createHelloAllTypes()
 
@@ -179,7 +193,7 @@ class JsonServiceClientTests: XCTestCase {
         request.email = "invalidemail"
 
         client.postAsync(request)
-            .error({ (responseError:NSError) in
+            .error({ responseError in
 
                 XCTAssertNotNil(responseError)
                 
@@ -236,13 +250,13 @@ class JsonServiceClientTests: XCTestCase {
      
         do {
             try client.get(HelloReturnVoid())
-            XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Get)
+            XCTAssertEqual(methods.last, HttpMethods.Get)
             try client.post(HelloReturnVoid())
-            XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Post)
+            XCTAssertEqual(methods.last, HttpMethods.Post)
             try client.put(HelloReturnVoid())
-            XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Put)
+            XCTAssertEqual(methods.last, HttpMethods.Put)
             try client.delete(HelloReturnVoid())
-            XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Delete)
+            XCTAssertEqual(methods.last, HttpMethods.Delete)
         } catch {
             XCTFail()
         }
@@ -259,11 +273,11 @@ class JsonServiceClientTests: XCTestCase {
         
         client.getAsync(HelloReturnVoid())
             .then({
-                XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Get)
+                XCTAssertEqual(methods.last, HttpMethods.Get)
 
                 client.postAsync(HelloReturnVoid())
                     .then({
-                        XCTAssertEqual(methods.last, JsonServiceClient.HttpMethods.Post)
+                        XCTAssertEqual(methods.last, HttpMethods.Post)
                         asyncTest.fulfill()
                     })
             })
@@ -382,7 +396,6 @@ class JsonServiceClientTests: XCTestCase {
         XCTAssertEqual(actual.double!, expected.double!)
         XCTAssertEqual(actual.decimal!, expected.decimal!)
         XCTAssertEqual(actual.string!, expected.string!)
-        XCTAssertEqual(actual.dateTime!, expected.dateTime!)
         XCTAssertEqual(actual.timeSpan!, expected.timeSpan!)
         XCTAssertEqual(actual.guid!, expected.guid!)
         XCTAssertEqual(actual.char!, expected.char!)
@@ -391,9 +404,15 @@ class JsonServiceClientTests: XCTestCase {
         
         assertDictionary(actual.stringMap, expected: expected.stringMap)
         assertDictionary(actual.intStringMap, expected: expected.intStringMap)
-        
-        XCTAssertEqual(actual.subType!.id!, expected.subType!.id!)
-        XCTAssertEqual(actual.subType!.name!, expected.subType!.name!)
+
+        if expected.dateTime != nil {
+            XCTAssertEqual(actual.dateTime!, expected.dateTime!)
+        }
+
+        if expected.subType != nil {
+            XCTAssertEqual(actual.subType!.id!, expected.subType!.id!)
+            XCTAssertEqual(actual.subType!.name!, expected.subType!.name!)
+        }
     }
     
     func assertAllCollectionTypes(actual:AllCollectionTypes, expected:AllCollectionTypes) {

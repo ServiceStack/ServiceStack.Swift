@@ -1,4 +1,3 @@
-#if true
 //
 //  ServiceClientTechStacksTests.swift
 //  ServiceStackClient
@@ -22,8 +21,8 @@ class ServiceClientTechStacksTests: XCTestCase {
         do {
             let response = try client.get(Overview())
             self.assertOverviewResponse(response)
-        } catch {
-            XCTFail()
+        } catch let e as NSError {
+            XCTFail("\(e)")
         }
     }
     
@@ -31,10 +30,10 @@ class ServiceClientTechStacksTests: XCTestCase {
         let asyncTest = expectationWithDescription("asyncTest")
         
         client.getAsync(Overview())
-            .then { r in
+            .then({(r:OverviewResponse) -> Void in
                 self.assertOverviewResponse(r)
                 asyncTest.fulfill()
-            }
+            })
         
         waitForExpectationsWithTimeout(5, handler: { (error) in
             XCTAssertNil(error, "Error")
@@ -99,41 +98,41 @@ class ServiceClientTechStacksTests: XCTestCase {
     
     #if false //AutoQuery
     func test_Can_call_FindTechnologies_AutoQuery_Service() {
-        let request = FindTechnologies<Technology>()
-        request.name = "ServiceStack"
-        
-        let response = client.get(request)!
-        
-        XCTAssertEqual(response.results.count, 1)
+    let request = FindTechnologies<Technology>()
+    request.name = "ServiceStack"
+    
+    let response = client.get(request)!
+    
+    XCTAssertEqual(response.results.count, 1)
     }
     
     func test_Can_call_FindTechnologies_AutoQuery_Service_Async() {
-        let asyncTest = expectationWithDescription("asyncTest")
-        
-        let request = FindTechnologies<Technology>()
-        request.name = "ServiceStack"
-        
-        let response = client.getAsync(request)
-            .then(body:{(r:QueryResponse<Technology>) -> Void in
-                XCTAssertEqual(r.results.count, 1)
-                asyncTest.fulfill()
-            })
-        
-        waitForExpectationsWithTimeout(5, handler: { (error) in
-            XCTAssertNil(error, "Error")
-        })
+    let asyncTest = expectationWithDescription("asyncTest")
+    
+    let request = FindTechnologies<Technology>()
+    request.name = "ServiceStack"
+    
+    let response = client.getAsync(request)
+    .then(body:{(r:QueryResponse<Technology>) -> Void in
+    XCTAssertEqual(r.results.count, 1)
+    asyncTest.fulfill()
+    })
+    
+    waitForExpectationsWithTimeout(5, handler: { (error) in
+    XCTAssertNil(error, "Error")
+    })
     }
     
     func test_Can_call_FindTechnologies_AutoQuery_Implicit_Service() {
-        let request = FindTechnologies<Technology>()
-        request.take = 5
-        
-        let response = client.get(request, query:["DescriptionContains":"framework"])!
-        
-        XCTAssertEqual(response.results.count, 5)
+    let request = FindTechnologies<Technology>()
+    request.take = 5
+    
+    let response = client.get(request, query:["DescriptionContains":"framework"])!
+    
+    XCTAssertEqual(response.results.count, 5)
     }
     #endif
-
+    
     /*
     * TEST HELPERS
     */
@@ -153,5 +152,3 @@ class ServiceClientTechStacksTests: XCTestCase {
         XCTAssertGreaterThan(r.topTechnologiesByTier.count, 0)
     }
 }
-
-#endif

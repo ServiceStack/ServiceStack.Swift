@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ServiceStackClient/JsonServiceClient.swift"
-            timestampString = "464520712.221984"
+            timestampString = "464561635.144646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
             landmarkName = "send(_:request:)"
             landmarkType = "5">
             <Locations>
