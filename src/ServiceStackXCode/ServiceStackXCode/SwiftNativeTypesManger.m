@@ -39,6 +39,47 @@ DVTSourceTextView *sourceTextView;
 
 +(void) connectionDidFinishLoading:(NSURLConnection*)connection {
     NSString *responseString = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    if (httpUrlResponse == nil) {
+        if (responseError != nil) {
+            NSInteger errorCode = responseError.code;
+            NSAlert *alert = [[NSAlert alloc] init];
+            [alert addButtonWithTitle:@"OK"];
+            [alert setMessageText:[NSString stringWithFormat:@"Error updating ServiceStack Reference - %ld", (long)errorCode]];
+            [alert setAlertStyle:NSWarningAlertStyle];
+            [alert runModal];
+            return;
+        }
+        
+        //Empty response 200
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:@"OK"];
+        [alert setMessageText:@"Error updating ServiceStack Reference - Empty response"];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert runModal];
+        return;
+    }
+    NSInteger responseCode = [httpUrlResponse statusCode];
+    
+    if(responseCode != 200) {
+        NSInteger errorCode = responseCode;
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:@"OK"];
+        [alert setMessageText:[NSString stringWithFormat:@"Error updating ServiceStack Reference - %ld", (long)errorCode]];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert runModal];
+        return;
+    }
+    
+    if([responseString hasPrefix:@"<"]) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:@"OK"];
+        [alert setMessageText:@"Error updating ServiceStack Reference."];
+        [alert setInformativeText:@"Unexpected HTML response body returned from endpoint. Please check the BaseUrl."];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert runModal];
+        return;
+    }
+    
     // This is a reference to the current source code editor.
     [sourceTextView selectAll:nil];
     NSRange selectedTextRange = [sourceTextView selectedRange];
