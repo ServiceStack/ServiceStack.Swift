@@ -574,7 +574,7 @@ public struct HttpMethods
     static let Get = "GET"
     static let Post = "POST"
     static let Put = "PUT"
-    static let Delete = "DELTE"
+    static let Delete = "DELETE"
     static let Head = "HEAD"
     static let Options = "OPTIONS"
     static let Patch = "PATCH"

@@ -74,7 +74,7 @@ public class JsonServiceClient : ServiceClient
         static let Get = "GET"
         static let Post = "POST"
         static let Put = "PUT"
-        static let Delete = "DELTE"
+        static let Delete = "DELETE"
         static let Head = "HEAD"
         static let Option = "OPTION"
         static let Path = "PATCH"
