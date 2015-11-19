@@ -113,6 +113,12 @@ public extension String
         Swift.print(self)
         return self
     }
+    
+    public func stripQuotes() -> String {
+        return self.hasPrefix("\"") && self.hasSuffix("\"")
+            ? self[1..<self.length-1]
+            : self
+    }
 }
 
 extension Array

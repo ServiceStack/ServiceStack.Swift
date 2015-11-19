@@ -194,7 +194,11 @@ public class JsonServiceClient : ServiceClient
 
         var sb = ""
         for pi in T.properties {
-            if let strValue = pi.stringValueAny(dto) {
+            if let strValue = pi.jsonValueAny(dto)?.stripQuotes() {
+                sb += sb.length == 0 ? "?" : "&"
+                sb += "\(pi.name.urlEncode()!)=\(strValue.urlEncode()!)"
+            }
+            else if let strValue = pi.stringValueAny(dto) {
                 sb += sb.length == 0 ? "?" : "&"
                 sb += "\(pi.name.urlEncode()!)=\(strValue.urlEncode()!)"
             }
