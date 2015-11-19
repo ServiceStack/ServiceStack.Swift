@@ -197,7 +197,11 @@ public class JsonServiceClient : ServiceClient
 
         var sb = ""
         for pi in T.properties {
-            if let strValue = pi.stringValueAny(dto) {
+            if let strValue = pi.jsonValueAny(dto)?.stripQuotes() {
+                sb += sb.length == 0 ? "?" : "&"
+                sb += "\(pi.name.urlEncode()!)=\(strValue.urlEncode()!)"
+            }
+            else if let strValue = pi.stringValueAny(dto) {
                 sb += sb.length == 0 ? "?" : "&"
                 sb += "\(pi.name.urlEncode()!)=\(strValue.urlEncode()!)"
             }
@@ -825,7 +829,7 @@ extension NSDate : StringSerializable
     }
     
     public func toJson() -> String {
-        return jsonString(self.isoDateString)
+        return jsonString(self.jsonDate)
     }
     
     public class func fromString(string: String) -> NSDate? {
@@ -2332,6 +2336,12 @@ public extension String
         Swift.print(self)
         return self
     }
+    
+    public func stripQuotes() -> String {
+        return self.hasPrefix("\"") && self.hasSuffix("\"")
+            ? self[1..<self.length-1]
+            : self
+    }
 }
 
 extension Array
@@ -2431,6 +2441,11 @@ public extension NSDate {
         return fmt.stringFromDate(self)
     }
     
+    public var jsonDate:String {
+        let unixEpoch = Int(self.timeIntervalSince1970 * 1000)
+        return "/Date(\(unixEpoch)-0000)/"
+    }
+    
     public var isoDateString:String {
         let dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
@@ -2444,7 +2459,7 @@ public extension NSDate {
         let dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.timeZone = isUtc ? NSTimeZone(abbreviation: "UTC") : NSTimeZone.localTimeZone()
-        dateFormatter.dateFormat = string.length == 19
+        dateFormatter.dateFormat = string.length == 19 || (isUtc && string.length == 20)
             ? "yyyy-MM-dd'T'HH:mm:ss"
             : "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS"
         

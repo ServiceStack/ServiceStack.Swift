@@ -16,36 +16,61 @@ public protocol IReturn
     typealias Return : JsonSerializable
 }
 
+public protocol IReturnVoid {}
+
+public protocol IGet {}
+public protocol IPost {}
+public protocol IPut {}
+public protocol IDelete {}
+public protocol IPatch {}
+
 public protocol ServiceClient
 {
-    func get<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer) -> T.Return?
-    func get<T : IReturn where T : JsonSerializable>(request:T, query:[String:String], error:NSErrorPointer) -> T.Return?
-    func get<T : JsonSerializable>(relativeUrl:String, error:NSErrorPointer) -> T?
+    func get<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return
+    func get<T : IReturnVoid where T : JsonSerializable>(request:T) throws -> Void
+    func get<T : IReturn where T : JsonSerializable>(request:T, query:[String:String]) throws -> T.Return
+    func get<T : JsonSerializable>(relativeUrl:String) throws -> T
     func getAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return>
+    func getAsync<T : IReturnVoid where T : JsonSerializable>(request:T) -> Promise<Void>
     func getAsync<T : IReturn where T : JsonSerializable>(request:T, query:[String:String]) -> Promise<T.Return>
     func getAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T>
     
-    func post<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer) -> T.Return?
-    func post<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?, error:NSErrorPointer) -> Response?
+    func post<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return
+    func post<T : IReturnVoid where T : JsonSerializable>(request:T) throws -> Void
+    func post<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) throws -> Response
     func postAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return>
+    func postAsync<T : IReturnVoid where T : JsonSerializable>(request:T) -> Promise<Void>
     func postAsync<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) -> Promise<Response>
     
-    func put<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer) -> T.Return?
-    func put<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?, error:NSErrorPointer) -> Response?
+    func put<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return
+    func put<T : IReturnVoid where T : JsonSerializable>(request:T) throws -> Void
+    func put<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) throws -> Response
     func putAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return>
+    func putAsync<T : IReturnVoid where T : JsonSerializable>(request:T) -> Promise<Void>
     func putAsync<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) -> Promise<Response>
     
-    func delete<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer) -> T.Return?
-    func delete<T : IReturn where T : JsonSerializable>(request:T, query:[String:String], error:NSErrorPointer) -> T.Return?
-    func delete<T : JsonSerializable>(relativeUrl:String, error:NSErrorPointer) -> T?
+    func delete<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return
+    func delete<T : IReturnVoid where T : JsonSerializable>(request:T) throws -> Void
+    func delete<T : IReturn where T : JsonSerializable>(request:T, query:[String:String]) throws -> T.Return
+    func delete<T : JsonSerializable>(relativeUrl:String) throws -> T
     func deleteAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return>
+    func deleteAsync<T : IReturnVoid where T : JsonSerializable>(request:T) -> Promise<Void>
     func deleteAsync<T : IReturn where T : JsonSerializable>(request:T, query:[String:String]) -> Promise<T.Return>
     func deleteAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T>
     
-    func send<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest, error:NSErrorPointer) -> T?
+    func patch<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return
+    func patch<T : IReturnVoid where T : JsonSerializable>(request:T) throws -> Void
+    func patch<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) throws -> Response
+    func patchAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return>
+    func patchAsync<T : IReturnVoid where T : JsonSerializable>(request:T) -> Promise<Void>
+    func patchAsync<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) -> Promise<Response>
+    
+    func send<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return
+    func send<T : IReturnVoid where T : JsonSerializable>(request:T) throws -> Void
+    func send<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) throws -> T
     func sendAsync<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) -> Promise<T>
     
-    func getData(url:String, error:NSErrorPointer) -> NSData?
+    func getData(url:String) throws -> NSData
     func getDataAsync(url:String) -> Promise<NSData>
 }
 
@@ -70,21 +95,11 @@ public class JsonServiceClient : ServiceClient
         static var onError:((NSError) -> Void)?
     }
     
-    public struct HttpMethods {
-        static let Get = "GET"
-        static let Post = "POST"
-        static let Put = "PUT"
-        static let Delete = "DELETE"
-        static let Head = "HEAD"
-        static let Option = "OPTION"
-        static let Path = "PATCH"
-    }
-    
     public init(baseUrl:String)
     {
         self.baseUrl = baseUrl.hasSuffix("/") ? baseUrl : baseUrl + "/"
         self.replyUrl = self.baseUrl + "json/reply/"
-        var url = NSURL(string: self.baseUrl)
+        let url = NSURL(string: self.baseUrl)
         self.domain = url!.host!
     }
     
@@ -132,8 +147,7 @@ public class JsonServiceClient : ServiceClient
         }
     }
     
-    func handleResponse<T : JsonSerializable>(intoResponse:T, data:NSData, response:NSURLResponse, error:NSErrorPointer) -> T? {
-        
+    func handleResponse<T : JsonSerializable>(intoResponse:T, data:NSData, response:NSURLResponse, error:NSErrorPointer = nil) -> T? {
         if let nsResponse = response as? NSHTTPURLResponse {
             if nsResponse.statusCode >= 400 {
                 var errorInfo = [NSObject : AnyObject]()
@@ -141,7 +155,7 @@ public class JsonServiceClient : ServiceClient
                 errorInfo["statusCode"] = nsResponse.statusCode
                 errorInfo["statusDescription"] = nsResponse.description
                 
-                if let contentType = nsResponse.allHeaderFields["Content-Type"] as? String {
+                if let _ = nsResponse.allHeaderFields["Content-Type"] as? String {
                     if let obj:AnyObject = parseJsonBytes(data) {
                         errorInfo["response"] = obj
                         errorInfo["errorCode"] = nsResponse.statusCode.toString()
@@ -150,13 +164,17 @@ public class JsonServiceClient : ServiceClient
                     }
                 }
                 
-                var ex = fireErrorCallbacks(NSError(domain:self.domain, code:nsResponse.statusCode, userInfo:errorInfo))
+                let ex = fireErrorCallbacks(NSError(domain:self.domain, code:nsResponse.statusCode, userInfo:errorInfo))
                 if error != nil {
                     error.memory = ex
                 }
                 
                 return nil
             }
+        }
+        
+        if (intoResponse is ReturnVoid) {
+            return intoResponse
         }
         
         if responseFilter != nil {
@@ -167,19 +185,23 @@ public class JsonServiceClient : ServiceClient
         }
         
         if let json = NSString(data: data, encoding: NSUTF8StringEncoding) {
-            if let dto = T.reflect().fromJson(intoResponse, json: json as String, error:error) {
+            if let dto = Type<T>.fromJson(intoResponse, json: json as String) {
                 return dto
             }
         }
         return nil
     }
     
-    public func createUrl<T : IReturn where T : JsonSerializable>(typeInfo:Type<T.T>, dto:T, query:[String:String] = [:]) -> String {
+    public func createUrl<T : JsonSerializable>(dto:T, query:[String:String] = [:]) -> String {
         var requestUrl = self.replyUrl + T.typeName
-        
+
         var sb = ""
-        for pi in typeInfo.properties {
-            if let strValue = pi.stringValue(dto) {
+        for pi in T.properties {
+            if let strValue = pi.jsonValueAny(dto)?.stripQuotes() {
+                sb += sb.length == 0 ? "?" : "&"
+                sb += "\(pi.name.urlEncode()!)=\(strValue.urlEncode()!)"
+            }
+            else if let strValue = pi.stringValueAny(dto) {
                 sb += sb.length == 0 ? "?" : "&"
                 sb += "\(pi.name.urlEncode()!)=\(strValue.urlEncode()!)"
             }
@@ -210,7 +232,7 @@ public class JsonServiceClient : ServiceClient
     public func createRequest(url:String, httpMethod:String, requestType:String? = nil, requestBody:NSData? = nil) -> NSMutableURLRequest {
         let nsUrl = NSURL(string: url)!
         
-        var req = self.timeout == nil
+        let req = self.timeout == nil
             ? NSMutableURLRequest(URL: nsUrl)
             : NSMutableURLRequest(URL: nsUrl, cachePolicy: self.cachePolicy, timeoutInterval: self.timeout!)
         
@@ -233,28 +255,39 @@ public class JsonServiceClient : ServiceClient
         return req
     }
     
-    public func send<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest, error:NSErrorPointer = nil) -> T? {
-        
+    public func send<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) throws -> T {
         var response:NSURLResponse? = nil
         
-        if let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: error) {
-            return self.handleResponse(intoResponse, data: data, response: response!, error: error)
+        var data = NSData()
+        do {
+            data = try NSURLConnection.sendSynchronousRequest(request, returningResponse: &response)
+            var error:NSError? = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
+            if let dto = self.handleResponse(intoResponse, data: data, response: response!, error: &error) {
+                return dto
+            }
+            if let e = error {
+                throw e
+            }
+            return T()
+        } catch var ex as NSError? {
+            if let e = self.handleResponse(intoResponse, data: data, response: response!, error: &ex) {
+                return e
+            }
+            throw ex!
         }
-        
-        return nil
     }
     
     public func sendAsync<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) -> Promise<T> {
         
         return Promise<T> { (complete, reject) in
             
-            var task = self.createSession().dataTaskWithRequest(request) { (data, response, error) in
+            let task = self.createSession().dataTaskWithRequest(request) { (data, response, error) in
                 if error != nil {
-                    reject(self.handleError(error))
+                    reject(self.handleError(error!))
                 }
                 else {
                     var resposneError:NSError?
-                    let response = self.handleResponse(intoResponse, data: data, response: response, error: &resposneError)
+                    let response = self.handleResponse(intoResponse, data: data!, response: response!, error: &resposneError)
                     if resposneError != nil {
                         reject(self.fireErrorCallbacks(resposneError!))
                     }
@@ -278,24 +311,91 @@ public class JsonServiceClient : ServiceClient
             : baseUrl.combinePath(relativeOrAbsoluteUrl)
     }
     
-    public func get<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer = nil) -> T.Return? {
-        return send(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request), httpMethod:HttpMethods.Get), error:error)
+    func hasRequestBody(httpMethod:String) -> Bool
+    {
+        switch httpMethod {
+            case HttpMethods.Get, HttpMethods.Delete, HttpMethods.Head, HttpMethods.Options:
+                return false
+            default:
+                return true
+        }
     }
     
-    public func get<T : IReturn where T : JsonSerializable>(request:T, query:[String:String], error:NSErrorPointer = nil) -> T.Return? {
-        return send(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request, query:query), httpMethod:HttpMethods.Get), error:error)
+    func getSendMethod<T : JsonSerializable>(request:T) -> String {
+        return request is IGet ?
+             HttpMethods.Get
+            : request is IPost ?
+              HttpMethods.Post
+            : request is IPut ?
+              HttpMethods.Put
+            : request is IDelete ?
+              HttpMethods.Delete
+            : request is IPatch ?
+              HttpMethods.Patch :
+              HttpMethods.Post;
     }
     
-    public func get<T : JsonSerializable>(relativeUrl:String, error:NSErrorPointer = nil) -> T? {
-        return send(T(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Get), error:error)
+    public func send<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return {
+        let httpMethod = getSendMethod(request)
+        return hasRequestBody(httpMethod)
+            ? try send(T.Return(), request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:httpMethod, request:request))
+            : try send(T.Return(), request: self.createRequest(self.createUrl(request), httpMethod:httpMethod))
+    }
+    
+    public func send<T : IReturnVoid where T : JsonSerializable>(request:T) throws {
+        let httpMethod = getSendMethod(request)
+        if hasRequestBody(httpMethod) {
+            try send(ReturnVoid.void, request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:httpMethod, request:request))
+        }
+        else {
+            try send(ReturnVoid.void, request: self.createRequest(self.createUrl(request), httpMethod:httpMethod))
+        }
+    }
+    
+    public func sendAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return> {
+        let httpMethod = getSendMethod(request)
+        return hasRequestBody(httpMethod)
+            ? sendAsync(T.Return(), request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:httpMethod, request:request))
+            : sendAsync(T.Return(), request: self.createRequest(self.createUrl(request), httpMethod:httpMethod))
+    }
+    
+    public func sendAsync<T : IReturnVoid where T : JsonSerializable>(request:T) -> Promise<Void> {
+        let httpMethod = getSendMethod(request)
+        return hasRequestBody(httpMethod)
+            ? sendAsync(ReturnVoid.void, request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Post, request:request))
+              .then({ x -> Void in })
+            : sendAsync(ReturnVoid.void, request: self.createRequest(self.createUrl(request), httpMethod:HttpMethods.Get))
+                .then({ x -> Void in })
+    }
+   
+    
+    public func get<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return {
+        return try send(T.Return(), request: self.createRequest(self.createUrl(request), httpMethod:HttpMethods.Get))
+    }
+    
+    public func get<T : IReturnVoid where T : JsonSerializable>(request:T) throws -> Void {
+        try send(ReturnVoid.void, request: self.createRequest(self.createUrl(request), httpMethod:HttpMethods.Get))
+    }
+    
+    public func get<T : IReturn where T : JsonSerializable>(request:T, query:[String:String]) throws -> T.Return {
+        return try send(T.Return(), request: self.createRequest(self.createUrl(request, query:query), httpMethod:HttpMethods.Get))
+    }
+    
+    public func get<T : JsonSerializable>(relativeUrl:String) throws -> T {
+        return try send(T(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Get))
     }
     
     public func getAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return> {
-        return sendAsync(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request), httpMethod:HttpMethods.Get))
+        return sendAsync(T.Return(), request: self.createRequest(self.createUrl(request), httpMethod:HttpMethods.Get))
+    }
+    
+    public func getAsync<T : IReturnVoid where T : JsonSerializable>(request:T) -> Promise<Void> {
+        return sendAsync(ReturnVoid.void, request: self.createRequest(self.createUrl(request), httpMethod:HttpMethods.Get))
+            .then({ x -> Void in })
     }
     
     public func getAsync<T : IReturn where T : JsonSerializable>(request:T, query:[String:String]) -> Promise<T.Return> {
-        return sendAsync(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request, query:query), httpMethod:HttpMethods.Get))
+        return sendAsync(T.Return(), request: self.createRequest(self.createUrl(request, query:query), httpMethod:HttpMethods.Get))
     }
     
     public func getAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T> {
@@ -303,16 +403,25 @@ public class JsonServiceClient : ServiceClient
     }
     
     
-    public func post<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer = nil) -> T.Return? {
-        return send(T.Return(), request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Post, request:request), error:error)
+    public func post<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return {
+        return try send(T.Return(), request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Post, request:request))
     }
     
-    public func post<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?, error:NSErrorPointer = nil) -> Response? {
-        return send(Response(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Post, request:request), error:error)
+    public func post<T : IReturnVoid where T : JsonSerializable>(request:T) throws -> Void {
+        try send(ReturnVoid.void, request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Post, request:request))
+    }
+    
+    public func post<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) throws -> Response {
+        return try send(Response(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Post, request:request))
     }
     
     public func postAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return> {
         return sendAsync(T.Return(), request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Post, request:request))
+    }
+    
+    public func postAsync<T : IReturnVoid where T : JsonSerializable>(request:T) -> Promise<Void> {
+        return sendAsync(ReturnVoid.void, request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Post, request:request))
+            .then({ x -> Void in })
     }
     
     public func postAsync<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) -> Promise<Response> {
@@ -320,16 +429,25 @@ public class JsonServiceClient : ServiceClient
     }
     
     
-    public func put<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer = nil) -> T.Return? {
-        return send(T.Return(), request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Put, request:request), error:error)
+    public func put<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return {
+        return try send(T.Return(), request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Put, request:request))
     }
     
-    public func put<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?, error:NSErrorPointer = nil) -> Response? {
-        return send(Response(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Put, request:request), error:error)
+    public func put<T : IReturnVoid where T : JsonSerializable>(request:T) throws -> Void {
+        try send(ReturnVoid.void, request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Put, request:request))
+    }
+    
+    public func put<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) throws -> Response {
+        return try send(Response(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Put, request:request))
     }
     
     public func putAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return> {
         return sendAsync(T.Return(), request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Put, request:request))
+    }
+    
+    public func putAsync<T : IReturnVoid where T : JsonSerializable>(request:T) -> Promise<Void> {
+        return sendAsync(ReturnVoid.void, request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Put, request:request))
+            .then({ x -> Void in })
     }
     
     public func putAsync<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) -> Promise<Response> {
@@ -337,45 +455,85 @@ public class JsonServiceClient : ServiceClient
     }
     
     
-    public func delete<T : IReturn where T : JsonSerializable>(request:T, error:NSErrorPointer = nil) -> T.Return? {
-        return send(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request), httpMethod:HttpMethods.Delete), error:error)
+    public func delete<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return {
+        return try send(T.Return(), request: self.createRequest(self.createUrl(request), httpMethod:HttpMethods.Delete))
     }
     
-    public func delete<T : IReturn where T : JsonSerializable>(request:T, query:[String:String], error:NSErrorPointer = nil) -> T.Return? {
-        return send(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request, query:query), httpMethod:HttpMethods.Delete), error:error)
+    public func delete<T : IReturnVoid where T : JsonSerializable>(request:T) throws -> Void {
+        try send(ReturnVoid.void, request: self.createRequest(self.createUrl(request), httpMethod:HttpMethods.Delete))
     }
     
-    public func delete<T : JsonSerializable>(relativeUrl:String, error:NSErrorPointer = nil) -> T? {
-        return send(T(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Delete), error:error)
+    public func delete<T : IReturn where T : JsonSerializable>(request:T, query:[String:String]) throws -> T.Return {
+        return try send(T.Return(), request: self.createRequest(self.createUrl(request, query:query), httpMethod:HttpMethods.Delete))
+    }
+    
+    public func delete<T : JsonSerializable>(relativeUrl:String) throws -> T {
+        return try send(T(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Delete))
     }
     
     public func deleteAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return> {
-        return sendAsync(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request), httpMethod:HttpMethods.Delete))
+        return sendAsync(T.Return(), request: self.createRequest(self.createUrl(request), httpMethod:HttpMethods.Delete))
+    }
+    
+    public func deleteAsync<T : IReturnVoid where T : JsonSerializable>(request:T) -> Promise<Void> {
+        return sendAsync(ReturnVoid.void, request: self.createRequest(self.createUrl(request), httpMethod:HttpMethods.Delete))
+            .then({ x -> Void in })
     }
     
     public func deleteAsync<T : IReturn where T : JsonSerializable>(request:T, query:[String:String]) -> Promise<T.Return> {
-        return sendAsync(T.Return(), request: self.createRequest(self.createUrl(T.reflect(), dto: request, query:query), httpMethod:HttpMethods.Delete))
+        return sendAsync(T.Return(), request: self.createRequest(self.createUrl(request, query:query), httpMethod:HttpMethods.Delete))
     }
     
     public func deleteAsync<T : JsonSerializable>(relativeUrl:String) -> Promise<T> {
         return sendAsync(T(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Delete))
     }
     
-    public func getData(url:String, error:NSErrorPointer = nil) -> NSData? {
+    
+    public func patch<T : IReturn where T : JsonSerializable>(request:T) throws -> T.Return {
+        return try send(T.Return(), request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Patch, request:request))
+    }
+    
+    public func patch<T : IReturnVoid where T : JsonSerializable>(request:T) throws -> Void {
+        try send(ReturnVoid.void, request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Patch, request:request))
+    }
+    
+    public func patch<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) throws -> Response {
+        return try send(Response(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Patch, request:request))
+    }
+    
+    public func patchAsync<T : IReturn where T : JsonSerializable>(request:T) -> Promise<T.Return> {
+        return sendAsync(T.Return(), request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Patch, request:request))
+    }
+    
+    public func patchAsync<T : IReturnVoid where T : JsonSerializable>(request:T) -> Promise<Void> {
+        return sendAsync(ReturnVoid.void, request: self.createRequest(replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Patch, request:request))
+            .then({ x -> Void in })
+    }
+    
+    public func patchAsync<Response : JsonSerializable, Request:JsonSerializable>(relativeUrl:String, request:Request?) -> Promise<Response> {
+        return sendAsync(Response(), request: self.createRequest(resolveUrl(relativeUrl), httpMethod:HttpMethods.Patch, request:request))
+    }
+    
+    
+    public func getData(url:String) throws -> NSData {
+        var error: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
         var response:NSURLResponse? = nil
-        if let data = NSURLConnection.sendSynchronousRequest(NSURLRequest(URL: NSURL(string:resolveUrl(url))!), returningResponse: &response, error: error) {
+        do {
+            let data = try NSURLConnection.sendSynchronousRequest(NSURLRequest(URL: NSURL(string:resolveUrl(url))!), returningResponse: &response)
             return data
+        } catch let error1 as NSError {
+            error = error1
         }
-        return nil
+        throw error
     }
     
     public func getDataAsync(url:String) -> Promise<NSData> {
         return Promise<NSData> { (complete, reject) in
-            var task = self.createSession().dataTaskWithURL(NSURL(string: self.resolveUrl(url))!) { (data, response, error) in
+            let task = self.createSession().dataTaskWithURL(NSURL(string: self.resolveUrl(url))!) { (data, response, error) in
                 if error != nil {
-                    reject(self.handleError(error))
+                    reject(self.handleError(error!))
                 }
-                complete(data)
+                complete(data!)
             }
             
             task.resume()
@@ -418,6 +576,16 @@ extension NSHTTPURLResponse {
     }
 }
 
+public struct HttpMethods
+{
+    static let Get = "GET"
+    static let Post = "POST"
+    static let Put = "PUT"
+    static let Delete = "DELETE"
+    static let Head = "HEAD"
+    static let Options = "OPTIONS"
+    static let Patch = "PATCH"
+}
 
 
 
@@ -446,7 +614,7 @@ public class JObject
     }
     
     class func toJson<K : Hashable, V : JsonSerializable where K : StringSerializable>(map:[K:V]) -> String? {
-        var jb = JObject()
+        let jb = JObject()
         
         for (k,v) in map {
             jb.append(k.toString(), json: v.toJson())
@@ -465,7 +633,7 @@ public class JArray
     }
     
     func append(json:String?) {
-        if count(sb) > 0 {
+        if sb.characters.count > 0 {
             sb += ","
         }
         sb += json != nil ? "\(json!)" : "null"
@@ -478,37 +646,119 @@ public class JArray
 
 public class JValue
 {
-    class func unwrap(any:Any) -> Any? {
-        let mi:MirrorType = reflect(any)
-        if mi.disposition != .Optional {
+    static func unwrap(any:Any) -> Any {
+        
+        let mi = Mirror(reflecting: any)
+        if mi.displayStyle != .Optional {
             return any
         }
-        if mi.count == 0 { return nil } // Optional.None
-        let (name,some) = mi[0]
-        return some.value
+        
+        if mi.children.count == 0 { return NSNull() }
+        let (_, some) = mi.children.first!
+        return some
     }
 }
 
 func parseJson(json:String) -> AnyObject? {
-    var error: NSError?
-    return parseJson(json, &error)
+    do {
+        return try parseJsonThrows(json)
+    } catch _ {
+        return nil
+    }
 }
 
-func parseJson(json:String, error:NSErrorPointer) -> AnyObject? {
+func parseJsonThrows(json:String) throws -> AnyObject {
     let data = json.dataUsingEncoding(NSUTF8StringEncoding)!
-    return parseJsonBytes(data, error)
+    return try parseJsonBytesThrows(data)
 }
 
 func parseJsonBytes(bytes:NSData) -> AnyObject? {
-    var error: NSError?
-    return parseJsonBytes(bytes, &error)
+    do {
+        return try parseJsonBytesThrows(bytes)
+    } catch _ {
+        return nil
+    }
 }
 
-func parseJsonBytes(bytes:NSData, error:NSErrorPointer) -> AnyObject? {
-    let parsedObject: AnyObject? = NSJSONSerialization.JSONObjectWithData(bytes,
-        options: NSJSONReadingOptions.AllowFragments,
-        error:error)
-    return parsedObject
+func parseJsonBytesThrows(bytes:NSData) throws -> AnyObject {
+    var error: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
+    let parsedObject: AnyObject?
+    do {
+        parsedObject = try NSJSONSerialization.JSONObjectWithData(bytes,
+                options: NSJSONReadingOptions.AllowFragments)
+    } catch let error1 as NSError {
+        error = error1
+        parsedObject = nil
+    }
+    if let value = parsedObject {
+        return value
+    }
+    throw error
+}
+
+extension NSString : JsonSerializable
+{
+    public static var typeName:String { return "NSString" }
+    
+    public static var metadata:Metadata = Metadata.create([])
+    
+    public func toString() -> String {
+        return self as String
+    }
+    
+    public func toJson() -> String {
+        return jsonString(self as String)
+    }
+    
+    public static func fromJson(json:String) -> NSString? {
+        return parseJson(json) as? NSString
+    }
+    
+    public static func fromString(string: String) -> NSString? {
+        return string
+    }
+    
+    public static func fromObject(any:AnyObject) -> NSString?
+    {
+        switch any {
+        case let s as NSString: return s
+        default:return nil
+        }
+    }
+}
+
+public class ReturnVoid {
+    public required init(){}
+}
+
+extension ReturnVoid : JsonSerializable
+{
+    public static let void = ReturnVoid()
+    
+    public static var typeName:String { return "ReturnVoid" }
+    
+    public static var metadata:Metadata = Metadata.create([])
+    
+    public func toString() -> String {
+        return ""
+    }
+    
+    public func toJson() -> String {
+        return ""
+    }
+    
+    public static func fromJson(json:String) -> NSString? {
+        return nil
+    }
+    
+    public static func fromString(string: String) -> NSString? {
+        return nil
+    }
+    
+    public static func fromObject(any:AnyObject) -> NSString?
+    {
+        return nil
+    }
 }
 
 extension String : StringSerializable
@@ -533,6 +783,15 @@ extension String : StringSerializable
         case let s as String: return s
         default:return nil
         }
+    }
+}
+
+extension String : JsonSerializable
+{
+    public static var metadata:Metadata = Metadata.create([])
+    
+    public static func fromJson(json:String) -> String? {
+        return parseJson(json) as? String
     }
 }
 
@@ -570,11 +829,11 @@ extension NSDate : StringSerializable
     }
     
     public func toJson() -> String {
-        return jsonString(self.isoDateString)
+        return jsonString(self.jsonDate)
     }
     
     public class func fromString(string: String) -> NSDate? {
-        var str = string.hasPrefix("\\")
+        let str = string.hasPrefix("\\")
             ? string[1..<string.length]
             : string
         let wcfJsonPrefix = "/Date("
@@ -696,7 +955,7 @@ extension NSTimeInterval
         
         let d = t[0].splitOnFirst("D")
         if d.count == 2 {
-            if let day = d[0].toInt() {
+            if let day = Int(d[0]) {
                 days = day
             }
         }
@@ -704,14 +963,14 @@ extension NSTimeInterval
         if hasTime {
             let h = t[1].splitOnFirst("H")
             if h.count == 2 {
-                if let hour = h[0].toInt() {
+                if let hour = Int(h[0]) {
                     hours = hour
                 }
             }
             
             let m = h.last!.splitOnFirst("M")
             if m.count == 2 {
-                if let min = m[0].toInt() {
+                if let min = Int(m[0]) {
                     minutes = min
                 }
             }
@@ -759,7 +1018,7 @@ extension Int : StringSerializable
     }
     
     public static func fromString(str: String) -> Int? {
-        return str.toInt()
+        return Int(str)
     }
     
     public static func fromObject(any:AnyObject) -> Int?
@@ -785,7 +1044,7 @@ extension Int8 : StringSerializable
     }
     
     public static func fromString(str: String) -> Int8? {
-        if let int = str.toInt() {
+        if let int = Int(str) {
             return Int8(int)
         }
         return nil
@@ -814,7 +1073,7 @@ extension Int16 : StringSerializable
     }
     
     public static func fromString(str: String) -> Int16? {
-        if let int = str.toInt() {
+        if let int = Int(str) {
             return Int16(int)
         }
         return nil
@@ -843,7 +1102,7 @@ extension Int32 : StringSerializable
     }
     
     public static func fromString(str: String) -> Int32? {
-        if let int = str.toInt() {
+        if let int = Int(str) {
             return Int32(int)
         }
         return nil
@@ -898,7 +1157,7 @@ extension UInt8 : StringSerializable
     }
     
     public static func fromString(str: String) -> UInt8? {
-        if let int = str.toInt() {
+        if let int = Int(str) {
             return UInt8(int)
         }
         return nil
@@ -927,7 +1186,7 @@ extension UInt16 : StringSerializable
     }
     
     public static func fromString(str: String) -> UInt16? {
-        if let int = str.toInt() {
+        if let int = Int(str) {
             return UInt16(int)
         }
         return nil
@@ -956,7 +1215,7 @@ extension UInt32 : StringSerializable
     }
     
     public static func fromString(str: String) -> UInt32? {
-        if let int = str.toInt() {
+        if let int = Int(str) {
             return UInt32(int)
         }
         return nil
@@ -1052,15 +1311,72 @@ extension Bool : StringSerializable
     }
 }
 
+public class ResponseStatus
+{
+    required public init(){}
+    public var errorCode:String?
+    public var message:String?
+    public var stackTrace:String?
+    public var errors:[ResponseError] = []
+    public var meta:[String:String] = [:]
+}
+
+extension ResponseStatus : JsonSerializable
+{
+    public static var typeName:String { return "ResponseStatus" }
+    public static var metadata = Metadata.create([
+        Type<ResponseStatus>.optionalProperty("errorCode", get: { $0.errorCode }, set: { $0.errorCode = $1 }),
+        Type<ResponseStatus>.optionalProperty("message", get: { $0.message }, set: { $0.message = $1 }),
+        Type<ResponseStatus>.optionalProperty("stackTrace", get: { $0.stackTrace }, set: { $0.stackTrace = $1 }),
+        Type<ResponseStatus>.arrayProperty("errors", get: { $0.errors }, set: { $0.errors = $1 }),
+        Type<ResponseStatus>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
+        ])
+}
+
+public class ResponseError
+{
+    required public init(){}
+    public var errorCode:String?
+    public var fieldName:String?
+    public var message:String?
+    public var meta:[String:String] = [:]
+}
+
+extension ResponseError : JsonSerializable
+{
+    public static var typeName:String { return "ResponseError" }
+    public static var metadata = Metadata.create([
+        Type<ResponseError>.optionalProperty("errorCode", get: { $0.errorCode }, set: { $0.errorCode = $1 }),
+        Type<ResponseError>.optionalProperty("fieldName", get: { $0.fieldName }, set: { $0.fieldName = $1 }),
+        Type<ResponseError>.optionalProperty("message", get: { $0.message }, set: { $0.message = $1 }),
+        Type<ResponseError>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
+        ])
+}
+
+public class ErrorResponse
+{
+    required public init(){}
+    public var responseStatus:ResponseStatus?
+}
+
+extension ErrorResponse : JsonSerializable
+{
+    public static var typeName:String { return "ResponseError" }
+    public static var metadata = Metadata.create([
+        Type<ErrorResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+        ])
+}
+
+
 
 public class List<T>
 {
     required public init(){}
 }
 
-public protocol HasReflect {
-    typealias T : HasReflect
-    static func reflect() -> Type<T>
+public protocol HasMetadata {
+    static var typeName:String { get }
+    static var metadata:Metadata { get }
     init()
 }
 
@@ -1070,7 +1386,7 @@ public protocol Convertible {
     static func fromObject(any:AnyObject) -> T?
 }
 
-public protocol JsonSerializable : HasReflect, StringSerializable {
+public protocol JsonSerializable : HasMetadata, StringSerializable {
     func toJson() -> String
     static func fromJson(json:String) -> T?
 }
@@ -1082,12 +1398,10 @@ public protocol StringSerializable : Convertible {
 }
 
 
-public func populate<T>(instance:T, map:NSDictionary, propertiesMap:[String:PropertyType]) -> T {
+public func populate<T : HasMetadata>(instance:T, map:NSDictionary, propertiesMap:[String:PropertyType]) -> T {
     for (key, obj) in map {
         if let p = propertiesMap[key.lowercaseString] {
-            //insanely this prevents a EXC_BAD_INSTRUCTION when accessing parent.doubleOptional! with a value!
-            //"\(obj)"
-            p.setValue(instance, value: obj)
+            p.setValueAny(instance as! AnyObject, value: obj)
         }
     }
     return instance
@@ -1097,16 +1411,78 @@ public func populateFromDictionary<T : JsonSerializable>(instance:T, map:[NSObje
     for (key, obj) in map {
         if let strKey = key as? String {
             if let p = propertiesMap[strKey.lowercaseString] {
-                p.setValue(instance, value: obj)
+                p.setValueAny(instance as! AnyObject, value: obj)
             }
         }
     }
     return instance
 }
 
+public class Metadata {
+    public var properties:[PropertyType] = []
+    public var propertyMap:[String:PropertyType] = [:]
+   
+    public init(properties:[PropertyType]) {
+        self.properties = properties
+        for p in properties {
+            propertyMap[p.name.lowercaseString] = p
+        }
+    }
+    
+    static func create(properties:[PropertyType]) -> Metadata {
+        return Metadata(properties: properties)
+    }
+}
+
+extension HasMetadata
+{
+    public static var properties:[PropertyType] {
+        return Self.metadata.properties
+    }
+    
+    public static var propertyMap:[String:PropertyType] {
+        return Self.metadata.propertyMap
+    }
+    
+    public func toJson() -> String {
+        let jb = JObject()
+        for p in Self.properties {
+            if let value = p.jsonValueAny(self) {
+                jb.append(p.name, json: value)
+            } else {
+                jb.append(p.name, json: "null")
+            }
+        }
+        return jb.toJson()
+    }
+
+    public static func fromJson(json:String) -> Self? {
+        if let map = parseJson(json) as? NSDictionary {
+            return populate(Self(), map: map, propertiesMap: Self.propertyMap)
+        }
+        return nil
+    }
+
+    public static func fromObject(any:AnyObject) -> Self? {
+        switch any {
+        case let s as String: return fromJson(s)
+        case let map as NSDictionary: return populate(Self(), map: map, propertiesMap: Self.propertyMap)
+        default: return nil
+        }
+    }
+
+    public func toString() -> String {
+        return toJson()
+    }
+
+    public static func fromString(string:String) -> Self? {
+        return fromJson(string)
+    }
+}
+
 public class TypeAccessor {}
 
-public class Type<T : HasReflect> : TypeAccessor
+public class Type<T : HasMetadata> : TypeAccessor
 {
     var properties: [PropertyType]
     var propertiesMap = [String:PropertyType]()
@@ -1120,10 +1496,10 @@ public class Type<T : HasReflect> : TypeAccessor
         }
     }
     
-    public func toJson<T>(instance:T) -> String {
-        var jb = JObject()
-        for p in properties {
-            if let value = p.jsonValue(instance) {
+    static public func toJson(instance:T) -> String {
+        let jb = JObject()
+        for p in T.properties {
+            if let value = p.jsonValueAny(instance) {
                 jb.append(p.name, json: value)
             } else {
                 jb.append(p.name, json: "null")
@@ -1132,36 +1508,19 @@ public class Type<T : HasReflect> : TypeAccessor
         return jb.toJson()
     }
     
-    public func toString<T>(instance:T) -> String {
+    static public func toString(instance:T) -> String {
         return toJson(instance)
     }
     
-    func fromJson<T : JsonSerializable>(json:String) -> T? {
+    static func fromJson<T : JsonSerializable>(json:String) -> T? {
         return fromJson(T(), json: json)
     }
     
-    func fromJson<T>(instance:T, json:String, error:NSErrorPointer) -> T? {
-        if instance is NSString || instance is String {
-            return json as? T
-        }
-        if let map = parseJson(json,error) as? NSDictionary {
-            return populate(instance, map, propertiesMap)
-        }
-        return nil
-    }
-    
-    func fromJson<T>(instance:T, json:String) -> T? {
-        if let map = parseJson(json, nil) as? NSDictionary {
-            return populate(instance, map, propertiesMap)
-        }
-        return nil
-    }
-    
-    func fromString(instance:T, string:String) -> T? {
+    static func fromString<T : JsonSerializable>(instance:T, string:String) -> T? {
         return fromJson(instance, json: string)
     }
     
-    func fromObject(instance:T, any:AnyObject) -> T? {
+    static func fromObject<T : JsonSerializable>(instance:T, any:AnyObject) -> T? {
         switch any {
         case let s as String: return fromJson(instance, json: s)
         case let map as NSDictionary: return Type<T>.fromDictionary(instance, map: map)
@@ -1169,8 +1528,20 @@ public class Type<T : HasReflect> : TypeAccessor
         }
     }
     
-    class func fromDictionary(instance:T, map:NSDictionary) -> T {
-        return populate(instance, map, T.reflect().propertiesMap)
+    static func fromJson<T : JsonSerializable>(instance:T, json:String) -> T? {
+        if instance is NSString || instance is String {
+            if let value = json as? T {
+                return value
+            }
+        }
+        if let map = parseJson(json) as? NSDictionary {
+            return populate(instance, map: map, propertiesMap: T.propertyMap)
+        }
+        return nil
+    }
+    
+    static func fromDictionary<T : HasMetadata>(instance:T, map:NSDictionary) -> T {
+        return populate(instance, map: map, propertiesMap: T.propertyMap)
     }
     
     public class func property<P : StringSerializable>(name:String, get:(T) -> P, set:(T,P) -> Void) -> PropertyType
@@ -1236,23 +1607,67 @@ public class PropertyType {
         self.name = name
     }
     
-    public func jsonValue<T>(instance:T) -> String? {
+    public func jsonValueAny(instance:Any) -> String? {
         return nil
     }
     
-    public func setValue<T>(instance:T, value:AnyObject) {
+    public func setValueAny(instance:Any, value:AnyObject) {
     }
     
-    public func getValue<T>(instance:T) -> Any? {
+    public func getValueAny(instance:Any) -> Any? {
         return nil
     }
     
-    public func stringValue<T>(instance:T) -> String? {
+    public func stringValueAny(instance:Any) -> String? {
+        return nil
+    }
+    
+    public func getName() -> String {
+        return self.name
+    }
+}
+
+public class PropertyBase<T : HasMetadata> : PropertyType {
+
+    override init(name:String) {
+        super.init(name: name)
+    }
+    
+    public override func jsonValueAny(instance:Any) -> String? {
+        return jsonValue(instance as! T)
+    }
+    
+    public func jsonValue(instance:T) -> String? {
+        return nil
+    }
+    
+    public override func setValueAny(instance:Any, value:AnyObject) {
+        if let t = instance as? T {
+            setValue(t, value: value)
+        }
+    }
+    
+    public func setValue(instance:T, value:AnyObject) {
+    }
+    
+    public override func getValueAny(instance:Any) -> Any? {
+        return getValue(instance as! T)
+    }
+    
+    public func getValue(instance:T) -> Any? {
+        return nil
+    }
+    
+    public override func stringValueAny(instance:Any) -> String? {
+        return stringValue(instance as! T)
+    }
+    
+    public func stringValue(instance:T) -> String? {
         return nil
     }
 }
 
-public class JProperty<T : HasReflect, P : StringSerializable> : PropertyType
+public class JProperty<T : HasMetadata, P : StringSerializable> : PropertyBase<T>
 {
     public var get:(T) -> P
     public var set:(T,P) -> Void
@@ -1286,7 +1701,7 @@ public class JProperty<T : HasReflect, P : StringSerializable> : PropertyType
     }
 }
 
-public class JOptionalProperty<T : HasReflect, P : StringSerializable> : PropertyType
+public class JOptionalProperty<T : HasMetadata, P : StringSerializable> : PropertyBase<T>
 {
     public var get:(T) -> P?
     public var set:(T,P?) -> Void
@@ -1312,6 +1727,13 @@ public class JOptionalProperty<T : HasReflect, P : StringSerializable> : Propert
         return super.jsonValue(instance)
     }
     
+    public override func getValue(instance:T) -> Any? {
+        if let p = get(instance) {
+            return p
+        }
+        return nil
+    }
+    
     public override func setValue(instance:T, value:AnyObject) {
         if let p = value as? P {
             set(instance, p)
@@ -1323,7 +1745,7 @@ public class JOptionalProperty<T : HasReflect, P : StringSerializable> : Propert
 }
 
 
-public class JObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
+public class JObjectProperty<T : HasMetadata, P : JsonSerializable> : PropertyBase<T>
 {
     public var get:(T) -> P
     public var set:(T,P) -> Void
@@ -1357,7 +1779,7 @@ public class JObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyTyp
     }
 }
 
-public class JOptionalObjectProperty<T : HasReflect, P : JsonSerializable where P : HasReflect> : PropertyType
+public class JOptionalObjectProperty<T : HasMetadata, P : JsonSerializable where P : HasMetadata> : PropertyBase<T>
 {
     public var get:(T) -> P?
     public var set:(T,P?) -> Void
@@ -1371,7 +1793,7 @@ public class JOptionalObjectProperty<T : HasReflect, P : JsonSerializable where 
     
     public override func jsonValue(instance:T) -> String? {
         if let propValue = get(instance) {
-            var strValue = propValue.toJson()
+            let strValue = propValue.toJson()
             return strValue
         }
         return super.jsonValue(instance)
@@ -1385,7 +1807,7 @@ public class JOptionalObjectProperty<T : HasReflect, P : JsonSerializable where 
     }
 }
 
-public class JDictionaryProperty<T : HasReflect, K : Hashable, P : StringSerializable where K : StringSerializable> : PropertyType
+public class JDictionaryProperty<T : HasMetadata, K : Hashable, P : StringSerializable where K : StringSerializable> : PropertyBase<T>
 {
     public var get:(T) -> [K:P]
     public var set:(T,[K:P]) -> Void
@@ -1408,7 +1830,7 @@ public class JDictionaryProperty<T : HasReflect, K : Hashable, P : StringSeriali
     public override func jsonValue(instance:T) -> String? {
         let map = get(instance)
         
-        var jb = JObject()
+        let jb = JObject()
         for (key, value) in map {
             jb.append(key.toString(), json:value.toJson())
         }
@@ -1430,7 +1852,7 @@ public class JDictionaryProperty<T : HasReflect, K : Hashable, P : StringSeriali
     }
 }
 
-public class JDictionaryArrayProperty<T : HasReflect, K : Hashable, P : StringSerializable where K : StringSerializable, K == K.T> : PropertyType
+public class JDictionaryArrayProperty<T : HasMetadata, K : Hashable, P : StringSerializable where K : StringSerializable, K == K.T> : PropertyBase<T>
 {
     public var get:(T) -> [K:[P]]
     public var set:(T,[K:[P]]) -> Void
@@ -1453,9 +1875,9 @@ public class JDictionaryArrayProperty<T : HasReflect, K : Hashable, P : StringSe
     public override func jsonValue(instance:T) -> String? {
         let map = get(instance)
 
-        var jb = JObject()
+        let jb = JObject()
         for (key, values) in map {
-            var ja = JArray()
+            let ja = JArray()
             for v in values {
                 ja.append(v.toJson())
             }
@@ -1485,7 +1907,7 @@ public class JDictionaryArrayProperty<T : HasReflect, K : Hashable, P : StringSe
     }
 }
 
-public class JDictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashable, P : JsonSerializable where K : StringSerializable> : PropertyType
+public class JDictionaryArrayDictionaryObjectProperty<T : HasMetadata, K : Hashable, P : JsonSerializable where K : StringSerializable> : PropertyBase<T>
 {
     public var get:(T) -> [K:[K:P]]
     public var set:(T,[K:[K:P]]) -> Void
@@ -1508,8 +1930,8 @@ public class JDictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashab
     public override func jsonValue(instance:T) -> String? {
         let map = get(instance)
         
-        var jb = JObject()
-        for (key, values:[K:P]) in map {
+        let jb = JObject()
+        for (key, values) in map {
             jb.append(key.toString(), json:JObject.toJson(values))
         }
         return jb.toJson()
@@ -1536,7 +1958,7 @@ public class JDictionaryArrayDictionaryObjectProperty<T : HasReflect, K : Hashab
     }
 }
 
-public class JArrayProperty<T : HasReflect, P : StringSerializable> : PropertyType
+public class JArrayProperty<T : HasMetadata, P : StringSerializable> : PropertyBase<T>
 {
     public var get:(T) -> [P]
     public var set:(T,[P]) -> Void
@@ -1590,7 +2012,7 @@ public class JArrayProperty<T : HasReflect, P : StringSerializable> : PropertyTy
     }
 }
 
-public class JOptionalArrayProperty<T : HasReflect, P : StringSerializable> : PropertyType
+public class JOptionalArrayProperty<T : HasMetadata, P : StringSerializable> : PropertyBase<T>
 {
     public var get:(T) -> [P]?
     public var set:(T,[P]?) -> Void
@@ -1645,7 +2067,7 @@ public class JOptionalArrayProperty<T : HasReflect, P : StringSerializable> : Pr
     }
 }
 
-public class JArrayObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
+public class JArrayObjectProperty<T : HasMetadata, P : JsonSerializable> : PropertyBase<T>
 {
     public var get:(T) -> [P]
     public var set:(T,[P]) -> Void
@@ -1699,7 +2121,7 @@ public class JArrayObjectProperty<T : HasReflect, P : JsonSerializable> : Proper
     }
 }
 
-public class JOptionalArrayObjectProperty<T : HasReflect, P : JsonSerializable> : PropertyType
+public class JOptionalArrayObjectProperty<T : HasMetadata, P : JsonSerializable> : PropertyBase<T>
 {
     public var get:(T) -> [P]?
     public var set:(T,[P]?) -> Void
@@ -1720,8 +2142,6 @@ public class JOptionalArrayObjectProperty<T : HasReflect, P : JsonSerializable> 
     }
     
     public override func jsonValue(instance:T) -> String? {
-        let propValues = get(instance)
-        
         var sb = ""
         
         if let propValues = get(instance) {
@@ -1794,14 +2214,13 @@ class Utils
 
 func jsonString(str:String?) -> String {
     if let s = str {
-        if let stringWithEscapeChars = s.rangeOfCharacterFromSet(Utils.escapeChars()) {
-            //TODO: rewrite to encode manually to avoid unnecessary conversions
-            var error:NSError?
-            if let encodedData = NSJSONSerialization.dataWithJSONObject([s], options:NSJSONWritingOptions.allZeros, error:&error) {
+        if let _ = s.rangeOfCharacterFromSet(Utils.escapeChars()) {
+            do {
+                let encodedData = try NSJSONSerialization.dataWithJSONObject([s], options:NSJSONWritingOptions())
                 if let encodedJson = encodedData.toUtf8String() {
                     return encodedJson[1..<encodedJson.length-1] //strip []
                 }
-            }
+            } catch { }
         }        
         return "\"\(s)\""
     }
@@ -1814,7 +2233,7 @@ func jsonString(str:String?) -> String {
 
 public extension String
 {
-    public var length: Int { return count(self) }
+    public var length: Int { return self.characters.count }
     
     public func contains(s:String) -> Bool {
         return (self as NSString).containsString(s)
@@ -1825,17 +2244,17 @@ public extension String
     }
     
     public func trimEnd(needle: Character) -> String {
-        var i: Int = count(self) - 1, j: Int = i
+        var i: Int = self.characters.count - 1, j: Int = i
         
-        while i >= 0 && self[advance(self.startIndex, i)] == needle {
+        while i >= 0 && self[self.startIndex.advancedBy(i)] == needle {
             --i
         }
         
-        return self.substringWithRange(Range<String.Index>(start: self.startIndex, end: advance(self.endIndex, -(j - i))))
+        return self.substringWithRange(Range<String.Index>(start: self.startIndex, end: self.endIndex.advancedBy(-(j - i))))
     }
     
     public subscript (i: Int) -> Character {
-        return self[advance(self.startIndex, i)]
+        return self[self.startIndex.advancedBy(i)]
     }
     
     public subscript (i: Int) -> String {
@@ -1843,7 +2262,7 @@ public extension String
     }
     
     public subscript (r: Range<Int>) -> String {
-        return substringWithRange(Range(start: advance(startIndex, r.startIndex), end: advance(startIndex, r.endIndex)))
+        return substringWithRange(Range(start: startIndex.advancedBy(r.startIndex), end: startIndex.advancedBy(r.endIndex)))
     }
     
     public func urlEncode() -> String? {
@@ -1861,7 +2280,7 @@ public extension String
     public func splitOnFirst(separator:String, startIndex:Int) -> [String] {
         var to = [String]()
         
-        let startRange = advance(self.startIndex, startIndex)
+        let startRange = self.startIndex.advancedBy(startIndex)
         if let range = self.rangeOfString(separator,
             options: NSStringCompareOptions.LiteralSearch,
             range: Range<String.Index>(start: startRange, end: self.endIndex))
@@ -1893,14 +2312,14 @@ public extension String
     
     public func indexOf(needle:String) -> Int {
         if let range = self.rangeOfString(needle) {
-            return distance(startIndex, range.startIndex)
+            return startIndex.distanceTo(range.startIndex)
         }
         return -1
     }
     
     public func lastIndexOf(needle:String) -> Int {
         if let range = self.rangeOfString(needle, options:NSStringCompareOptions.BackwardsSearch) {
-            return distance(startIndex, range.startIndex)
+            return startIndex.distanceTo(range.startIndex)
         }
         return -1
     }
@@ -1914,8 +2333,14 @@ public extension String
     }
     
     public func print() -> String {
-        println(self)
+        Swift.print(self)
         return self
+    }
+    
+    public func stripQuotes() -> String {
+        return self.hasPrefix("\"") && self.hasSuffix("\"")
+            ? self[1..<self.length-1]
+            : self
     }
 }
 
@@ -1929,7 +2354,7 @@ extension Array
             }
             sb += "\(item)"
         }
-        println(sb)
+        Swift.print(sb)
         return sb
     }
 }
@@ -1955,11 +2380,8 @@ extension NSError
     }
 
     func populateUserInfo<T : JsonSerializable>(instance:T) -> T? {
-        if let userInfo = self.userInfo {
-            let to = populateFromDictionary(T(), userInfo, T.reflect().propertiesMap)
-            return to
-        }
-        return nil
+        let to = populateFromDictionary(T(), map: self.userInfo, propertiesMap: T.propertyMap)
+        return to
     }
 }
 
@@ -1975,7 +2397,7 @@ public extension NSDate {
     }
     
     public convenience init(year:Int, month:Int, day:Int) {
-        var c = NSDateComponents()
+        let c = NSDateComponents()
         c.year = year
         c.month = month
         c.day = day
@@ -1987,7 +2409,7 @@ public extension NSDate {
     
     public func components() -> NSDateComponents {
         let components  = NSCalendar.currentCalendar().components(
-            NSCalendarUnit.CalendarUnitDay | NSCalendarUnit.CalendarUnitMonth | NSCalendarUnit.CalendarUnitYear,
+            [NSCalendarUnit.Day, NSCalendarUnit.Month, NSCalendarUnit.Year],
             fromDate: self)
         
         return components
@@ -2019,8 +2441,13 @@ public extension NSDate {
         return fmt.stringFromDate(self)
     }
     
+    public var jsonDate:String {
+        let unixEpoch = Int(self.timeIntervalSince1970 * 1000)
+        return "/Date(\(unixEpoch)-0000)/"
+    }
+    
     public var isoDateString:String {
-        var dateFormatter = NSDateFormatter()
+        let dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC")
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
@@ -2029,10 +2456,10 @@ public extension NSDate {
     
     public class func fromIsoDateString(string:String) -> NSDate? {
         let isUtc = string.hasSuffix("Z")
-        var dateFormatter = NSDateFormatter()
+        let dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.timeZone = isUtc ? NSTimeZone(abbreviation: "UTC") : NSTimeZone.localTimeZone()
-        dateFormatter.dateFormat = string.length == 19
+        dateFormatter.dateFormat = string.length == 19 || (isUtc && string.length == 20)
             ? "yyyy-MM-dd'T'HH:mm:ss"
             : "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS"
         
@@ -2060,421 +2487,477 @@ public func ==(lhs: NSDate, rhs: NSDate) -> Bool {
     return lhs.compare(rhs) == NSComparisonResult.OrderedSame
 }
 
+public let PMKOperationQueue = NSOperationQueue()
 
-
-private enum State {
-    case Pending(Handlers)
-    case Fulfilled(Any)
-    case Rejected(Error)
+public enum CatchPolicy {
+    case AllErrors
+    case AllErrorsExceptCancellation
 }
 
+/**
+License: https://github.com/mxcl/PromiseKit#license
+A promise represents the future value of a task.
 
+To obtain the value of a promise we call `then`.
 
+Promises are chainable: `then` returns a promise, you can call `then` on
+that promise, which  returns a promise, you can call `then` on that
+promise, et cetera.
+
+Promises start in a pending state and *resolve* with a value to become
+*fulfilled* or with an `NSError` to become rejected.
+
+@see [PromiseKit `then` Guide](http://promisekit.org/then/)
+@see [PromiseKit Chaining Guide](http://promisekit.org/chaining/)
+*/
 public class Promise<T> {
-    private let barrier = dispatch_queue_create("org.promisekit.barrier", DISPATCH_QUEUE_CONCURRENT)
-    private var _state: State
+    let state: State
     
-    private var state: State {
-        var result: State?
-        dispatch_sync(barrier) { result = self._state }
-        return result!
-    }
-    
-    public var rejected: Bool {
-        switch state {
-        case .Fulfilled, .Pending: return false
-        case .Rejected: return true
-        }
-    }
-    public var fulfilled: Bool {
-        switch state {
-        case .Rejected, .Pending: return false
-        case .Fulfilled: return true
-        }
-    }
-    public var pending: Bool {
-        switch state {
-        case .Rejected, .Fulfilled: return false
-        case .Pending: return true
-        }
-    }
-    
-    /**
-    returns the fulfilled value unless the Promise is pending
-    or rejected in which case returns `nil`
-    */
-    public var value: T? {
-        switch state {
-        case .Fulfilled(let value):
-            return (value as! T)
-        default:
-            return nil
-        }
-    }
-    
-    /**
-    returns the rejected error unless the Promise is pending
-    or fulfilled in which case returns `nil`
-    */
-    public var error: NSError? {
-        switch state {
-        case .Rejected(let error):
-            return error
-        default:
-            return nil
-        }
-    }
-    
-    public init(_ body:(fulfill: (T) -> Void, reject: (NSError) -> Void) -> Void) {
-        _state = .Pending(Handlers())
-        
-        let resolver = { (newstate: State) -> Void in
-            var handlers = Array<()->()>()
-            dispatch_barrier_sync(self.barrier) {
-                switch self._state {
-                case .Pending(let Ω):
-                    self._state = newstate
-                    handlers = Ω.bodies
-                default:
-                    break
-                }
-            }
-            for handler in handlers { handler() }
-        }
-        
-        body(fulfill: { value->() in
-            resolver(.Fulfilled(value))
-            return
-            }, reject: { error in
-                if let pmkerror = error as? Error {
-                    pmkerror.consumed = false
-                    resolver(.Rejected(pmkerror))
-                } else {
-                    resolver(.Rejected(Error(domain: error.domain, code: error.code, userInfo: error.userInfo)))
-                }
+    public convenience init(@noescape resolvers: (fulfill: (T) -> Void, reject: (NSError) -> Void) -> Void) {
+        self.init(sealant: { sealant in
+            resolvers(fulfill: sealant.resolve, reject: sealant.resolve)
         })
     }
     
-    public class func defer() -> (promise:Promise, fulfill:(T) -> Void, reject:(NSError) -> Void) {
-        var f: ((T) -> Void)?
-        var r: ((NSError) -> Void)?
-        let p = Promise{ f = $0; r = $1 }
-        return (p, f!, r!)
+    public init(@noescape sealant: (Sealant<T>) -> Void) {
+        var resolve: ((Resolution) -> Void)!
+        state = UnsealedState(resolver: &resolve)
+        sealant(Sealant(body: resolve))
     }
     
-    public init(value: T) {
-        _state = .Fulfilled(value)
+    public init(_ value: T) {
+        state = SealedState(resolution: .Fulfilled(value))
     }
     
-    public init(error: NSError) {
-        _state = .Rejected(Error(domain: error.domain, code: error.code, userInfo: error.userInfo))
+    public init(_ error: NSError) {
+        unconsume(error)
+        state = SealedState(resolution: .Rejected(error))
     }
     
-    public func then<U>(onQueue q:dispatch_queue_t = dispatch_get_main_queue(), body:(T) -> U) -> Promise<U> {
-        return Promise<U>{ (fulfill, reject) in
-            let handler = { ()->() in
-                switch self.state {
-                case .Rejected(let error):
-                    reject(error)
-                case .Fulfilled(let value):
-                    dispatch_async(q) { fulfill(body(value as! T)) }
-                case .Pending:
-                    abort()
-                }
-            }
-            switch self.state {
-            case .Rejected, .Fulfilled:
-                handler()
+    init(@noescape passthru: ((Resolution) -> Void) -> Void) {
+        var resolve: ((Resolution) -> Void)!
+        state = UnsealedState(resolver: &resolve)
+        passthru(resolve)
+    }
+    
+    public class func pendingPromise() -> (promise: Promise, fulfill: (T) -> Void, reject: (NSError) -> Void) {
+        var sealant: Sealant<T>!
+        let promise = Promise { sealant = $0 }
+        return (promise, sealant.resolve, sealant.resolve)
+    }
+    
+    func pipe(body: (Resolution) -> Void) {
+        state.get { seal in
+            switch seal {
             case .Pending(let handlers):
-                dispatch_barrier_sync(self.barrier) {
-                    handlers.append(handler)
+                handlers.append(body)
+            case .Resolved(let resolution):
+                body(resolution)
+            }
+        }
+    }
+    
+    private convenience init<U>(when: Promise<U>, body: (Resolution, (Resolution) -> Void) -> Void) {
+        self.init(passthru: { resolve in
+            when.pipe{ body($0, resolve) }
+        })
+    }
+    
+    public func then<U>(on q: dispatch_queue_t = dispatch_get_main_queue(), _ body: (T) -> U) -> Promise<U> {
+        return Promise<U>(when: self) { resolution, resolve in
+            switch resolution {
+            case .Rejected:
+                resolve(resolution)
+            case .Fulfilled(let value):
+                contain_zalgo(q) {
+                    resolve(.Fulfilled(body(value as! T)))
                 }
             }
         }
     }
     
-    public func then<U>(onQueue q:dispatch_queue_t = dispatch_get_main_queue(), body:(T) -> Promise<U>) -> Promise<U> {
-        return Promise<U>{ (fulfill, reject) in
-            let handler = { ()->() in
-                switch self.state {
-                case .Rejected(let error):
-                    reject(error)
-                case .Fulfilled(let value):
-                    dispatch_async(q) {
-                        let promise = body(value as! T)
-                        switch promise.state {
-                        case .Rejected(let error):
-                            reject(error)
-                        case .Fulfilled(let value):
-                            fulfill(value as! U)
-                        case .Pending(let handlers):
-                            dispatch_barrier_sync(promise.barrier) {
-                                handlers.append {
-                                    switch promise.state {
-                                    case .Rejected(let error):
-                                        reject(error)
-                                    case .Fulfilled(let value):
-                                        fulfill(value as! U)
-                                    case .Pending:
-                                        abort()
-                                    }
-                                }
-                            }
-                        }
-                    }
-                case .Pending:
-                    abort()
-                }
-            }
-            
-            switch self.state {
-            case .Rejected, .Fulfilled:
-                handler()
-            case .Pending(let handlers):
-                dispatch_barrier_sync(self.barrier) {
-                    handlers.append(handler)
-                }
-            }
-            
-        }
-    }
-    
-    public func thenInBackground<U>(body:(T) -> U) -> Promise<U> {
-        return then(onQueue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), body: body)
-    }
-    
-    public func thenInBackground<U>(body:(T) -> Promise<U>) -> Promise<U> {
-        return then(onQueue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), body: body)
-    }
-    
-    public func catch(onQueue q:dispatch_queue_t = dispatch_get_main_queue(), body:(NSError) -> T) -> Promise<T> {
-        return Promise<T>{ (fulfill, _) in
-            let handler = { ()->() in
-                switch self.state {
-                case .Rejected(let error):
-                    dispatch_async(q) {
-                        error.consumed = true
-                        fulfill(body(error))
-                    }
-                case .Fulfilled(let value):
-                    fulfill(value as! T)
-                case .Pending:
-                    abort()
-                }
-            }
-            switch self.state {
-            case .Fulfilled, .Rejected:
-                handler()
-            case .Pending(let handlers):
-                dispatch_barrier_sync(self.barrier) {
-                    handlers.append(handler)
+    public func then<U>(on q: dispatch_queue_t = dispatch_get_main_queue(), _ body: (T) -> Promise<U>) -> Promise<U> {
+        return Promise<U>(when: self) { resolution, resolve in
+            switch resolution {
+            case .Rejected:
+                resolve(resolution)
+            case .Fulfilled(let value):
+                contain_zalgo(q) {
+                    body(value as! T).pipe(resolve)
                 }
             }
         }
     }
     
-    public func catch(onQueue q:dispatch_queue_t = dispatch_get_main_queue(), body:(NSError) -> Void) -> Void {
-        let handler = { ()->() in
-            switch self.state {
-            case .Rejected(let error):
-                dispatch_async(q) {
-                    error.consumed = true
-                    body(error)
-                }
+    public func thenInBackground<U>(body: (T) -> U) -> Promise<U> {
+        return then(on: dispatch_get_global_queue(0, 0), body)
+    }
+    
+    public func thenInBackground<U>(body: (T) -> Promise<U>) -> Promise<U> {
+        return then(on: dispatch_get_global_queue(0, 0), body)
+    }
+    
+    public func error(policy policy: CatchPolicy = .AllErrorsExceptCancellation, _ body: (NSError) -> Void) {
+        pipe { resolution in
+            switch resolution {
             case .Fulfilled:
                 break
-            case .Pending:
-                abort()
-            }
-        }
-        switch self.state {
-        case .Fulfilled, .Rejected:
-            handler()
-        case .Pending(let handlers):
-            dispatch_barrier_sync(self.barrier) {
-                handlers.append(handler)
-            }
-        }
-    }
-    
-    public func catch(onQueue q:dispatch_queue_t = dispatch_get_main_queue(), body:(NSError) -> Promise<T>) -> Promise<T> {
-        return Promise<T>{ (fulfill, reject) in
-            
-            let handler = { ()->() in
-                switch self.state {
-                case .Fulfilled(let value):
-                    fulfill(value as! T)
-                case .Rejected(let error):
-                    dispatch_async(q) {
-                        error.consumed = true
-                        let promise = body(error)
-                        switch promise.state {
-                        case .Fulfilled(let value):
-                            fulfill(value as! T)
-                        case .Rejected(let error):
-                            dispatch_async(q) { reject(error) }
-                        case .Pending(let handlers):
-                            dispatch_barrier_sync(promise.barrier) {
-                                handlers.append {
-                                    switch promise.state {
-                                    case .Rejected(let error):
-                                        reject(error)
-                                    case .Fulfilled(let value):
-                                        fulfill(value as! T)
-                                    case .Pending:
-                                        abort()
-                                    }
-                                }
-                            }
-                        }
+            case .Rejected(let error):
+                dispatch_async(dispatch_get_main_queue()) {
+                    if policy == .AllErrors || !error.cancelled {
+                        consume(error)
+                        body(error)
                     }
-                case .Pending:
-                    abort()
-                }
-            }
-            
-            switch self.state {
-            case .Fulfilled, .Rejected:
-                handler()
-            case .Pending(let handlers):
-                dispatch_barrier_sync(self.barrier) {
-                    handlers.append(handler)
                 }
             }
         }
     }
     
-    //FIXME adding the queue parameter prevents compilation with Xcode 6.0.1
-    public func finally(/*onQueue q:dispatch_queue_t = dispatch_get_main_queue(),*/ body:()->()) -> Promise<T> {
-        let q = dispatch_get_main_queue()
-        
-        return Promise<T>{ (fulfill, reject) in
-            let handler = { ()->() in
-                switch self.state {
-                case .Fulfilled(let value):
-                    dispatch_async(q) {
-                        body()
-                        fulfill(value as! T)
-                    }
-                case .Rejected(let error):
-                    dispatch_async(q) {
-                        body()
-                        reject(error)
-                    }
-                case .Pending:
-                    abort()
+    public func recover(on q: dispatch_queue_t = dispatch_get_main_queue(), _ body: (NSError) -> Promise<T>) -> Promise<T> {
+        return Promise(when: self) { resolution, resolve in
+            switch resolution {
+            case .Rejected(let error):
+                contain_zalgo(q) {
+                    consume(error)
+                    body(error).pipe(resolve)
                 }
-            }
-            switch self.state {
-            case .Fulfilled, .Rejected:
-                handler()
-            case .Pending(let handlers):
-                dispatch_barrier_sync(self.barrier) {
-                    handlers.append(handler)
-                }
+            case .Fulfilled:
+                resolve(resolution)
             }
         }
+    }
+    
+    public func finally(on q: dispatch_queue_t = dispatch_get_main_queue(), _ body: () -> Void) -> Promise<T> {
+        return Promise(when: self) { resolution, resolve in
+            contain_zalgo(q) {
+                body()
+                resolve(resolution)
+            }
+        }
+    }
+    
+    public var value: T? {
+        switch state.get() {
+        case .None:
+            return nil
+        case .Some(.Fulfilled(let value)):
+            return (value as! T)
+        case .Some(.Rejected):
+            return nil
+        }
+    }
+}
+
+
+public let zalgo: dispatch_queue_t = dispatch_queue_create("Zalgo", nil)
+
+public let waldo: dispatch_queue_t = dispatch_queue_create("Waldo", nil)
+
+func contain_zalgo(q: dispatch_queue_t, block: () -> Void) {
+    if q === zalgo {
+        block()
+    } else if q === waldo {
+        if NSThread.isMainThread() {
+            dispatch_async(dispatch_get_global_queue(0, 0), block)
+        } else {
+            block()
+        }
+    } else {
+        dispatch_async(q, block)
+    }
+}
+
+
+extension Promise {
+    public convenience init(error: String, code: Int = Constants.PMKUnexpectedError) {
+        let error = NSError(domain: Constants.PMKErrorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: error])
+        self.init(error)
+    }
+    
+    public func asAny() -> Promise<Any> {
+        return Promise<Any>(passthru: pipe)
+    }
+    
+    public func asAnyObject() -> Promise<AnyObject> {
+        return Promise<AnyObject>(passthru: pipe)
     }
     
     /**
-    If the promise is fulfilled, body is called immediately, if the promise
-    is pending, body is called as soon as the promise is resolved on the
-    queue that it was resolved upon.
-    
-    Usually handlers are called inside a `dispatch_async` even if the promise
-    is already resolved.
-    
-    Please note, there are good reasons that `then` does not call `body`
-    immediately. If you don’t understand the implications of unleashing
-    zalgo, you should not under any cirumstances use this function!
-    
-    At the very least be aware your handler probably won’t be called the main
-    thread if the promise is pending.
+    Swift (1.2) seems to be much less fussy about Void promises.
     */
-    public func thenUnleashZalgo<U>(body: (T) -> U) -> Promise<U> {
-        let (promise, fulfill, reject) = Promise<U>.defer()
-        
-        switch state {
-        case .Fulfilled(let value):
-            fulfill(body(value as! T))
-        case .Rejected(let error):
-            reject(error)
-        case .Pending(let handlers):
-            handlers.append({
-                switch self.state {
-                case .Fulfilled(let value):
-                    fulfill(body(value as! T))
-                case .Rejected(let error):
-                    reject(error)
-                case .Pending:
-                    abort()
-                }
-            })
+    public func asVoid() -> Promise<Void> {
+        return then(on: zalgo) { _ in return }
+    }
+}
+
+
+extension Promise: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        return "Promise: \(state)"
+    }
+}
+
+public func firstly<T>(promise: () -> Promise<T>) -> Promise<T> {
+    return promise()
+}
+
+public enum ErrorPolicy {
+    case AllErrors
+    case AllErrorsExceptCancellation
+}
+
+extension Promise {
+    public var error: NSError? {
+        switch state.get() {
+        case .None:
+            return nil
+        case .Some(.Fulfilled):
+            return nil
+        case .Some(.Rejected(let error)):
+            return error
         }
-        
-        return promise
     }
     
-    public func voidify() -> Promise<Void> {
-        // there is no body parameter, so we zalgo it
-        
-        let d = Promise<Void>.defer()
-        
-        let handler = { ()->() in
-            switch self.state {
-            case .Fulfilled:
-                d.fulfill()
-            case .Rejected(let error):
-                d.reject(error)
-            case .Pending:
-                abort()
-            }
-        }
-        
-        switch state {
-        case .Fulfilled, .Rejected:
-            handler()
-        case .Pending(let handlers):
-            dispatch_barrier_sync(self.barrier) {
-                handlers.append(handler)
-            }
-        }
-        
-        return d.promise
+    public var pending: Bool {
+        return state.get() == nil
+    }
+    
+    public var resolved: Bool {
+        return !pending
+    }
+    
+    public var fulfilled: Bool {
+        return value != nil
+    }
+    
+    public var rejected: Bool {
+        return error != nil
     }
 }
 
-
-public var PMKUnhandledErrorHandler = { (error: NSError) in
-    NSLog("%@", "PromiseKit: Unhandled error: \(error)")
+public var PMKUnhandledErrorHandler = { (error: NSError) -> Void in
+    dispatch_async(dispatch_get_main_queue()) {
+        if !error.cancelled {
+            NSLog("PromiseKit: Unhandled error: %@", error)
+        }
+    }
 }
 
-
-private class Error : NSError {
-    var consumed: Bool = false  //TODO strictly, should be atomic
+private class Consumable: NSObject {
+    let parentError: NSError
+    var consumed: Bool = false
     
     deinit {
         if !consumed {
-            PMKUnhandledErrorHandler(self)
+            PMKUnhandledErrorHandler(parentError)
+        }
+    }
+    
+    init(parent: NSError) {
+        parentError = parent.copy() as! NSError
+    }
+}
+
+private var handle: UInt8 = 0
+
+func consume(error: NSError) {
+    if let pmke = objc_getAssociatedObject(error, &handle) as? Consumable {
+        pmke.consumed = true
+    }
+}
+
+func unconsume(error: NSError) {
+    if let pmke = objc_getAssociatedObject(error, &handle) as! Consumable? {
+        pmke.consumed = false
+    } else {
+        objc_setAssociatedObject(error, &handle, Consumable(parent: error), .OBJC_ASSOCIATION_RETAIN)
+    }
+}
+
+private struct ErrorPair: Hashable {
+    let domain: String
+    let code: Int
+    init(_ d: String, _ c: Int) {
+        domain = d; code = c
+    }
+    var hashValue: Int {
+        return "\(domain):\(code)".hashValue
+    }
+}
+
+private func ==(lhs: ErrorPair, rhs: ErrorPair) -> Bool {
+    return lhs.domain == rhs.domain && lhs.code == rhs.code
+}
+
+private var cancelledErrorIdentifiers = Set([
+    ErrorPair(Constants.PMKErrorDomain, Constants.PMKOperationCancelled),
+    ErrorPair(NSURLErrorDomain, NSURLErrorCancelled)
+    ])
+
+extension NSError {
+    public class func cancelledError() -> NSError {
+        let info: [NSObject: AnyObject] = [NSLocalizedDescriptionKey: "The operation was cancelled"]
+        return NSError(domain: Constants.PMKErrorDomain, code: Constants.PMKOperationCancelled, userInfo: info)
+    }
+    
+    public class func registerCancelledErrorDomain(domain: String, code: Int) {
+        cancelledErrorIdentifiers.insert(ErrorPair(domain, code))
+    }
+    
+    public var cancelled: Bool {
+        return cancelledErrorIdentifiers.contains(ErrorPair(domain, code))
+    }
+}
+
+public class Sealant<T> {
+    let handler: (Resolution) -> ()
+    
+    init(body: (Resolution) -> Void) {
+        handler = body
+    }
+    
+    func __resolve(obj: AnyObject) {
+        switch obj {
+        case is NSError:
+            resolve(obj as! NSError)
+        default:
+            handler(.Fulfilled(obj))
+        }
+    }
+    
+    public func resolve(value: T) {
+        handler(.Fulfilled(value))
+    }
+    
+    public func resolve(error: NSError!) {
+        unconsume(error)
+        handler(.Rejected(error))
+    }
+    
+    public func resolve(obj: T?, var _ error: NSError?) {
+        if let obj = obj {
+            handler(.Fulfilled(obj))
+        } else if let error = error {
+            resolve(error)
+        } else {
+            //FIXME couldn't get the constants from the umbrella header :(
+            error = NSError(domain: Constants.PMKErrorDomain, code: /*PMKUnexpectedError*/ 1, userInfo: nil)
+            resolve(error)
+        }
+    }
+    
+    public func resolve(obj: T, _ error: NSError?) {
+        if error == nil {
+            handler(.Fulfilled(obj))
+        } else  {
+            resolve(error)
         }
     }
 }
 
+enum Resolution {
+    case Fulfilled(Any)    //TODO make type T when Swift can handle it
+    case Rejected(NSError)
+}
 
+enum Seal {
+    case Pending(Handlers)
+    case Resolved(Resolution)
+}
 
-/**
-When accessing handlers from the State enum, the array
-must not be a copy or we stop being thread-safe. Hence
-this class.
-*/
-private class Handlers: SequenceType {
-    var bodies: [()->()] = []
+protocol State {
+    func get() -> Resolution?
+    func get(body: (Seal) -> Void)
+}
+
+class UnsealedState: State {
+    private let barrier = dispatch_queue_create("org.promisekit.barrier", DISPATCH_QUEUE_CONCURRENT)
+    private var seal: Seal
     
-    func append(body: ()->()) {
+    func get() -> Resolution? {
+        var result: Resolution?
+        dispatch_sync(barrier) {
+            switch self.seal {
+            case .Resolved(let resolution):
+                result = resolution
+            case .Pending:
+                break
+            }
+        }
+        return result
+    }
+    
+    func get(body: (Seal) -> Void) {
+        var sealed = false
+        dispatch_sync(barrier) {
+            switch self.seal {
+            case .Resolved:
+                sealed = true
+            case .Pending:
+                sealed = false
+            }
+        }
+        if !sealed {
+            dispatch_barrier_sync(barrier) {
+                switch (self.seal) {
+                case .Pending:
+                    body(self.seal)
+                case .Resolved:
+                    sealed = true  // welcome to race conditions
+                }
+            }
+        }
+        if sealed {
+            body(seal)
+        }
+    }
+    
+    init(inout resolver: ((Resolution) -> Void)!) {
+        seal = .Pending(Handlers())
+        resolver = { resolution in
+            var handlers: Handlers?
+            dispatch_barrier_sync(self.barrier) {
+                switch self.seal {
+                case .Pending(let hh):
+                    self.seal = .Resolved(resolution)
+                    handlers = hh
+                case .Resolved:
+                    break
+                }
+            }
+            if let handlers = handlers {
+                for handler in handlers {
+                    handler(resolution)
+                }
+            }
+        }
+    }
+}
+
+class SealedState: State {
+    private let resolution: Resolution
+    
+    init(resolution: Resolution) {
+        self.resolution = resolution
+    }
+    
+    func get() -> Resolution? {
+        return resolution
+    }
+    func get(body: (Seal) -> Void) {
+        body(.Resolved(resolution))
+    }
+}
+
+
+class Handlers: SequenceType {
+    var bodies: [(Resolution)->()] = []
+    
+    func append(body: (Resolution)->()) {
         bodies.append(body)
     }
     
-    func generate() -> IndexingGenerator<[()->()]> {
+    func generate() -> IndexingGenerator<[(Resolution)->()]> {
         return bodies.generate()
     }
     
@@ -2484,41 +2967,41 @@ private class Handlers: SequenceType {
 }
 
 
-
-extension Promise: DebugPrintable {
-    public var debugDescription: String {
-        var state: State?
-        dispatch_sync(barrier) {
-            state = self._state
-        }
-        
-        switch state! {
-        case .Pending(let handlers):
-            var count: Int?
-            dispatch_sync(barrier) {
-                count = handlers.count
-            }
-            return "Promise: Pending with \(count!) handlers"
-        case .Fulfilled(let value):
-            return "Promise: Fulfilled with value: \(value)"
-        case .Rejected(let error):
-            return "Promise: Rejected with error: \(error)"
+extension Resolution: CustomDebugStringConvertible {
+    var debugDescription: String {
+        switch self {
+        case Fulfilled(let value):
+            return "Fulfilled with value: \(value)"
+        case Rejected(let error):
+            return "Rejected with error: \(error)"
         }
     }
 }
 
-
-
-func dispatch_promise<T>(/*to q:dispatch_queue_t = dispatch_get_global_queue(0, 0),*/ body:() -> AnyObject) -> Promise<T> {
-    let q = dispatch_get_global_queue(0, 0)
-    return Promise<T> { (fulfill, reject) in
-        dispatch_async(q) {
-            let obj: AnyObject = body()
-            if obj is NSError {
-                reject(obj as! NSError)
-            } else {
-                fulfill(obj as! T)
+extension UnsealedState: CustomDebugStringConvertible {
+    var debugDescription: String {
+        var rv: String?
+        get { seal in
+            switch seal {
+            case .Pending(let handlers):
+                rv = "Pending with \(handlers.count) handlers"
+            case .Resolved(let resolution):
+                rv = "\(resolution)"
             }
         }
+        return "UnsealedState: \(rv!)"
     }
+}
+
+extension SealedState: CustomDebugStringConvertible {
+    var debugDescription: String {
+        return "SealedState: \(resolution)"
+    }
+}
+
+
+struct Constants {
+    static let PMKErrorDomain = "PMKErrorDomain"
+    static let PMKUnexpectedError = 1
+    static let PMKOperationCancelled = 5
 }
