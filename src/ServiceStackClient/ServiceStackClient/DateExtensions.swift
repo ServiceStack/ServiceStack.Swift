@@ -63,6 +63,11 @@ public extension NSDate {
         return fmt.stringFromDate(self)
     }
     
+    public var jsonDate:String {
+        let unixEpoch = Int(self.timeIntervalSince1970 * 1000)
+        return "/Date(\(unixEpoch)-0000)/"
+    }
+    
     public var isoDateString:String {
         let dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
@@ -76,7 +81,7 @@ public extension NSDate {
         let dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.timeZone = isUtc ? NSTimeZone(abbreviation: "UTC") : NSTimeZone.localTimeZone()
-        dateFormatter.dateFormat = string.length == 19
+        dateFormatter.dateFormat = string.length == 19 || (isUtc && string.length == 20)
             ? "yyyy-MM-dd'T'HH:mm:ss"
             : "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS"
         

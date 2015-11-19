@@ -248,7 +248,7 @@ extension NSDate : StringSerializable
     }
     
     public func toJson() -> String {
-        return jsonString(self.isoDateString)
+        return jsonString(self.jsonDate)
     }
     
     public class func fromString(string: String) -> NSDate? {

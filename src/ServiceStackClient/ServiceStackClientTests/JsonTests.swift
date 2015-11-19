@@ -58,6 +58,38 @@ class JsonTests: XCTestCase {
         XCTAssertEqual(NSTimeInterval.fromXsdDuration("P3650D")!, tenYears)
     }
 
+    func test_does_serialize_DateTime_in_QueryString() {
+        let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
+        let request = HelloDateTime()
+//        request.dateTime = NSDate(timeIntervalSince1970: 978310861000 / 1000)
+        request.dateTime = NSDate.fromIsoDateString("2001-01-01T01:01:01Z")!
+        
+        let url = client.createUrl(request)
+        
+        print(request.dateTime?.dateAndTimeString)
+        print(request.dateTime?.isoDateString)
+       
+        print(url)
+        
+        XCTAssertEqual("http://test.servicestack.net/json/reply/HelloDateTime?dateTime=" + "/Date(978310861000-0000)/".urlEncode()!, url)
+    }
+}
+
+public class HelloDateTime : IReturn
+{
+    public typealias Return = HelloDateTime
+    
+    required public init(){}
+    public var dateTime:NSDate?
+}
+
+
+extension HelloDateTime : JsonSerializable
+{
+    public static var typeName:String { return "HelloDateTime" }
+    public static var metadata = Metadata.create([
+        Type<HelloDateTime>.optionalProperty("dateTime", get: { $0.dateTime }, set: { $0.dateTime = $1 }),
+        ])
 }
     
 #endif

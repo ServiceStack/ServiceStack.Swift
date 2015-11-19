@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ServiceStackClient/JsonServiceClient.swift"
-            timestampString = "464561635.144646"
+            timestampString = "469630578.848357"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
             landmarkName = "send(_:request:)"
             landmarkType = "5">
             <Locations>
@@ -47,6 +47,54 @@
                   startingLineNumber = "252"
                   endingLineNumber = "252"
                   offsetFromSymbolStart = "659">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ServiceStackClient/DateExtensions.swift"
+            timestampString = "469633277.371026"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "fromIsoDateString(_:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static ext.ServiceStackClientTests.__ObjC.NSDate.fromIsoDateString (__ObjC.NSDate.Type)(Swift.String) -&gt; Swift.Optional&lt;__ObjC.NSDate&gt;"
+                  moduleName = "ServiceStackClientTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mythz/src/ServiceStack.Swift/src/ServiceStackClient/ServiceStackClient/DateExtensions.swift"
+                  timestampString = "469633285.604723"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84"
+                  offsetFromSymbolStart = "443">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static ext.ServiceStackClient.__ObjC.NSDate.fromIsoDateString (__ObjC.NSDate.Type)(Swift.String) -&gt; Swift.Optional&lt;__ObjC.NSDate&gt;"
+                  moduleName = "ServiceStackClient"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mythz/src/ServiceStack.Swift/src/ServiceStackClient/ServiceStackClient/DateExtensions.swift"
+                  timestampString = "469633285.605279"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84"
+                  offsetFromSymbolStart = "443">
                </Location>
             </Locations>
          </BreakpointContent>
