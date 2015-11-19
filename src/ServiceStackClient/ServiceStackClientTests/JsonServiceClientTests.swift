@@ -109,7 +109,7 @@ class JsonServiceClientTests: XCTestCase {
             XCTAssertNotNil(globalError)
             
             let status:ResponseStatus = responseError.convertUserInfo()!
-            XCTAssertEqual(status.errorCode!, "not here")
+            XCTAssertEqual(status.errorCode!, "NotFound")
             XCTAssertEqual(status.message!, "not here")
             XCTAssertNotNil(status.stackTrace!)
         }
@@ -137,7 +137,7 @@ class JsonServiceClientTests: XCTestCase {
                 XCTAssertNotNil(globalError)
                 
                 let status:ResponseStatus = responseError.convertUserInfo()!
-                XCTAssertEqual(status.errorCode!, "not here")
+                XCTAssertEqual(status.errorCode!, "NotFound")
                 XCTAssertEqual(status.message!, "not here")
                 XCTAssertNotNil(status.stackTrace!)
                 

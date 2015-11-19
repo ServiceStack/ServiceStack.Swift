@@ -31,7 +31,11 @@ class DateExtensionsTests: XCTestCase {
     }
     
     func test_Can_Serialize_ISO8601_Date() {
-        XCTAssertEqual(NSDate(year: 2001, month: 1, day: 1).toJson(), "\"2001-01-01T05:00:00.000Z\"")
+        XCTAssertEqual(NSDate(year: 2001, month: 1, day: 1).isoDateString, "2001-01-01T05:00:00.000Z")
+    }
+    
+    func test_Can_Serialize_Wcf_Json_Date() {
+        XCTAssertEqual(NSDate(year: 2001, month: 1, day: 1).toJson(), "\"/Date(978325200000-0000)/\"")
     }
     
     func test_Can_Serialize_NSTimeInterval() {
