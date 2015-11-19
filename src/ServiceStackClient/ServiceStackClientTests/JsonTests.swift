@@ -92,4 +92,28 @@ extension HelloDateTime : JsonSerializable
         ])
 }
     
+//public class HelloListReturn : IReturn
+//{
+//    public typealias Return = [ListResult]
+//    
+//    required public init(){}
+//    public var names:[String] = []
+//}
+//
+//extension HelloListReturn : JsonSerializable {
+//    public static var typeName:String { return "HelloListReturn" }
+//    public static var metadata = Metadata.create([
+//            Type<HelloListReturn>.arrayProperty("names", get: { $0.names }, set: { $0.names = $1 })
+//        ])
+//}
+    
+//extension Array : JsonSerializable  {
+//
+//    typealias Element = ListResult
+//    
+//    public static var typeName:String { return "ListResult[]" }
+//    public static var metadata:Metadata { Metadata.create([ ]) }
+//}
+    
+    
 #endif
