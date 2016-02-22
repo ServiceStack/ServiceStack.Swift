@@ -259,6 +259,11 @@ public class JsonServiceClient : ServiceClient
         do {
             data = try NSURLConnection.sendSynchronousRequest(request, returningResponse: &response)
             var error:NSError? = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
+            if response == nil {
+                if let e = error {
+                    throw e
+                }
+            }
             if let dto = self.handleResponse(intoResponse, data: data, response: response!, error: &error) {
                 return dto
             }

@@ -287,6 +287,52 @@ class JsonServiceClientTests: XCTestCase {
         })
     }
     
+    func test_Can_handle_failed_Auth() {
+        let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
+        
+        do {
+            let request = Authenticate()
+            request.provider = "credentials"
+            request.userName = "test"
+            request.password = "invalid"
+            try client.post(request)
+        } catch let responseError as NSError {
+            
+            XCTAssertNotNil(responseError)
+            
+            //Swift Bug: 401 returns null response
+            if let status:ResponseStatus = responseError.convertUserInfo() {
+                XCTAssertEqual(status.errorCode, "Unauthorized")
+            }
+        }
+    }
+    
+    func test_Can_handle_failed_Auth_Async() {
+        let asyncTest = expectationWithDescription("asyncTest")
+        
+        let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
+        
+        let request = Authenticate()
+        request.provider = "credentials"
+        request.userName = "test"
+        request.password = "invalid"
+        client.postAsync(request)
+            .error { responseError in
+                
+                XCTAssertNotNil(responseError)
+                
+                let status:ResponseStatus = responseError.convertUserInfo()!
+                
+                XCTAssertEqual(status.errorCode, "Unauthorized")
+                asyncTest.fulfill()
+            }
+        
+        waitForExpectationsWithTimeout(5, handler: { (error) in
+            XCTAssertNil(error, "Error")
+        })
+    }
+    
+    
     /* 
      * TEST HELPERS 
      */
