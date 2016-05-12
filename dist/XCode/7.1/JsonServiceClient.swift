@@ -2442,7 +2442,7 @@ public extension NSDate {
     }
     
     public var jsonDate:String {
-        let unixEpoch = UInt64(self.timeIntervalSince1970 * 1000)
+        let unixEpoch = Int64(self.timeIntervalSince1970 * 1000)
         return "/Date(\(unixEpoch)-0000)/"
     }
     
