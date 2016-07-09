@@ -266,6 +266,7 @@ public class JsonServiceClient : ServiceClient
                 if let e = error {
                     throw e
                 }
+                return T()
             }
             if let dto = self.handleResponse(intoResponse, data: data, response: response!, error: &error) {
                 return dto
@@ -275,7 +276,7 @@ public class JsonServiceClient : ServiceClient
             }
             return T()
         } catch var ex as NSError? {
-            if let e = self.handleResponse(intoResponse, data: data, response: response!, error: &ex) {
+            if let r = response, let e = self.handleResponse(intoResponse, data: data, response: r, error: &ex) {
                 return e
             }
             throw ex!
