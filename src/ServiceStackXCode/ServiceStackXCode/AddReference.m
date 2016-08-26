@@ -166,7 +166,25 @@ NSString *xcodeVersion;
     NSString *fileName = [name stringValue];
     [self createFileAndAddToProject:@"JsonServiceClient.swift" withContents:finalJsonServiceClientCode];
     [self createFileAndAddToProject:[fileName stringByAppendingString:@".dtos.swift"] withContents:finalDtoCode];
+    @try {
+        [self submitAnonStatsAddServiceStackRef];
+    } @catch (NSException *exception) {
+        // Ignore error
+    }
     [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseOK];
+}
+
+-(void)submitAnonStatsAddServiceStackRef {
+    NSString* optoutValue = [[[NSProcessInfo processInfo]environment]objectForKey:@"SERVICESTACKXCODE_OPTOUT"];
+    if(optoutValue == Nil) {
+        NSURL *url = [NSURL URLWithString:@"https://servicestack.net/stats/addref/record?Name=swift"];
+        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+        [NSURLConnection sendAsynchronousRequest:urlRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+        {
+            // noop, ignore errors
+        }];
+    }
 }
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {

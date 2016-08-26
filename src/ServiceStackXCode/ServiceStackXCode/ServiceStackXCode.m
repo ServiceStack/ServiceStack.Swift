@@ -116,9 +116,26 @@ NSString *const updateRefMenuName = @"Update ServiceStack Reference";
     BOOL isDtoFile = [absolutePath hasSuffix:@".dtos.swift"];
     if (isDtoFile) {
         [SwiftNativeTypesManger updateFileContents:absolutePath];
+        @try {
+            [self submitAnonStatsUpdateServiceStackRef];
+        }
+        @catch (NSException *exception) {
+            //ignore
+        }
     }
+}
 
-
+- (void)submitAnonStatsUpdateServiceStackRef {
+    NSString* optoutValue = [[[NSProcessInfo processInfo]environment]objectForKey:@"SERVICESTACKXCODE_OPTOUT"];
+    if(optoutValue == Nil) {
+        NSURL *url = [NSURL URLWithString:@"https://servicestack.net/stats/updateref/record?Name=swift"];
+        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+        [NSURLConnection sendAsynchronousRequest:urlRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+         {
+             // noop, ignore errors
+         }];
+    }
 }
 
 @end
