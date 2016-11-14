@@ -18,17 +18,17 @@ class JsonServiceClientTests: XCTestCase {
     }
     
     func test_Can_POST_Test_HelloAllTypes_async() {
-        let asyncTest = expectationWithDescription("asyncTest")
+        let asyncTest = expectation(description:"asyncTest")
         
         let request = createHelloAllTypes()
         
         client.postAsync(request)
-            .then({
+            .then {
                 self.assertHelloAllTypesResponse($0, expected: request)
                 asyncTest.fulfill()
-            })
+            }
         
-        waitForExpectationsWithTimeout(5, handler: { (error) in
+        waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -51,7 +51,7 @@ class JsonServiceClientTests: XCTestCase {
         request.dateTime = nil
         
         do {
-            let response = try client.get(request)
+            let response:AllTypes = try client.get(client.createUrl(dto: request))
             
             self.assertAllTypes(response, expected: request)
         } catch let e as NSError {
@@ -72,17 +72,17 @@ class JsonServiceClientTests: XCTestCase {
     }
     
     func test_Can_PUT_Test_HelloAllTypes_Async() {
-        let asyncTest = expectationWithDescription("asyncTest")
+        let asyncTest = expectation(description:"asyncTest")
         
         let request = createHelloAllTypes()
         
         client.putAsync(request)
-            .then({(r:HelloAllTypesResponse) in
+            .then {(r:HelloAllTypesResponse) in
                 self.assertHelloAllTypesResponse(r, expected: request)
                 asyncTest.fulfill()
-            })
+            }
         
-        waitForExpectationsWithTimeout(5, handler: { (error) in
+        waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -116,7 +116,7 @@ class JsonServiceClientTests: XCTestCase {
     }
     
     func test_Does_handle_404_Error_Async() {
-        let asyncTest = expectationWithDescription("asyncTest")
+        let asyncTest = expectation(description:"asyncTest")
 
         let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
         
@@ -131,7 +131,7 @@ class JsonServiceClientTests: XCTestCase {
         request.message = "not here"
         
         client.putAsync(request)
-            .error({ (responseError:NSError) in
+            .catch { responseError in
                 XCTAssertNotNil(responseError)
                 XCTAssertNotNil(localError)
                 XCTAssertNotNil(globalError)
@@ -142,9 +142,9 @@ class JsonServiceClientTests: XCTestCase {
                 XCTAssertNotNil(status.stackTrace!)
                 
                 asyncTest.fulfill()
-            })
+            }
 
-        waitForExpectationsWithTimeout(5, handler: { (error) in
+        waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -185,7 +185,7 @@ class JsonServiceClientTests: XCTestCase {
     }
     
     func test_Does_handle_ValidationException_Async() {
-        let asyncTest = expectationWithDescription("asyncTest")
+        let asyncTest = expectation(description:"asyncTest")
 
         let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
         
@@ -193,7 +193,7 @@ class JsonServiceClientTests: XCTestCase {
         request.email = "invalidemail"
 
         client.postAsync(request)
-            .error({ responseError in
+            .catch { responseError in
 
                 XCTAssertNotNil(responseError)
                 
@@ -216,9 +216,9 @@ class JsonServiceClientTests: XCTestCase {
                 XCTAssertEqual(status.errors[2].fieldName!, "Email")
                 
                 asyncTest.fulfill()
-            })
+            }
         
-        waitForExpectationsWithTimeout(5, handler: { (error) in
+        waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -246,7 +246,7 @@ class JsonServiceClientTests: XCTestCase {
         
         var methods = [String]()
         
-        client.requestFilter = { (req:NSMutableURLRequest) in methods.append(req.HTTPMethod) }
+        client.requestFilter = { (req:NSMutableURLRequest) in methods.append(req.httpMethod) }
      
         do {
             try client.get(HelloReturnVoid())
@@ -263,26 +263,26 @@ class JsonServiceClientTests: XCTestCase {
     }
     
     func test_Can_send_ReturnVoid_Async() {
-        let asyncTest = expectationWithDescription("asyncTest")
+        let asyncTest = expectation(description:"asyncTest")
 
         let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
         
         var methods = [String]()
         
-        client.requestFilter = { (req:NSMutableURLRequest) in methods.append(req.HTTPMethod) }
+        client.requestFilter = { (req:NSMutableURLRequest) in methods.append(req.httpMethod) }
         
         client.getAsync(HelloReturnVoid())
-            .then({
+            .then {
                 XCTAssertEqual(methods.last, HttpMethods.Get)
 
                 client.postAsync(HelloReturnVoid())
-                    .then({
+                    .then {
                         XCTAssertEqual(methods.last, HttpMethods.Post)
                         asyncTest.fulfill()
-                    })
-            })
+                    }
+            }
 
-        waitForExpectationsWithTimeout(5, handler: { (error) in
+        waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -309,7 +309,7 @@ class JsonServiceClientTests: XCTestCase {
     }
     
     func test_Can_handle_failed_Auth_Async() {
-        let asyncTest = expectationWithDescription("asyncTest")
+        let asyncTest = expectation(description:"asyncTest")
         
         let client = JsonServiceClient(baseUrl: "http://test.servicestack.net")
         
@@ -318,7 +318,7 @@ class JsonServiceClientTests: XCTestCase {
         request.userName = "test"
         request.password = "invalid"
         client.postAsync(request)
-            .error { responseError in
+            .catch { responseError in
                 
                 XCTAssertNotNil(responseError)
                 
@@ -328,7 +328,7 @@ class JsonServiceClientTests: XCTestCase {
                 asyncTest.fulfill()
             }
         
-        waitForExpectationsWithTimeout(5, handler: { (error) in
+        waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -346,7 +346,7 @@ class JsonServiceClientTests: XCTestCase {
         return dto
     }
     
-    func assertHelloAllTypesResponse(actual:HelloAllTypesResponse, expected:HelloAllTypes) {
+    func assertHelloAllTypesResponse(_ actual:HelloAllTypesResponse, expected:HelloAllTypes) {
         XCTAssertNotNil(actual)
         self.assertAllTypes(actual.allTypes!, expected: expected.allTypes!)
         self.assertAllCollectionTypes(actual.allCollectionTypes!, expected: expected.allCollectionTypes!)
@@ -367,7 +367,7 @@ class JsonServiceClientTests: XCTestCase {
         to.double = 2.2
         to.decimal = 3.0
         to.string = "string"
-        to.dateTime = NSDate(year: 2001, month: 1, day: 1)
+        to.dateTime = Date(year: 2001, month: 1, day: 1)
         to.timeSpan = 1
         to.guid = "25892e1780f6415f9c657395632f0223"
         to.stringList = ["A","B","C"]
@@ -383,7 +383,7 @@ class JsonServiceClientTests: XCTestCase {
         return to
     }
     
-    func createPoco(name:String?="name") -> Poco {
+    func createPoco(_ name:String?="name") -> Poco {
         let to = Poco()
         to.name = name
         return to
@@ -404,14 +404,14 @@ class JsonServiceClientTests: XCTestCase {
         return to
     }
     
-    func assertDictionary<K : Hashable, V : Equatable>(actual:[K:V],expected:[K:V]) {
+    func assertDictionary<K : Hashable, V : Equatable>(_ actual:[K:V],expected:[K:V]) {
         XCTAssertEqual(actual.count, expected.count)
         for (k,v) in actual {
             XCTAssertEqual(v, expected[k]!)
         }
     }
     
-    func assertLookup<K : Hashable, V : Equatable>(actual:[K:[V]],expected:[K:[V]]) {
+    func assertLookup<K : Hashable, V : Equatable>(_ actual:[K:[V]],expected:[K:[V]]) {
         XCTAssertEqual(actual.count, expected.count)
         for (k,values) in actual {
             XCTAssertEqual(values.count, expected[k]!.count)
@@ -421,7 +421,7 @@ class JsonServiceClientTests: XCTestCase {
         }
     }
     
-    func assertLookupMap<K : Hashable, V : Equatable>(actual:[K:[K:V]],expected:[K:[K:V]]) {
+    func assertLookupMap<K : Hashable, V : Equatable>(_ actual:[K:[K:V]],expected:[K:[K:V]]) {
         XCTAssertEqual(actual.count, expected.count)
         for (k,values) in actual {
             XCTAssertEqual(values.count, expected[k]!.count)
@@ -431,7 +431,7 @@ class JsonServiceClientTests: XCTestCase {
         }
     }
     
-    func assertAllTypes(actual:AllTypes, expected:AllTypes) {
+    func assertAllTypes(_ actual:AllTypes, expected:AllTypes) {
         XCTAssertEqual(actual.id!, expected.id!)
         XCTAssertEqual(actual.byte!, expected.byte!)
         XCTAssertEqual(actual.short!, expected.short!)
@@ -462,7 +462,7 @@ class JsonServiceClientTests: XCTestCase {
         }
     }
     
-    func assertAllCollectionTypes(actual:AllCollectionTypes, expected:AllCollectionTypes) {
+    func assertAllCollectionTypes(_ actual:AllCollectionTypes, expected:AllCollectionTypes) {
         XCTAssertEqual(actual.intArray, expected.intArray)
         XCTAssertEqual(actual.intList, expected.intList)
         XCTAssertEqual(actual.stringArray, expected.stringArray)

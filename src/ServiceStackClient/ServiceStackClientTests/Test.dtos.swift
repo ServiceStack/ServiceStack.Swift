@@ -1,19 +1,22 @@
 /* Options:
-Date: 2015-09-21 22:19:32
-SwiftVersion: 2.0
+Date: 2016-11-08 09:31:44
+SwiftVersion: 3.0
 Version: 4.00
+Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: http://test.servicestack.net
 
 //BaseClass: 
 //AddModelExtensions: True
 //AddServiceStackTypes: True
 //IncludeTypes: 
-//ExcludeTypes: 
+ExcludeTypes: QueryResponse`1,QueryBase`1,QueryBase`1,QueryBase
 //ExcludeGenericBaseTypes: True
 //AddResponseStatus: False
 //AddImplicitVersion: 
+//AddDescriptionAsComments: True
 //InitializeCollections: True
-//DefaultImports: Foundation
+//TreatTypesAsStrings: 
+//DefaultImports: Foundation,ServiceStackClient
 */
 
 import Foundation;
@@ -43,6 +46,14 @@ public class Throw404
     public var message:String?
 }
 
+// @Route("/throwcustom400")
+// @Route("/throwcustom400/{Message}")
+public class ThrowCustom400
+{
+    required public init(){}
+    public var message:String?
+}
+
 // @Route("/throw/{Type}")
 public class ThrowType : IReturn
 {
@@ -62,6 +73,14 @@ public class ThrowValidation : IReturn
     public var age:Int?
     public var required:String?
     public var email:String?
+}
+
+// @Route("/throwbusinesserror")
+public class ThrowBusinessError : IReturn
+{
+    public typealias Return = ThrowBusinessErrorResponse
+
+    required public init(){}
 }
 
 public class ExternalOperation : IReturn
@@ -274,6 +293,9 @@ public class HelloExternal
 public class AllowedAttributes
 {
     required public init(){}
+    /**
+    * Range Description
+    */
     // @DataMember(Name="Aliased")
     // @ApiMember(ParameterType="path", Description="Range Description", DataType="double", IsRequired=true)
     public var range:Double?
@@ -290,10 +312,8 @@ public class HelloAllTypes : IReturn
     public var allCollectionTypes:AllCollectionTypes?
 }
 
-public class AllTypes : IReturn
+public class AllTypes
 {
-    public typealias Return = AllTypes
-
     required public init(){}
     public var id:Int?
     public var nullableId:Int?
@@ -308,13 +328,13 @@ public class AllTypes : IReturn
     public var double:Double?
     public var decimal:Double?
     public var string:String?
-    public var dateTime:NSDate?
-    public var timeSpan:NSTimeInterval?
-    public var dateTimeOffset:NSDate?
+    public var dateTime:Date?
+    public var timeSpan:TimeInterval?
+    public var dateTimeOffset:Date?
     public var guid:String?
     public var char:Character?
-    public var nullableDateTime:NSDate?
-    public var nullableTimeSpan:NSTimeInterval?
+    public var nullableDateTime:Date?
+    public var nullableTimeSpan:TimeInterval?
     public var stringList:[String] = []
     public var stringArray:[String] = []
     public var stringMap:[String:String] = [:]
@@ -328,6 +348,14 @@ public class HelloString : IReturn
 
     required public init(){}
     public var name:String?
+}
+
+public class HelloDateTime : IReturn
+{
+    public typealias Return = HelloDateTime
+
+    required public init(){}
+    public var dateTime:Date?
 }
 
 public class HelloVoid
@@ -370,7 +398,6 @@ public class HelloWithInheritance : HelloBase, IReturn
 //Excluded HelloWithGenericInheritance : HelloBase<Poco>
 //Excluded HelloWithGenericInheritance2 : HelloBase<Hello>
 //Excluded HelloWithNestedInheritance : HelloBase<HelloWithNestedInheritance.Item>
-//Excluded HelloWithListInheritance : List<InheritedItem>
 
 public class HelloWithReturn : IReturn
 {
@@ -463,6 +490,25 @@ public class HelloReturnVoid : IReturnVoid
     public var id:Int?
 }
 
+public class EnumRequest : IReturn, IPut
+{
+    public typealias Return = EnumResponse
+
+    required public init(){}
+    public var `operator`:ScopeType?
+}
+
+// @Route("/hellotypes/{Name}")
+public class HelloTypes : IReturn
+{
+    public typealias Return = HelloTypes
+
+    required public init(){}
+    public var string:String?
+    public var bool:Bool?
+    public var int:Int?
+}
+
 // @Route("/ping")
 public class Ping : IReturn
 {
@@ -482,6 +528,43 @@ public class RequiresRole : IReturn
 {
     public typealias Return = RequiresRoleResponse
 
+    required public init(){}
+}
+
+// @Route("/return/string")
+public class ReturnString : IReturn
+{
+    public typealias Return = String
+
+    required public init(){}
+    public var data:String?
+}
+
+// @Route("/return/bytes")
+public class ReturnBytes
+{
+    required public init(){}
+    public var data:[Int8] = []
+}
+
+// @Route("/return/stream")
+public class ReturnStream : IReturn
+{
+    public typealias Return = Data
+
+    required public init(){}
+    public var data:[Int8] = []
+}
+
+// @Route("/Request1", "GET")
+public class GetRequest1 : IGet
+{
+    required public init(){}
+}
+
+// @Route("/Request2", "GET")
+public class GetRequest2 : IGet
+{
     required public init(){}
 }
 
@@ -543,6 +626,22 @@ public class UpdateSession : IReturn
     public var customName:String?
 }
 
+public class StoreLogs : IReturn
+{
+    public typealias Return = StoreLogsResponse
+
+    required public init(){}
+    public var loggers:[Logger] = []
+}
+
+// @Route("/testauth")
+public class TestAuth : IReturn
+{
+    public typealias Return = TestAuthResponse
+
+    required public init(){}
+}
+
 // @Route("/void-response")
 public class TestVoidResponse
 {
@@ -562,6 +661,50 @@ public class Wait : IReturn
 
     required public init(){}
     public var forMs:Int?
+}
+
+// @Route("/echo/types")
+public class EchoTypes : IReturn
+{
+    public typealias Return = EchoTypes
+
+    required public init(){}
+    public var byte:Int8?
+    public var short:Int16?
+    public var int:Int?
+    public var long:Int64?
+    public var uShort:UInt16?
+    public var uInt:UInt32?
+    public var uLong:UInt64?
+    public var float:Float?
+    public var double:Double?
+    public var decimal:Double?
+    public var string:String?
+    public var dateTime:Date?
+    public var timeSpan:TimeInterval?
+    public var dateTimeOffset:Date?
+    public var guid:String?
+    public var char:Character?
+}
+
+// @Route("/echo/collections")
+public class EchoCollections : IReturn
+{
+    public typealias Return = EchoCollections
+
+    required public init(){}
+    public var stringList:[String] = []
+    public var stringArray:[String] = []
+    public var stringMap:[String:String] = [:]
+    public var intStringMap:[Int:String] = [:]
+}
+
+public class EchoComplexTypes : IReturn
+{
+    public typealias Return = EchoComplexTypes
+
+    required public init(){}
+    public var subType:SubType?
 }
 
 // @Route("/requestlogs")
@@ -626,10 +769,10 @@ public class RequestLogs : IReturn
     public var enableErrorTracking:Bool?
 
     // @DataMember(Order=19)
-    public var durationLongerThan:NSTimeInterval?
+    public var durationLongerThan:TimeInterval?
 
     // @DataMember(Order=20)
-    public var durationLessThan:NSTimeInterval?
+    public var durationLessThan:TimeInterval?
 }
 
 // @Route("/auth")
@@ -637,7 +780,7 @@ public class RequestLogs : IReturn
 // @Route("/authenticate")
 // @Route("/authenticate/{provider}")
 // @DataContract
-public class Authenticate : IReturn
+public class Authenticate : IReturn, IPost
 {
     public typealias Return = AuthenticateResponse
 
@@ -685,12 +828,15 @@ public class Authenticate : IReturn
     public var cnonce:String?
 
     // @DataMember(Order=15)
+    public var useTokenCookie:Bool?
+
+    // @DataMember(Order=16)
     public var meta:[String:String] = [:]
 }
 
 // @Route("/assignroles")
 // @DataContract
-public class AssignRoles : IReturn
+public class AssignRoles : IReturn, IPost
 {
     public typealias Return = AssignRolesResponse
 
@@ -707,7 +853,7 @@ public class AssignRoles : IReturn
 
 // @Route("/unassignroles")
 // @DataContract
-public class UnAssignRoles : IReturn
+public class UnAssignRoles : IReturn, IPost
 {
     public typealias Return = UnAssignRolesResponse
 
@@ -744,6 +890,12 @@ public class ThrowValidationResponse
     public var age:Int?
     public var required:String?
     public var email:String?
+    public var responseStatus:ResponseStatus?
+}
+
+public class ThrowBusinessErrorResponse
+{
+    required public init(){}
     public var responseStatus:ResponseStatus?
 }
 
@@ -871,6 +1023,12 @@ public class HelloVerbResponse
     public var result:String?
 }
 
+public class EnumResponse
+{
+    required public init(){}
+    public var `operator`:ScopeType?
+}
+
 public class PingResponse
 {
     required public init(){}
@@ -901,6 +1059,23 @@ public class GetSessionResponse
     public var responseStatus:ResponseStatus?
 }
 
+public class StoreLogsResponse
+{
+    required public init(){}
+    public var existingLogs:[Logger] = []
+    public var responseStatus:ResponseStatus?
+}
+
+public class TestAuthResponse
+{
+    required public init(){}
+    public var userId:String?
+    public var sessionId:String?
+    public var userName:String?
+    public var displayName:String?
+    public var responseStatus:ResponseStatus?
+}
+
 // @DataContract
 public class RequestLogsResponse
 {
@@ -919,6 +1094,9 @@ public class RequestLogsResponse
 public class AuthenticateResponse
 {
     required public init(){}
+    // @DataMember(Order=7)
+    public var responseStatus:ResponseStatus?
+
     // @DataMember(Order=1)
     public var userId:String?
 
@@ -935,9 +1113,9 @@ public class AuthenticateResponse
     public var referrerUrl:String?
 
     // @DataMember(Order=6)
-    public var responseStatus:ResponseStatus?
+    public var bearerToken:String?
 
-    // @DataMember(Order=7)
+    // @DataMember(Order=8)
     public var meta:[String:String] = [:]
 }
 
@@ -966,26 +1144,6 @@ public class UnAssignRolesResponse
     public var allPermissions:[String] = []
 
     // @DataMember(Order=3)
-    public var responseStatus:ResponseStatus?
-}
-
-// @DataContract
-public class QueryResponse<T : JsonSerializable>
-{
-    required public init(){}
-    // @DataMember(Order=1)
-    public var offset:Int?
-
-    // @DataMember(Order=2)
-    public var total:Int?
-
-    // @DataMember(Order=3)
-    public var results:[T] = []
-
-    // @DataMember(Order=4)
-    public var meta:[String:String] = [:]
-
-    // @DataMember(Order=5)
     public var responseStatus:ResponseStatus?
 }
 
@@ -1108,12 +1266,6 @@ public class Item
     public var value:String?
 }
 
-public class InheritedItem
-{
-    required public init(){}
-    public var name:String?
-}
-
 public class HelloWithReturnResponse
 {
     required public init(){}
@@ -1165,9 +1317,22 @@ public enum DayOfWeek : Int
     case Saturday
 }
 
+// @DataContract
+public enum ScopeType : Int
+{
+    case Global = 1
+    case Sale = 2
+}
+
 public class PingService
 {
     required public init(){}
+}
+
+public class ReturnedDto
+{
+    required public init(){}
+    public var id:Int?
 }
 
 public class CustomUserSession : AuthUserSession
@@ -1186,11 +1351,18 @@ public class UnAuthInfo
     public var customInfo:String?
 }
 
+public class Logger
+{
+    required public init(){}
+    public var id:Int64?
+    public var devices:[Device] = []
+}
+
 public class RequestLogEntry
 {
     required public init(){}
     public var id:Int64?
-    public var dateTime:NSDate?
+    public var dateTime:Date?
     public var httpMethod:String?
     public var absoluteUri:String?
     public var pathInfo:String?
@@ -1207,12 +1379,7 @@ public class RequestLogEntry
     //session:Object ignored. Type could not be extended in Swift
     //responseDto:Object ignored. Type could not be extended in Swift
     //errorResponse:Object ignored. Type could not be extended in Swift
-    public var requestDuration:NSTimeInterval?
-}
-
-public class QueryBase_1<T : JsonSerializable> : QueryBase
-{
-    required public init(){}
+    public var requestDuration:TimeInterval?
 }
 
 public class OnlyDefinedInGenericType
@@ -1220,11 +1387,6 @@ public class OnlyDefinedInGenericType
     required public init(){}
     public var id:Int?
     public var name:String?
-}
-
-public class QueryBase_2<From : JsonSerializable, Into : JsonSerializable> : QueryBase
-{
-    required public init(){}
 }
 
 public class OnlyDefinedInGenericTypeFrom
@@ -1285,7 +1447,7 @@ public protocol IAuthTokens
     var accessToken:String? { get set }
     var accessTokenSecret:String? { get set }
     var refreshToken:String? { get set }
-    var refreshTokenExpiry:NSDate? { get set }
+    var refreshTokenExpiry:Date? { get set }
     var requestToken:String? { get set }
     var requestTokenSecret:String? { get set }
     var items:[String:String]? { get set }
@@ -1344,7 +1506,7 @@ public class AuthUserSession
     public var phoneNumber:String?
 
     // @DataMember(Order=17)
-    public var birthDate:NSDate?
+    public var birthDate:Date?
 
     // @DataMember(Order=18)
     public var birthDateRaw:String?
@@ -1392,10 +1554,10 @@ public class AuthUserSession
     public var requestTokenSecret:String?
 
     // @DataMember(Order=33)
-    public var createdAt:NSDate?
+    public var createdAt:Date?
 
     // @DataMember(Order=34)
-    public var lastModified:NSDate?
+    public var lastModified:Date?
 
     // @DataMember(Order=35)
     public var roles:[String] = []
@@ -1407,34 +1569,27 @@ public class AuthUserSession
     public var isAuthenticated:Bool?
 
     // @DataMember(Order=38)
-    public var sequence:String?
+    public var fromToken:Bool?
 
     // @DataMember(Order=39)
+    public var profileUrl:String?
+
+    // @DataMember(Order=40)
+    public var sequence:String?
+
+    // @DataMember(Order=41)
     public var tag:Int64?
 
     //providerOAuthAccess:[IAuthTokens] ignored. Swift doesn't support interface properties
 }
 
-public class QueryBase
+public class Device
 {
     required public init(){}
-    // @DataMember(Order=1)
-    public var skip:Int?
-
-    // @DataMember(Order=2)
-    public var take:Int?
-
-    // @DataMember(Order=3)
-    public var orderBy:String?
-
-    // @DataMember(Order=4)
-    public var orderByDesc:String?
-
-    // @DataMember(Order=5)
-    public var include:String?
-
-    // @DataMember(Order=6)
-    public var meta:[String:String] = [:]
+    public var id:Int64?
+    public var type:String?
+    public var timeStamp:Int64?
+    public var channels:[Channel] = []
 }
 
 public class MenuItemExampleItem
@@ -1443,6 +1598,13 @@ public class MenuItemExampleItem
     // @DataMember(Order=1)
     // @ApiMember()
     public var name1:String?
+}
+
+public class Channel
+{
+    required public init(){}
+    public var name:String?
+    public var value:String?
 }
 
 
@@ -1472,6 +1634,14 @@ extension Throw404 : JsonSerializable
         ])
 }
 
+extension ThrowCustom400 : JsonSerializable
+{
+    public static var typeName:String { return "ThrowCustom400" }
+    public static var metadata = Metadata.create([
+            Type<ThrowCustom400>.optionalProperty("message", get: { $0.message }, set: { $0.message = $1 }),
+        ])
+}
+
 extension ThrowType : JsonSerializable
 {
     public static var typeName:String { return "ThrowType" }
@@ -1488,6 +1658,13 @@ extension ThrowValidation : JsonSerializable
             Type<ThrowValidation>.optionalProperty("age", get: { $0.age }, set: { $0.age = $1 }),
             Type<ThrowValidation>.optionalProperty("required", get: { $0.required }, set: { $0.required = $1 }),
             Type<ThrowValidation>.optionalProperty("email", get: { $0.email }, set: { $0.email = $1 }),
+        ])
+}
+
+extension ThrowBusinessError : JsonSerializable
+{
+    public static var typeName:String { return "ThrowBusinessError" }
+    public static var metadata = Metadata.create([
         ])
 }
 
@@ -1761,6 +1938,14 @@ extension HelloString : JsonSerializable
         ])
 }
 
+extension HelloDateTime : JsonSerializable
+{
+    public static var typeName:String { return "HelloDateTime" }
+    public static var metadata = Metadata.create([
+            Type<HelloDateTime>.optionalProperty("dateTime", get: { $0.dateTime }, set: { $0.dateTime = $1 }),
+        ])
+}
+
 extension HelloVoid : JsonSerializable
 {
     public static var typeName:String { return "HelloVoid" }
@@ -1890,6 +2075,24 @@ extension HelloReturnVoid : JsonSerializable
         ])
 }
 
+extension EnumRequest : JsonSerializable
+{
+    public static var typeName:String { return "EnumRequest" }
+    public static var metadata = Metadata.create([
+            Type<EnumRequest>.optionalProperty("operator", get: { $0.`operator` }, set: { $0.`operator` = $1 }),
+        ])
+}
+
+extension HelloTypes : JsonSerializable
+{
+    public static var typeName:String { return "HelloTypes" }
+    public static var metadata = Metadata.create([
+            Type<HelloTypes>.optionalProperty("string", get: { $0.string }, set: { $0.string = $1 }),
+            Type<HelloTypes>.optionalProperty("bool", get: { $0.bool }, set: { $0.bool = $1 }),
+            Type<HelloTypes>.optionalProperty("int", get: { $0.int }, set: { $0.int = $1 }),
+        ])
+}
+
 extension Ping : JsonSerializable
 {
     public static var typeName:String { return "Ping" }
@@ -1907,6 +2110,44 @@ extension ResetConnections : JsonSerializable
 extension RequiresRole : JsonSerializable
 {
     public static var typeName:String { return "RequiresRole" }
+    public static var metadata = Metadata.create([
+        ])
+}
+
+extension ReturnString : JsonSerializable
+{
+    public static var typeName:String { return "ReturnString" }
+    public static var metadata = Metadata.create([
+            Type<ReturnString>.optionalProperty("data", get: { $0.data }, set: { $0.data = $1 }),
+        ])
+}
+
+extension ReturnBytes : JsonSerializable
+{
+    public static var typeName:String { return "ReturnBytes" }
+    public static var metadata = Metadata.create([
+            Type<ReturnBytes>.arrayProperty("data", get: { $0.data }, set: { $0.data = $1 }),
+        ])
+}
+
+extension ReturnStream : JsonSerializable
+{
+    public static var typeName:String { return "ReturnStream" }
+    public static var metadata = Metadata.create([
+            Type<ReturnStream>.arrayProperty("data", get: { $0.data }, set: { $0.data = $1 }),
+        ])
+}
+
+extension GetRequest1 : JsonSerializable
+{
+    public static var typeName:String { return "GetRequest1" }
+    public static var metadata = Metadata.create([
+        ])
+}
+
+extension GetRequest2 : JsonSerializable
+{
+    public static var typeName:String { return "GetRequest2" }
     public static var metadata = Metadata.create([
         ])
 }
@@ -1966,6 +2207,21 @@ extension UpdateSession : JsonSerializable
         ])
 }
 
+extension StoreLogs : JsonSerializable
+{
+    public static var typeName:String { return "StoreLogs" }
+    public static var metadata = Metadata.create([
+            Type<StoreLogs>.arrayProperty("loggers", get: { $0.loggers }, set: { $0.loggers = $1 }),
+        ])
+}
+
+extension TestAuth : JsonSerializable
+{
+    public static var typeName:String { return "TestAuth" }
+    public static var metadata = Metadata.create([
+        ])
+}
+
 extension TestVoidResponse : JsonSerializable
 {
     public static var typeName:String { return "TestVoidResponse" }
@@ -1985,6 +2241,48 @@ extension Wait : JsonSerializable
     public static var typeName:String { return "Wait" }
     public static var metadata = Metadata.create([
             Type<Wait>.optionalProperty("forMs", get: { $0.forMs }, set: { $0.forMs = $1 }),
+        ])
+}
+
+extension EchoTypes : JsonSerializable
+{
+    public static var typeName:String { return "EchoTypes" }
+    public static var metadata = Metadata.create([
+            Type<EchoTypes>.optionalProperty("byte", get: { $0.byte }, set: { $0.byte = $1 }),
+            Type<EchoTypes>.optionalProperty("short", get: { $0.short }, set: { $0.short = $1 }),
+            Type<EchoTypes>.optionalProperty("int", get: { $0.int }, set: { $0.int = $1 }),
+            Type<EchoTypes>.optionalProperty("long", get: { $0.long }, set: { $0.long = $1 }),
+            Type<EchoTypes>.optionalProperty("uShort", get: { $0.uShort }, set: { $0.uShort = $1 }),
+            Type<EchoTypes>.optionalProperty("uInt", get: { $0.uInt }, set: { $0.uInt = $1 }),
+            Type<EchoTypes>.optionalProperty("uLong", get: { $0.uLong }, set: { $0.uLong = $1 }),
+            Type<EchoTypes>.optionalProperty("float", get: { $0.float }, set: { $0.float = $1 }),
+            Type<EchoTypes>.optionalProperty("double", get: { $0.double }, set: { $0.double = $1 }),
+            Type<EchoTypes>.optionalProperty("decimal", get: { $0.decimal }, set: { $0.decimal = $1 }),
+            Type<EchoTypes>.optionalProperty("string", get: { $0.string }, set: { $0.string = $1 }),
+            Type<EchoTypes>.optionalProperty("dateTime", get: { $0.dateTime }, set: { $0.dateTime = $1 }),
+            Type<EchoTypes>.optionalProperty("timeSpan", get: { $0.timeSpan }, set: { $0.timeSpan = $1 }),
+            Type<EchoTypes>.optionalProperty("dateTimeOffset", get: { $0.dateTimeOffset }, set: { $0.dateTimeOffset = $1 }),
+            Type<EchoTypes>.optionalProperty("guid", get: { $0.guid }, set: { $0.guid = $1 }),
+            Type<EchoTypes>.optionalProperty("char", get: { $0.char }, set: { $0.char = $1 }),
+        ])
+}
+
+extension EchoCollections : JsonSerializable
+{
+    public static var typeName:String { return "EchoCollections" }
+    public static var metadata = Metadata.create([
+            Type<EchoCollections>.arrayProperty("stringList", get: { $0.stringList }, set: { $0.stringList = $1 }),
+            Type<EchoCollections>.arrayProperty("stringArray", get: { $0.stringArray }, set: { $0.stringArray = $1 }),
+            Type<EchoCollections>.objectProperty("stringMap", get: { $0.stringMap }, set: { $0.stringMap = $1 }),
+            Type<EchoCollections>.objectProperty("intStringMap", get: { $0.intStringMap }, set: { $0.intStringMap = $1 }),
+        ])
+}
+
+extension EchoComplexTypes : JsonSerializable
+{
+    public static var typeName:String { return "EchoComplexTypes" }
+    public static var metadata = Metadata.create([
+            Type<EchoComplexTypes>.optionalObjectProperty("subType", get: { $0.subType }, set: { $0.subType = $1 }),
         ])
 }
 
@@ -2026,13 +2324,14 @@ extension Authenticate : JsonSerializable
             Type<Authenticate>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
             Type<Authenticate>.optionalProperty("password", get: { $0.password }, set: { $0.password = $1 }),
             Type<Authenticate>.optionalProperty("rememberMe", get: { $0.rememberMe }, set: { $0.rememberMe = $1 }),
-            Type<Authenticate>.optionalProperty("`continue`", get: { $0.`continue` }, set: { $0.`continue` = $1 }),
+            Type<Authenticate>.optionalProperty("continue", get: { $0.`continue` }, set: { $0.`continue` = $1 }),
             Type<Authenticate>.optionalProperty("nonce", get: { $0.nonce }, set: { $0.nonce = $1 }),
             Type<Authenticate>.optionalProperty("uri", get: { $0.uri }, set: { $0.uri = $1 }),
             Type<Authenticate>.optionalProperty("response", get: { $0.response }, set: { $0.response = $1 }),
             Type<Authenticate>.optionalProperty("qop", get: { $0.qop }, set: { $0.qop = $1 }),
             Type<Authenticate>.optionalProperty("nc", get: { $0.nc }, set: { $0.nc = $1 }),
             Type<Authenticate>.optionalProperty("cnonce", get: { $0.cnonce }, set: { $0.cnonce = $1 }),
+            Type<Authenticate>.optionalProperty("useTokenCookie", get: { $0.useTokenCookie }, set: { $0.useTokenCookie = $1 }),
             Type<Authenticate>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
         ])
 }
@@ -2082,6 +2381,14 @@ extension ThrowValidationResponse : JsonSerializable
             Type<ThrowValidationResponse>.optionalProperty("required", get: { $0.required }, set: { $0.required = $1 }),
             Type<ThrowValidationResponse>.optionalProperty("email", get: { $0.email }, set: { $0.email = $1 }),
             Type<ThrowValidationResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+        ])
+}
+
+extension ThrowBusinessErrorResponse : JsonSerializable
+{
+    public static var typeName:String { return "ThrowBusinessErrorResponse" }
+    public static var metadata = Metadata.create([
+            Type<ThrowBusinessErrorResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
         ])
 }
 
@@ -2237,6 +2544,14 @@ extension HelloVerbResponse : JsonSerializable
         ])
 }
 
+extension EnumResponse : JsonSerializable
+{
+    public static var typeName:String { return "EnumResponse" }
+    public static var metadata = Metadata.create([
+            Type<EnumResponse>.optionalProperty("operator", get: { $0.`operator` }, set: { $0.`operator` = $1 }),
+        ])
+}
+
 extension PingResponse : JsonSerializable
 {
     public static var typeName:String { return "PingResponse" }
@@ -2275,6 +2590,27 @@ extension GetSessionResponse : JsonSerializable
         ])
 }
 
+extension StoreLogsResponse : JsonSerializable
+{
+    public static var typeName:String { return "StoreLogsResponse" }
+    public static var metadata = Metadata.create([
+            Type<StoreLogsResponse>.arrayProperty("existingLogs", get: { $0.existingLogs }, set: { $0.existingLogs = $1 }),
+            Type<StoreLogsResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+        ])
+}
+
+extension TestAuthResponse : JsonSerializable
+{
+    public static var typeName:String { return "TestAuthResponse" }
+    public static var metadata = Metadata.create([
+            Type<TestAuthResponse>.optionalProperty("userId", get: { $0.userId }, set: { $0.userId = $1 }),
+            Type<TestAuthResponse>.optionalProperty("sessionId", get: { $0.sessionId }, set: { $0.sessionId = $1 }),
+            Type<TestAuthResponse>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
+            Type<TestAuthResponse>.optionalProperty("displayName", get: { $0.displayName }, set: { $0.displayName = $1 }),
+            Type<TestAuthResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+        ])
+}
+
 extension RequestLogsResponse : JsonSerializable
 {
     public static var typeName:String { return "RequestLogsResponse" }
@@ -2289,12 +2625,13 @@ extension AuthenticateResponse : JsonSerializable
 {
     public static var typeName:String { return "AuthenticateResponse" }
     public static var metadata = Metadata.create([
+            Type<AuthenticateResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
             Type<AuthenticateResponse>.optionalProperty("userId", get: { $0.userId }, set: { $0.userId = $1 }),
             Type<AuthenticateResponse>.optionalProperty("sessionId", get: { $0.sessionId }, set: { $0.sessionId = $1 }),
             Type<AuthenticateResponse>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
             Type<AuthenticateResponse>.optionalProperty("displayName", get: { $0.displayName }, set: { $0.displayName = $1 }),
             Type<AuthenticateResponse>.optionalProperty("referrerUrl", get: { $0.referrerUrl }, set: { $0.referrerUrl = $1 }),
-            Type<AuthenticateResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+            Type<AuthenticateResponse>.optionalProperty("bearerToken", get: { $0.bearerToken }, set: { $0.bearerToken = $1 }),
             Type<AuthenticateResponse>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
         ])
 }
@@ -2319,20 +2656,6 @@ extension UnAssignRolesResponse : JsonSerializable
         ])
 }
 
-extension QueryResponse : JsonSerializable
-{
-    public static var typeName:String { return "QueryResponse<T>" }
-    public static var metadata:Metadata {
-        return Metadata.create([
-            Type<QueryResponse<T>>.optionalProperty("offset", get: { $0.offset }, set: { $0.offset = $1 }),
-            Type<QueryResponse<T>>.optionalProperty("total", get: { $0.total }, set: { $0.total = $1 }),
-            Type<QueryResponse<T>>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
-            Type<QueryResponse<T>>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
-            Type<QueryResponse<T>>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
-        ])
-    }
-}
-
 extension ExternalEnum : StringSerializable
 {
     public static var typeName:String { return "ExternalEnum" }
@@ -2346,7 +2669,7 @@ extension ExternalEnum : StringSerializable
         case .Baz: return "Baz"
         }
     }
-    public static func fromString(strValue:String) -> ExternalEnum? {
+    public static func fromString(_ strValue:String) -> ExternalEnum? {
         switch strValue {
         case "Foo": return .Foo
         case "Bar": return .Bar
@@ -2354,7 +2677,7 @@ extension ExternalEnum : StringSerializable
         default: return nil
         }
     }
-    public static func fromObject(any:AnyObject) -> ExternalEnum? {
+    public static func fromObject(_ any:Any) -> ExternalEnum? {
         switch any {
         case let i as Int: return ExternalEnum(rawValue: i)
         case let s as String: return fromString(s)
@@ -2384,7 +2707,7 @@ extension ExternalEnum3 : StringSerializable
         case .Trois: return "Trois"
         }
     }
-    public static func fromString(strValue:String) -> ExternalEnum3? {
+    public static func fromString(_ strValue:String) -> ExternalEnum3? {
         switch strValue {
         case "Un": return .Un
         case "Deux": return .Deux
@@ -2392,7 +2715,7 @@ extension ExternalEnum3 : StringSerializable
         default: return nil
         }
     }
-    public static func fromObject(any:AnyObject) -> ExternalEnum3? {
+    public static func fromObject(_ any:Any) -> ExternalEnum3? {
         switch any {
         case let i as Int: return ExternalEnum3(rawValue: i)
         case let s as String: return fromString(s)
@@ -2454,14 +2777,14 @@ extension EnumType : StringSerializable
         case .Value2: return "Value2"
         }
     }
-    public static func fromString(strValue:String) -> EnumType? {
+    public static func fromString(_ strValue:String) -> EnumType? {
         switch strValue {
         case "Value1": return .Value1
         case "Value2": return .Value2
         default: return nil
         }
     }
-    public static func fromObject(any:AnyObject) -> EnumType? {
+    public static func fromObject(_ any:Any) -> EnumType? {
         switch any {
         case let i as Int: return EnumType(rawValue: i)
         case let s as String: return fromString(s)
@@ -2483,7 +2806,7 @@ extension EnumFlags : StringSerializable
         case .Value3: return "Value3"
         }
     }
-    public static func fromString(strValue:String) -> EnumFlags? {
+    public static func fromString(_ strValue:String) -> EnumFlags? {
         switch strValue {
         case "Value1": return .Value1
         case "Value2": return .Value2
@@ -2491,7 +2814,7 @@ extension EnumFlags : StringSerializable
         default: return nil
         }
     }
-    public static func fromObject(any:AnyObject) -> EnumFlags? {
+    public static func fromObject(_ any:Any) -> EnumFlags? {
         switch any {
         case let i as Int: return EnumFlags(rawValue: i)
         case let s as String: return fromString(s)
@@ -2540,14 +2863,6 @@ extension Item : JsonSerializable
         ])
 }
 
-extension InheritedItem : JsonSerializable
-{
-    public static var typeName:String { return "InheritedItem" }
-    public static var metadata = Metadata.create([
-            Type<InheritedItem>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
-        ])
-}
-
 extension HelloType : JsonSerializable
 {
     public static var typeName:String { return "HelloType" }
@@ -2585,7 +2900,7 @@ extension InnerEnum : StringSerializable
         case .Baz: return "Baz"
         }
     }
-    public static func fromString(strValue:String) -> InnerEnum? {
+    public static func fromString(_ strValue:String) -> InnerEnum? {
         switch strValue {
         case "Foo": return .Foo
         case "Bar": return .Bar
@@ -2593,7 +2908,7 @@ extension InnerEnum : StringSerializable
         default: return nil
         }
     }
-    public static func fromObject(any:AnyObject) -> InnerEnum? {
+    public static func fromObject(_ any:Any) -> InnerEnum? {
         switch any {
         case let i as Int: return InnerEnum(rawValue: i)
         case let s as String: return fromString(s)
@@ -2619,7 +2934,7 @@ extension DayOfWeek : StringSerializable
         case .Saturday: return "Saturday"
         }
     }
-    public static func fromString(strValue:String) -> DayOfWeek? {
+    public static func fromString(_ strValue:String) -> DayOfWeek? {
         switch strValue {
         case "Sunday": return .Sunday
         case "Monday": return .Monday
@@ -2631,9 +2946,37 @@ extension DayOfWeek : StringSerializable
         default: return nil
         }
     }
-    public static func fromObject(any:AnyObject) -> DayOfWeek? {
+    public static func fromObject(_ any:Any) -> DayOfWeek? {
         switch any {
         case let i as Int: return DayOfWeek(rawValue: i)
+        case let s as String: return fromString(s)
+        default: return nil
+        }
+    }
+}
+
+extension ScopeType : StringSerializable
+{
+    public static var typeName:String { return "ScopeType" }
+    public func toJson() -> String {
+        return jsonStringRaw(toString())
+    }
+    public func toString() -> String {
+        switch self {
+        case .Global: return "Global"
+        case .Sale: return "Sale"
+        }
+    }
+    public static func fromString(_ strValue:String) -> ScopeType? {
+        switch strValue {
+        case "Global": return .Global
+        case "Sale": return .Sale
+        default: return nil
+        }
+    }
+    public static func fromObject(_ any:Any) -> ScopeType? {
+        switch any {
+        case let i as Int: return ScopeType(rawValue: i)
         case let s as String: return fromString(s)
         default: return nil
         }
@@ -2644,6 +2987,14 @@ extension PingService : JsonSerializable
 {
     public static var typeName:String { return "PingService" }
     public static var metadata = Metadata.create([
+        ])
+}
+
+extension ReturnedDto : JsonSerializable
+{
+    public static var typeName:String { return "ReturnedDto" }
+    public static var metadata = Metadata.create([
+            Type<ReturnedDto>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
         ])
 }
 
@@ -2690,6 +3041,8 @@ extension CustomUserSession : JsonSerializable
             Type<CustomUserSession>.arrayProperty("roles", get: { $0.roles }, set: { $0.roles = $1 }),
             Type<CustomUserSession>.arrayProperty("permissions", get: { $0.permissions }, set: { $0.permissions = $1 }),
             Type<CustomUserSession>.optionalProperty("isAuthenticated", get: { $0.isAuthenticated }, set: { $0.isAuthenticated = $1 }),
+            Type<CustomUserSession>.optionalProperty("fromToken", get: { $0.fromToken }, set: { $0.fromToken = $1 }),
+            Type<CustomUserSession>.optionalProperty("profileUrl", get: { $0.profileUrl }, set: { $0.profileUrl = $1 }),
             Type<CustomUserSession>.optionalProperty("sequence", get: { $0.sequence }, set: { $0.sequence = $1 }),
             Type<CustomUserSession>.optionalProperty("tag", get: { $0.tag }, set: { $0.tag = $1 }),
         ])
@@ -2700,6 +3053,15 @@ extension UnAuthInfo : JsonSerializable
     public static var typeName:String { return "UnAuthInfo" }
     public static var metadata = Metadata.create([
             Type<UnAuthInfo>.optionalProperty("customInfo", get: { $0.customInfo }, set: { $0.customInfo = $1 }),
+        ])
+}
+
+extension Logger : JsonSerializable
+{
+    public static var typeName:String { return "Logger" }
+    public static var metadata = Metadata.create([
+            Type<Logger>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+            Type<Logger>.arrayProperty("devices", get: { $0.devices }, set: { $0.devices = $1 }),
         ])
 }
 
@@ -2776,7 +3138,7 @@ extension ExternalEnum2 : StringSerializable
         case .Tre: return "Tre"
         }
     }
-    public static func fromString(strValue:String) -> ExternalEnum2? {
+    public static func fromString(_ strValue:String) -> ExternalEnum2? {
         switch strValue {
         case "Uno": return .Uno
         case "Due": return .Due
@@ -2784,7 +3146,7 @@ extension ExternalEnum2 : StringSerializable
         default: return nil
         }
     }
-    public static func fromObject(any:AnyObject) -> ExternalEnum2? {
+    public static func fromObject(_ any:Any) -> ExternalEnum2? {
         switch any {
         case let i as Int: return ExternalEnum2(rawValue: i)
         case let s as String: return fromString(s)
@@ -2817,10 +3179,30 @@ extension TypesGroup : JsonSerializable
         ])
 }
 
+extension Device : JsonSerializable
+{
+    public static var typeName:String { return "Device" }
+    public static var metadata = Metadata.create([
+            Type<Device>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+            Type<Device>.optionalProperty("type", get: { $0.type }, set: { $0.type = $1 }),
+            Type<Device>.optionalProperty("timeStamp", get: { $0.timeStamp }, set: { $0.timeStamp = $1 }),
+            Type<Device>.arrayProperty("channels", get: { $0.channels }, set: { $0.channels = $1 }),
+        ])
+}
+
 extension MenuItemExampleItem : JsonSerializable
 {
     public static var typeName:String { return "MenuItemExampleItem" }
     public static var metadata = Metadata.create([
             Type<MenuItemExampleItem>.optionalProperty("name1", get: { $0.name1 }, set: { $0.name1 = $1 }),
+        ])
+}
+
+extension Channel : JsonSerializable
+{
+    public static var typeName:String { return "Channel" }
+    public static var metadata = Metadata.create([
+            Type<Channel>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
+            Type<Channel>.optionalProperty("value", get: { $0.value }, set: { $0.value = $1 }),
         ])
 }

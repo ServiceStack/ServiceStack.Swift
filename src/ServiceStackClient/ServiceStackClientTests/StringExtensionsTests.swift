@@ -12,18 +12,18 @@ import XCTest
 
 class StringExtensionsTests: XCTestCase {
 
-    func test_Can_splitOnFirst() {
-        XCTAssertEqual("1,2,3".splitOnFirst(","), ["1","2,3"])
-        XCTAssertEqual("1,2,3".splitOnFirst(";"), ["1,2,3"])
-        XCTAssertEqual("1::2::3".splitOnFirst("::"), ["1","2::3"])
+    func test_Can_splitOn_first() {
+        XCTAssertEqual("1,2,3".splitOn(first: ","), ["1","2,3"])
+        XCTAssertEqual("1,2,3".splitOn(first: ";"), ["1,2,3"])
+        XCTAssertEqual("1::2::3".splitOn(first: "::"), ["1","2::3"])
 
-        XCTAssertEqual("1H".splitOnFirst("H"), ["1",""])
+        XCTAssertEqual("1H".splitOn(first: "H"), ["1",""])
     }
     
     func test_Can_splitOnLast() {
-        XCTAssertEqual("1,2,3".splitOnLast(","), ["1,2","3"])
-        XCTAssertEqual("1,2,3".splitOnLast(";"), ["1,2,3"])
-        XCTAssertEqual("1::2::3".splitOnLast("::"), ["1::2","3"])
+        XCTAssertEqual("1,2,3".splitOn(last: ","), ["1,2","3"])
+        XCTAssertEqual("1,2,3".splitOn(last: ";"), ["1,2,3"])
+        XCTAssertEqual("1::2::3".splitOn(last: "::"), ["1::2","3"])
     }
     
     func test_Can_Split() {

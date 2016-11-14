@@ -7,7 +7,6 @@
 //  Copyright (c) 2015 ServiceStack LLC. All rights reserved.
 //
 
-import UIKit
 import XCTest
 
 public class Parent
@@ -124,7 +123,7 @@ class SerializeParentChildTests: XCTestCase
         dto.stringOptional = "B"
         dto.boolOptional = false
         dto.doubleOptional = 2.0
-        dto.childOptional = createChild(1)
+        dto.childOptional = createChild(id: 1)
         dto.ints = [1,2,3]
         dto.intsOptional = [4,5,6]
         dto.strings = ["A","B","C"]
@@ -133,8 +132,8 @@ class SerializeParentChildTests: XCTestCase
         dto.boolsOptional = [false,true]
         dto.doubles = [1.1,2.2,3.3]
         dto.doublesOptional = [4.4,5.5,6.6]
-        dto.children = [createChild(1),createChild(2)]
-        dto.childrenOptional = [createChild(3),createChild(4)]
+        dto.children = [createChild(id: 1),createChild(id: 2)]
+        dto.childrenOptional = [createChild(id: 3),createChild(id: 4)]
 
         let json = dto.toJson()
         
@@ -162,7 +161,7 @@ class SerializeParentChildTests: XCTestCase
         XCTAssertEqual(parent.doubleOptional!, 2.0)
 
         XCTAssertEqual(parent.child, Child())
-        XCTAssertEqual(parent.childOptional!, createChild(1))
+        XCTAssertEqual(parent.childOptional!, createChild(id: 1))
         
         assertEquals(parent.ints, actual: [1,2,3])
         assertEquals(parent.intsOptional!, actual: [4,5,6])
@@ -173,8 +172,8 @@ class SerializeParentChildTests: XCTestCase
         assertEquals(parent.doubles, actual: [1.1,2.2,3.3])
         assertEquals(parent.doublesOptional!, actual: [4.4,5.5,6.6])
 
-        assertEquals(parent.children, actual: [createChild(1),createChild(2)])
-        assertEquals(parent.childrenOptional!, actual: [createChild(3),createChild(4)])
+        assertEquals(parent.children, actual: [createChild(id: 1),createChild(id: 2)])
+        assertEquals(parent.childrenOptional!, actual: [createChild(id: 3),createChild(id: 4)])
     }
 }
 

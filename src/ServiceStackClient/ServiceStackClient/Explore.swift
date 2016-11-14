@@ -69,7 +69,7 @@ func typestring(x : Any) -> String
     }
     
     if let obj = x as? NSObject {
-        return sanitize(NSStringFromClass((x as NSObject).dynamicType))
+        return sanitize(NSStringFromClass(type(of: x)))
     }
     
     if mi.disposition == .Optional {

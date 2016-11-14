@@ -7,9 +7,7 @@
 //
 
 import Foundation
-
 import XCTest
-
 
 class TestInterfaceMarkerTests: XCTestCase {
     var client:JsonServiceClient!
@@ -34,21 +32,21 @@ class TestInterfaceMarkerTests: XCTestCase {
     }
     
     func test_Does_SendDefault_as_POST_Async(){
-        let asyncTest = expectationWithDescription("asyncTest")
+        let asyncTest = expectation(description:"asyncTest")
 
         let request = SendDefault()
         request.id = 1
 
         client.sendAsync(request)
-            .then({ response in
+            .then { response in
                 XCTAssertEqual(response.id!, 1)
                 XCTAssertEqual(response.requestMethod!, HttpMethods.Post)
                 XCTAssertEqual(response.pathInfo!, "/json/reply/SendDefault")
                 
                 asyncTest.fulfill()
-            })
+            }
 
-        waitForExpectationsWithTimeout(5, handler: { (error) in
+        waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -68,21 +66,21 @@ class TestInterfaceMarkerTests: XCTestCase {
     }
     
     func test_Does_SendRestGet_as_GET_using_Predefined_Route_Async(){
-        let asyncTest = expectationWithDescription("asyncTest")
+        let asyncTest = expectation(description:"asyncTest")
         
         let request = SendRestGet()
         request.id = 1
         
         client.sendAsync(request)
-            .then({ response in
+            .then { response in
                 XCTAssertEqual(response.id!, 1)
                 XCTAssertEqual(response.requestMethod!, HttpMethods.Get)
                 XCTAssertEqual(response.pathInfo!, "/json/reply/SendRestGet")
                 
                 asyncTest.fulfill()
-            })
+            }
         
-        waitForExpectationsWithTimeout(5, handler: { (error) in
+        waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -102,21 +100,21 @@ class TestInterfaceMarkerTests: XCTestCase {
     }
     
     func test_Does_SendGet_as_GET_Async(){
-        let asyncTest = expectationWithDescription("asyncTest")
+        let asyncTest = expectation(description:"asyncTest")
         
         let request = SendGet()
         request.id = 1
         
         client.sendAsync(request)
-            .then({ response in
+            .then { response in
                 XCTAssertEqual(response.id!, 1)
                 XCTAssertEqual(response.requestMethod!, HttpMethods.Get)
                 XCTAssertEqual(response.pathInfo!, "/json/reply/SendGet")
                 
                 asyncTest.fulfill()
-            })
+            }
         
-        waitForExpectationsWithTimeout(5, handler: { (error) in
+        waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -136,21 +134,21 @@ class TestInterfaceMarkerTests: XCTestCase {
     }
     
     func test_Does_SendPost_as_POST_Async(){
-        let asyncTest = expectationWithDescription("asyncTest")
+        let asyncTest = expectation(description:"asyncTest")
         
         let request = SendPost()
         request.id = 1
         
         client.sendAsync(request)
-            .then({ response in
+            .then { response in
                 XCTAssertEqual(response.id!, 1)
                 XCTAssertEqual(response.requestMethod!, HttpMethods.Post)
                 XCTAssertEqual(response.pathInfo!, "/json/reply/SendPost")
                 
                 asyncTest.fulfill()
-            })
+            }
         
-        waitForExpectationsWithTimeout(5, handler: { (error) in
+        waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -170,21 +168,21 @@ class TestInterfaceMarkerTests: XCTestCase {
     }
     
     func test_Does_SendPut_as_PUT_Async(){
-        let asyncTest = expectationWithDescription("asyncTest")
+        let asyncTest = expectation(description:"asyncTest")
         
         let request = SendPut()
         request.id = 1
         
         client.sendAsync(request)
-            .then({ response in
+            .then { response in
                 XCTAssertEqual(response.id!, 1)
                 XCTAssertEqual(response.requestMethod!, HttpMethods.Put)
                 XCTAssertEqual(response.pathInfo!, "/json/reply/SendPut")
                 
                 asyncTest.fulfill()
-            })
+            }
         
-        waitForExpectationsWithTimeout(5, handler: { (error) in
+        waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }

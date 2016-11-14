@@ -11,59 +11,64 @@ import Foundation
 public extension String
 {
     public var length: Int { return self.characters.count }
+
+    func index(_ from: Int) -> Index {
+        return self.index(startIndex, offsetBy: from)
+    }
     
     public func contains(s:String) -> Bool {
-        return (self as NSString).containsString(s)
+        return (self as NSString).contains(s)
     }
     
     public func trim() -> String {
-        return (self as String).stringByTrimmingCharactersInSet(.whitespaceCharacterSet())
+        return self.trimmingCharacters(in: NSCharacterSet.whitespaces)
     }
     
-    public func trimEnd(needle: Character) -> String {
-        var i: Int = self.characters.count - 1, j: Int = i
+    public func trimEnd(_ needle: Character) -> String {
+        var i: Int = self.characters.count - 1
         
-        while i >= 0 && self[self.startIndex.advancedBy(i)] == needle {
-            --i
+        while i >= 0 && self[self.index(self.startIndex, offsetBy: i)] == needle {
+            i -= 1
         }
         
-        return self.substringWithRange(Range<String.Index>(start: self.startIndex, end: self.endIndex.advancedBy(-(j - i))))
+        let s = self.substring(to: index(i + 1))
+        return s
     }
     
     public subscript (i: Int) -> Character {
-        return self[self.startIndex.advancedBy(i)]
+        return self[index(i)]
     }
     
     public subscript (i: Int) -> String {
         return String(self[i] as Character)
     }
-    
+
     public subscript (r: Range<Int>) -> String {
-        return substringWithRange(Range(start: startIndex.advancedBy(r.startIndex), end: startIndex.advancedBy(r.endIndex)))
+        return substring(with: index(r.lowerBound)..<index(r.upperBound))
     }
     
     public func urlEncode() -> String? {
-        return self.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
+        return self.addingPercentEncoding(withAllowedCharacters:CharacterSet.urlHostAllowed)
     }
     
-    public func combinePath(path:String) -> String {
+    public func combinePath(_ path:String) -> String {
         return (self.hasSuffix("/") ? self : self + "/") + (path.hasPrefix("/") ? path[1..<path.length] : path)
     }
 
-    public func splitOnFirst(separator:String) -> [String] {
-        return splitOnFirst(separator, startIndex: 0)
+    public func splitOn(first:String) -> [String] {
+        return splitOn(first: first, startIndex: 0)
     }
     
-    public func splitOnFirst(separator:String, startIndex:Int) -> [String] {
+    public func splitOn(first:String, startIndex:Int) -> [String] {
         var to = [String]()
         
-        let startRange = self.startIndex.advancedBy(startIndex)
-        if let range = self.rangeOfString(separator,
-            options: NSStringCompareOptions.LiteralSearch,
-            range: Range<String.Index>(start: startRange, end: self.endIndex))
+        let startRange = index(startIndex)
+        if let range = self.range(of: first,
+            options: NSString.CompareOptions.literal,
+            range: startRange ..< self.endIndex)
         {
-            to.append(self[self.startIndex..<range.startIndex])
-            to.append(self[range.endIndex..<endIndex])
+            to.append(self[self.startIndex..<range.lowerBound])
+            to.append(self[range.upperBound..<endIndex])
         }
         else {
             to.append(self)
@@ -71,11 +76,11 @@ public extension String
         return to
     }
     
-    public func splitOnLast(separator:String) -> [String] {
+    public func splitOn(last:String) -> [String] {
         var to = [String]()
-        if let range = self.rangeOfString(separator, options:NSStringCompareOptions.BackwardsSearch) {
-            to.append(self[startIndex..<range.startIndex])
-            to.append(self[range.endIndex..<endIndex])
+        if let range = self.range(of: last, options:NSString.CompareOptions.backwards) {
+            to.append(self[startIndex..<range.lowerBound])
+            to.append(self[range.upperBound..<endIndex])
         }
         else {
             to.append(self)
@@ -83,26 +88,26 @@ public extension String
         return to
     }
     
-    public func split(separator:String) -> [String] {
-        return self.componentsSeparatedByString(separator)
+    public func split(_ separator:String) -> [String] {
+        return self.components(separatedBy: separator)
     }
     
-    public func indexOf(needle:String) -> Int {
-        if let range = self.rangeOfString(needle) {
-            return startIndex.distanceTo(range.startIndex)
+    public func indexOf(_ needle:String) -> Int {
+        if let range = self.range(of: needle) {
+            return self.distance(from: startIndex, to: range.lowerBound)
         }
         return -1
     }
     
-    public func lastIndexOf(needle:String) -> Int {
-        if let range = self.rangeOfString(needle, options:NSStringCompareOptions.BackwardsSearch) {
-            return startIndex.distanceTo(range.startIndex)
+    public func lastIndexOf(_ needle:String) -> Int {
+        if let range = self.range(of: needle, options:NSString.CompareOptions.backwards) {
+            return self.distance(from: startIndex, to: range.lowerBound)
         }
         return -1
     }
     
-    public func replace(needle:String, withString:String) -> String {
-        return self.stringByReplacingOccurrencesOfString(needle, withString: withString)
+    public func replace(_ needle:String, withString:String) -> String {
+        return self.replacingOccurrences(of: needle, with: withString)
     }
     
     public func toDouble() -> Double {
@@ -136,10 +141,10 @@ extension Array
     }
 }
 
-extension NSData
+extension Data
 {
     func toUtf8String() -> String? {
-        if let str = NSString(data: self, encoding: NSUTF8StringEncoding) {
+        if let str = NSString(data: self as Data, encoding: String.Encoding.utf8.rawValue) {
             return str as String
         }
         return nil
@@ -150,14 +155,14 @@ extension NSData
     }
 }
 
-extension NSError
+extension Error
 {
     func convertUserInfo<T : JsonSerializable>() -> T? {
-        return self.populateUserInfo(T())
+        return self.populateUserInfo(instance: T())
     }
 
     func populateUserInfo<T : JsonSerializable>(instance:T) -> T? {
-        let to = populateFromDictionary(T(), map: self.userInfo, propertiesMap: T.propertyMap)
+        let to = populateFromDictionary(instance: T(), map: (self as NSError).userInfo, propertiesMap: T.propertyMap)
         return to
     }
 }

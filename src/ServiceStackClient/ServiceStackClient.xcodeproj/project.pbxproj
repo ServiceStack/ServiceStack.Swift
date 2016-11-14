@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5151BCD31BAFC08400DF72D2 /* ServiceClientTechStacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5151BCD21BAFC08400DF72D2 /* ServiceClientTechStacksTests.swift */; settings = {ASSET_TAGS = (); }; };
+		5151BCD31BAFC08400DF72D2 /* ServiceClientTechStacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5151BCD21BAFC08400DF72D2 /* ServiceClientTechStacksTests.swift */; };
 		51D154DD1A7C543E00D2F2A3 /* ServiceStackClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 51D154DC1A7C543E00D2F2A3 /* ServiceStackClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51D154E31A7C543E00D2F2A3 /* ServiceStackClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D154D71A7C543E00D2F2A3 /* ServiceStackClient.framework */; };
 		51D154EA1A7C543E00D2F2A3 /* ServiceStackClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D154E91A7C543E00D2F2A3 /* ServiceStackClientTests.swift */; };
@@ -35,7 +35,7 @@
 		51D1551B1A7C6B9B00D2F2A3 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D155191A7C6B9B00D2F2A3 /* StringExtensions.swift */; };
 		51D1551D1A7C6BA700D2F2A3 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D1551C1A7C6BA700D2F2A3 /* DateExtensions.swift */; };
 		51D1551E1A7C6BA700D2F2A3 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D1551C1A7C6BA700D2F2A3 /* DateExtensions.swift */; };
-		51D7323C1BB0A2AA00127D6C /* TestInterfaceMarkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D7323B1BB0A2AA00127D6C /* TestInterfaceMarkerTests.swift */; settings = {ASSET_TAGS = (); }; };
+		51D7323C1BB0A2AA00127D6C /* TestInterfaceMarkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D7323B1BB0A2AA00127D6C /* TestInterfaceMarkerTests.swift */; };
 		51E7AD711A7C96CF00B65526 /* StringExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E7AD701A7C96CF00B65526 /* StringExtensionsTests.swift */; };
 		51E7AD731A7CA1CC00B65526 /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E7AD721A7CA1CC00B65526 /* DateExtensionsTests.swift */; };
 		51F280AC1ABF5FDE00AD3933 /* JsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F280AB1ABF5FDE00AD3933 /* JsonTests.swift */; };
@@ -238,9 +238,12 @@
 				TargetAttributes = {
 					51D154D61A7C543E00D2F2A3 = {
 						CreatedOnToolsVersion = 6.1.1;
+						LastSwiftMigration = 0810;
 					};
 					51D154E11A7C543E00D2F2A3 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = DK4VJ3YB24;
+						LastSwiftMigration = 0810;
 					};
 				};
 			};
@@ -436,6 +439,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -453,12 +457,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.servicestack.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		51D154F11A7C543E00D2F2A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = DK4VJ3YB24;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -472,12 +478,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.servicestack.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		51D154F21A7C543E00D2F2A3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = DK4VJ3YB24;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -487,6 +495,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.servicestack.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

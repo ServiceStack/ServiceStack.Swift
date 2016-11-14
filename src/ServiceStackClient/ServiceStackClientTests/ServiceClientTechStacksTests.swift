@@ -28,7 +28,7 @@ class ServiceClientTechStacksTests: XCTestCase {
     }
     
     func test_Can_GET_TechStacks_Overview_Aync() {
-        let asyncTest = expectationWithDescription("asyncTest")
+        let asyncTest = expectation(description:"asyncTest")
         
         client.getAsync(Overview())
             .then { r in
@@ -36,7 +36,7 @@ class ServiceClientTechStacksTests: XCTestCase {
                 asyncTest.fulfill()
             }
         
-        waitForExpectationsWithTimeout(5, handler: { (error) in
+        waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -72,18 +72,19 @@ class ServiceClientTechStacksTests: XCTestCase {
     
     func test_Can_GET_GetTechnology_with_params_Async() {
         
-        let asyncTest = expectationWithDescription("asyncTest")
+        let asyncTest = expectation(description:"asyncTest")
         
         let requestDto = GetTechnology()
         requestDto.slug = "servicestack"
         
         client.getAsync(requestDto)
-            .then({(r:GetTechnologyResponse) in
+            .then { (r:GetTechnologyResponse) in
                 self.assertGetTechnologyResponse(r)
                 asyncTest.fulfill()
-            })
+            }
+            
         
-        waitForExpectationsWithTimeout(5, handler: { (error) in
+        waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
         })
     }
@@ -108,8 +109,8 @@ class ServiceClientTechStacksTests: XCTestCase {
     }
     
     func test_Can_call_FindTechnologies_AutoQuery_Service_Async() {
-        let asyncTest = expectationWithDescription("asyncTest")
-        
+    let asyncTest = expectation(description:"asyncTest")
+    
         let request = FindTechnologies<Technology>()
         request.name = "ServiceStack"
         
@@ -138,13 +139,13 @@ class ServiceClientTechStacksTests: XCTestCase {
     * TEST HELPERS
     */
     
-    func assertGetTechnologyResponse(r:GetTechnologyResponse) {
+    func assertGetTechnologyResponse(_ r:GetTechnologyResponse) {
         XCTAssertNotNil(r)
         XCTAssertEqual(r.technology!.name!, "ServiceStack")
         XCTAssertGreaterThan(r.technologyStacks.count, 0)
     }
     
-    func assertOverviewResponse(r:OverviewResponse) {
+    func assertOverviewResponse(_ r:OverviewResponse) {
         XCTAssertNotNil(r)
         XCTAssertGreaterThan(r.topUsers.count, 0)
         XCTAssertGreaterThan(r.topTechnologies.count, 0)

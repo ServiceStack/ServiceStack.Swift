@@ -1,4 +1,4 @@
-#if false
+#if true
  //
 //  TechStacksJsonTests.swift
 //  ServiceStackClientTests
@@ -15,12 +15,11 @@ class TechStacksJsonTests: XCTestCase
     func test_Can_serialize_Empty_Option() {
         let dto = Option()
         
-        let json = Option.reflect().toJson(dto)
+        let json = dto.toJson()
         
         print(json)
         
-        XCTAssertEqual(json,
-            "{\"name\":null,\"title\":null,\"value\":null}")
+        XCTAssertEqual(json, "{\"name\":null,\"title\":null,\"value\":null}")
     }
     
     func test_Can_deserialize_Empty_Option() {
@@ -50,21 +49,21 @@ class TechStacksJsonTests: XCTestCase
         dto.title = "title"
         dto.value = TechnologyTier.ProgrammingLanguage
         
-        let json = Option.reflect().toJson(dto)
+        let json = dto.toJson()
         
         print(json)
         
-        XCTAssertEqual(json,
-            "{\"name\":\"name\",\"title\":\"title\",\"value\":\"ProgrammingLanguage\"}")
+        XCTAssertEqual(json, "{\"name\":\"name\",\"title\":\"title\",\"value\":\"ProgrammingLanguage\"}")
     }
 
 //    topTechnologiesByTier:[TechnologyTier:[TechnologyInfo]]
     
     func test_Can_deserialize_Overview() {
-        let bundle = NSBundle(forClass: TechStacksJsonTests.self)
-        let path = bundle.pathForResource("overview", ofType: "json")
+        let bundle = Bundle(for: TechStacksJsonTests.self)
+        let path = bundle.path(forResource: "overview", ofType: "json")
+        if path == nil { return } //when run from `swift test`
         let bytes = NSData(contentsOfFile: path!)
-        let json = NSString(data: bytes!, encoding: NSUTF8StringEncoding)
+        let json = NSString(data: bytes! as Data, encoding: String.Encoding.utf8.rawValue)
         
         let dto = OverviewResponse.fromJson(json! as String)!
         
@@ -92,14 +91,14 @@ class TechStacksJsonTests: XCTestCase
         XCTAssertTrue(techstacks.Description!.hasPrefix("This Website! "))
         XCTAssertEqual(techstacks.appUrl!, "http://techstacks.io")
         XCTAssertEqual(techstacks.screenshotUrl!, "https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/techstacks/screenshots/techstacks.png")
-        XCTAssertEqual(techstacks.created!, NSDate.fromIsoDateString("2015-01-01T17:33:58.9892560")!)
+        XCTAssertEqual(techstacks.created!, Date.fromIsoDateString("2015-01-01T17:33:58.9892560")!)
         XCTAssertEqual(techstacks.createdBy!, "layoric")
-        XCTAssertEqual(techstacks.lastModified!, NSDate.fromIsoDateString("2015-01-12T23:34:12.4516410")!)
+        XCTAssertEqual(techstacks.lastModified!, Date.fromIsoDateString("2015-01-12T23:34:12.4516410")!)
         XCTAssertEqual(techstacks.lastModifiedBy!, "layoric")
         XCTAssertEqual(techstacks.isLocked!, true)
         XCTAssertEqual(techstacks.ownerId!, "2")
         XCTAssertEqual(techstacks.slug!, "techstacks-website")
-        XCTAssertEqual(techstacks.lastStatusUpdate!, NSDate.fromIsoDateString("2015-01-12T23:34:12.4516410")!)
+        XCTAssertEqual(techstacks.lastStatusUpdate!, Date.fromIsoDateString("2015-01-12T23:34:12.4516410")!)
 
         let techstackChoices = techstacks.technologyChoices
         XCTAssertEqual(techstackChoices.count, 10)
@@ -111,9 +110,9 @@ class TechStacksJsonTests: XCTestCase
         XCTAssertEqual(techstackChoices[0].vendorUrl!, "https://servicestack.net")
         XCTAssertEqual(techstackChoices[0].productUrl!, "https://servicestack.net")
         XCTAssertEqual(techstackChoices[0].logoUrl!, "https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/techstacks/servicestack-logo.png")
-        XCTAssertEqual(techstackChoices[0].created!, NSDate.fromIsoDateString("2014-12-28T08:49:20.9542550")!)
+        XCTAssertEqual(techstackChoices[0].created!, Date.fromIsoDateString("2014-12-28T08:49:20.9542550")!)
         XCTAssertEqual(techstackChoices[0].createdBy!, "demisbellot")
-        XCTAssertEqual(techstackChoices[0].lastModified!, NSDate.fromIsoDateString("2014-12-28T08:49:20.9542550")!)
+        XCTAssertEqual(techstackChoices[0].lastModified!, Date.fromIsoDateString("2014-12-28T08:49:20.9542550")!)
         XCTAssertEqual(techstackChoices[0].lastModifiedBy!, "demisbellot")
         XCTAssertEqual(techstackChoices[0].ownerId!, "1")
         XCTAssertEqual(techstackChoices[0].slug!, "servicestack")
@@ -123,7 +122,7 @@ class TechStacksJsonTests: XCTestCase
         
         
         XCTAssertEqual(dto.topTechnologiesByTier.count, 9)
-        let langs = dto.topTechnologiesByTier[TechnologyTier.ProgrammingLanguage]!
+        let langs = dto.topTechnologiesByTier["ProgrammingLanguage"]!
         XCTAssertEqual(langs.count, 3)
         XCTAssertEqual(langs[0].tier!, TechnologyTier.ProgrammingLanguage)
         XCTAssertEqual(langs[0].slug!, "python")
