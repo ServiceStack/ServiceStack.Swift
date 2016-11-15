@@ -252,7 +252,7 @@ public class JsonServiceClient : ServiceClient
         return req
     }
     
-    public func send<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) throws -> T {
+    @discardableResult public func send<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) throws -> T {
         var response:URLResponse? = nil
         
         var data = Data()
@@ -280,7 +280,7 @@ public class JsonServiceClient : ServiceClient
         }
     }
     
-    public func sendAsync<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) -> Promise<T> {
+    @discardableResult public func sendAsync<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) -> Promise<T> {
         
         return Promise<T> { (complete, reject) in
             
@@ -409,7 +409,7 @@ public class JsonServiceClient : ServiceClient
     }
     
     
-    public func post<T : IReturn>(_ request:T) throws -> T.Return where T : JsonSerializable {
+    @discardableResult public func post<T : IReturn>(_ request:T) throws -> T.Return where T : JsonSerializable {
         return try send(intoResponse: T.Return(), request: self.createRequestDto(url: replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Post, request:request))
     }
     

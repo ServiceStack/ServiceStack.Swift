@@ -759,7 +759,7 @@ open class Promise<T> {
                //…
            }
      */
-    public func then<U>(on q: DispatchQueue = .default, execute body: @escaping (T) throws -> U) -> Promise<U> {
+    @discardableResult public func then<U>(on q: DispatchQueue = .default, execute body: @escaping (T) throws -> U) -> Promise<U> {
         return Promise<U> { resolve in
             state.then(on: q, else: resolve) { value in
                 resolve(.fulfilled(try body(value)))

@@ -65,8 +65,8 @@ class JsonTests: XCTestCase {
         
         let url = client.createUrl(dto: request)
         
-        print(request.dateTime?.dateAndTimeString)
-        print(request.dateTime?.isoDateString)
+        print(request.dateTime?.dateAndTimeString as Any)
+        print(request.dateTime?.isoDateString as Any)
        
         print(url)
         
