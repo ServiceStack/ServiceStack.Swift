@@ -29,7 +29,7 @@ let PMKJoinError:Int =  10
 public func after(interval: TimeInterval) -> Promise<Void> {
     return Promise { fulfill, _ in
         let when = DispatchTime.now() + interval
-        DispatchQueue.global().asyncAfter(deadline: when, execute: fulfill)
+        DispatchQueue.global().asyncAfter(deadline: when) { fulfill(()) }
     }
 }
 
@@ -1360,7 +1360,7 @@ private func _when<T>(_ promises: [Promise<T>]) -> Promise<Void> {
     let root = Promise<Void>.pending()
     var countdown = promises.count
     guard countdown > 0 else {
-        root.fulfill()
+        root.fulfill(())
         return root.promise
     }
 
@@ -1389,7 +1389,7 @@ private func _when<T>(_ promises: [Promise<T>]) -> Promise<Void> {
                     progress.completedUnitCount += 1
                     countdown -= 1
                     if countdown == 0 {
-                        root.fulfill()
+                        root.fulfill(())
                     }
                 }
             }
@@ -1647,7 +1647,7 @@ public func wrap(_ body: (@escaping (Error?) -> Void) throws -> Void) -> Promise
             if let error = error {
                 reject(error)
             } else {
-                fulfill()
+                fulfill(())
             }
         }
     }

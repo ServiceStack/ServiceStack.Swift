@@ -127,7 +127,7 @@ public class JsonServiceClient : ServiceClient
         return map[String(key[0]).lowercased() + key[1..<key.length]] ?? map[String(key[0]).uppercased() + key[1..<key.length]]
     }
     
-    func populateResponseStatusFields(errorInfo:inout [AnyHashable : Any], withObject:Any) {
+    func populateResponseStatusFields(errorInfo:inout [String : Any], withObject:Any) {
         if let status = getItem(map: withObject as! NSDictionary, key: "ResponseStatus") as? NSDictionary {
             if let errorCode = getItem(map: status, key: "errorCode") as? NSString {
                 errorInfo["errorCode"] = errorCode
@@ -147,7 +147,7 @@ public class JsonServiceClient : ServiceClient
     func handleResponse<T : JsonSerializable>(intoResponse:T, data:Data, response:URLResponse, error:NSErrorPointer = nil) -> T? {
         if let nsResponse = response as? HTTPURLResponse {
             if nsResponse.statusCode >= 400 {
-                var errorInfo = [AnyHashable : Any]()
+                var errorInfo: [String : Any] = [:]
                 
                 errorInfo["statusCode"] = nsResponse.statusCode
                 errorInfo["statusDescription"] = nsResponse.description
@@ -286,7 +286,7 @@ public class JsonServiceClient : ServiceClient
             
             let task = self.createSession().dataTask(with: request as URLRequest) { (data, response, error) in
                 if error != nil {
-                    reject(self.handleError(nsError: error as! NSError))
+                    reject(self.handleError(nsError: error! as NSError))
                 }
                 else {
                     var resposneError:NSError?
@@ -379,7 +379,7 @@ public class JsonServiceClient : ServiceClient
         return try send(intoResponse: T.Return(), request: self.createRequest(url: self.createUrl(dto: request), httpMethod:HttpMethods.Get))
     }
     
-    @discardableResult public func get<T : IReturnVoid>(_ request:T) throws -> Void where T : JsonSerializable {
+    public func get<T : IReturnVoid>(_ request:T) throws -> Void where T : JsonSerializable {
         try send(intoResponse: ReturnVoid.void, request: self.createRequest(url: self.createUrl(dto: request), httpMethod:HttpMethods.Get))
     }
     
@@ -413,7 +413,7 @@ public class JsonServiceClient : ServiceClient
         return try send(intoResponse: T.Return(), request: self.createRequestDto(url: replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Post, request:request))
     }
     
-    @discardableResult public func post<T : IReturnVoid>(_ request:T) throws -> Void where T : JsonSerializable {
+    public func post<T : IReturnVoid>(_ request:T) throws -> Void where T : JsonSerializable {
         try send(intoResponse: ReturnVoid.void, request: self.createRequestDto(url: replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Post, request:request))
     }
     
@@ -439,7 +439,7 @@ public class JsonServiceClient : ServiceClient
         return try send(intoResponse: T.Return(), request: self.createRequestDto(url: replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Put, request:request))
     }
     
-    @discardableResult public func put<T : IReturnVoid>(_ request:T) throws -> Void where T : JsonSerializable {
+    public func put<T : IReturnVoid>(_ request:T) throws -> Void where T : JsonSerializable {
         try send(intoResponse: ReturnVoid.void, request: self.createRequestDto(url: replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Put, request:request))
     }
     
@@ -465,7 +465,7 @@ public class JsonServiceClient : ServiceClient
         return try send(intoResponse: T.Return(), request: self.createRequest(url: self.createUrl(dto: request), httpMethod:HttpMethods.Delete))
     }
     
-    @discardableResult public func delete<T : IReturnVoid>(_ request:T) throws -> Void where T : JsonSerializable {
+    public func delete<T : IReturnVoid>(_ request:T) throws -> Void where T : JsonSerializable {
         try send(intoResponse: ReturnVoid.void, request: self.createRequest(url: self.createUrl(dto: request), httpMethod:HttpMethods.Delete))
     }
     
@@ -499,7 +499,7 @@ public class JsonServiceClient : ServiceClient
         return try send(intoResponse: T.Return(), request: self.createRequestDto(url: replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Patch, request:request))
     }
     
-    @discardableResult public func patch<T : IReturnVoid>(_ request:T) throws -> Void where T : JsonSerializable {
+    public func patch<T : IReturnVoid>(_ request:T) throws -> Void where T : JsonSerializable {
         try send(intoResponse: ReturnVoid.void, request: self.createRequestDto(url: replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Patch, request:request))
     }
     

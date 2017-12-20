@@ -404,14 +404,14 @@ class JsonServiceClientTests: XCTestCase {
         return to
     }
     
-    func assertDictionary<K : Hashable, V : Equatable>(_ actual:[K:V],expected:[K:V]) {
+    func assertDictionary<K, V : Equatable>(_ actual:[K:V],expected:[K:V]) {
         XCTAssertEqual(actual.count, expected.count)
         for (k,v) in actual {
             XCTAssertEqual(v, expected[k]!)
         }
     }
     
-    func assertLookup<K : Hashable, V : Equatable>(_ actual:[K:[V]],expected:[K:[V]]) {
+    func assertLookup<K, V : Equatable>(_ actual:[K:[V]],expected:[K:[V]]) {
         XCTAssertEqual(actual.count, expected.count)
         for (k,values) in actual {
             XCTAssertEqual(values.count, expected[k]!.count)
@@ -421,7 +421,7 @@ class JsonServiceClientTests: XCTestCase {
         }
     }
     
-    func assertLookupMap<K : Hashable, V : Equatable>(_ actual:[K:[K:V]],expected:[K:[K:V]]) {
+    func assertLookupMap<K, V : Equatable>(_ actual:[K:[K:V]],expected:[K:[K:V]]) {
         XCTAssertEqual(actual.count, expected.count)
         for (k,values) in actual {
             XCTAssertEqual(values.count, expected[k]!.count)

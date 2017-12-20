@@ -10,7 +10,7 @@ import Foundation
 
 public extension String
 {
-    public var length: Int { return self.characters.count }
+    public var length: Int { return self.count }
 
     func index(_ from: Int) -> Index {
         return self.index(startIndex, offsetBy: from)
@@ -25,13 +25,13 @@ public extension String
     }
     
     public func trimEnd(_ needle: Character) -> String {
-        var i: Int = self.characters.count - 1
+        var i: Int = self.count - 1
         
         while i >= 0 && self[self.index(self.startIndex, offsetBy: i)] == needle {
             i -= 1
         }
         
-        let s = self.substring(to: index(i + 1))
+        let s = String(self.prefix(upTo: index(i + 1)))
         return s
     }
     
@@ -42,9 +42,10 @@ public extension String
     public subscript (i: Int) -> String {
         return String(self[i] as Character)
     }
-
-    public subscript (r: Range<Int>) -> String {
-        return substring(with: index(r.lowerBound)..<index(r.upperBound))
+    
+    public subscript(r: Range<Int>) -> String {
+        let range = index(r.lowerBound) ..< index(r.upperBound)
+        return String(self[range])
     }
     
     public func urlEncode() -> String? {
@@ -67,8 +68,8 @@ public extension String
             options: NSString.CompareOptions.literal,
             range: startRange ..< self.endIndex)
         {
-            to.append(self[self.startIndex..<range.lowerBound])
-            to.append(self[range.upperBound..<endIndex])
+            to.append(String(self[self.startIndex..<range.lowerBound]))
+            to.append(String(self[range.upperBound..<endIndex]))
         }
         else {
             to.append(self)
@@ -79,8 +80,8 @@ public extension String
     public func splitOn(last:String) -> [String] {
         var to = [String]()
         if let range = self.range(of: last, options:NSString.CompareOptions.backwards) {
-            to.append(self[startIndex..<range.lowerBound])
-            to.append(self[range.upperBound..<endIndex])
+            to.append(String(self[startIndex..<range.lowerBound]))
+            to.append(String(self[range.upperBound..<endIndex]))
         }
         else {
             to.append(self)
