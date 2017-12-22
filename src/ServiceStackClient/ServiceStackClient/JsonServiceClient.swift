@@ -252,32 +252,26 @@ public class JsonServiceClient : ServiceClient
         return req
     }
     
-    @discardableResult public func send<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) throws -> T {
-        var response:URLResponse? = nil
+    @discardableResult public func send<T : JsonSerializable>(intoResponse: T, request: NSMutableURLRequest) throws -> T {
+        let dataTaskSync = self.createSession().dataTaskSync(request: request as URLRequest)
+        self.lastTask = dataTaskSync.task
         
-        var data = Data()
-        do {
-            data = try NSURLConnection.sendSynchronousRequest(request as URLRequest, returning: &response)
-            var error:NSError? = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
-            if response == nil {
-                if let e = error {
-                    throw e
-                }
-                return T()
-            }
-            if let dto = self.handleResponse(intoResponse: intoResponse, data: data, response: response!, error: &error) {
-                return dto
-            }
-            if let e = error {
-                throw e
+        if dataTaskSync.callback?.response == nil {
+            if let error = dataTaskSync.callback?.error {
+                throw error
             }
             return T()
-        } catch var ex as NSError? {
-            if let r = response, let e = self.handleResponse(intoResponse: intoResponse, data: data, response: r, error: &ex) {
-                return e
-            }
-            throw ex!
         }
+        var error: NSError? = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
+        if let data = dataTaskSync.callback?.data,
+            let response = dataTaskSync.callback?.response,
+            let dto = self.handleResponse(intoResponse: intoResponse, data: data, response: response, error: &error) {
+            return dto
+        }
+        if let e = error {
+            throw e
+        }
+        return T()
     }
     
     @discardableResult public func sendAsync<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) -> Promise<T> {
@@ -522,15 +516,17 @@ public class JsonServiceClient : ServiceClient
     
     
     public func getData(_ url:String) throws -> Data {
-        var error: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
-        var response:URLResponse? = nil
-        do {
-            let data = try NSURLConnection.sendSynchronousRequest(URLRequest(url: URL(string:resolveUrl(url))!), returning: &response)
+        let dataTaskSync = self.createSession().dataTaskSync(request: URLRequest(url: URL(string:resolveUrl(url))!))
+        self.lastTask = dataTaskSync.task
+        
+        if let data = dataTaskSync.callback?.data {
             return data
-        } catch let error1 as NSError {
-            error = error1
         }
-        throw error
+        
+        if let error = dataTaskSync.callback?.error {
+            throw error
+        }
+        throw NSError(domain: "Migrator", code: 0, userInfo: nil)
     }
     
     public func getDataAsync(_ url:String) -> Promise<Data> {
@@ -548,6 +544,23 @@ public class JsonServiceClient : ServiceClient
     }
 }
 
+extension URLSession {
+    public typealias URLSessionDataCallback = (data: Data?, response: URLResponse?, error: Error?)
+    public typealias URLSessionDataTaskSync = (task: URLSessionDataTask, callback: URLSessionDataCallback?)
+    
+    public func dataTaskSync(request: URLRequest) -> URLSessionDataTaskSync {
+        var callback: URLSessionDataCallback?
+        let ds = DispatchSemaphore(value: 0)
+        let task = self.dataTask(with: request as URLRequest) { data, response, error in
+            callback = (data: data, response: response, error: error)
+            ds.signal()
+        }
+        
+        task.resume()
+        ds.wait()
+        return (task: task, callback: callback)
+    }
+}
 
 extension HTTPURLResponse {
     
