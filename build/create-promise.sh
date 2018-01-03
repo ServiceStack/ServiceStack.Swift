@@ -27,22 +27,24 @@ let PMKJoinError:Int =  10
 
 EOF
 
-SRC=../src/ServiceStackClient/PromiseKit-4.0.5/Sources
+SRC=../src/ServiceStackClient/PromiseKit-5.0.3/Sources
 
 egrep -h -v '^(import|//)' \
       $SRC/after.swift \
       $SRC/AnyPromise.swift \
-      $SRC/DispatchQueue+Promise.swift \
+      $SRC/Box.swift \
+      $SRC/Catchable.swift \
+      $SRC/Configuration.swift \
+      $SRC/CustomStringConvertible.swift \
       $SRC/Error.swift \
-      $SRC/join.swift \
-      $SRC/Promise+Properties.swift \
+      $SRC/firstly.swift \
+      $SRC/Guarantee.swift \
+      $SRC/hang.swift \
       $SRC/Promise.swift \
       $SRC/race.swift \
-      $SRC/State.swift \
-      $SRC/SwiftPM.swift \
+      $SRC/Resolver.swift \
+      $SRC/Thenable.swift \
       $SRC/when.swift \
-      $SRC/wrap.swift \
-      $SRC/Zalgo.swift \
       >> Promise.swift
 
 cp Promise.swift ../src/ServiceStackClient/ServiceStackClient/

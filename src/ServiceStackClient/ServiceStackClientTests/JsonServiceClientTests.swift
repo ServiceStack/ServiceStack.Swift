@@ -23,10 +23,10 @@ class JsonServiceClientTests: XCTestCase {
         let request = createHelloAllTypes()
         
         client.postAsync(request)
-            .then {
-                self.assertHelloAllTypesResponse($0, expected: request)
+            .map { (r: HelloAllTypesResponse) in
+                self.assertHelloAllTypesResponse(r, expected: request)
                 asyncTest.fulfill()
-            }
+            }.catch { _ in }
         
         waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
@@ -77,10 +77,10 @@ class JsonServiceClientTests: XCTestCase {
         let request = createHelloAllTypes()
         
         client.putAsync(request)
-            .then {(r:HelloAllTypesResponse) in
+            .map { (r: HelloAllTypesResponse) in
                 self.assertHelloAllTypesResponse(r, expected: request)
                 asyncTest.fulfill()
-            }
+            }.catch { _ in }
         
         waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
@@ -272,15 +272,15 @@ class JsonServiceClientTests: XCTestCase {
         client.requestFilter = { (req:NSMutableURLRequest) in methods.append(req.httpMethod) }
         
         client.getAsync(HelloReturnVoid())
-            .then {
+            .map {
                 XCTAssertEqual(methods.last, HttpMethods.Get)
 
                 client.postAsync(HelloReturnVoid())
-                    .then {
+                    .map {
                         XCTAssertEqual(methods.last, HttpMethods.Post)
                         asyncTest.fulfill()
-                    }
-            }
+                    }.catch { _ in }
+            }.catch { _ in }
 
         waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
@@ -302,8 +302,8 @@ class JsonServiceClientTests: XCTestCase {
             
             //Swift Bug: 401 returns null response
             if let status:ResponseStatus = responseError.convertUserInfo() {
-                //XCTAssertEqual(status.errorCode, "Unauthorized")
-                XCTAssertNil(status.errorCode)
+                XCTAssertEqual(status.errorCode, "Unauthorized")
+                //XCTAssertNil(status.errorCode)
             }
         }
     }

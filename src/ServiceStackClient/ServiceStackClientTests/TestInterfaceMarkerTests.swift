@@ -38,13 +38,13 @@ class TestInterfaceMarkerTests: XCTestCase {
         request.id = 1
 
         client.sendAsync(request)
-            .then { response in
+            .map { (response: SendVerbResponse) in
                 XCTAssertEqual(response.id!, 1)
                 XCTAssertEqual(response.requestMethod!, HttpMethods.Post)
                 XCTAssertEqual(response.pathInfo!, "/json/reply/SendDefault")
                 
                 asyncTest.fulfill()
-            }
+            }.catch { _ in }
 
         waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
@@ -72,13 +72,13 @@ class TestInterfaceMarkerTests: XCTestCase {
         request.id = 1
         
         client.sendAsync(request)
-            .then { response in
+            .map { (response: SendVerbResponse) in
                 XCTAssertEqual(response.id!, 1)
                 XCTAssertEqual(response.requestMethod!, HttpMethods.Get)
                 XCTAssertEqual(response.pathInfo!, "/json/reply/SendRestGet")
                 
                 asyncTest.fulfill()
-            }
+            }.catch { _ in }
         
         waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
@@ -106,13 +106,13 @@ class TestInterfaceMarkerTests: XCTestCase {
         request.id = 1
         
         client.sendAsync(request)
-            .then { response in
+            .map { (response: SendVerbResponse) in
                 XCTAssertEqual(response.id!, 1)
                 XCTAssertEqual(response.requestMethod!, HttpMethods.Get)
                 XCTAssertEqual(response.pathInfo!, "/json/reply/SendGet")
                 
                 asyncTest.fulfill()
-            }
+            }.catch { _ in }
         
         waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
@@ -140,13 +140,13 @@ class TestInterfaceMarkerTests: XCTestCase {
         request.id = 1
         
         client.sendAsync(request)
-            .then { response in
+            .map { (response: SendVerbResponse) in
                 XCTAssertEqual(response.id!, 1)
                 XCTAssertEqual(response.requestMethod!, HttpMethods.Post)
                 XCTAssertEqual(response.pathInfo!, "/json/reply/SendPost")
                 
                 asyncTest.fulfill()
-            }
+            }.catch { _ in }
         
         waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
@@ -174,13 +174,13 @@ class TestInterfaceMarkerTests: XCTestCase {
         request.id = 1
         
         client.sendAsync(request)
-            .then { response in
+            .map { (response: SendVerbResponse) in
                 XCTAssertEqual(response.id!, 1)
                 XCTAssertEqual(response.requestMethod!, HttpMethods.Put)
                 XCTAssertEqual(response.pathInfo!, "/json/reply/SendPut")
                 
                 asyncTest.fulfill()
-            }
+            }.catch { _ in }
         
         waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")

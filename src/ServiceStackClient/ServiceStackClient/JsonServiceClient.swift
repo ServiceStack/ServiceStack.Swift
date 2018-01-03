@@ -275,30 +275,28 @@ public class JsonServiceClient : ServiceClient
     }
     
     @discardableResult public func sendAsync<T : JsonSerializable>(intoResponse:T, request:NSMutableURLRequest) -> Promise<T> {
-        
-        return Promise<T> { (complete, reject) in
-            
-            let task = self.createSession().dataTask(with: request as URLRequest) { (data, response, error) in
-                if error != nil {
-                    reject(self.handleError(nsError: error! as NSError))
+        let pendingPromise = Promise<T>.pending()
+        let task = self.createSession().dataTask(with: request as URLRequest) { (data, response, error) in
+            if error != nil {
+                pendingPromise.resolver.reject(self.handleError(nsError: error! as NSError))
+            }
+            else {
+                var resposneError:NSError?
+                let response = self.handleResponse(intoResponse: intoResponse, data: data!, response: response!, error: &resposneError)
+                if resposneError != nil {
+                    pendingPromise.resolver.reject(self.fireErrorCallbacks(error: resposneError!))
                 }
-                else {
-                    var resposneError:NSError?
-                    let response = self.handleResponse(intoResponse: intoResponse, data: data!, response: response!, error: &resposneError)
-                    if resposneError != nil {
-                        reject(self.fireErrorCallbacks(error: resposneError!))
-                    }
-                    else if let dto = response {
-                        complete(dto)
-                    } else {
-                        complete(T()) //return empty dto in promise callbacks
-                    }
+                else if let dto = response {
+                    pendingPromise.resolver.fulfill(dto)
+                } else {
+                    pendingPromise.resolver.fulfill(T()) //return empty dto in promise callbacks
                 }
             }
-            
-            task.resume()
-            self.lastTask = task
         }
+        
+        task.resume()
+        self.lastTask = task
+        return pendingPromise.promise
     }
     
     func resolveUrl(_ relativeOrAbsoluteUrl:String) -> String {
@@ -530,17 +528,19 @@ public class JsonServiceClient : ServiceClient
     }
     
     public func getDataAsync(_ url:String) -> Promise<Data> {
-        return Promise<Data> { (complete, reject) in
-            let task = self.createSession().dataTask(with: URL(string: self.resolveUrl(url))!) { (data, response, error) in
-                if error != nil {
-                    reject(self.handleError(nsError: error! as NSError))
-                }
-                complete(data!)
+        let pendingPromise = Promise<Data>.pending()
+        
+        let task = self.createSession().dataTask(with: URL(string: self.resolveUrl(url))!) { (data, response, error) in
+            if error != nil {
+                pendingPromise.resolver.reject(self.handleError(nsError: error! as NSError))
             }
-            
-            task.resume()
-            self.lastTask = task
+            pendingPromise.resolver.fulfill(data!)
         }
+        
+        task.resume()
+        self.lastTask = task
+        
+        return pendingPromise.promise
     }
 }
 
