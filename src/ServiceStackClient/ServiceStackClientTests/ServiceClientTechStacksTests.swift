@@ -31,10 +31,10 @@ class ServiceClientTechStacksTests: XCTestCase {
         let asyncTest = expectation(description:"asyncTest")
         
         client.getAsync(Overview())
-            .then { r in
+            .map { (r: OverviewResponse) in
                 self.assertOverviewResponse(r)
                 asyncTest.fulfill()
-            }
+            }.catch { _ in }
         
         waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")
@@ -78,11 +78,10 @@ class ServiceClientTechStacksTests: XCTestCase {
         requestDto.slug = "servicestack"
         
         client.getAsync(requestDto)
-            .then { (r:GetTechnologyResponse) in
+            .map { (r: GetTechnologyResponse) in
                 self.assertGetTechnologyResponse(r)
                 asyncTest.fulfill()
-            }
-            
+            }.catch { _ in }
         
         waitForExpectations(timeout: 5, handler: { (error) in
             XCTAssertNil(error, "Error")

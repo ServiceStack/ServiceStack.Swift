@@ -32,7 +32,7 @@ public class JObject
         return "{\(sb)}"
     }
     
-    static func asJson<K : Hashable, V : JsonSerializable>(map:[K:V]) -> String? where K : StringSerializable {
+    static func asJson<K, V : JsonSerializable>(map:[K:V]) -> String? where K : StringSerializable {
         let jb = JObject()
         
         for (k,v) in map {
@@ -52,7 +52,7 @@ public class JArray
     }
     
     func append(json:String?) {
-        if sb.characters.count > 0 {
+        if sb.count > 0 {
             sb += ","
         }
         sb += json != nil ? "\(json!)" : "null"
@@ -223,7 +223,7 @@ extension Data : JsonSerializable
     public static var metadata:Metadata = Metadata.create([])
     
     public func toString() -> String {
-        return NSString(data: self, encoding: String.Encoding.utf8.rawValue) as! String
+        return NSString(data: self, encoding: String.Encoding.utf8.rawValue)! as String
     }
     
     public func toJson() -> String {
@@ -1056,17 +1056,17 @@ public class Type<T : HasMetadata> : TypeAccessor
         return JOptionalObjectProperty(name: name, get:get, set:set)
     }
     
-    public class func objectProperty<K : Hashable, P : StringSerializable>(_ name:String, get:@escaping (T) -> [K:P], set:@escaping (T,[K:P]) -> Void) -> PropertyType where K : StringSerializable
+    public class func objectProperty<K, P : StringSerializable>(_ name:String, get:@escaping (T) -> [K:P], set:@escaping (T,[K:P]) -> Void) -> PropertyType where K : StringSerializable
     {
         return JDictionaryProperty(name: name, get:get, set:set)
     }
     
-    public class func objectProperty<K : Hashable, P : StringSerializable>(_ name:String, get:@escaping (T) -> [K:[P]], set:@escaping (T,[K:[P]]) -> Void) -> PropertyType where K : StringSerializable, K == K._T
+    public class func objectProperty<K, P : StringSerializable>(_ name:String, get:@escaping (T) -> [K:[P]], set:@escaping (T,[K:[P]]) -> Void) -> PropertyType where K : StringSerializable, K == K._T
     {
         return JDictionaryArrayProperty(name: name, get:get, set:set)
     }
     
-    public class func objectProperty<K : Hashable, P : JsonSerializable>(_ name:String, get:@escaping (T) -> [K:[K:P]], set:@escaping (T,[K:[K:P]]) -> Void) -> PropertyType where K : StringSerializable
+    public class func objectProperty<K, P : JsonSerializable>(_ name:String, get:@escaping (T) -> [K:[K:P]], set:@escaping (T,[K:[K:P]]) -> Void) -> PropertyType where K : StringSerializable
     {
         return JDictionaryArrayDictionaryObjectProperty(name: name, get:get, set:set)
     }
@@ -1271,7 +1271,7 @@ public class JObjectProperty<T : HasMetadata, P : JsonSerializable> : PropertyBa
     }
 }
 
-public class JOptionalObjectProperty<T : HasMetadata, P : JsonSerializable> : PropertyBase<T> where P : HasMetadata
+public class JOptionalObjectProperty<T : HasMetadata, P : JsonSerializable> : PropertyBase<T>
 {
     public var get:(T) -> P?
     public var set:(T,P?) -> Void
