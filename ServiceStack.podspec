@@ -15,8 +15,16 @@ s.platforms = { :ios => "9.0" }
 s.requires_arc = true
 
 #s.public_header_files = 'Pod/Classes/**/*.h'
-s.source_files = 'dist/JsonServiceClient.swift'
+s.source_files = [
+  'src/ServiceStackClient/ServiceStackClient/DateExtensions.swift',
+  'src/ServiceStackClient/ServiceStackClient/DynamicJson.swift',
+  'src/ServiceStackClient/ServiceStackClient/Json.swift',
+  'src/ServiceStackClient/ServiceStackClient/JsonServiceClient.swift',
+  'src/ServiceStackClient/ServiceStackClient/StringExtensions.swift'
+]
 #s.resources 		= 'Source/**/*.{bundle,png,lproj}'
 #s.resource_bundles = { "ServiceStack" => ["Resources/*.lproj"] }
+
+s.dependency 'PromiseKit'
 
 end
