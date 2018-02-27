@@ -71,19 +71,19 @@ public protocol ServiceClient
     func getDataAsync(_ url:String) -> Promise<Data>
 }
 
-public class JsonServiceClient : ServiceClient
+open class JsonServiceClient : ServiceClient
 {
-    var baseUrl:String
-    var replyUrl:String
-    var domain:String
-    var lastError:NSError?
-    var lastTask:URLSessionDataTask?
-    var onError:((NSError) -> Void)?
-    var timeout:TimeInterval?
-    var cachePolicy:NSURLRequest.CachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData
+    open var baseUrl:String
+    open var replyUrl:String
+    open var domain:String
+    open var lastError:NSError?
+    open var lastTask:URLSessionDataTask?
+    open var onError:((NSError) -> Void)?
+    open var timeout:TimeInterval?
+    open var cachePolicy:NSURLRequest.CachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData
     
-    var requestFilter:((NSMutableURLRequest) -> Void)?
-    var responseFilter:((URLResponse) -> Void)?
+    open var requestFilter:((NSMutableURLRequest) -> Void)?
+    open var responseFilter:((URLResponse) -> Void)?
     
     public struct Global
     {
