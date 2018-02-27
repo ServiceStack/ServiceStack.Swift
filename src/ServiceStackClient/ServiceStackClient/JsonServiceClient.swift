@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 
 public protocol IReturn
 {
