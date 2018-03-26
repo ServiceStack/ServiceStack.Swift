@@ -401,7 +401,6 @@ open class JsonServiceClient : ServiceClient
         return sendAsync(intoResponse: T(), request: self.createRequest(url: resolveUrl(relativeUrl), httpMethod:HttpMethods.Get))
     }
     
-    
     @discardableResult public func post<T : IReturn>(_ request:T) throws -> T.Return where T : JsonSerializable {
         return try send(intoResponse: T.Return(), request: self.createRequestDto(url: replyUrl.combinePath(T.typeName), httpMethod:HttpMethods.Post, request:request))
     }
@@ -512,10 +511,12 @@ open class JsonServiceClient : ServiceClient
     @discardableResult public func patchAsync<Response : JsonSerializable, Request:JsonSerializable>(_ relativeUrl:String, request:Request?) -> Promise<Response> {
         return sendAsync(intoResponse: Response(), request: self.createRequestDto(url: resolveUrl(relativeUrl), httpMethod:HttpMethods.Patch, request:request))
     }
-    
-    
-    public func getData(_ url:String) throws -> Data {
-        let dataTaskSync = self.createSession().dataTaskSync(request: URLRequest(url: URL(string:resolveUrl(url))!))
+}
+
+extension JsonServiceClient {
+    public func getData(_ url: String) throws -> Data {
+        let urlRequest = createRequest(url: resolveUrl(url), httpMethod: HttpMethods.Get)
+        let dataTaskSync = self.createSession().dataTaskSync(request: urlRequest as URLRequest)
         self.lastTask = dataTaskSync.task
         
         if let data = dataTaskSync.callback?.data {
@@ -525,17 +526,26 @@ open class JsonServiceClient : ServiceClient
         if let error = dataTaskSync.callback?.error {
             throw error
         }
-        throw NSError(domain: "Migrator", code: 0, userInfo: nil)
+        
+        return Data()
     }
     
-    public func getDataAsync(_ url:String) -> Promise<Data> {
+    public func getDataAsync(_ url: String) -> Promise<Data> {
+        let urlRequest = createRequest(url: resolveUrl(url), httpMethod: HttpMethods.Get)
         let pendingPromise = Promise<Data>.pending()
         
-        let task = self.createSession().dataTask(with: URL(string: self.resolveUrl(url))!) { (data, response, error) in
-            if error != nil {
-                pendingPromise.resolver.reject(self.handleError(nsError: error! as NSError))
+        let task = self.createSession().dataTask(with: urlRequest as URLRequest) { (data, response, error) in
+            if let error = error {
+                pendingPromise.resolver.reject(self.handleError(nsError: error as NSError))
+                return
             }
-            pendingPromise.resolver.fulfill(data!)
+            
+            if let data = data {
+                pendingPromise.resolver.fulfill(data)
+                return
+            }
+            
+            pendingPromise.resolver.fulfill(Data())
         }
         
         task.resume()
