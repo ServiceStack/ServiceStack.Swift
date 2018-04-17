@@ -1,7 +1,7 @@
 /* Options:
-Date: 2016-11-08 09:31:44
+Date: 2018-04-17 05:18:29
 SwiftVersion: 3.0
-Version: 4.00
+Version: 5.00
 Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: http://test.servicestack.net
 
@@ -9,14 +9,14 @@ BaseUrl: http://test.servicestack.net
 //AddModelExtensions: True
 //AddServiceStackTypes: True
 //IncludeTypes: 
-ExcludeTypes: QueryResponse`1,QueryBase`1,QueryBase`1,QueryBase
-//ExcludeGenericBaseTypes: True
+ExcludeTypes: QueryResponse`1,QueryBase`1,QueryBase`1,QueryBase,DummyTypes
+//ExcludeGenericBaseTypes: False
 //AddResponseStatus: False
 //AddImplicitVersion: 
 //AddDescriptionAsComments: True
 //InitializeCollections: True
 //TreatTypesAsStrings: 
-//DefaultImports: Foundation,ServiceStackClient
+//DefaultImports: Foundation
 */
 
 import Foundation;
@@ -115,7 +115,6 @@ public class ExternalOperation4
     public var id:Int?
 }
 
-// @Route("/{Path*}")
 public class RootPathRoutes
 {
     required public init(){}
@@ -181,8 +180,8 @@ public class ImageAsRedirect
     public var format:String?
 }
 
-// @Route("/image-draw/{Name}")
-public class DrawImage
+// @Route("/hello-image/{Name}")
+public class HelloImage
 {
     required public init(){}
     public var name:String?
@@ -190,8 +189,37 @@ public class DrawImage
     public var width:Int?
     public var height:Int?
     public var fontSize:Int?
+    public var fontFamily:String?
     public var foreground:String?
     public var background:String?
+}
+
+// @Route("/jwt")
+public class CreateJwt : AuthUserSession, IReturn
+{
+    public typealias Return = CreateJwtResponse
+
+    required public init(){}
+    public var jwtExpiry:Date?
+}
+
+// @Route("/jwt-refresh")
+public class CreateRefreshJwt : IReturn
+{
+    public typealias Return = CreateRefreshJwtResponse
+
+    required public init(){}
+    public var userAuthId:String?
+    public var jwtExpiry:Date?
+}
+
+// @Route("/logs")
+public class ViewLogs : IReturn
+{
+    public typealias Return = String
+
+    required public init(){}
+    public var clear:Bool?
 }
 
 // @Route("/metadatatest")
@@ -233,6 +261,20 @@ public class TextFileTest
 {
     required public init(){}
     public var asAttachment:Bool?
+}
+
+// @Route("/return/text")
+public class ReturnText
+{
+    required public init(){}
+    public var text:String?
+}
+
+// @Route("/return/html")
+public class ReturnHtml
+{
+    required public init(){}
+    public var text:String?
 }
 
 // @Route("/hello")
@@ -287,8 +329,8 @@ public class HelloExternal
 * AllowedAttributes Description
 */
 // @Route("/allowed-attributes", "GET")
-// @Api("AllowedAttributes Description")
-// @ApiResponse(400, "Your request was not understood")
+// @Api(Description="AllowedAttributes Description")
+// @ApiResponse(Description="Your request was not understood", StatusCode=400)
 // @DataContract
 public class AllowedAttributes
 {
@@ -297,7 +339,7 @@ public class AllowedAttributes
     * Range Description
     */
     // @DataMember(Name="Aliased")
-    // @ApiMember(ParameterType="path", Description="Range Description", DataType="double", IsRequired=true)
+    // @ApiMember(DataType="double", Description="Range Description", IsRequired=true, ParameterType="path")
     public var range:Double?
 }
 
@@ -333,6 +375,7 @@ public class AllTypes
     public var dateTimeOffset:Date?
     public var guid:String?
     public var char:Character?
+    public var keyValuePair:KeyValuePair<String, String>?
     public var nullableDateTime:Date?
     public var nullableTimeSpan:TimeInterval?
     public var stringList:[String] = []
@@ -395,9 +438,23 @@ public class HelloWithInheritance : HelloBase, IReturn
     required public init(){}
     public var name:String?
 }
-//Excluded HelloWithGenericInheritance : HelloBase<Poco>
-//Excluded HelloWithGenericInheritance2 : HelloBase<Hello>
-//Excluded HelloWithNestedInheritance : HelloBase<HelloWithNestedInheritance.Item>
+
+public class HelloWithGenericInheritance<Poco : JsonSerializable> : HelloBase_1<Poco>
+{
+    required public init(){}
+    public var result:String?
+}
+
+public class HelloWithGenericInheritance2<Hello : JsonSerializable> : HelloBase_1<Hello>
+{
+    required public init(){}
+    public var result:String?
+}
+
+public class HelloWithNestedInheritance<Item : JsonSerializable> : HelloBase_1<Item>
+{
+    required public init(){}
+}
 
 public class HelloWithReturn : IReturn
 {
@@ -509,6 +566,20 @@ public class HelloTypes : IReturn
     public var int:Int?
 }
 
+// @Route("/hellozip")
+// @DataContract
+public class HelloZip : IReturn
+{
+    public typealias Return = HelloZipResponse
+
+    required public init(){}
+    // @DataMember
+    public var name:String?
+
+    // @DataMember
+    public var test:[String] = []
+}
+
 // @Route("/ping")
 public class Ping : IReturn
 {
@@ -568,6 +639,36 @@ public class GetRequest2 : IGet
     required public init(){}
 }
 
+// @Route("/sendjson")
+public class SendJson : IReturn
+{
+    public typealias Return = String
+
+    required public init(){}
+    public var id:Int?
+    public var name:String?
+}
+
+// @Route("/sendtext")
+public class SendText : IReturn
+{
+    public typealias Return = String
+
+    required public init(){}
+    public var id:Int?
+    public var name:String?
+    public var contentType:String?
+}
+
+// @Route("/sendraw")
+public class SendRaw
+{
+    required public init(){}
+    public var id:Int?
+    public var name:String?
+    public var contentType:String?
+}
+
 public class SendDefault : IReturn
 {
     public typealias Return = SendVerbResponse
@@ -609,6 +710,12 @@ public class SendPut : IReturn, IPut
     public var id:Int?
 }
 
+public class SendReturnVoid : IReturnVoid
+{
+    required public init(){}
+    public var id:Int?
+}
+
 // @Route("/session")
 public class GetSession : IReturn
 {
@@ -634,10 +741,42 @@ public class StoreLogs : IReturn
     public var loggers:[Logger] = []
 }
 
+public class HelloAuth : IReturn
+{
+    public typealias Return = HelloResponse
+
+    required public init(){}
+    public var name:String?
+}
+
 // @Route("/testauth")
 public class TestAuth : IReturn
 {
     public typealias Return = TestAuthResponse
+
+    required public init(){}
+}
+
+public class RequiresAdmin : IReturn
+{
+    public typealias Return = RequiresAdmin
+
+    required public init(){}
+    public var id:Int?
+}
+
+// @Route("/testdata/AllTypes")
+public class TestDataAllTypes : IReturn
+{
+    public typealias Return = AllTypes
+
+    required public init(){}
+}
+
+// @Route("/testdata/AllCollectionTypes")
+public class TestDataAllCollectionTypes : IReturn
+{
+    public typealias Return = AllCollectionTypes
 
     required public init(){}
 }
@@ -699,80 +838,25 @@ public class EchoCollections : IReturn
     public var intStringMap:[Int:String] = [:]
 }
 
+// @Route("/echo/complex")
 public class EchoComplexTypes : IReturn
 {
     public typealias Return = EchoComplexTypes
 
     required public init(){}
     public var subType:SubType?
+    public var subTypes:[SubType] = []
+    public var subTypeMap:[String:SubType] = [:]
+    public var stringMap:[String:String] = [:]
+    public var intStringMap:[Int:String] = [:]
 }
 
-// @Route("/requestlogs")
-// @DataContract
-public class RequestLogs : IReturn
+// @Route("/rockstars", "POST")
+public class StoreRockstars<Rockstar : JsonSerializable> : List<Rockstar>, IReturn
 {
-    public typealias Return = RequestLogsResponse
+    public typealias Return = StoreRockstars
 
     required public init(){}
-    // @DataMember(Order=1)
-    public var beforeSecs:Int?
-
-    // @DataMember(Order=2)
-    public var afterSecs:Int?
-
-    // @DataMember(Order=3)
-    public var ipAddress:String?
-
-    // @DataMember(Order=4)
-    public var forwardedFor:String?
-
-    // @DataMember(Order=5)
-    public var userAuthId:String?
-
-    // @DataMember(Order=6)
-    public var sessionId:String?
-
-    // @DataMember(Order=7)
-    public var referer:String?
-
-    // @DataMember(Order=8)
-    public var pathInfo:String?
-
-    // @DataMember(Order=9)
-    public var ids:[Int64] = []
-
-    // @DataMember(Order=10)
-    public var beforeId:Int?
-
-    // @DataMember(Order=11)
-    public var afterId:Int?
-
-    // @DataMember(Order=12)
-    public var hasResponse:Bool?
-
-    // @DataMember(Order=13)
-    public var withErrors:Bool?
-
-    // @DataMember(Order=14)
-    public var skip:Int?
-
-    // @DataMember(Order=15)
-    public var take:Int?
-
-    // @DataMember(Order=16)
-    public var enableSessionTracking:Bool?
-
-    // @DataMember(Order=17)
-    public var enableResponseTracking:Bool?
-
-    // @DataMember(Order=18)
-    public var enableErrorTracking:Bool?
-
-    // @DataMember(Order=19)
-    public var durationLongerThan:TimeInterval?
-
-    // @DataMember(Order=20)
-    public var durationLessThan:TimeInterval?
 }
 
 // @Route("/auth")
@@ -831,6 +915,12 @@ public class Authenticate : IReturn, IPost
     public var useTokenCookie:Bool?
 
     // @DataMember(Order=16)
+    public var accessToken:String?
+
+    // @DataMember(Order=17)
+    public var accessTokenSecret:String?
+
+    // @DataMember(Order=18)
     public var meta:[String:String] = [:]
 }
 
@@ -867,9 +957,52 @@ public class UnAssignRoles : IReturn, IPost
     // @DataMember(Order=3)
     public var roles:[String] = []
 }
-//Excluded QueryPocoBase : QueryBase<OnlyDefinedInGenericType>
-//Excluded QueryPocoIntoBase : QueryBase<OnlyDefinedInGenericTypeFrom,OnlyDefinedInGenericTypeInto>
-//Excluded QueryRockstars : QueryBase<Rockstar>
+
+// @Route("/session-to-token")
+// @DataContract
+public class ConvertSessionToToken : IReturn, IPost
+{
+    public typealias Return = ConvertSessionToTokenResponse
+
+    required public init(){}
+    // @DataMember(Order=1)
+    public var preserveSession:Bool?
+}
+
+// @Route("/access-token")
+// @DataContract
+public class GetAccessToken : IReturn, IPost
+{
+    public typealias Return = GetAccessTokenResponse
+
+    required public init(){}
+    // @DataMember(Order=1)
+    public var refreshToken:String?
+}
+
+public class QueryPocoBase<OnlyDefinedInGenericType : JsonSerializable> : QueryDb_1<OnlyDefinedInGenericType>, IReturn
+{
+    public typealias Return = QueryResponse<OnlyDefinedInGenericType>
+
+    required public init(){}
+    public var id:Int?
+}
+
+public class QueryPocoIntoBase<OnlyDefinedInGenericTypeFrom : JsonSerializable, OnlyDefinedInGenericTypeInto : JsonSerializable> : QueryDb_2<OnlyDefinedInGenericTypeFrom, OnlyDefinedInGenericTypeInto>, IReturn
+{
+    public typealias Return = QueryResponse<OnlyDefinedInGenericTypeInto>
+
+    required public init(){}
+    public var id:Int?
+}
+
+// @Route("/rockstars", "GET")
+public class QueryRockstars<Rockstar : JsonSerializable> : QueryDb_1<Rockstar>, IReturn
+{
+    public typealias Return = QueryResponse<Rockstar>
+
+    required public init(){}
+}
 
 public class CustomHttpErrorResponse
 {
@@ -928,6 +1061,20 @@ public class Project
     required public init(){}
     public var account:String?
     public var name:String?
+}
+
+public class CreateJwtResponse
+{
+    required public init(){}
+    public var token:String?
+    public var responseStatus:ResponseStatus?
+}
+
+public class CreateRefreshJwtResponse
+{
+    required public init(){}
+    public var token:String?
+    public var responseStatus:ResponseStatus?
 }
 
 public class MetadataTestResponse
@@ -1029,6 +1176,14 @@ public class EnumResponse
     public var `operator`:ScopeType?
 }
 
+// @DataContract
+public class HelloZipResponse
+{
+    required public init(){}
+    // @DataMember
+    public var result:String?
+}
+
 public class PingResponse
 {
     required public init(){}
@@ -1076,27 +1231,23 @@ public class TestAuthResponse
     public var responseStatus:ResponseStatus?
 }
 
-// @DataContract
-public class RequestLogsResponse
+public class AllCollectionTypes
 {
     required public init(){}
-    // @DataMember(Order=1)
-    public var results:[RequestLogEntry] = []
-
-    // @DataMember(Order=2)
-    public var usage:[String:String] = [:]
-
-    // @DataMember(Order=3)
-    public var responseStatus:ResponseStatus?
+    public var intArray:[Int] = []
+    public var intList:[Int] = []
+    public var stringArray:[String] = []
+    public var stringList:[String] = []
+    public var pocoArray:[Poco] = []
+    public var pocoList:[Poco] = []
+    public var pocoLookup:[String:[Poco]] = [:]
+    public var pocoLookupMap:[String:[String:Poco]] = [:]
 }
 
 // @DataContract
 public class AuthenticateResponse
 {
     required public init(){}
-    // @DataMember(Order=7)
-    public var responseStatus:ResponseStatus?
-
     // @DataMember(Order=1)
     public var userId:String?
 
@@ -1115,7 +1266,13 @@ public class AuthenticateResponse
     // @DataMember(Order=6)
     public var bearerToken:String?
 
+    // @DataMember(Order=7)
+    public var refreshToken:String?
+
     // @DataMember(Order=8)
+    public var responseStatus:ResponseStatus?
+
+    // @DataMember(Order=9)
     public var meta:[String:String] = [:]
 }
 
@@ -1147,6 +1304,31 @@ public class UnAssignRolesResponse
     public var responseStatus:ResponseStatus?
 }
 
+// @DataContract
+public class ConvertSessionToTokenResponse
+{
+    required public init(){}
+    // @DataMember(Order=1)
+    public var meta:[String:String] = [:]
+
+    // @DataMember(Order=2)
+    public var accessToken:String?
+
+    // @DataMember(Order=3)
+    public var responseStatus:ResponseStatus?
+}
+
+// @DataContract
+public class GetAccessTokenResponse
+{
+    required public init(){}
+    // @DataMember(Order=1)
+    public var accessToken:String?
+
+    // @DataMember(Order=2)
+    public var responseStatus:ResponseStatus?
+}
+
 public enum ExternalEnum : Int
 {
     case Foo
@@ -1165,279 +1347,6 @@ public enum ExternalEnum3 : Int
     case Un
     case Deux
     case Trois
-}
-
-public class MetadataTestChild
-{
-    required public init(){}
-    public var name:String?
-    public var results:[MetadataTestNestedChild] = []
-}
-
-// @DataContract
-public class MenuExample
-{
-    required public init(){}
-    // @DataMember(Order=1)
-    // @ApiMember()
-    public var menuItemExample1:MenuItemExample?
-}
-
-public class NestedClass
-{
-    required public init(){}
-    public var value:String?
-}
-
-public class ListResult
-{
-    required public init(){}
-    public var result:String?
-}
-
-public class ArrayResult
-{
-    required public init(){}
-    public var result:String?
-}
-
-public enum EnumType : Int
-{
-    case Value1
-    case Value2
-}
-
-// @Flags()
-public enum EnumFlags : Int
-{
-    case Value1 = 1
-    case Value2 = 2
-    case Value3 = 4
-}
-
-public class AllCollectionTypes
-{
-    required public init(){}
-    public var intArray:[Int] = []
-    public var intList:[Int] = []
-    public var stringArray:[String] = []
-    public var stringList:[String] = []
-    public var pocoArray:[Poco] = []
-    public var pocoList:[Poco] = []
-    public var pocoLookup:[String:[Poco]] = [:]
-    public var pocoLookupMap:[String:[String:Poco]] = [:]
-}
-
-public class SubType
-{
-    required public init(){}
-    public var id:Int?
-    public var name:String?
-}
-
-public class HelloBase
-{
-    required public init(){}
-    public var id:Int?
-}
-
-public class HelloResponseBase
-{
-    required public init(){}
-    public var refId:Int?
-}
-
-public class Poco
-{
-    required public init(){}
-    public var name:String?
-}
-
-public class HelloBase_1<T : JsonSerializable>
-{
-    required public init(){}
-    public var items:[T] = []
-    public var counts:[Int] = []
-}
-
-public class Item
-{
-    required public init(){}
-    public var value:String?
-}
-
-public class HelloWithReturnResponse
-{
-    required public init(){}
-    public var result:String?
-}
-
-public class HelloType
-{
-    required public init(){}
-    public var result:String?
-}
-
-public protocol IPoco
-{
-    var name:String? { get set }
-}
-
-public protocol IEmptyInterface
-{
-}
-
-public class EmptyClass
-{
-    required public init(){}
-}
-
-public class InnerType
-{
-    required public init(){}
-    public var id:Int64?
-    public var name:String?
-}
-
-public enum InnerEnum : Int
-{
-    case Foo
-    case Bar
-    case Baz
-}
-
-public enum DayOfWeek : Int
-{
-    case Sunday
-    case Monday
-    case Tuesday
-    case Wednesday
-    case Thursday
-    case Friday
-    case Saturday
-}
-
-// @DataContract
-public enum ScopeType : Int
-{
-    case Global = 1
-    case Sale = 2
-}
-
-public class PingService
-{
-    required public init(){}
-}
-
-public class ReturnedDto
-{
-    required public init(){}
-    public var id:Int?
-}
-
-public class CustomUserSession : AuthUserSession
-{
-    required public init(){}
-    // @DataMember
-    public var customName:String?
-
-    // @DataMember
-    public var customInfo:String?
-}
-
-public class UnAuthInfo
-{
-    required public init(){}
-    public var customInfo:String?
-}
-
-public class Logger
-{
-    required public init(){}
-    public var id:Int64?
-    public var devices:[Device] = []
-}
-
-public class RequestLogEntry
-{
-    required public init(){}
-    public var id:Int64?
-    public var dateTime:Date?
-    public var httpMethod:String?
-    public var absoluteUri:String?
-    public var pathInfo:String?
-    public var requestBody:String?
-    //requestDto:Object ignored. Type could not be extended in Swift
-    public var userAuthId:String?
-    public var sessionId:String?
-    public var ipAddress:String?
-    public var forwardedFor:String?
-    public var referer:String?
-    public var headers:[String:String] = [:]
-    public var formData:[String:String] = [:]
-    public var items:[String:String] = [:]
-    //session:Object ignored. Type could not be extended in Swift
-    //responseDto:Object ignored. Type could not be extended in Swift
-    //errorResponse:Object ignored. Type could not be extended in Swift
-    public var requestDuration:TimeInterval?
-}
-
-public class OnlyDefinedInGenericType
-{
-    required public init(){}
-    public var id:Int?
-    public var name:String?
-}
-
-public class OnlyDefinedInGenericTypeFrom
-{
-    required public init(){}
-    public var id:Int?
-    public var name:String?
-}
-
-public class OnlyDefinedInGenericTypeInto
-{
-    required public init(){}
-    public var id:Int?
-    public var name:String?
-}
-
-public class Rockstar
-{
-    required public init(){}
-    public var id:Int?
-    public var firstName:String?
-    public var lastName:String?
-    public var age:Int?
-}
-
-public enum ExternalEnum2 : Int
-{
-    case Uno
-    case Due
-    case Tre
-}
-
-public class MetadataTestNestedChild
-{
-    required public init(){}
-    public var name:String?
-}
-
-public class MenuItemExample
-{
-    required public init(){}
-    // @DataMember(Order=1)
-    // @ApiMember()
-    public var name1:String?
-
-    public var menuItemExampleItem:MenuItemExampleItem?
-}
-
-public class TypesGroup
-{
-    required public init(){}
 }
 
 public protocol IAuthTokens
@@ -1580,7 +1489,266 @@ public class AuthUserSession
     // @DataMember(Order=41)
     public var tag:Int64?
 
+    // @DataMember(Order=42)
+    public var authProvider:String?
+
     //providerOAuthAccess:[IAuthTokens] ignored. Swift doesn't support interface properties
+
+    // @DataMember(Order=44)
+    public var meta:[String:String] = [:]
+}
+
+public class MetadataTestChild
+{
+    required public init(){}
+    public var name:String?
+    public var results:[MetadataTestNestedChild] = []
+}
+
+// @DataContract
+public class MenuExample
+{
+    required public init(){}
+    // @DataMember(Order=1)
+    // @ApiMember()
+    public var menuItemExample1:MenuItemExample?
+}
+
+public class NestedClass
+{
+    required public init(){}
+    public var value:String?
+}
+
+public class ListResult
+{
+    required public init(){}
+    public var result:String?
+}
+
+public class ArrayResult
+{
+    required public init(){}
+    public var result:String?
+}
+
+public enum EnumType : Int
+{
+    case Value1
+    case Value2
+}
+
+// @Flags()
+public enum EnumFlags : Int
+{
+    case Value1 = 1
+    case Value2 = 2
+    case Value3 = 4
+}
+
+public class KeyValuePair<TKey : JsonSerializable, TValue : JsonSerializable>
+{
+    required public init(){}
+    public var key:TKey?
+    public var value:TValue?
+}
+
+public class SubType
+{
+    required public init(){}
+    public var id:Int?
+    public var name:String?
+}
+
+public class HelloBase
+{
+    required public init(){}
+    public var id:Int?
+}
+
+public class HelloResponseBase
+{
+    required public init(){}
+    public var refId:Int?
+}
+
+public class Poco
+{
+    required public init(){}
+    public var name:String?
+}
+
+public class HelloBase_1<T : JsonSerializable>
+{
+    required public init(){}
+    public var items:[T] = []
+    public var counts:[Int] = []
+}
+
+public class Item
+{
+    required public init(){}
+    public var value:String?
+}
+
+public class HelloWithReturnResponse
+{
+    required public init(){}
+    public var result:String?
+}
+
+public class HelloType
+{
+    required public init(){}
+    public var result:String?
+}
+
+public protocol IPoco
+{
+    var name:String? { get set }
+}
+
+public protocol IEmptyInterface
+{
+}
+
+public class EmptyClass
+{
+    required public init(){}
+}
+
+public class InnerType
+{
+    required public init(){}
+    public var id:Int64?
+    public var name:String?
+}
+
+public enum InnerEnum : Int
+{
+    case Foo
+    case Bar
+    case Baz
+}
+
+public enum DayOfWeek : Int
+{
+    case Sunday
+    case Monday
+    case Tuesday
+    case Wednesday
+    case Thursday
+    case Friday
+    case Saturday
+}
+
+// @DataContract
+public enum ScopeType : Int
+{
+    case Global = 1
+    case Sale = 2
+}
+
+public class PingService
+{
+    required public init(){}
+}
+
+public class ReturnedDto
+{
+    required public init(){}
+    public var id:Int?
+}
+
+public class CustomUserSession : AuthUserSession
+{
+    required public init(){}
+    // @DataMember
+    public var customName:String?
+
+    // @DataMember
+    public var customInfo:String?
+}
+
+public class UnAuthInfo
+{
+    required public init(){}
+    public var customInfo:String?
+}
+
+public class Logger
+{
+    required public init(){}
+    public var id:Int64?
+    public var devices:[Device] = []
+}
+
+public class Rockstar
+{
+    required public init(){}
+    public var id:Int?
+    public var firstName:String?
+    public var lastName:String?
+    public var age:Int?
+}
+
+public class QueryDb_1<T : JsonSerializable> : QueryBase
+{
+    required public init(){}
+}
+
+public class OnlyDefinedInGenericType
+{
+    required public init(){}
+    public var id:Int?
+    public var name:String?
+}
+
+public class QueryDb_2<From : JsonSerializable, Into : JsonSerializable> : QueryBase
+{
+    required public init(){}
+}
+
+public class OnlyDefinedInGenericTypeFrom
+{
+    required public init(){}
+    public var id:Int?
+    public var name:String?
+}
+
+public class OnlyDefinedInGenericTypeInto
+{
+    required public init(){}
+    public var id:Int?
+    public var name:String?
+}
+
+public enum ExternalEnum2 : Int
+{
+    case Uno
+    case Due
+    case Tre
+}
+
+public class MetadataTestNestedChild
+{
+    required public init(){}
+    public var name:String?
+}
+
+public class MenuItemExample
+{
+    required public init(){}
+    // @DataMember(Order=1)
+    // @ApiMember()
+    public var name1:String?
+
+    public var menuItemExampleItem:MenuItemExampleItem?
+}
+
+public class TypesGroup
+{
+    required public init(){}
 }
 
 public class Device
@@ -1775,17 +1943,86 @@ extension ImageAsRedirect : JsonSerializable
         ])
 }
 
-extension DrawImage : JsonSerializable
+extension HelloImage : JsonSerializable
 {
-    public static var typeName:String { return "DrawImage" }
+    public static var typeName:String { return "HelloImage" }
     public static var metadata = Metadata.create([
-            Type<DrawImage>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
-            Type<DrawImage>.optionalProperty("format", get: { $0.format }, set: { $0.format = $1 }),
-            Type<DrawImage>.optionalProperty("width", get: { $0.width }, set: { $0.width = $1 }),
-            Type<DrawImage>.optionalProperty("height", get: { $0.height }, set: { $0.height = $1 }),
-            Type<DrawImage>.optionalProperty("fontSize", get: { $0.fontSize }, set: { $0.fontSize = $1 }),
-            Type<DrawImage>.optionalProperty("foreground", get: { $0.foreground }, set: { $0.foreground = $1 }),
-            Type<DrawImage>.optionalProperty("background", get: { $0.background }, set: { $0.background = $1 }),
+            Type<HelloImage>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
+            Type<HelloImage>.optionalProperty("format", get: { $0.format }, set: { $0.format = $1 }),
+            Type<HelloImage>.optionalProperty("width", get: { $0.width }, set: { $0.width = $1 }),
+            Type<HelloImage>.optionalProperty("height", get: { $0.height }, set: { $0.height = $1 }),
+            Type<HelloImage>.optionalProperty("fontSize", get: { $0.fontSize }, set: { $0.fontSize = $1 }),
+            Type<HelloImage>.optionalProperty("fontFamily", get: { $0.fontFamily }, set: { $0.fontFamily = $1 }),
+            Type<HelloImage>.optionalProperty("foreground", get: { $0.foreground }, set: { $0.foreground = $1 }),
+            Type<HelloImage>.optionalProperty("background", get: { $0.background }, set: { $0.background = $1 }),
+        ])
+}
+
+extension CreateJwt : JsonSerializable
+{
+    public static var typeName:String { return "CreateJwt" }
+    public static var metadata = Metadata.create([
+            Type<CreateJwt>.optionalProperty("jwtExpiry", get: { $0.jwtExpiry }, set: { $0.jwtExpiry = $1 }),
+            Type<CreateJwt>.optionalProperty("referrerUrl", get: { $0.referrerUrl }, set: { $0.referrerUrl = $1 }),
+            Type<CreateJwt>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+            Type<CreateJwt>.optionalProperty("userAuthId", get: { $0.userAuthId }, set: { $0.userAuthId = $1 }),
+            Type<CreateJwt>.optionalProperty("userAuthName", get: { $0.userAuthName }, set: { $0.userAuthName = $1 }),
+            Type<CreateJwt>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
+            Type<CreateJwt>.optionalProperty("twitterUserId", get: { $0.twitterUserId }, set: { $0.twitterUserId = $1 }),
+            Type<CreateJwt>.optionalProperty("twitterScreenName", get: { $0.twitterScreenName }, set: { $0.twitterScreenName = $1 }),
+            Type<CreateJwt>.optionalProperty("facebookUserId", get: { $0.facebookUserId }, set: { $0.facebookUserId = $1 }),
+            Type<CreateJwt>.optionalProperty("facebookUserName", get: { $0.facebookUserName }, set: { $0.facebookUserName = $1 }),
+            Type<CreateJwt>.optionalProperty("firstName", get: { $0.firstName }, set: { $0.firstName = $1 }),
+            Type<CreateJwt>.optionalProperty("lastName", get: { $0.lastName }, set: { $0.lastName = $1 }),
+            Type<CreateJwt>.optionalProperty("displayName", get: { $0.displayName }, set: { $0.displayName = $1 }),
+            Type<CreateJwt>.optionalProperty("company", get: { $0.company }, set: { $0.company = $1 }),
+            Type<CreateJwt>.optionalProperty("email", get: { $0.email }, set: { $0.email = $1 }),
+            Type<CreateJwt>.optionalProperty("primaryEmail", get: { $0.primaryEmail }, set: { $0.primaryEmail = $1 }),
+            Type<CreateJwt>.optionalProperty("phoneNumber", get: { $0.phoneNumber }, set: { $0.phoneNumber = $1 }),
+            Type<CreateJwt>.optionalProperty("birthDate", get: { $0.birthDate }, set: { $0.birthDate = $1 }),
+            Type<CreateJwt>.optionalProperty("birthDateRaw", get: { $0.birthDateRaw }, set: { $0.birthDateRaw = $1 }),
+            Type<CreateJwt>.optionalProperty("address", get: { $0.address }, set: { $0.address = $1 }),
+            Type<CreateJwt>.optionalProperty("address2", get: { $0.address2 }, set: { $0.address2 = $1 }),
+            Type<CreateJwt>.optionalProperty("city", get: { $0.city }, set: { $0.city = $1 }),
+            Type<CreateJwt>.optionalProperty("state", get: { $0.state }, set: { $0.state = $1 }),
+            Type<CreateJwt>.optionalProperty("country", get: { $0.country }, set: { $0.country = $1 }),
+            Type<CreateJwt>.optionalProperty("culture", get: { $0.culture }, set: { $0.culture = $1 }),
+            Type<CreateJwt>.optionalProperty("fullName", get: { $0.fullName }, set: { $0.fullName = $1 }),
+            Type<CreateJwt>.optionalProperty("gender", get: { $0.gender }, set: { $0.gender = $1 }),
+            Type<CreateJwt>.optionalProperty("language", get: { $0.language }, set: { $0.language = $1 }),
+            Type<CreateJwt>.optionalProperty("mailAddress", get: { $0.mailAddress }, set: { $0.mailAddress = $1 }),
+            Type<CreateJwt>.optionalProperty("nickname", get: { $0.nickname }, set: { $0.nickname = $1 }),
+            Type<CreateJwt>.optionalProperty("postalCode", get: { $0.postalCode }, set: { $0.postalCode = $1 }),
+            Type<CreateJwt>.optionalProperty("timeZone", get: { $0.timeZone }, set: { $0.timeZone = $1 }),
+            Type<CreateJwt>.optionalProperty("requestTokenSecret", get: { $0.requestTokenSecret }, set: { $0.requestTokenSecret = $1 }),
+            Type<CreateJwt>.optionalProperty("createdAt", get: { $0.createdAt }, set: { $0.createdAt = $1 }),
+            Type<CreateJwt>.optionalProperty("lastModified", get: { $0.lastModified }, set: { $0.lastModified = $1 }),
+            Type<CreateJwt>.arrayProperty("roles", get: { $0.roles }, set: { $0.roles = $1 }),
+            Type<CreateJwt>.arrayProperty("permissions", get: { $0.permissions }, set: { $0.permissions = $1 }),
+            Type<CreateJwt>.optionalProperty("isAuthenticated", get: { $0.isAuthenticated }, set: { $0.isAuthenticated = $1 }),
+            Type<CreateJwt>.optionalProperty("fromToken", get: { $0.fromToken }, set: { $0.fromToken = $1 }),
+            Type<CreateJwt>.optionalProperty("profileUrl", get: { $0.profileUrl }, set: { $0.profileUrl = $1 }),
+            Type<CreateJwt>.optionalProperty("sequence", get: { $0.sequence }, set: { $0.sequence = $1 }),
+            Type<CreateJwt>.optionalProperty("tag", get: { $0.tag }, set: { $0.tag = $1 }),
+            Type<CreateJwt>.optionalProperty("authProvider", get: { $0.authProvider }, set: { $0.authProvider = $1 }),
+            Type<CreateJwt>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
+        ])
+}
+
+extension CreateRefreshJwt : JsonSerializable
+{
+    public static var typeName:String { return "CreateRefreshJwt" }
+    public static var metadata = Metadata.create([
+            Type<CreateRefreshJwt>.optionalProperty("userAuthId", get: { $0.userAuthId }, set: { $0.userAuthId = $1 }),
+            Type<CreateRefreshJwt>.optionalProperty("jwtExpiry", get: { $0.jwtExpiry }, set: { $0.jwtExpiry = $1 }),
+        ])
+}
+
+extension ViewLogs : JsonSerializable
+{
+    public static var typeName:String { return "ViewLogs" }
+    public static var metadata = Metadata.create([
+            Type<ViewLogs>.optionalProperty("clear", get: { $0.clear }, set: { $0.clear = $1 }),
         ])
 }
 
@@ -1825,6 +2062,22 @@ extension TextFileTest : JsonSerializable
     public static var typeName:String { return "TextFileTest" }
     public static var metadata = Metadata.create([
             Type<TextFileTest>.optionalProperty("asAttachment", get: { $0.asAttachment }, set: { $0.asAttachment = $1 }),
+        ])
+}
+
+extension ReturnText : JsonSerializable
+{
+    public static var typeName:String { return "ReturnText" }
+    public static var metadata = Metadata.create([
+            Type<ReturnText>.optionalProperty("text", get: { $0.text }, set: { $0.text = $1 }),
+        ])
+}
+
+extension ReturnHtml : JsonSerializable
+{
+    public static var typeName:String { return "ReturnHtml" }
+    public static var metadata = Metadata.create([
+            Type<ReturnHtml>.optionalProperty("text", get: { $0.text }, set: { $0.text = $1 }),
         ])
 }
 
@@ -1920,6 +2173,7 @@ extension AllTypes : JsonSerializable
             Type<AllTypes>.optionalProperty("dateTimeOffset", get: { $0.dateTimeOffset }, set: { $0.dateTimeOffset = $1 }),
             Type<AllTypes>.optionalProperty("guid", get: { $0.guid }, set: { $0.guid = $1 }),
             Type<AllTypes>.optionalProperty("char", get: { $0.char }, set: { $0.char = $1 }),
+            Type<AllTypes>.optionalObjectProperty("keyValuePair", get: { $0.keyValuePair }, set: { $0.keyValuePair = $1 }),
             Type<AllTypes>.optionalProperty("nullableDateTime", get: { $0.nullableDateTime }, set: { $0.nullableDateTime = $1 }),
             Type<AllTypes>.optionalProperty("nullableTimeSpan", get: { $0.nullableTimeSpan }, set: { $0.nullableTimeSpan = $1 }),
             Type<AllTypes>.arrayProperty("stringList", get: { $0.stringList }, set: { $0.stringList = $1 }),
@@ -1978,6 +2232,41 @@ extension HelloWithInheritance : JsonSerializable
             Type<HelloWithInheritance>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
             Type<HelloWithInheritance>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
         ])
+}
+
+extension HelloWithGenericInheritance : JsonSerializable
+{
+    public static var typeName:String { return "HelloWithGenericInheritance" }
+    public static var metadata:Metadata {
+        return Metadata.create([
+            Type<HelloWithGenericInheritance>.optionalProperty("result", get: { $0.result }, set: { $0.result = $1 }),
+            Type<HelloWithGenericInheritance>.arrayProperty("items", get: { $0.items }, set: { $0.items = $1 }),
+            Type<HelloWithGenericInheritance>.arrayProperty("counts", get: { $0.counts }, set: { $0.counts = $1 }),
+        ])
+    }
+}
+
+extension HelloWithGenericInheritance2 : JsonSerializable
+{
+    public static var typeName:String { return "HelloWithGenericInheritance2" }
+    public static var metadata:Metadata {
+        return Metadata.create([
+            Type<HelloWithGenericInheritance2>.optionalProperty("result", get: { $0.result }, set: { $0.result = $1 }),
+            Type<HelloWithGenericInheritance2>.arrayProperty("items", get: { $0.items }, set: { $0.items = $1 }),
+            Type<HelloWithGenericInheritance2>.arrayProperty("counts", get: { $0.counts }, set: { $0.counts = $1 }),
+        ])
+    }
+}
+
+extension HelloWithNestedInheritance : JsonSerializable
+{
+    public static var typeName:String { return "HelloWithNestedInheritance" }
+    public static var metadata:Metadata {
+        return Metadata.create([
+            Type<HelloWithNestedInheritance>.arrayProperty("items", get: { $0.items }, set: { $0.items = $1 }),
+            Type<HelloWithNestedInheritance>.arrayProperty("counts", get: { $0.counts }, set: { $0.counts = $1 }),
+        ])
+    }
 }
 
 extension HelloWithReturn : JsonSerializable
@@ -2093,6 +2382,15 @@ extension HelloTypes : JsonSerializable
         ])
 }
 
+extension HelloZip : JsonSerializable
+{
+    public static var typeName:String { return "HelloZip" }
+    public static var metadata = Metadata.create([
+            Type<HelloZip>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
+            Type<HelloZip>.arrayProperty("test", get: { $0.test }, set: { $0.test = $1 }),
+        ])
+}
+
 extension Ping : JsonSerializable
 {
     public static var typeName:String { return "Ping" }
@@ -2152,6 +2450,35 @@ extension GetRequest2 : JsonSerializable
         ])
 }
 
+extension SendJson : JsonSerializable
+{
+    public static var typeName:String { return "SendJson" }
+    public static var metadata = Metadata.create([
+            Type<SendJson>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+            Type<SendJson>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
+        ])
+}
+
+extension SendText : JsonSerializable
+{
+    public static var typeName:String { return "SendText" }
+    public static var metadata = Metadata.create([
+            Type<SendText>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+            Type<SendText>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
+            Type<SendText>.optionalProperty("contentType", get: { $0.contentType }, set: { $0.contentType = $1 }),
+        ])
+}
+
+extension SendRaw : JsonSerializable
+{
+    public static var typeName:String { return "SendRaw" }
+    public static var metadata = Metadata.create([
+            Type<SendRaw>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+            Type<SendRaw>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
+            Type<SendRaw>.optionalProperty("contentType", get: { $0.contentType }, set: { $0.contentType = $1 }),
+        ])
+}
+
 extension SendDefault : JsonSerializable
 {
     public static var typeName:String { return "SendDefault" }
@@ -2192,6 +2519,14 @@ extension SendPut : JsonSerializable
         ])
 }
 
+extension SendReturnVoid : JsonSerializable
+{
+    public static var typeName:String { return "SendReturnVoid" }
+    public static var metadata = Metadata.create([
+            Type<SendReturnVoid>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+        ])
+}
+
 extension GetSession : JsonSerializable
 {
     public static var typeName:String { return "GetSession" }
@@ -2215,9 +2550,39 @@ extension StoreLogs : JsonSerializable
         ])
 }
 
+extension HelloAuth : JsonSerializable
+{
+    public static var typeName:String { return "HelloAuth" }
+    public static var metadata = Metadata.create([
+            Type<HelloAuth>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
+        ])
+}
+
 extension TestAuth : JsonSerializable
 {
     public static var typeName:String { return "TestAuth" }
+    public static var metadata = Metadata.create([
+        ])
+}
+
+extension RequiresAdmin : JsonSerializable
+{
+    public static var typeName:String { return "RequiresAdmin" }
+    public static var metadata = Metadata.create([
+            Type<RequiresAdmin>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+        ])
+}
+
+extension TestDataAllTypes : JsonSerializable
+{
+    public static var typeName:String { return "TestDataAllTypes" }
+    public static var metadata = Metadata.create([
+        ])
+}
+
+extension TestDataAllCollectionTypes : JsonSerializable
+{
+    public static var typeName:String { return "TestDataAllCollectionTypes" }
     public static var metadata = Metadata.create([
         ])
 }
@@ -2283,34 +2648,20 @@ extension EchoComplexTypes : JsonSerializable
     public static var typeName:String { return "EchoComplexTypes" }
     public static var metadata = Metadata.create([
             Type<EchoComplexTypes>.optionalObjectProperty("subType", get: { $0.subType }, set: { $0.subType = $1 }),
+            Type<EchoComplexTypes>.arrayProperty("subTypes", get: { $0.subTypes }, set: { $0.subTypes = $1 }),
+            Type<EchoComplexTypes>.objectProperty("subTypeMap", get: { $0.subTypeMap }, set: { $0.subTypeMap = $1 }),
+            Type<EchoComplexTypes>.objectProperty("stringMap", get: { $0.stringMap }, set: { $0.stringMap = $1 }),
+            Type<EchoComplexTypes>.objectProperty("intStringMap", get: { $0.intStringMap }, set: { $0.intStringMap = $1 }),
         ])
 }
 
-extension RequestLogs : JsonSerializable
+extension StoreRockstars : JsonSerializable
 {
-    public static var typeName:String { return "RequestLogs" }
-    public static var metadata = Metadata.create([
-            Type<RequestLogs>.optionalProperty("beforeSecs", get: { $0.beforeSecs }, set: { $0.beforeSecs = $1 }),
-            Type<RequestLogs>.optionalProperty("afterSecs", get: { $0.afterSecs }, set: { $0.afterSecs = $1 }),
-            Type<RequestLogs>.optionalProperty("ipAddress", get: { $0.ipAddress }, set: { $0.ipAddress = $1 }),
-            Type<RequestLogs>.optionalProperty("forwardedFor", get: { $0.forwardedFor }, set: { $0.forwardedFor = $1 }),
-            Type<RequestLogs>.optionalProperty("userAuthId", get: { $0.userAuthId }, set: { $0.userAuthId = $1 }),
-            Type<RequestLogs>.optionalProperty("sessionId", get: { $0.sessionId }, set: { $0.sessionId = $1 }),
-            Type<RequestLogs>.optionalProperty("referer", get: { $0.referer }, set: { $0.referer = $1 }),
-            Type<RequestLogs>.optionalProperty("pathInfo", get: { $0.pathInfo }, set: { $0.pathInfo = $1 }),
-            Type<RequestLogs>.arrayProperty("ids", get: { $0.ids }, set: { $0.ids = $1 }),
-            Type<RequestLogs>.optionalProperty("beforeId", get: { $0.beforeId }, set: { $0.beforeId = $1 }),
-            Type<RequestLogs>.optionalProperty("afterId", get: { $0.afterId }, set: { $0.afterId = $1 }),
-            Type<RequestLogs>.optionalProperty("hasResponse", get: { $0.hasResponse }, set: { $0.hasResponse = $1 }),
-            Type<RequestLogs>.optionalProperty("withErrors", get: { $0.withErrors }, set: { $0.withErrors = $1 }),
-            Type<RequestLogs>.optionalProperty("skip", get: { $0.skip }, set: { $0.skip = $1 }),
-            Type<RequestLogs>.optionalProperty("take", get: { $0.take }, set: { $0.take = $1 }),
-            Type<RequestLogs>.optionalProperty("enableSessionTracking", get: { $0.enableSessionTracking }, set: { $0.enableSessionTracking = $1 }),
-            Type<RequestLogs>.optionalProperty("enableResponseTracking", get: { $0.enableResponseTracking }, set: { $0.enableResponseTracking = $1 }),
-            Type<RequestLogs>.optionalProperty("enableErrorTracking", get: { $0.enableErrorTracking }, set: { $0.enableErrorTracking = $1 }),
-            Type<RequestLogs>.optionalProperty("durationLongerThan", get: { $0.durationLongerThan }, set: { $0.durationLongerThan = $1 }),
-            Type<RequestLogs>.optionalProperty("durationLessThan", get: { $0.durationLessThan }, set: { $0.durationLessThan = $1 }),
+    public static var typeName:String { return "StoreRockstars" }
+    public static var metadata:Metadata {
+        return Metadata.create([
         ])
+    }
 }
 
 extension Authenticate : JsonSerializable
@@ -2332,6 +2683,8 @@ extension Authenticate : JsonSerializable
             Type<Authenticate>.optionalProperty("nc", get: { $0.nc }, set: { $0.nc = $1 }),
             Type<Authenticate>.optionalProperty("cnonce", get: { $0.cnonce }, set: { $0.cnonce = $1 }),
             Type<Authenticate>.optionalProperty("useTokenCookie", get: { $0.useTokenCookie }, set: { $0.useTokenCookie = $1 }),
+            Type<Authenticate>.optionalProperty("accessToken", get: { $0.accessToken }, set: { $0.accessToken = $1 }),
+            Type<Authenticate>.optionalProperty("accessTokenSecret", get: { $0.accessTokenSecret }, set: { $0.accessTokenSecret = $1 }),
             Type<Authenticate>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
         ])
 }
@@ -2354,6 +2707,72 @@ extension UnAssignRoles : JsonSerializable
             Type<UnAssignRoles>.arrayProperty("permissions", get: { $0.permissions }, set: { $0.permissions = $1 }),
             Type<UnAssignRoles>.arrayProperty("roles", get: { $0.roles }, set: { $0.roles = $1 }),
         ])
+}
+
+extension ConvertSessionToToken : JsonSerializable
+{
+    public static var typeName:String { return "ConvertSessionToToken" }
+    public static var metadata = Metadata.create([
+            Type<ConvertSessionToToken>.optionalProperty("preserveSession", get: { $0.preserveSession }, set: { $0.preserveSession = $1 }),
+        ])
+}
+
+extension GetAccessToken : JsonSerializable
+{
+    public static var typeName:String { return "GetAccessToken" }
+    public static var metadata = Metadata.create([
+            Type<GetAccessToken>.optionalProperty("refreshToken", get: { $0.refreshToken }, set: { $0.refreshToken = $1 }),
+        ])
+}
+
+extension QueryPocoBase : JsonSerializable
+{
+    public static var typeName:String { return "QueryPocoBase" }
+    public static var metadata:Metadata {
+        return Metadata.create([
+            Type<QueryPocoBase>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+            Type<QueryPocoBase>.optionalProperty("skip", get: { $0.skip }, set: { $0.skip = $1 }),
+            Type<QueryPocoBase>.optionalProperty("take", get: { $0.take }, set: { $0.take = $1 }),
+            Type<QueryPocoBase>.optionalProperty("orderBy", get: { $0.orderBy }, set: { $0.orderBy = $1 }),
+            Type<QueryPocoBase>.optionalProperty("orderByDesc", get: { $0.orderByDesc }, set: { $0.orderByDesc = $1 }),
+            Type<QueryPocoBase>.optionalProperty("include", get: { $0.include }, set: { $0.include = $1 }),
+            Type<QueryPocoBase>.optionalProperty("fields", get: { $0.fields }, set: { $0.fields = $1 }),
+            Type<QueryPocoBase>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
+        ])
+    }
+}
+
+extension QueryPocoIntoBase : JsonSerializable
+{
+    public static var typeName:String { return "QueryPocoIntoBase" }
+    public static var metadata:Metadata {
+        return Metadata.create([
+            Type<QueryPocoIntoBase>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+            Type<QueryPocoIntoBase>.optionalProperty("skip", get: { $0.skip }, set: { $0.skip = $1 }),
+            Type<QueryPocoIntoBase>.optionalProperty("take", get: { $0.take }, set: { $0.take = $1 }),
+            Type<QueryPocoIntoBase>.optionalProperty("orderBy", get: { $0.orderBy }, set: { $0.orderBy = $1 }),
+            Type<QueryPocoIntoBase>.optionalProperty("orderByDesc", get: { $0.orderByDesc }, set: { $0.orderByDesc = $1 }),
+            Type<QueryPocoIntoBase>.optionalProperty("include", get: { $0.include }, set: { $0.include = $1 }),
+            Type<QueryPocoIntoBase>.optionalProperty("fields", get: { $0.fields }, set: { $0.fields = $1 }),
+            Type<QueryPocoIntoBase>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
+        ])
+    }
+}
+
+extension QueryRockstars : JsonSerializable
+{
+    public static var typeName:String { return "QueryRockstars" }
+    public static var metadata:Metadata {
+        return Metadata.create([
+            Type<QueryRockstars>.optionalProperty("skip", get: { $0.skip }, set: { $0.skip = $1 }),
+            Type<QueryRockstars>.optionalProperty("take", get: { $0.take }, set: { $0.take = $1 }),
+            Type<QueryRockstars>.optionalProperty("orderBy", get: { $0.orderBy }, set: { $0.orderBy = $1 }),
+            Type<QueryRockstars>.optionalProperty("orderByDesc", get: { $0.orderByDesc }, set: { $0.orderByDesc = $1 }),
+            Type<QueryRockstars>.optionalProperty("include", get: { $0.include }, set: { $0.include = $1 }),
+            Type<QueryRockstars>.optionalProperty("fields", get: { $0.fields }, set: { $0.fields = $1 }),
+            Type<QueryRockstars>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
+        ])
+    }
 }
 
 extension CustomHttpErrorResponse : JsonSerializable
@@ -2430,6 +2849,24 @@ extension Project : JsonSerializable
     public static var metadata = Metadata.create([
             Type<Project>.optionalProperty("account", get: { $0.account }, set: { $0.account = $1 }),
             Type<Project>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
+        ])
+}
+
+extension CreateJwtResponse : JsonSerializable
+{
+    public static var typeName:String { return "CreateJwtResponse" }
+    public static var metadata = Metadata.create([
+            Type<CreateJwtResponse>.optionalProperty("token", get: { $0.token }, set: { $0.token = $1 }),
+            Type<CreateJwtResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+        ])
+}
+
+extension CreateRefreshJwtResponse : JsonSerializable
+{
+    public static var typeName:String { return "CreateRefreshJwtResponse" }
+    public static var metadata = Metadata.create([
+            Type<CreateRefreshJwtResponse>.optionalProperty("token", get: { $0.token }, set: { $0.token = $1 }),
+            Type<CreateRefreshJwtResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
         ])
 }
 
@@ -2552,6 +2989,14 @@ extension EnumResponse : JsonSerializable
         ])
 }
 
+extension HelloZipResponse : JsonSerializable
+{
+    public static var typeName:String { return "HelloZipResponse" }
+    public static var metadata = Metadata.create([
+            Type<HelloZipResponse>.optionalProperty("result", get: { $0.result }, set: { $0.result = $1 }),
+        ])
+}
+
 extension PingResponse : JsonSerializable
 {
     public static var typeName:String { return "PingResponse" }
@@ -2611,13 +3056,18 @@ extension TestAuthResponse : JsonSerializable
         ])
 }
 
-extension RequestLogsResponse : JsonSerializable
+extension AllCollectionTypes : JsonSerializable
 {
-    public static var typeName:String { return "RequestLogsResponse" }
+    public static var typeName:String { return "AllCollectionTypes" }
     public static var metadata = Metadata.create([
-            Type<RequestLogsResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
-            Type<RequestLogsResponse>.objectProperty("usage", get: { $0.usage }, set: { $0.usage = $1 }),
-            Type<RequestLogsResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+            Type<AllCollectionTypes>.arrayProperty("intArray", get: { $0.intArray }, set: { $0.intArray = $1 }),
+            Type<AllCollectionTypes>.arrayProperty("intList", get: { $0.intList }, set: { $0.intList = $1 }),
+            Type<AllCollectionTypes>.arrayProperty("stringArray", get: { $0.stringArray }, set: { $0.stringArray = $1 }),
+            Type<AllCollectionTypes>.arrayProperty("stringList", get: { $0.stringList }, set: { $0.stringList = $1 }),
+            Type<AllCollectionTypes>.arrayProperty("pocoArray", get: { $0.pocoArray }, set: { $0.pocoArray = $1 }),
+            Type<AllCollectionTypes>.arrayProperty("pocoList", get: { $0.pocoList }, set: { $0.pocoList = $1 }),
+            Type<AllCollectionTypes>.objectProperty("pocoLookup", get: { $0.pocoLookup }, set: { $0.pocoLookup = $1 }),
+            Type<AllCollectionTypes>.objectProperty("pocoLookupMap", get: { $0.pocoLookupMap }, set: { $0.pocoLookupMap = $1 }),
         ])
 }
 
@@ -2625,13 +3075,14 @@ extension AuthenticateResponse : JsonSerializable
 {
     public static var typeName:String { return "AuthenticateResponse" }
     public static var metadata = Metadata.create([
-            Type<AuthenticateResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
             Type<AuthenticateResponse>.optionalProperty("userId", get: { $0.userId }, set: { $0.userId = $1 }),
             Type<AuthenticateResponse>.optionalProperty("sessionId", get: { $0.sessionId }, set: { $0.sessionId = $1 }),
             Type<AuthenticateResponse>.optionalProperty("userName", get: { $0.userName }, set: { $0.userName = $1 }),
             Type<AuthenticateResponse>.optionalProperty("displayName", get: { $0.displayName }, set: { $0.displayName = $1 }),
             Type<AuthenticateResponse>.optionalProperty("referrerUrl", get: { $0.referrerUrl }, set: { $0.referrerUrl = $1 }),
             Type<AuthenticateResponse>.optionalProperty("bearerToken", get: { $0.bearerToken }, set: { $0.bearerToken = $1 }),
+            Type<AuthenticateResponse>.optionalProperty("refreshToken", get: { $0.refreshToken }, set: { $0.refreshToken = $1 }),
+            Type<AuthenticateResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
             Type<AuthenticateResponse>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
         ])
 }
@@ -2653,6 +3104,25 @@ extension UnAssignRolesResponse : JsonSerializable
             Type<UnAssignRolesResponse>.arrayProperty("allRoles", get: { $0.allRoles }, set: { $0.allRoles = $1 }),
             Type<UnAssignRolesResponse>.arrayProperty("allPermissions", get: { $0.allPermissions }, set: { $0.allPermissions = $1 }),
             Type<UnAssignRolesResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+        ])
+}
+
+extension ConvertSessionToTokenResponse : JsonSerializable
+{
+    public static var typeName:String { return "ConvertSessionToTokenResponse" }
+    public static var metadata = Metadata.create([
+            Type<ConvertSessionToTokenResponse>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
+            Type<ConvertSessionToTokenResponse>.optionalProperty("accessToken", get: { $0.accessToken }, set: { $0.accessToken = $1 }),
+            Type<ConvertSessionToTokenResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+        ])
+}
+
+extension GetAccessTokenResponse : JsonSerializable
+{
+    public static var typeName:String { return "GetAccessTokenResponse" }
+    public static var metadata = Metadata.create([
+            Type<GetAccessTokenResponse>.optionalProperty("accessToken", get: { $0.accessToken }, set: { $0.accessToken = $1 }),
+            Type<GetAccessTokenResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
         ])
 }
 
@@ -2823,19 +3293,15 @@ extension EnumFlags : StringSerializable
     }
 }
 
-extension AllCollectionTypes : JsonSerializable
+extension KeyValuePair : JsonSerializable
 {
-    public static var typeName:String { return "AllCollectionTypes" }
-    public static var metadata = Metadata.create([
-            Type<AllCollectionTypes>.arrayProperty("intArray", get: { $0.intArray }, set: { $0.intArray = $1 }),
-            Type<AllCollectionTypes>.arrayProperty("intList", get: { $0.intList }, set: { $0.intList = $1 }),
-            Type<AllCollectionTypes>.arrayProperty("stringArray", get: { $0.stringArray }, set: { $0.stringArray = $1 }),
-            Type<AllCollectionTypes>.arrayProperty("stringList", get: { $0.stringList }, set: { $0.stringList = $1 }),
-            Type<AllCollectionTypes>.arrayProperty("pocoArray", get: { $0.pocoArray }, set: { $0.pocoArray = $1 }),
-            Type<AllCollectionTypes>.arrayProperty("pocoList", get: { $0.pocoList }, set: { $0.pocoList = $1 }),
-            Type<AllCollectionTypes>.objectProperty("pocoLookup", get: { $0.pocoLookup }, set: { $0.pocoLookup = $1 }),
-            Type<AllCollectionTypes>.objectProperty("pocoLookupMap", get: { $0.pocoLookupMap }, set: { $0.pocoLookupMap = $1 }),
+    public static var typeName:String { return "KeyValuePair" }
+    public static var metadata:Metadata {
+        return Metadata.create([
+            Type<KeyValuePair>.optionalProperty("key", get: { $0.key }, set: { $0.key = $1 }),
+            Type<KeyValuePair>.optionalProperty("value", get: { $0.value }, set: { $0.value = $1 }),
         ])
+    }
 }
 
 extension SubType : JsonSerializable
@@ -3045,6 +3511,8 @@ extension CustomUserSession : JsonSerializable
             Type<CustomUserSession>.optionalProperty("profileUrl", get: { $0.profileUrl }, set: { $0.profileUrl = $1 }),
             Type<CustomUserSession>.optionalProperty("sequence", get: { $0.sequence }, set: { $0.sequence = $1 }),
             Type<CustomUserSession>.optionalProperty("tag", get: { $0.tag }, set: { $0.tag = $1 }),
+            Type<CustomUserSession>.optionalProperty("authProvider", get: { $0.authProvider }, set: { $0.authProvider = $1 }),
+            Type<CustomUserSession>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
         ])
 }
 
@@ -3065,25 +3533,14 @@ extension Logger : JsonSerializable
         ])
 }
 
-extension RequestLogEntry : JsonSerializable
+extension Rockstar : JsonSerializable
 {
-    public static var typeName:String { return "RequestLogEntry" }
+    public static var typeName:String { return "Rockstar" }
     public static var metadata = Metadata.create([
-            Type<RequestLogEntry>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
-            Type<RequestLogEntry>.optionalProperty("dateTime", get: { $0.dateTime }, set: { $0.dateTime = $1 }),
-            Type<RequestLogEntry>.optionalProperty("httpMethod", get: { $0.httpMethod }, set: { $0.httpMethod = $1 }),
-            Type<RequestLogEntry>.optionalProperty("absoluteUri", get: { $0.absoluteUri }, set: { $0.absoluteUri = $1 }),
-            Type<RequestLogEntry>.optionalProperty("pathInfo", get: { $0.pathInfo }, set: { $0.pathInfo = $1 }),
-            Type<RequestLogEntry>.optionalProperty("requestBody", get: { $0.requestBody }, set: { $0.requestBody = $1 }),
-            Type<RequestLogEntry>.optionalProperty("userAuthId", get: { $0.userAuthId }, set: { $0.userAuthId = $1 }),
-            Type<RequestLogEntry>.optionalProperty("sessionId", get: { $0.sessionId }, set: { $0.sessionId = $1 }),
-            Type<RequestLogEntry>.optionalProperty("ipAddress", get: { $0.ipAddress }, set: { $0.ipAddress = $1 }),
-            Type<RequestLogEntry>.optionalProperty("forwardedFor", get: { $0.forwardedFor }, set: { $0.forwardedFor = $1 }),
-            Type<RequestLogEntry>.optionalProperty("referer", get: { $0.referer }, set: { $0.referer = $1 }),
-            Type<RequestLogEntry>.objectProperty("headers", get: { $0.headers }, set: { $0.headers = $1 }),
-            Type<RequestLogEntry>.objectProperty("formData", get: { $0.formData }, set: { $0.formData = $1 }),
-            Type<RequestLogEntry>.objectProperty("items", get: { $0.items }, set: { $0.items = $1 }),
-            Type<RequestLogEntry>.optionalProperty("requestDuration", get: { $0.requestDuration }, set: { $0.requestDuration = $1 }),
+            Type<Rockstar>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+            Type<Rockstar>.optionalProperty("firstName", get: { $0.firstName }, set: { $0.firstName = $1 }),
+            Type<Rockstar>.optionalProperty("lastName", get: { $0.lastName }, set: { $0.lastName = $1 }),
+            Type<Rockstar>.optionalProperty("age", get: { $0.age }, set: { $0.age = $1 }),
         ])
 }
 
@@ -3111,17 +3568,6 @@ extension OnlyDefinedInGenericTypeInto : JsonSerializable
     public static var metadata = Metadata.create([
             Type<OnlyDefinedInGenericTypeInto>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
             Type<OnlyDefinedInGenericTypeInto>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
-        ])
-}
-
-extension Rockstar : JsonSerializable
-{
-    public static var typeName:String { return "Rockstar" }
-    public static var metadata = Metadata.create([
-            Type<Rockstar>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
-            Type<Rockstar>.optionalProperty("firstName", get: { $0.firstName }, set: { $0.firstName = $1 }),
-            Type<Rockstar>.optionalProperty("lastName", get: { $0.lastName }, set: { $0.lastName = $1 }),
-            Type<Rockstar>.optionalProperty("age", get: { $0.age }, set: { $0.age = $1 }),
         ])
 }
 
@@ -3206,3 +3652,4 @@ extension Channel : JsonSerializable
             Type<Channel>.optionalProperty("value", get: { $0.value }, set: { $0.value = $1 }),
         ])
 }
+
