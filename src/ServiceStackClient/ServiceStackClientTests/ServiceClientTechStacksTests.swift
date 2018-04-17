@@ -15,7 +15,7 @@ class ServiceClientTechStacksTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        client = JsonServiceClient(baseUrl: "http://techstacks.io")
+        client = JsonServiceClient(baseUrl: "https://www.techstacks.io")
     }
     
     func test_Can_GET_TechStacks_Overview() {

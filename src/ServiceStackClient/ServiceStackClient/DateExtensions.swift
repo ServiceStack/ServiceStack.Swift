@@ -70,8 +70,8 @@ public extension Date {
     
     public var isoDateString:String {
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale!
-        dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale?
+        dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone?
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
         return dateFormatter.string(from: self as Date).appendingFormat("Z")
     }
@@ -79,7 +79,7 @@ public extension Date {
     public static func fromIsoDateString(_ string:String) -> Date? {
         let isUtc = string.hasSuffix("Z")
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale!
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale?
         dateFormatter.timeZone = isUtc ? TimeZone(abbreviation: "UTC") : TimeZone.ReferenceType.local
         dateFormatter.dateFormat = string.length == 19 || (isUtc && string.length == 20)
             ? "yyyy-MM-dd'T'HH:mm:ss"
