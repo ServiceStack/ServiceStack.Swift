@@ -971,6 +971,7 @@ extension Double : StringSerializable
     {
         switch any {
         case let d as Double: return d
+        case let f as Float: return Double(f)
         case let i as Int: return Double(i)
         case let s as String: return fromString(s)
         default:return nil
@@ -1366,6 +1367,7 @@ extension Float : StringSerializable
     {
         switch any {
         case let f as Float: return f
+        case let d as Double: return Float(d)
         case let i as Int: return Float(i)
         case let s as String: return fromString(s)
         default:return nil
@@ -2561,8 +2563,8 @@ public extension Date {
     
     public var isoDateString:String {
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale!
-        dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale?
+        dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone?
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
         return dateFormatter.string(from: self as Date).appendingFormat("Z")
     }
@@ -2570,7 +2572,7 @@ public extension Date {
     public static func fromIsoDateString(_ string:String) -> Date? {
         let isUtc = string.hasSuffix("Z")
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale!
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale?
         dateFormatter.timeZone = isUtc ? TimeZone(abbreviation: "UTC") : TimeZone.ReferenceType.local
         dateFormatter.dateFormat = string.length == 19 || (isUtc && string.length == 20)
             ? "yyyy-MM-dd'T'HH:mm:ss"
@@ -3233,17 +3235,12 @@ extension Error {
             return true
         } catch let error as CancellableError {
             return error.isCancelled
-        } catch let error as NSError {
-            switch (error.domain, error.code) {
-            case (NSCocoaErrorDomain, CocoaError.userCancelled.rawValue):
-                return true
-            case (NSURLErrorDomain, URLError.cancelled.rawValue):
-                return true
-            default:
-                return false
-            }
+        } catch URLError.cancelled {
+            return true
+        } catch CocoaError.userCancelled {
+            return true
         } catch {
-            return false  // Linux requires this
+            return false
         }
     }
 }

@@ -27,7 +27,8 @@ let PMKJoinError:Int =  10
 
 EOF
 
-SRC=../src/ServiceStackClient/PromiseKit-5.0.3/Sources
+# v5.0.6 https://github.com/mxcl/PromiseKit/releases/tag/5.0.6 last version which can be combined, need to move to pkg manager after
+SRC=../../PromiseKit/Sources
 
 egrep -h -v '^(import|//)' \
       $SRC/after.swift \
@@ -46,5 +47,8 @@ egrep -h -v '^(import|//)' \
       $SRC/Thenable.swift \
       $SRC/when.swift \
       >> Promise.swift
+
+# Remove `PromiseKit.` refs, e.g:
+# sed '/PromiseKit\./d' Promise.swift > Promise.swift
 
 cp Promise.swift ../src/ServiceStackClient/ServiceStackClient/
