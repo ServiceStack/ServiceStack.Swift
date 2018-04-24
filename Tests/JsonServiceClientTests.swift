@@ -8,6 +8,7 @@
 //
 
 import XCTest
+@testable import ServiceStackClient
 
 class JsonServiceClientTests: XCTestCase {
     var client:JsonServiceClient!

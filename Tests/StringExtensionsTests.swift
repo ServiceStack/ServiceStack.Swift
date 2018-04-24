@@ -9,6 +9,7 @@
 
 import Foundation
 import XCTest
+@testable import ServiceStackClient
 
 class StringExtensionsTests: XCTestCase {
 

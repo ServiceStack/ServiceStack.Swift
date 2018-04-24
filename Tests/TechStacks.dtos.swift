@@ -19,7 +19,8 @@ ExcludeTypes: Authenticate,AuthenticateResponse,AssignRoles,AssignRolesResponse,
 //DefaultImports: Foundation
 */
 
-import Foundation;
+import Foundation
+@testable import ServiceStackClient
 
 public class DummyTypes
 {

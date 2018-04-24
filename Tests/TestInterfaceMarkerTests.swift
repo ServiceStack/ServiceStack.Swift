@@ -8,6 +8,7 @@
 
 import Foundation
 import XCTest
+@testable import ServiceStackClient
 
 class TestInterfaceMarkerTests: XCTestCase {
     var client:JsonServiceClient!

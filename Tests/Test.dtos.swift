@@ -19,7 +19,8 @@ ExcludeTypes: QueryResponse`1,QueryBase`1,QueryBase`1,QueryBase,DummyTypes
 //DefaultImports: Foundation
 */
 
-import Foundation;
+import Foundation
+@testable import ServiceStackClient
 
 public class CustomHttpError : IReturn
 {
