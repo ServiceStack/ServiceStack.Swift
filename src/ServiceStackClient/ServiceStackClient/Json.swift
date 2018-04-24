@@ -369,6 +369,7 @@ extension Double : StringSerializable
     {
         switch any {
         case let d as Double: return d
+        case let f as Float: return Double(f)
         case let i as Int: return Double(i)
         case let s as String: return fromString(s)
         default:return nil
@@ -764,6 +765,7 @@ extension Float : StringSerializable
     {
         switch any {
         case let f as Float: return f
+        case let d as Double: return Float(d)
         case let i as Int: return Float(i)
         case let s as String: return fromString(s)
         default:return nil
