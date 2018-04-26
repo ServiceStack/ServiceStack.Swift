@@ -34,6 +34,7 @@
 		B44E8D63208F808B007DF666 /* NativeExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D51208F808B007DF666 /* NativeExtensionsTests.swift */; };
 		B44E8D64208F808B007DF666 /* Test.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D52208F808B007DF666 /* Test.dtos.swift */; };
 		B44E8D66208F808B007DF666 /* AutoQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D54208F808B007DF666 /* AutoQueryTests.swift */; };
+		B44E8D702091CEC7007DF666 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44E8D6F2091CEC7007DF666 /* PromiseKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,9 +78,12 @@
 		B44E8D52208F808B007DF666 /* Test.dtos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.dtos.swift; sourceTree = "<group>"; };
 		B44E8D53208F808B007DF666 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B44E8D54208F808B007DF666 /* AutoQueryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoQueryTests.swift; sourceTree = "<group>"; };
-		B44E8D69208F8219007DF666 /* ServiceStack.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ServiceStack.podspec; sourceTree = "<group>"; };
 		B44E8D6A208F822E007DF666 /* license.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
 		B44E8D6B208F822E007DF666 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B44E8D6F2091CEC7007DF666 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
+		B44E8D712091CEF1007DF666 /* ServiceStackClient.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ServiceStackClient.podspec; sourceTree = "<group>"; };
+		B44E8D722091CEFD007DF666 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		B44E8D732091CEFD007DF666 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B44E8D702091CEC7007DF666 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +113,7 @@
 				B44E8D42208F808B007DF666 /* Tests */,
 				B44E8D68208F820A007DF666 /* Deployment */,
 				51D154D81A7C543E00D2F2A3 /* Products */,
+				B44E8D6E2091CEC7007DF666 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -183,9 +189,19 @@
 			children = (
 				B44E8D6A208F822E007DF666 /* license.txt */,
 				B44E8D6B208F822E007DF666 /* README.md */,
-				B44E8D69208F8219007DF666 /* ServiceStack.podspec */,
+				B44E8D712091CEF1007DF666 /* ServiceStackClient.podspec */,
+				B44E8D722091CEFD007DF666 /* Cartfile */,
+				B44E8D732091CEFD007DF666 /* Package.swift */,
 			);
 			name = Deployment;
+			sourceTree = "<group>";
+		};
+		B44E8D6E2091CEC7007DF666 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B44E8D6F2091CEC7007DF666 /* PromiseKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -466,6 +482,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -490,6 +510,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

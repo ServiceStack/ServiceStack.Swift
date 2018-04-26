@@ -44,4 +44,6 @@ playground.xcworkspace
 .build/
 
 # Carthage
+Carthage
+Carthage/Checkouts
 Carthage/Build
