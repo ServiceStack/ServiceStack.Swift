@@ -13,7 +13,6 @@
 		B44E8D39208F8011007DF666 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D2F208F8011007DF666 /* StringExtensions.swift */; };
 		B44E8D3A208F8011007DF666 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D30208F8011007DF666 /* Json.swift */; };
 		B44E8D3B208F8011007DF666 /* ServiceStackClient.h in Headers */ = {isa = PBXBuildFile; fileRef = B44E8D31208F8011007DF666 /* ServiceStackClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B44E8D3C208F8011007DF666 /* ServiceStackClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D32208F8011007DF666 /* ServiceStackClient.swift */; };
 		B44E8D3E208F8011007DF666 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D34208F8011007DF666 /* DateExtensions.swift */; };
 		B44E8D40208F8011007DF666 /* Explore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D36208F8011007DF666 /* Explore.swift */; };
 		B44E8D55208F808B007DF666 /* JsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D43208F808B007DF666 /* JsonTests.swift */; };
@@ -54,7 +53,6 @@
 		B44E8D2F208F8011007DF666 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		B44E8D30208F8011007DF666 /* Json.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
 		B44E8D31208F8011007DF666 /* ServiceStackClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceStackClient.h; sourceTree = "<group>"; };
-		B44E8D32208F8011007DF666 /* ServiceStackClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceStackClient.swift; sourceTree = "<group>"; };
 		B44E8D34208F8011007DF666 /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		B44E8D35208F8011007DF666 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B44E8D36208F8011007DF666 /* Explore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Explore.swift; sourceTree = "<group>"; };
@@ -132,7 +130,6 @@
 				B44E8D36208F8011007DF666 /* Explore.swift */,
 				B44E8D30208F8011007DF666 /* Json.swift */,
 				B44E8D2E208F8011007DF666 /* JsonServiceClient.swift */,
-				B44E8D32208F8011007DF666 /* ServiceStackClient.swift */,
 				B44E8D2F208F8011007DF666 /* StringExtensions.swift */,
 				B44E8D41208F8039007DF666 /* Supporting Files */,
 			);
@@ -317,7 +314,6 @@
 				B44E8D40208F8011007DF666 /* Explore.swift in Sources */,
 				B44E8D39208F8011007DF666 /* StringExtensions.swift in Sources */,
 				B44E8D37208F8011007DF666 /* DynamicJson.swift in Sources */,
-				B44E8D3C208F8011007DF666 /* ServiceStackClient.swift in Sources */,
 				B44E8D3E208F8011007DF666 /* DateExtensions.swift in Sources */,
 				B44E8D3A208F8011007DF666 /* Json.swift in Sources */,
 				B44E8D38208F8011007DF666 /* JsonServiceClient.swift in Sources */,
