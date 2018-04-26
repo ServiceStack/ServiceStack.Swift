@@ -11,7 +11,7 @@ s.license          = 'Copyright (c) 2018 ServiceStack, Inc. All rights reserved.
 s.author           = { "ServiceStack, Inc" => "team@servicestack.com" }
 s.source           = { :git => "https://github.com/ServiceStack/ServiceStack.Swift.git", :tag => s.version.to_s }
 
-s.ios.deployment_target = "8.1"
+s.ios.deployment_target = "8.3"
 # s.osx.deployment_target = "10.9"
 # s.watchos.deployment_target = "2.0"
 # s.tvos.deployment_target = "9.0"
