@@ -11,10 +11,16 @@ import Foundation
 import XCTest
 
 class DateExtensionsTests: XCTestCase {
+    
+    override func setUp() {
+        super.setUp()
+        // @Alex: Run Tests under various time zones.
+        NSTimeZone.default = TimeZone(secondsFromGMT: 0)!
+    }
 
     func test_Can_Parse_WCF_Date() {
-        XCTAssertEqual(Date.fromString("/Date(978325200000-0000)/")!, Date(year: 2001, month: 1, day: 1))
-        XCTAssertEqual(Date.fromString("/Date(978325200000+0000)/")!, Date(year: 2001, month: 1, day: 1))
+        XCTAssertEqual(Date.fromString("/Date(978307200000-0000)/")!, Date(year: 2001, month: 1, day: 1))
+        XCTAssertEqual(Date.fromString("/Date(978307200000+0000)/")!, Date(year: 2001, month: 1, day: 1))
     }
     
     func test_Can_parse_pre_UnixTime(){
@@ -26,16 +32,15 @@ class DateExtensionsTests: XCTestCase {
         XCTAssertEqual(Date.fromString("2001-01-01T00:00:00.0000000")!, Date(year: 2001, month: 1, day: 1))
         XCTAssertEqual(Date.fromString("2001-01-01T00:00:00.000")!, Date(year: 2001, month: 1, day: 1))
         XCTAssertEqual(Date.fromString("2001-01-01T00:00:00")!, Date(year: 2001, month: 1, day: 1))
-
-        XCTAssertEqual(Date.fromString("2001-01-01T05:00:00.000Z")!, Date(year: 2001, month: 1, day: 1))
+        XCTAssertEqual(Date.fromString("2001-01-01T00:00:00.000Z")!, Date(year: 2001, month: 1, day: 1))
     }
     
     func test_Can_Serialize_ISO8601_Date() {
-        XCTAssertEqual(Date(year: 2001, month: 1, day: 1).isoDateString, "2001-01-01T05:00:00.000Z")
+        XCTAssertEqual(Date(year: 2001, month: 1, day: 1).isoDateString, "2001-01-01T00:00:00.000Z")
     }
     
     func test_Can_Serialize_Wcf_Json_Date() {
-        XCTAssertEqual(Date(year: 2001, month: 1, day: 1).toJson(), "\"/Date(978325200000-0000)/\"")
+        XCTAssertEqual(Date(year: 2001, month: 1, day: 1).toJson(), "\"/Date(978307200000-0000)/\"")
     }
     
     func test_Can_Serialize_TimeInterval() {
