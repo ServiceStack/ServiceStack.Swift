@@ -3,7 +3,7 @@ for updates, or [StackOverflow](http://stackoverflow.com/questions/ask) or the [
 
 # ServiceStack.Swift
 
-See [Swift Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference) for an overview of the Swift Support in ServiceStack.
+See [Swift Add ServiceStack Reference](http://docs.servicestack.net/swift-add-servicestack-reference) for an overview of the Swift Support in ServiceStack.
 
 ## ServiceStack Xcode Plugin
 
@@ -48,7 +48,7 @@ AutoQuery Viewer is a native iPad App that provides an automatic UI for browsing
 
 ## [TechStacks iOS App](https://github.com/ServiceStackApps/TechStacksApp)
 
-The TechStacks Native iOS App provides a fluid and responsive experience for browsing http://techstacks.io content on iPhones and iPad devices. It takes advantage of the ease-of-use and utility of [ServiceStack's new support for Swift and XCode](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference) for quickly building services-rich iOS Apps. [Get it now free on the AppStore!](https://itunes.apple.com/us/app/techstacks/id965680615?ls=1&mt=8)
+The TechStacks Native iOS App provides a fluid and responsive experience for browsing http://techstacks.io content on iPhones and iPad devices. It takes advantage of the ease-of-use and utility of [ServiceStack's new support for Swift and XCode](http://docs.servicestack.net/swift-add-servicestack-reference) for quickly building services-rich iOS Apps. [Get it now free on the AppStore!](https://itunes.apple.com/us/app/techstacks/id965680615?ls=1&mt=8)
 
 [![TechStacks on AppStore](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/techstacks-appstore.png)](https://itunes.apple.com/us/app/techstacks/id965680615?ls=1&mt=8)
 
