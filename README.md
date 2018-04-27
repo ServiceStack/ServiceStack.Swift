@@ -5,6 +5,35 @@ for updates, or [StackOverflow](http://stackoverflow.com/questions/ask) or the [
 
 See [Swift Add ServiceStack Reference](http://docs.servicestack.net/swift-add-servicestack-reference) for an overview of the Swift Support in ServiceStack.
 
+## Install
+
+> Requires Xcode 9+ / Swift 4
+
+### CocoaPods
+
+In your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
+
+```ruby
+use_frameworks!
+
+# Pods for Project
+pod "ServiceStack", '~> 1.0'
+```
+
+### Carthage
+
+```ruby
+github "ServiceStack/ServiceStack.Swift" ~> 1.0
+```
+
+### SwiftPM
+
+```ruby
+package.dependencies.append(
+    .Package(url: "ServiceStack/ServiceStack.Swift", majorVersion: 1)
+)
+```
+
 ## ServiceStack Xcode Plugin
 
 ServiceStack's **Add ServiceStack Reference** feature lets iOS/OSX developers generate an native typed Swift 2.0 API for your ServiceStack Services directly from within XCode using the new [ServiceStack XCode Plugin](https://github.com/ServiceStack/ServiceStack.Swift/raw/master/dist/ServiceStackXcode.dmg) - providing a simpler, cleaner and more versatile alternative to WCF's Add Service Reference feature that reduces the burden and effort required for consuming ServiceStack Services whilst benefiting from Swift's strong-typing feedback: 
