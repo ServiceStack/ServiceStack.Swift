@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B0814D120938312000022BB /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44E8D6F2091CEC7007DF666 /* PromiseKit.framework */; };
 		51D154E31A7C543E00D2F2A3 /* ServiceStackClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D154D71A7C543E00D2F2A3 /* ServiceStackClient.framework */; };
 		B44E8D37208F8011007DF666 /* DynamicJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D2D208F8011007DF666 /* DynamicJson.swift */; };
 		B44E8D38208F8011007DF666 /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D2E208F8011007DF666 /* JsonServiceClient.swift */; };
@@ -96,6 +97,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				51D154E31A7C543E00D2F2A3 /* ServiceStackClient.framework in Frameworks */,
+				4B0814D120938312000022BB /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +222,8 @@
 				51D154D31A7C543E00D2F2A3 /* Frameworks */,
 				51D154D41A7C543E00D2F2A3 /* Headers */,
 				51D154D51A7C543E00D2F2A3 /* Resources */,
+				4B0814CF209380FB000022BB /* ShellScript */,
+				4B0814D020938203000022BB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -257,7 +261,7 @@
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0930;
-				ORGANIZATIONNAME = "ServiceStack LLC";
+				ORGANIZATIONNAME = "ServiceStack, Inc.";
 				TargetAttributes = {
 					51D154D61A7C543E00D2F2A3 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -305,6 +309,37 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4B0814CF209380FB000022BB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/PromiseKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		4B0814D020938203000022BB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage outdated --xcode-warnings";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		51D154D21A7C543E00D2F2A3 /* Sources */ = {
