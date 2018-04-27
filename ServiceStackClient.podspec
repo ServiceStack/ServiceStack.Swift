@@ -4,7 +4,8 @@ s.name             = "ServiceStackClient"
 s.version          = "1.0.0"
 s.summary          = "ServiceStackClient implementation in swift"
 s.description      = <<-DESC
-                        ServiceStack DTO
+                        ServiceStack's Add ServiceStack Reference feature lets iOS developers
+                        generate an native typed Swift API for your ServiceStack Services
                         DESC
 s.homepage         = "https://github.com/ServiceStack/ServiceStack.Swift"
 s.license          = 'Copyright (c) 2018 ServiceStack, Inc. All rights reserved.'
