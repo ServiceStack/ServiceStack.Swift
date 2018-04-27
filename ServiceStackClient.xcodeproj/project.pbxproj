@@ -78,7 +78,7 @@
 		B44E8D6A208F822E007DF666 /* license.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
 		B44E8D6B208F822E007DF666 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B44E8D6F2091CEC7007DF666 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
-		B44E8D712091CEF1007DF666 /* ServiceStackClient.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ServiceStackClient.podspec; sourceTree = "<group>"; };
+		B44E8D712091CEF1007DF666 /* ServiceStack.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ServiceStack.podspec; sourceTree = "<group>"; };
 		B44E8D722091CEFD007DF666 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		B44E8D732091CEFD007DF666 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -185,7 +185,7 @@
 			children = (
 				B44E8D6A208F822E007DF666 /* license.txt */,
 				B44E8D6B208F822E007DF666 /* README.md */,
-				B44E8D712091CEF1007DF666 /* ServiceStackClient.podspec */,
+				B44E8D712091CEF1007DF666 /* ServiceStack.podspec */,
 				B44E8D722091CEFD007DF666 /* Cartfile */,
 				B44E8D732091CEFD007DF666 /* Package.swift */,
 			);
