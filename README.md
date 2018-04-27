@@ -28,7 +28,7 @@ github "ServiceStack/ServiceStack.Swift" ~> 1.0
 
 ### SwiftPM
 
-```ruby
+```swift
 package.dependencies.append(
     .Package(url: "ServiceStack/ServiceStack.Swift", majorVersion: 1)
 )
