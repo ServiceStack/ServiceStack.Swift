@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
 
-s.name             = "ServiceStackClient"
+s.name             = "ServiceStack"
 s.version          = "1.0.0"
-s.summary          = "ServiceStackClient implementation in swift"
+s.summary          = "Swift ServiceStack Service Client"
 s.description      = <<-DESC
                         ServiceStack's Add ServiceStack Reference feature lets iOS developers
                         generate an native typed Swift API for your ServiceStack Services
@@ -12,6 +12,7 @@ s.license          = 'Copyright (c) 2018 ServiceStack, Inc. All rights reserved.
 s.author           = { "ServiceStack, Inc" => "team@servicestack.com" }
 s.source           = { :git => "https://github.com/ServiceStack/ServiceStack.Swift.git", :tag => s.version.to_s }
 
+s.swift_version = "4.1"
 s.ios.deployment_target = "8.3"
 # s.osx.deployment_target = "10.9"
 # s.watchos.deployment_target = "2.0"
