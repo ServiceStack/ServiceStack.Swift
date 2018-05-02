@@ -222,8 +222,8 @@
 				51D154D31A7C543E00D2F2A3 /* Frameworks */,
 				51D154D41A7C543E00D2F2A3 /* Headers */,
 				51D154D51A7C543E00D2F2A3 /* Resources */,
-				4B0814CF209380FB000022BB /* ShellScript */,
-				4B0814D020938203000022BB /* ShellScript */,
+				4B0814CF209380FB000022BB /* Carthage copy Frameworks */,
+				4B0814D020938203000022BB /* Carthage outdated */,
 			);
 			buildRules = (
 			);
@@ -311,7 +311,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4B0814CF209380FB000022BB /* ShellScript */ = {
+		4B0814CF209380FB000022BB /* Carthage copy Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -319,6 +319,7 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
 			);
+			name = "Carthage copy Frameworks";
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/PromiseKit.framework",
 			);
@@ -326,13 +327,14 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
-		4B0814D020938203000022BB /* ShellScript */ = {
+		4B0814D020938203000022BB /* Carthage outdated */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Carthage outdated";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
