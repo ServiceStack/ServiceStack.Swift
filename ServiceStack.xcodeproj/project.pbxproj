@@ -1,0 +1,1539 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 47;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		52D6D9871BEFF229002C0205 /* ServiceStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6D97C1BEFF229002C0205 /* ServiceStack.framework */; };
+		B449E763209C8FA600341288 /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75C209C8FA500341288 /* JsonServiceClient.swift */; };
+		B449E764209C8FA600341288 /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75C209C8FA500341288 /* JsonServiceClient.swift */; };
+		B449E765209C8FA600341288 /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75C209C8FA500341288 /* JsonServiceClient.swift */; };
+		B449E766209C8FA600341288 /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75C209C8FA500341288 /* JsonServiceClient.swift */; };
+		B449E767209C8FA600341288 /* Explore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75D209C8FA500341288 /* Explore.swift */; };
+		B449E768209C8FA600341288 /* Explore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75D209C8FA500341288 /* Explore.swift */; };
+		B449E769209C8FA600341288 /* Explore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75D209C8FA500341288 /* Explore.swift */; };
+		B449E76A209C8FA600341288 /* Explore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75D209C8FA500341288 /* Explore.swift */; };
+		B449E76B209C8FA600341288 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75E209C8FA600341288 /* Json.swift */; };
+		B449E76C209C8FA600341288 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75E209C8FA600341288 /* Json.swift */; };
+		B449E76D209C8FA600341288 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75E209C8FA600341288 /* Json.swift */; };
+		B449E76E209C8FA600341288 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75E209C8FA600341288 /* Json.swift */; };
+		B449E76F209C8FA600341288 /* DynamicJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75F209C8FA600341288 /* DynamicJson.swift */; };
+		B449E770209C8FA600341288 /* DynamicJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75F209C8FA600341288 /* DynamicJson.swift */; };
+		B449E771209C8FA600341288 /* DynamicJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75F209C8FA600341288 /* DynamicJson.swift */; };
+		B449E772209C8FA600341288 /* DynamicJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75F209C8FA600341288 /* DynamicJson.swift */; };
+		B449E773209C8FA600341288 /* ServiceStack.h in Headers */ = {isa = PBXBuildFile; fileRef = B449E760209C8FA600341288 /* ServiceStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B449E774209C8FA600341288 /* ServiceStack.h in Headers */ = {isa = PBXBuildFile; fileRef = B449E760209C8FA600341288 /* ServiceStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B449E775209C8FA600341288 /* ServiceStack.h in Headers */ = {isa = PBXBuildFile; fileRef = B449E760209C8FA600341288 /* ServiceStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B449E776209C8FA600341288 /* ServiceStack.h in Headers */ = {isa = PBXBuildFile; fileRef = B449E760209C8FA600341288 /* ServiceStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B449E777209C8FA600341288 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E761209C8FA600341288 /* DateExtensions.swift */; };
+		B449E778209C8FA600341288 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E761209C8FA600341288 /* DateExtensions.swift */; };
+		B449E779209C8FA600341288 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E761209C8FA600341288 /* DateExtensions.swift */; };
+		B449E77A209C8FA600341288 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E761209C8FA600341288 /* DateExtensions.swift */; };
+		B449E77B209C8FA600341288 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E762209C8FA600341288 /* StringExtensions.swift */; };
+		B449E77C209C8FA600341288 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E762209C8FA600341288 /* StringExtensions.swift */; };
+		B449E77D209C8FA600341288 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E762209C8FA600341288 /* StringExtensions.swift */; };
+		B449E77E209C8FA600341288 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E762209C8FA600341288 /* StringExtensions.swift */; };
+		B449E78F209C904700341288 /* Test.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E77F209C904500341288 /* Test.dtos.swift */; };
+		B449E790209C904700341288 /* Test.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E77F209C904500341288 /* Test.dtos.swift */; };
+		B449E791209C904700341288 /* Test.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E77F209C904500341288 /* Test.dtos.swift */; };
+		B449E792209C904700341288 /* AutoQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E780209C904500341288 /* AutoQueryTests.swift */; };
+		B449E794209C904700341288 /* AutoQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E780209C904500341288 /* AutoQueryTests.swift */; };
+		B449E795209C904700341288 /* ServiceClientTechStacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E781209C904500341288 /* ServiceClientTechStacksTests.swift */; };
+		B449E796209C904700341288 /* ServiceClientTechStacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E781209C904500341288 /* ServiceClientTechStacksTests.swift */; };
+		B449E797209C904700341288 /* ServiceClientTechStacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E781209C904500341288 /* ServiceClientTechStacksTests.swift */; };
+		B449E798209C904700341288 /* JsonServiceClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E782209C904500341288 /* JsonServiceClientTests.swift */; };
+		B449E799209C904700341288 /* JsonServiceClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E782209C904500341288 /* JsonServiceClientTests.swift */; };
+		B449E79A209C904700341288 /* JsonServiceClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E782209C904500341288 /* JsonServiceClientTests.swift */; };
+		B449E79B209C904700341288 /* JsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E783209C904500341288 /* JsonTests.swift */; };
+		B449E79C209C904700341288 /* JsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E783209C904500341288 /* JsonTests.swift */; };
+		B449E79D209C904700341288 /* JsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E783209C904500341288 /* JsonTests.swift */; };
+		B449E79E209C904700341288 /* TechStacks.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E784209C904600341288 /* TechStacks.dtos.swift */; };
+		B449E79F209C904700341288 /* TechStacks.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E784209C904600341288 /* TechStacks.dtos.swift */; };
+		B449E7A0209C904700341288 /* TechStacks.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E784209C904600341288 /* TechStacks.dtos.swift */; };
+		B449E7A1209C904700341288 /* TestInterfaceMarkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E785209C904600341288 /* TestInterfaceMarkerTests.swift */; };
+		B449E7A2209C904700341288 /* TestInterfaceMarkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E785209C904600341288 /* TestInterfaceMarkerTests.swift */; };
+		B449E7A3209C904700341288 /* TestInterfaceMarkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E785209C904600341288 /* TestInterfaceMarkerTests.swift */; };
+		B449E7A4209C904700341288 /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E786209C904600341288 /* DateExtensionsTests.swift */; };
+		B449E7A5209C904700341288 /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E786209C904600341288 /* DateExtensionsTests.swift */; };
+		B449E7A6209C904700341288 /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E786209C904600341288 /* DateExtensionsTests.swift */; };
+		B449E7A7209C904700341288 /* NativeExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E787209C904600341288 /* NativeExtensionsTests.swift */; };
+		B449E7A8209C904700341288 /* NativeExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E787209C904600341288 /* NativeExtensionsTests.swift */; };
+		B449E7A9209C904700341288 /* NativeExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E787209C904600341288 /* NativeExtensionsTests.swift */; };
+		B449E7AA209C904700341288 /* SerializeParentChildTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E788209C904600341288 /* SerializeParentChildTests.swift */; };
+		B449E7AB209C904700341288 /* SerializeParentChildTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E788209C904600341288 /* SerializeParentChildTests.swift */; };
+		B449E7AC209C904700341288 /* SerializeParentChildTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E788209C904600341288 /* SerializeParentChildTests.swift */; };
+		B449E7AD209C904700341288 /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E789209C904600341288 /* Template.swift */; };
+		B449E7AE209C904700341288 /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E789209C904600341288 /* Template.swift */; };
+		B449E7AF209C904700341288 /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E789209C904600341288 /* Template.swift */; };
+		B449E7B0209C904700341288 /* TechStacksJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E78A209C904600341288 /* TechStacksJsonTests.swift */; };
+		B449E7B1209C904700341288 /* TechStacksJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E78A209C904600341288 /* TechStacksJsonTests.swift */; };
+		B449E7B2209C904700341288 /* TechStacksJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E78A209C904600341288 /* TechStacksJsonTests.swift */; };
+		B449E7B3209C904700341288 /* overview.json in Resources */ = {isa = PBXBuildFile; fileRef = B449E78B209C904600341288 /* overview.json */; };
+		B449E7B4209C904700341288 /* overview.json in Resources */ = {isa = PBXBuildFile; fileRef = B449E78B209C904600341288 /* overview.json */; };
+		B449E7B5209C904700341288 /* overview.json in Resources */ = {isa = PBXBuildFile; fileRef = B449E78B209C904600341288 /* overview.json */; };
+		B449E7B6209C904700341288 /* StringExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E78C209C904600341288 /* StringExtensionsTests.swift */; };
+		B449E7B7209C904700341288 /* StringExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E78C209C904600341288 /* StringExtensionsTests.swift */; };
+		B449E7B8209C904700341288 /* StringExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E78C209C904600341288 /* StringExtensionsTests.swift */; };
+		B449E7B9209C904700341288 /* TechStacksDtosJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E78D209C904600341288 /* TechStacksDtosJsonTests.swift */; };
+		B449E7BA209C904700341288 /* TechStacksDtosJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E78D209C904600341288 /* TechStacksDtosJsonTests.swift */; };
+		B449E7BB209C904700341288 /* TechStacksDtosJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E78D209C904600341288 /* TechStacksDtosJsonTests.swift */; };
+		B449E7BC209C904700341288 /* ServiceStackClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E78E209C904600341288 /* ServiceStackClientTests.swift */; };
+		B449E7BD209C904700341288 /* ServiceStackClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E78E209C904600341288 /* ServiceStackClientTests.swift */; };
+		B449E7BE209C904700341288 /* ServiceStackClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E78E209C904600341288 /* ServiceStackClientTests.swift */; };
+		B449E7C1209C90E700341288 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449E7C0209C90E700341288 /* PromiseKit.framework */; };
+		B449E7C3209C914300341288 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449E7C2209C914300341288 /* PromiseKit.framework */; };
+		B449E7C5209C916200341288 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449E7C4209C916200341288 /* PromiseKit.framework */; };
+		B449E7C7209C916E00341288 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449E7C6209C916E00341288 /* PromiseKit.framework */; };
+		B449E7DA209C9DC300341288 /* AutoQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E780209C904500341288 /* AutoQueryTests.swift */; };
+		DD7502881C68FEDE006590AF /* ServiceStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6DA0F1BF000BD002C0205 /* ServiceStack.framework */; };
+		DD7502921C690C7A006590AF /* ServiceStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6D9F01BEFFFBE002C0205 /* ServiceStack.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		52D6D9881BEFF229002C0205 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52D6D9731BEFF229002C0205 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52D6D97B1BEFF229002C0205;
+			remoteInfo = ServiceStack;
+		};
+		DD7502801C68FCFC006590AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52D6D9731BEFF229002C0205 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52D6DA0E1BF000BD002C0205;
+			remoteInfo = "ServiceStack-macOS";
+		};
+		DD7502931C690C7A006590AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52D6D9731BEFF229002C0205 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52D6D9EF1BEFFFBE002C0205;
+			remoteInfo = "ServiceStack-tvOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		52D6D97C1BEFF229002C0205 /* ServiceStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ServiceStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52D6D9861BEFF229002C0205 /* ServiceStack-iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ServiceStack-iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		52D6D9E21BEFFF6E002C0205 /* ServiceStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ServiceStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52D6D9F01BEFFFBE002C0205 /* ServiceStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ServiceStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52D6DA0F1BF000BD002C0205 /* ServiceStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ServiceStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD2FAA261CD0B6D800659CF4 /* ServiceStack.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ServiceStack.plist; sourceTree = "<group>"; };
+		AD2FAA281CD0B6E100659CF4 /* ServiceStackTests.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ServiceStackTests.plist; sourceTree = "<group>"; };
+		B449E75C209C8FA500341288 /* JsonServiceClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonServiceClient.swift; sourceTree = "<group>"; };
+		B449E75D209C8FA500341288 /* Explore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Explore.swift; sourceTree = "<group>"; };
+		B449E75E209C8FA600341288 /* Json.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
+		B449E75F209C8FA600341288 /* DynamicJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicJson.swift; sourceTree = "<group>"; };
+		B449E760209C8FA600341288 /* ServiceStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceStack.h; sourceTree = "<group>"; };
+		B449E761209C8FA600341288 /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
+		B449E762209C8FA600341288 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		B449E77F209C904500341288 /* Test.dtos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.dtos.swift; sourceTree = "<group>"; };
+		B449E780209C904500341288 /* AutoQueryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoQueryTests.swift; sourceTree = "<group>"; };
+		B449E781209C904500341288 /* ServiceClientTechStacksTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceClientTechStacksTests.swift; sourceTree = "<group>"; };
+		B449E782209C904500341288 /* JsonServiceClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonServiceClientTests.swift; sourceTree = "<group>"; };
+		B449E783209C904500341288 /* JsonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonTests.swift; sourceTree = "<group>"; };
+		B449E784209C904600341288 /* TechStacks.dtos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechStacks.dtos.swift; sourceTree = "<group>"; };
+		B449E785209C904600341288 /* TestInterfaceMarkerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestInterfaceMarkerTests.swift; sourceTree = "<group>"; };
+		B449E786209C904600341288 /* DateExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensionsTests.swift; sourceTree = "<group>"; };
+		B449E787209C904600341288 /* NativeExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeExtensionsTests.swift; sourceTree = "<group>"; };
+		B449E788209C904600341288 /* SerializeParentChildTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializeParentChildTests.swift; sourceTree = "<group>"; };
+		B449E789209C904600341288 /* Template.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
+		B449E78A209C904600341288 /* TechStacksJsonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechStacksJsonTests.swift; sourceTree = "<group>"; };
+		B449E78B209C904600341288 /* overview.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = overview.json; sourceTree = "<group>"; };
+		B449E78C209C904600341288 /* StringExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensionsTests.swift; sourceTree = "<group>"; };
+		B449E78D209C904600341288 /* TechStacksDtosJsonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechStacksDtosJsonTests.swift; sourceTree = "<group>"; };
+		B449E78E209C904600341288 /* ServiceStackClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceStackClientTests.swift; sourceTree = "<group>"; };
+		B449E7C0209C90E700341288 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
+		B449E7C2209C914300341288 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/Mac/PromiseKit.framework; sourceTree = "<group>"; };
+		B449E7C4209C916200341288 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/watchOS/PromiseKit.framework; sourceTree = "<group>"; };
+		B449E7C6209C916E00341288 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/tvOS/PromiseKit.framework; sourceTree = "<group>"; };
+		DD75027A1C68FCFC006590AF /* ServiceStack-macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ServiceStack-macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD75028D1C690C7A006590AF /* ServiceStack-tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ServiceStack-tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		52D6D9781BEFF229002C0205 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E7C1209C90E700341288 /* PromiseKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6D9831BEFF229002C0205 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52D6D9871BEFF229002C0205 /* ServiceStack.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6D9DE1BEFFF6E002C0205 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E7C5209C916200341288 /* PromiseKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6D9EC1BEFFFBE002C0205 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E7C7209C916E00341288 /* PromiseKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6DA0B1BF000BD002C0205 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E7C3209C914300341288 /* PromiseKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD7502771C68FCFC006590AF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD7502881C68FEDE006590AF /* ServiceStack.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD75028A1C690C7A006590AF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD7502921C690C7A006590AF /* ServiceStack.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		52D6D9721BEFF229002C0205 = {
+			isa = PBXGroup;
+			children = (
+				8933C7811EB5B7E0000D00A4 /* Sources */,
+				8933C7831EB5B7EB000D00A4 /* Tests */,
+				52D6D99C1BEFF38C002C0205 /* Configs */,
+				52D6D97D1BEFF229002C0205 /* Products */,
+				B449E7BF209C90E700341288 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		52D6D97D1BEFF229002C0205 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				52D6D97C1BEFF229002C0205 /* ServiceStack.framework */,
+				52D6D9861BEFF229002C0205 /* ServiceStack-iOS Tests.xctest */,
+				52D6D9E21BEFFF6E002C0205 /* ServiceStack.framework */,
+				52D6D9F01BEFFFBE002C0205 /* ServiceStack.framework */,
+				52D6DA0F1BF000BD002C0205 /* ServiceStack.framework */,
+				DD75027A1C68FCFC006590AF /* ServiceStack-macOS Tests.xctest */,
+				DD75028D1C690C7A006590AF /* ServiceStack-tvOS Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		52D6D99C1BEFF38C002C0205 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				DD7502721C68FC1B006590AF /* Frameworks */,
+				DD7502731C68FC20006590AF /* Tests */,
+			);
+			path = Configs;
+			sourceTree = "<group>";
+		};
+		8933C7811EB5B7E0000D00A4 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B449E761209C8FA600341288 /* DateExtensions.swift */,
+				B449E75F209C8FA600341288 /* DynamicJson.swift */,
+				B449E75D209C8FA500341288 /* Explore.swift */,
+				B449E75E209C8FA600341288 /* Json.swift */,
+				B449E75C209C8FA500341288 /* JsonServiceClient.swift */,
+				B449E762209C8FA600341288 /* StringExtensions.swift */,
+				B449E760209C8FA600341288 /* ServiceStack.h */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		8933C7831EB5B7EB000D00A4 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				B449E780209C904500341288 /* AutoQueryTests.swift */,
+				B449E786209C904600341288 /* DateExtensionsTests.swift */,
+				B449E782209C904500341288 /* JsonServiceClientTests.swift */,
+				B449E783209C904500341288 /* JsonTests.swift */,
+				B449E787209C904600341288 /* NativeExtensionsTests.swift */,
+				B449E788209C904600341288 /* SerializeParentChildTests.swift */,
+				B449E781209C904500341288 /* ServiceClientTechStacksTests.swift */,
+				B449E78E209C904600341288 /* ServiceStackClientTests.swift */,
+				B449E78C209C904600341288 /* StringExtensionsTests.swift */,
+				B449E784209C904600341288 /* TechStacks.dtos.swift */,
+				B449E78D209C904600341288 /* TechStacksDtosJsonTests.swift */,
+				B449E78A209C904600341288 /* TechStacksJsonTests.swift */,
+				B449E789209C904600341288 /* Template.swift */,
+				B449E77F209C904500341288 /* Test.dtos.swift */,
+				B449E785209C904600341288 /* TestInterfaceMarkerTests.swift */,
+				B449E78B209C904600341288 /* overview.json */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		B449E7BF209C90E700341288 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B449E7C6209C916E00341288 /* PromiseKit.framework */,
+				B449E7C4209C916200341288 /* PromiseKit.framework */,
+				B449E7C2209C914300341288 /* PromiseKit.framework */,
+				B449E7C0209C90E700341288 /* PromiseKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DD7502721C68FC1B006590AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AD2FAA261CD0B6D800659CF4 /* ServiceStack.plist */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DD7502731C68FC20006590AF /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				AD2FAA281CD0B6E100659CF4 /* ServiceStackTests.plist */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		52D6D9791BEFF229002C0205 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E773209C8FA600341288 /* ServiceStack.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6D9DF1BEFFF6E002C0205 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E775209C8FA600341288 /* ServiceStack.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6D9ED1BEFFFBE002C0205 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E776209C8FA600341288 /* ServiceStack.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6DA0C1BF000BD002C0205 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E774209C8FA600341288 /* ServiceStack.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		52D6D97B1BEFF229002C0205 /* ServiceStack-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52D6D9901BEFF229002C0205 /* Build configuration list for PBXNativeTarget "ServiceStack-iOS" */;
+			buildPhases = (
+				B449E7C8209C91AF00341288 /* SwiftFormat */,
+				52D6D9771BEFF229002C0205 /* Sources */,
+				52D6D9781BEFF229002C0205 /* Frameworks */,
+				52D6D9791BEFF229002C0205 /* Headers */,
+				52D6D97A1BEFF229002C0205 /* Resources */,
+				B449E7CF209C92B800341288 /* Carthage Copy Frameworks */,
+				B449E7D3209C940A00341288 /* Carthage Outdated */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ServiceStack-iOS";
+			productName = ServiceStack;
+			productReference = 52D6D97C1BEFF229002C0205 /* ServiceStack.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		52D6D9851BEFF229002C0205 /* ServiceStack-iOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52D6D9931BEFF229002C0205 /* Build configuration list for PBXNativeTarget "ServiceStack-iOS Tests" */;
+			buildPhases = (
+				B449E7CC209C91F500341288 /* SwiftFormat */,
+				52D6D9821BEFF229002C0205 /* Sources */,
+				52D6D9831BEFF229002C0205 /* Frameworks */,
+				52D6D9841BEFF229002C0205 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				52D6D9891BEFF229002C0205 /* PBXTargetDependency */,
+			);
+			name = "ServiceStack-iOS Tests";
+			productName = ServiceStackTests;
+			productReference = 52D6D9861BEFF229002C0205 /* ServiceStack-iOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		52D6D9E11BEFFF6E002C0205 /* ServiceStack-watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52D6D9E71BEFFF6E002C0205 /* Build configuration list for PBXNativeTarget "ServiceStack-watchOS" */;
+			buildPhases = (
+				B449E7CA209C91E100341288 /* SwiftFormat */,
+				52D6D9DD1BEFFF6E002C0205 /* Sources */,
+				52D6D9DE1BEFFF6E002C0205 /* Frameworks */,
+				52D6D9DF1BEFFF6E002C0205 /* Headers */,
+				52D6D9E01BEFFF6E002C0205 /* Resources */,
+				B449E7D1209C92C600341288 /* Carthage Copy Frameworks */,
+				B449E7D5209C941400341288 /* Carthage Outdated */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ServiceStack-watchOS";
+			productName = "ServiceStack-watchOS";
+			productReference = 52D6D9E21BEFFF6E002C0205 /* ServiceStack.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		52D6D9EF1BEFFFBE002C0205 /* ServiceStack-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52D6DA011BEFFFBE002C0205 /* Build configuration list for PBXNativeTarget "ServiceStack-tvOS" */;
+			buildPhases = (
+				B449E7CB209C91EB00341288 /* SwiftFormat */,
+				52D6D9EB1BEFFFBE002C0205 /* Sources */,
+				52D6D9EC1BEFFFBE002C0205 /* Frameworks */,
+				52D6D9ED1BEFFFBE002C0205 /* Headers */,
+				52D6D9EE1BEFFFBE002C0205 /* Resources */,
+				B449E7D2209C92CD00341288 /* Carthage Copy Frameworks */,
+				B449E7D6209C941800341288 /* Carthage Outdated */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ServiceStack-tvOS";
+			productName = "ServiceStack-tvOS";
+			productReference = 52D6D9F01BEFFFBE002C0205 /* ServiceStack.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		52D6DA0E1BF000BD002C0205 /* ServiceStack-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52D6DA201BF000BD002C0205 /* Build configuration list for PBXNativeTarget "ServiceStack-macOS" */;
+			buildPhases = (
+				B449E7C9209C91D800341288 /* SwiftFormat */,
+				52D6DA0A1BF000BD002C0205 /* Sources */,
+				52D6DA0B1BF000BD002C0205 /* Frameworks */,
+				52D6DA0C1BF000BD002C0205 /* Headers */,
+				52D6DA0D1BF000BD002C0205 /* Resources */,
+				B449E7D0209C92C100341288 /* Carthage Copy Frameworks */,
+				B449E7D4209C940F00341288 /* Carthage Outdated */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ServiceStack-macOS";
+			productName = "ServiceStack-macOS";
+			productReference = 52D6DA0F1BF000BD002C0205 /* ServiceStack.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		DD7502791C68FCFC006590AF /* ServiceStack-macOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD7502821C68FCFC006590AF /* Build configuration list for PBXNativeTarget "ServiceStack-macOS Tests" */;
+			buildPhases = (
+				B449E7CD209C920300341288 /* SwiftFormat */,
+				DD7502761C68FCFC006590AF /* Sources */,
+				DD7502771C68FCFC006590AF /* Frameworks */,
+				DD7502781C68FCFC006590AF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD7502811C68FCFC006590AF /* PBXTargetDependency */,
+			);
+			name = "ServiceStack-macOS Tests";
+			productName = "ServiceStack-OS Tests";
+			productReference = DD75027A1C68FCFC006590AF /* ServiceStack-macOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		DD75028C1C690C7A006590AF /* ServiceStack-tvOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD7502951C690C7A006590AF /* Build configuration list for PBXNativeTarget "ServiceStack-tvOS Tests" */;
+			buildPhases = (
+				B449E7CE209C920C00341288 /* SwiftFormat */,
+				DD7502891C690C7A006590AF /* Sources */,
+				DD75028A1C690C7A006590AF /* Frameworks */,
+				DD75028B1C690C7A006590AF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD7502941C690C7A006590AF /* PBXTargetDependency */,
+			);
+			name = "ServiceStack-tvOS Tests";
+			productName = "ServiceStack-tvOS Tests";
+			productReference = DD75028D1C690C7A006590AF /* ServiceStack-tvOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		52D6D9731BEFF229002C0205 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = ServiceStack;
+				TargetAttributes = {
+					52D6D97B1BEFF229002C0205 = {
+						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+					52D6D9851BEFF229002C0205 = {
+						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0920;
+					};
+					52D6D9E11BEFFF6E002C0205 = {
+						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+					52D6D9EF1BEFFFBE002C0205 = {
+						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+					52D6DA0E1BF000BD002C0205 = {
+						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+					DD7502791C68FCFC006590AF = {
+						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Manual;
+					};
+					DD75028C1C690C7A006590AF = {
+						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0920;
+					};
+				};
+			};
+			buildConfigurationList = 52D6D9761BEFF229002C0205 /* Build configuration list for PBXProject "ServiceStack" */;
+			compatibilityVersion = "Xcode 6.3";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 52D6D9721BEFF229002C0205;
+			productRefGroup = 52D6D97D1BEFF229002C0205 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				52D6D97B1BEFF229002C0205 /* ServiceStack-iOS */,
+				52D6DA0E1BF000BD002C0205 /* ServiceStack-macOS */,
+				52D6D9E11BEFFF6E002C0205 /* ServiceStack-watchOS */,
+				52D6D9EF1BEFFFBE002C0205 /* ServiceStack-tvOS */,
+				52D6D9851BEFF229002C0205 /* ServiceStack-iOS Tests */,
+				DD7502791C68FCFC006590AF /* ServiceStack-macOS Tests */,
+				DD75028C1C690C7A006590AF /* ServiceStack-tvOS Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		52D6D97A1BEFF229002C0205 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6D9841BEFF229002C0205 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E7B3209C904700341288 /* overview.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6D9E01BEFFF6E002C0205 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6D9EE1BEFFFBE002C0205 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6DA0D1BF000BD002C0205 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD7502781C68FCFC006590AF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E7B4209C904700341288 /* overview.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD75028B1C690C7A006590AF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E7B5209C904700341288 /* overview.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B449E7C8209C91AF00341288 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\nswiftformat Sources --disable trailingCommas,redundantGet,redundantBackticks\nelse\necho \"warning: Swiftformat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi";
+		};
+		B449E7C9209C91D800341288 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\nswiftformat Sources --disable trailingCommas,redundantGet,redundantBackticks\nelse\necho \"warning: Swiftformat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi";
+		};
+		B449E7CA209C91E100341288 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\nswiftformat Sources --disable trailingCommas,redundantGet,redundantBackticks\nelse\necho \"warning: Swiftformat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi";
+		};
+		B449E7CB209C91EB00341288 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\nswiftformat Sources --disable trailingCommas,redundantGet,redundantBackticks\nelse\necho \"warning: Swiftformat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi";
+		};
+		B449E7CC209C91F500341288 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\nswiftformat Tests --disable trailingCommas,redundantGet,redundantBackticks\nelse\necho \"warning: Swiftformat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi";
+		};
+		B449E7CD209C920300341288 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\nswiftformat Tests --disable trailingCommas,redundantGet,redundantBackticks\nelse\necho \"warning: Swiftformat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi";
+		};
+		B449E7CE209C920C00341288 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\nswiftformat Tests --disable trailingCommas,redundantGet,redundantBackticks\nelse\necho \"warning: Swiftformat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi";
+		};
+		B449E7CF209C92B800341288 /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/PromiseKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		B449E7D0209C92C100341288 /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/Mac/PromiseKit.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/PromiseKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		B449E7D1209C92C600341288 /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/watchOS/PromiseKit.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/PromiseKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		B449E7D2209C92CD00341288 /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/tvOS/PromiseKit.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/PromiseKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		B449E7D3209C940A00341288 /* Carthage Outdated */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Carthage Outdated";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage outdated --xcode-warnings";
+		};
+		B449E7D4209C940F00341288 /* Carthage Outdated */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Carthage Outdated";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage outdated --xcode-warnings";
+		};
+		B449E7D5209C941400341288 /* Carthage Outdated */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Carthage Outdated";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage outdated --xcode-warnings";
+		};
+		B449E7D6209C941800341288 /* Carthage Outdated */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Carthage Outdated";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage outdated --xcode-warnings";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		52D6D9771BEFF229002C0205 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E77B209C8FA600341288 /* StringExtensions.swift in Sources */,
+				B449E76B209C8FA600341288 /* Json.swift in Sources */,
+				B449E777209C8FA600341288 /* DateExtensions.swift in Sources */,
+				B449E763209C8FA600341288 /* JsonServiceClient.swift in Sources */,
+				B449E767209C8FA600341288 /* Explore.swift in Sources */,
+				B449E76F209C8FA600341288 /* DynamicJson.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6D9821BEFF229002C0205 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E7BC209C904700341288 /* ServiceStackClientTests.swift in Sources */,
+				B449E798209C904700341288 /* JsonServiceClientTests.swift in Sources */,
+				B449E7A7209C904700341288 /* NativeExtensionsTests.swift in Sources */,
+				B449E7A1209C904700341288 /* TestInterfaceMarkerTests.swift in Sources */,
+				B449E78F209C904700341288 /* Test.dtos.swift in Sources */,
+				B449E795209C904700341288 /* ServiceClientTechStacksTests.swift in Sources */,
+				B449E7AA209C904700341288 /* SerializeParentChildTests.swift in Sources */,
+				B449E79E209C904700341288 /* TechStacks.dtos.swift in Sources */,
+				B449E7B6209C904700341288 /* StringExtensionsTests.swift in Sources */,
+				B449E7B9209C904700341288 /* TechStacksDtosJsonTests.swift in Sources */,
+				B449E7AD209C904700341288 /* Template.swift in Sources */,
+				B449E7A4209C904700341288 /* DateExtensionsTests.swift in Sources */,
+				B449E792209C904700341288 /* AutoQueryTests.swift in Sources */,
+				B449E7B0209C904700341288 /* TechStacksJsonTests.swift in Sources */,
+				B449E79B209C904700341288 /* JsonTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6D9DD1BEFFF6E002C0205 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E77D209C8FA600341288 /* StringExtensions.swift in Sources */,
+				B449E76D209C8FA600341288 /* Json.swift in Sources */,
+				B449E779209C8FA600341288 /* DateExtensions.swift in Sources */,
+				B449E765209C8FA600341288 /* JsonServiceClient.swift in Sources */,
+				B449E769209C8FA600341288 /* Explore.swift in Sources */,
+				B449E771209C8FA600341288 /* DynamicJson.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6D9EB1BEFFFBE002C0205 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E77E209C8FA600341288 /* StringExtensions.swift in Sources */,
+				B449E76E209C8FA600341288 /* Json.swift in Sources */,
+				B449E77A209C8FA600341288 /* DateExtensions.swift in Sources */,
+				B449E766209C8FA600341288 /* JsonServiceClient.swift in Sources */,
+				B449E76A209C8FA600341288 /* Explore.swift in Sources */,
+				B449E772209C8FA600341288 /* DynamicJson.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52D6DA0A1BF000BD002C0205 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E77C209C8FA600341288 /* StringExtensions.swift in Sources */,
+				B449E76C209C8FA600341288 /* Json.swift in Sources */,
+				B449E778209C8FA600341288 /* DateExtensions.swift in Sources */,
+				B449E764209C8FA600341288 /* JsonServiceClient.swift in Sources */,
+				B449E768209C8FA600341288 /* Explore.swift in Sources */,
+				B449E770209C8FA600341288 /* DynamicJson.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD7502761C68FCFC006590AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E7BD209C904700341288 /* ServiceStackClientTests.swift in Sources */,
+				B449E799209C904700341288 /* JsonServiceClientTests.swift in Sources */,
+				B449E7A8209C904700341288 /* NativeExtensionsTests.swift in Sources */,
+				B449E7A2209C904700341288 /* TestInterfaceMarkerTests.swift in Sources */,
+				B449E790209C904700341288 /* Test.dtos.swift in Sources */,
+				B449E796209C904700341288 /* ServiceClientTechStacksTests.swift in Sources */,
+				B449E7AB209C904700341288 /* SerializeParentChildTests.swift in Sources */,
+				B449E79F209C904700341288 /* TechStacks.dtos.swift in Sources */,
+				B449E7B7209C904700341288 /* StringExtensionsTests.swift in Sources */,
+				B449E7BA209C904700341288 /* TechStacksDtosJsonTests.swift in Sources */,
+				B449E7DA209C9DC300341288 /* AutoQueryTests.swift in Sources */,
+				B449E7AE209C904700341288 /* Template.swift in Sources */,
+				B449E7A5209C904700341288 /* DateExtensionsTests.swift in Sources */,
+				B449E7B1209C904700341288 /* TechStacksJsonTests.swift in Sources */,
+				B449E79C209C904700341288 /* JsonTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD7502891C690C7A006590AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B449E7BE209C904700341288 /* ServiceStackClientTests.swift in Sources */,
+				B449E79A209C904700341288 /* JsonServiceClientTests.swift in Sources */,
+				B449E7A9209C904700341288 /* NativeExtensionsTests.swift in Sources */,
+				B449E7A3209C904700341288 /* TestInterfaceMarkerTests.swift in Sources */,
+				B449E791209C904700341288 /* Test.dtos.swift in Sources */,
+				B449E797209C904700341288 /* ServiceClientTechStacksTests.swift in Sources */,
+				B449E7AC209C904700341288 /* SerializeParentChildTests.swift in Sources */,
+				B449E7A0209C904700341288 /* TechStacks.dtos.swift in Sources */,
+				B449E7B8209C904700341288 /* StringExtensionsTests.swift in Sources */,
+				B449E7BB209C904700341288 /* TechStacksDtosJsonTests.swift in Sources */,
+				B449E7AF209C904700341288 /* Template.swift in Sources */,
+				B449E7A6209C904700341288 /* DateExtensionsTests.swift in Sources */,
+				B449E794209C904700341288 /* AutoQueryTests.swift in Sources */,
+				B449E7B2209C904700341288 /* TechStacksJsonTests.swift in Sources */,
+				B449E79D209C904700341288 /* JsonTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		52D6D9891BEFF229002C0205 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52D6D97B1BEFF229002C0205 /* ServiceStack-iOS */;
+			targetProxy = 52D6D9881BEFF229002C0205 /* PBXContainerItemProxy */;
+		};
+		DD7502811C68FCFC006590AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52D6DA0E1BF000BD002C0205 /* ServiceStack-macOS */;
+			targetProxy = DD7502801C68FCFC006590AF /* PBXContainerItemProxy */;
+		};
+		DD7502941C690C7A006590AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52D6D9EF1BEFFFBE002C0205 /* ServiceStack-tvOS */;
+			targetProxy = DD7502931C690C7A006590AF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		52D6D98E1BEFF229002C0205 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		52D6D98F1BEFF229002C0205 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		52D6D9911BEFF229002C0205 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = Configs/ServiceStack.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-iOS";
+				PRODUCT_NAME = ServiceStack;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		52D6D9921BEFF229002C0205 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = Configs/ServiceStack.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-iOS";
+				PRODUCT_NAME = ServiceStack;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		52D6D9941BEFF229002C0205 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-iOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		52D6D9951BEFF229002C0205 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-iOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		52D6D9E81BEFFF6E002C0205 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
+				INFOPLIST_FILE = Configs/ServiceStack.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-watchOS";
+				PRODUCT_NAME = ServiceStack;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		52D6D9E91BEFFF6E002C0205 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
+				INFOPLIST_FILE = Configs/ServiceStack.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-watchOS";
+				PRODUCT_NAME = ServiceStack;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		52D6DA021BEFFFBE002C0205 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = Configs/ServiceStack.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-tvOS";
+				PRODUCT_NAME = ServiceStack;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		52D6DA031BEFFFBE002C0205 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = Configs/ServiceStack.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-tvOS";
+				PRODUCT_NAME = ServiceStack;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
+		52D6DA211BF000BD002C0205 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = Configs/ServiceStack.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-macOS";
+				PRODUCT_NAME = ServiceStack;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		52D6DA221BF000BD002C0205 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = Configs/ServiceStack.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-macOS";
+				PRODUCT_NAME = ServiceStack;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		DD7502831C68FCFC006590AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-macOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		DD7502841C68FCFC006590AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-macOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		DD7502961C690C7A006590AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-tvOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TVOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Debug;
+		};
+		DD7502971C690C7A006590AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-tvOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TVOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		52D6D9761BEFF229002C0205 /* Build configuration list for PBXProject "ServiceStack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52D6D98E1BEFF229002C0205 /* Debug */,
+				52D6D98F1BEFF229002C0205 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		52D6D9901BEFF229002C0205 /* Build configuration list for PBXNativeTarget "ServiceStack-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52D6D9911BEFF229002C0205 /* Debug */,
+				52D6D9921BEFF229002C0205 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		52D6D9931BEFF229002C0205 /* Build configuration list for PBXNativeTarget "ServiceStack-iOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52D6D9941BEFF229002C0205 /* Debug */,
+				52D6D9951BEFF229002C0205 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		52D6D9E71BEFFF6E002C0205 /* Build configuration list for PBXNativeTarget "ServiceStack-watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52D6D9E81BEFFF6E002C0205 /* Debug */,
+				52D6D9E91BEFFF6E002C0205 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		52D6DA011BEFFFBE002C0205 /* Build configuration list for PBXNativeTarget "ServiceStack-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52D6DA021BEFFFBE002C0205 /* Debug */,
+				52D6DA031BEFFFBE002C0205 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		52D6DA201BF000BD002C0205 /* Build configuration list for PBXNativeTarget "ServiceStack-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52D6DA211BF000BD002C0205 /* Debug */,
+				52D6DA221BF000BD002C0205 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD7502821C68FCFC006590AF /* Build configuration list for PBXNativeTarget "ServiceStack-macOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD7502831C68FCFC006590AF /* Debug */,
+				DD7502841C68FCFC006590AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD7502951C690C7A006590AF /* Build configuration list for PBXNativeTarget "ServiceStack-tvOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD7502961C690C7A006590AF /* Debug */,
+				DD7502971C690C7A006590AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 52D6D9731BEFF229002C0205 /* Project object */;
+}
