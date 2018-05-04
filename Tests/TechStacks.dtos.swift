@@ -20,7 +20,7 @@
  */
 
 import Foundation
-@testable import ServiceStackClient
+@testable import ServiceStack
 
 public class DummyTypes {
     public required init() {}

@@ -1,12 +1,12 @@
 //
 //  ServiceClientTechStacksTests.swift
-//  ServiceStackClient
+//  ServiceStack
 //
 //  Created by Demis Bellot on 9/21/15.
 //  Copyright © 2015 ServiceStack LLC. All rights reserved.
 //
 
-@testable import ServiceStackClient
+@testable import ServiceStack
 import XCTest
 
 class ServiceClientTechStacksTests: XCTestCase {

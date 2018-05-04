@@ -1,13 +1,13 @@
 //
 //  TestInterfaceMarkerTests.swift
-//  ServiceStackClient
+//  ServiceStack
 //
 //  Created by Demis Bellot on 9/21/15.
 //  Copyright © 2015 ServiceStack LLC. All rights reserved.
 //
 
 import Foundation
-@testable import ServiceStackClient
+@testable import ServiceStack
 import XCTest
 
 class TestInterfaceMarkerTests: XCTestCase {

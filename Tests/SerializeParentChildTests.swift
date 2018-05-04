@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 ServiceStack LLC. All rights reserved.
 //
 
-@testable import ServiceStackClient
+@testable import ServiceStack
 import XCTest
 
 public class Parent {

@@ -1,12 +1,12 @@
 //
 //  AutoQueryTests.swift
-//  ServiceStackClient
+//  ServiceStack
 //
 //  Created by Demis Bellot on 11/8/16.
 //
 //
 
-@testable import ServiceStackClient
+@testable import ServiceStack
 import XCTest
 
 class AutoQueryTests: XCTestCase {

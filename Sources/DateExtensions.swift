@@ -1,6 +1,6 @@
 //
 //  DateExtensions.swift
-//  ServiceStackClient
+//  ServiceStack
 //
 //  Created by Demis Bellot on 1/30/15.
 //  Copyright (c) 2015 ServiceStack LLC. All rights reserved.

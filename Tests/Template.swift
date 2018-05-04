@@ -1,7 +1,7 @@
 #if false
 //
     //  Template.swift
-    //  ServiceStackClientTests
+    //  ServiceStackTests
 //
     //  Created by Demis Bellot on 1/28/15.
     //  Copyright (c) 2015 ServiceStack LLC. All rights reserved.

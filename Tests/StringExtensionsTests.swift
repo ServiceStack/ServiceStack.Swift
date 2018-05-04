@@ -1,13 +1,13 @@
 //
 //  StringExtensionsTests.swift
-//  ServiceStackClient
+//  ServiceStack
 //
 //  Created by Demis Bellot on 1/30/15.
 //  Copyright (c) 2015 ServiceStack LLC. All rights reserved.
 //
 
 import Foundation
-@testable import ServiceStackClient
+@testable import ServiceStack
 import XCTest
 
 class StringExtensionsTests: XCTestCase {
