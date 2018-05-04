@@ -151,6 +151,11 @@
 		B449E7C2209C914300341288 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/Mac/PromiseKit.framework; sourceTree = "<group>"; };
 		B449E7C4209C916200341288 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/watchOS/PromiseKit.framework; sourceTree = "<group>"; };
 		B449E7C6209C916E00341288 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/tvOS/PromiseKit.framework; sourceTree = "<group>"; };
+		B449E7DC209CB73E00341288 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		B449E7DD209CB73E00341288 /* license.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
+		B449E7DE209CB73E00341288 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B449E7DF209CB73F00341288 /* ServiceStack.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ServiceStack.podspec; sourceTree = "<group>"; };
+		B449E7E0209CB73F00341288 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		DD75027A1C68FCFC006590AF /* ServiceStack-macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ServiceStack-macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD75028D1C690C7A006590AF /* ServiceStack-tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ServiceStack-tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -221,6 +226,7 @@
 				8933C7811EB5B7E0000D00A4 /* Sources */,
 				8933C7831EB5B7EB000D00A4 /* Tests */,
 				52D6D99C1BEFF38C002C0205 /* Configs */,
+				B449E7DB209CB72000341288 /* Deployment */,
 				52D6D97D1BEFF229002C0205 /* Products */,
 				B449E7BF209C90E700341288 /* Frameworks */,
 			);
@@ -295,6 +301,18 @@
 				B449E7C0209C90E700341288 /* PromiseKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B449E7DB209CB72000341288 /* Deployment */ = {
+			isa = PBXGroup;
+			children = (
+				B449E7DC209CB73E00341288 /* Cartfile */,
+				B449E7DD209CB73E00341288 /* license.txt */,
+				B449E7E0209CB73F00341288 /* Package.swift */,
+				B449E7DE209CB73E00341288 /* README.md */,
+				B449E7DF209CB73F00341288 /* ServiceStack.podspec */,
+			);
+			name = Deployment;
 			sourceTree = "<group>";
 		};
 		DD7502721C68FC1B006590AF /* Frameworks */ = {
@@ -1021,7 +1039,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1072,7 +1090,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 4.0;
@@ -1101,7 +1119,6 @@
 				);
 				INFOPLIST_FILE = Configs/ServiceStack.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-iOS";
@@ -1109,7 +1126,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1131,14 +1147,12 @@
 				);
 				INFOPLIST_FILE = Configs/ServiceStack.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-iOS";
 				PRODUCT_NAME = ServiceStack;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -1152,7 +1166,6 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-iOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1171,7 +1184,6 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-iOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
