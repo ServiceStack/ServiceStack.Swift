@@ -28,7 +28,6 @@
 		B44E8D5E208F808B007DF666 /* ServiceStackClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D4C208F808B007DF666 /* ServiceStackClientTests.swift */; };
 		B44E8D5F208F808B007DF666 /* JsonServiceClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D4D208F808B007DF666 /* JsonServiceClientTests.swift */; };
 		B44E8D60208F808B007DF666 /* ServiceClientTechStacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D4E208F808B007DF666 /* ServiceClientTechStacksTests.swift */; };
-		B44E8D61208F808B007DF666 /* AssertUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D4F208F808B007DF666 /* AssertUtils.swift */; };
 		B44E8D62208F808B007DF666 /* TechStacksDtosJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D50208F808B007DF666 /* TechStacksDtosJsonTests.swift */; };
 		B44E8D63208F808B007DF666 /* NativeExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D51208F808B007DF666 /* NativeExtensionsTests.swift */; };
 		B44E8D64208F808B007DF666 /* Test.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E8D52208F808B007DF666 /* Test.dtos.swift */; };
@@ -70,7 +69,6 @@
 		B44E8D4C208F808B007DF666 /* ServiceStackClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceStackClientTests.swift; sourceTree = "<group>"; };
 		B44E8D4D208F808B007DF666 /* JsonServiceClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonServiceClientTests.swift; sourceTree = "<group>"; };
 		B44E8D4E208F808B007DF666 /* ServiceClientTechStacksTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceClientTechStacksTests.swift; sourceTree = "<group>"; };
-		B44E8D4F208F808B007DF666 /* AssertUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssertUtils.swift; sourceTree = "<group>"; };
 		B44E8D50208F808B007DF666 /* TechStacksDtosJsonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechStacksDtosJsonTests.swift; sourceTree = "<group>"; };
 		B44E8D51208F808B007DF666 /* NativeExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeExtensionsTests.swift; sourceTree = "<group>"; };
 		B44E8D52208F808B007DF666 /* Test.dtos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.dtos.swift; sourceTree = "<group>"; };
@@ -151,7 +149,6 @@
 		B44E8D42208F808B007DF666 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				B44E8D4F208F808B007DF666 /* AssertUtils.swift */,
 				B44E8D54208F808B007DF666 /* AutoQueryTests.swift */,
 				B44E8D4B208F808B007DF666 /* DateExtensionsTests.swift */,
 				B44E8D4D208F808B007DF666 /* JsonServiceClientTests.swift */,
@@ -210,6 +207,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 51D154ED1A7C543E00D2F2A3 /* Build configuration list for PBXNativeTarget "ServiceStackClient" */;
 			buildPhases = (
+				B449E75A209C8AF000341288 /* SwiftFormat */,
 				51D154D21A7C543E00D2F2A3 /* Sources */,
 				51D154D31A7C543E00D2F2A3 /* Frameworks */,
 				51D154D41A7C543E00D2F2A3 /* Headers */,
@@ -230,6 +228,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 51D154F01A7C543E00D2F2A3 /* Build configuration list for PBXNativeTarget "ServiceStackClientTests" */;
 			buildPhases = (
+				B449E75B209C8B0C00341288 /* SwiftFormat */,
 				51D154DE1A7C543E00D2F2A3 /* Sources */,
 				51D154DF1A7C543E00D2F2A3 /* Frameworks */,
 				51D154E01A7C543E00D2F2A3 /* Resources */,
@@ -333,6 +332,34 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage outdated --xcode-warnings";
 		};
+		B449E75A209C8AF000341288 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\nswiftformat Sources --disable trailingCommas,redundantGet,redundantBackticks\nelse\necho \"warning: Swiftformat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi";
+		};
+		B449E75B209C8B0C00341288 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\nswiftformat Tests --disable trailingCommas,redundantGet,redundantBackticks\nelse\necho \"warning: Swiftformat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -368,7 +395,6 @@
 				B44E8D58208F808B007DF666 /* TechStacks.dtos.swift in Sources */,
 				B44E8D5E208F808B007DF666 /* ServiceStackClientTests.swift in Sources */,
 				B44E8D5B208F808B007DF666 /* StringExtensionsTests.swift in Sources */,
-				B44E8D61208F808B007DF666 /* AssertUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
