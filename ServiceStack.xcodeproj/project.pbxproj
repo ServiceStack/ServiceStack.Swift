@@ -87,9 +87,6 @@
 		B449E7C3209C914300341288 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449E7C2209C914300341288 /* PromiseKit.framework */; };
 		B449E7C5209C916200341288 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449E7C4209C916200341288 /* PromiseKit.framework */; };
 		B449E7C7209C916E00341288 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449E7C6209C916E00341288 /* PromiseKit.framework */; };
-		B449E7D7209C94AE00341288 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449E7C0209C90E700341288 /* PromiseKit.framework */; };
-		B449E7D8209C94D400341288 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449E7C2209C914300341288 /* PromiseKit.framework */; };
-		B449E7D9209C94DE00341288 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449E7C6209C916E00341288 /* PromiseKit.framework */; };
 		B449E7DA209C9DC300341288 /* AutoQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E780209C904500341288 /* AutoQueryTests.swift */; };
 		DD7502881C68FEDE006590AF /* ServiceStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6DA0F1BF000BD002C0205 /* ServiceStack.framework */; };
 		DD7502921C690C7A006590AF /* ServiceStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6D9F01BEFFFBE002C0205 /* ServiceStack.framework */; };
@@ -171,7 +168,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B449E7D7209C94AE00341288 /* PromiseKit.framework in Frameworks */,
 				52D6D9871BEFF229002C0205 /* ServiceStack.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -204,7 +200,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B449E7D8209C94D400341288 /* PromiseKit.framework in Frameworks */,
 				DD7502881C68FEDE006590AF /* ServiceStack.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -213,7 +208,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B449E7D9209C94DE00341288 /* PromiseKit.framework in Frameworks */,
 				DD7502921C690C7A006590AF /* ServiceStack.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1159,7 +1153,7 @@
 				);
 				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-iOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1178,7 +1172,7 @@
 				);
 				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-iOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1379,7 +1373,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1388,7 +1382,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-macOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1404,7 +1398,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1413,7 +1407,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-macOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1434,7 +1428,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/tvOS",
 				);
 				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/tvOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-tvOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -1454,7 +1448,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/tvOS",
 				);
 				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/tvOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ServiceStack.ServiceStack-tvOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
