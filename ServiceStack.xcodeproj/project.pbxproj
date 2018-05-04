@@ -40,7 +40,6 @@
 		B449E790209C904700341288 /* Test.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E77F209C904500341288 /* Test.dtos.swift */; };
 		B449E791209C904700341288 /* Test.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E77F209C904500341288 /* Test.dtos.swift */; };
 		B449E792209C904700341288 /* AutoQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E780209C904500341288 /* AutoQueryTests.swift */; };
-		B449E793209C904700341288 /* AutoQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E780209C904500341288 /* AutoQueryTests.swift */; };
 		B449E794209C904700341288 /* AutoQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E780209C904500341288 /* AutoQueryTests.swift */; };
 		B449E795209C904700341288 /* ServiceClientTechStacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E781209C904500341288 /* ServiceClientTechStacksTests.swift */; };
 		B449E796209C904700341288 /* ServiceClientTechStacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E781209C904500341288 /* ServiceClientTechStacksTests.swift */; };
@@ -91,6 +90,7 @@
 		B449E7D7209C94AE00341288 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449E7C0209C90E700341288 /* PromiseKit.framework */; };
 		B449E7D8209C94D400341288 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449E7C2209C914300341288 /* PromiseKit.framework */; };
 		B449E7D9209C94DE00341288 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B449E7C6209C916E00341288 /* PromiseKit.framework */; };
+		B449E7DA209C9DC300341288 /* AutoQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E780209C904500341288 /* AutoQueryTests.swift */; };
 		DD7502881C68FEDE006590AF /* ServiceStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6DA0F1BF000BD002C0205 /* ServiceStack.framework */; };
 		DD7502921C690C7A006590AF /* ServiceStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6D9F01BEFFFBE002C0205 /* ServiceStack.framework */; };
 /* End PBXBuildFile section */
@@ -505,7 +505,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = ServiceStack;
 				TargetAttributes = {
 					52D6D97B1BEFF229002C0205 = {
@@ -535,7 +535,7 @@
 					DD7502791C68FCFC006590AF = {
 						CreatedOnToolsVersion = 7.2.1;
 						LastSwiftMigration = 0920;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					DD75028C1C690C7A006590AF = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -931,9 +931,9 @@
 				B449E79F209C904700341288 /* TechStacks.dtos.swift in Sources */,
 				B449E7B7209C904700341288 /* StringExtensionsTests.swift in Sources */,
 				B449E7BA209C904700341288 /* TechStacksDtosJsonTests.swift in Sources */,
+				B449E7DA209C9DC300341288 /* AutoQueryTests.swift in Sources */,
 				B449E7AE209C904700341288 /* Template.swift in Sources */,
 				B449E7A5209C904700341288 /* DateExtensionsTests.swift in Sources */,
-				B449E793209C904700341288 /* AutoQueryTests.swift in Sources */,
 				B449E7B1209C904700341288 /* TechStacksJsonTests.swift in Sources */,
 				B449E79C209C904700341288 /* JsonTests.swift in Sources */,
 			);
@@ -1094,7 +1094,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1124,7 +1124,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1191,7 +1191,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1222,7 +1222,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1253,7 +1253,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1284,7 +1284,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1315,7 +1315,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -1347,7 +1347,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -1380,7 +1380,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1405,7 +1405,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (

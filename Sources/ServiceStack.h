@@ -5,7 +5,7 @@
 //  Created by Demis Bellot on 11/5/16.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for ServiceStack.
 FOUNDATION_EXPORT double ServiceStackVersionNumber;
