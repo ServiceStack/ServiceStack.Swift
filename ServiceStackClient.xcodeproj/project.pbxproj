@@ -49,13 +49,14 @@
 /* Begin PBXFileReference section */
 		51D154D71A7C543E00D2F2A3 /* ServiceStackClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ServiceStackClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51D154E21A7C543E00D2F2A3 /* ServiceStackClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ServiceStackClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B449E758209C8A4300341288 /* ServiceStack.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ServiceStack.plist; sourceTree = "<group>"; };
+		B449E759209C8A4300341288 /* ServiceStackTests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ServiceStackTests.plist; sourceTree = "<group>"; };
 		B44E8D2D208F8011007DF666 /* DynamicJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicJson.swift; sourceTree = "<group>"; };
 		B44E8D2E208F8011007DF666 /* JsonServiceClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonServiceClient.swift; sourceTree = "<group>"; };
 		B44E8D2F208F8011007DF666 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		B44E8D30208F8011007DF666 /* Json.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
 		B44E8D31208F8011007DF666 /* ServiceStackClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceStackClient.h; sourceTree = "<group>"; };
 		B44E8D34208F8011007DF666 /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
-		B44E8D35208F8011007DF666 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B44E8D36208F8011007DF666 /* Explore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Explore.swift; sourceTree = "<group>"; };
 		B44E8D43208F808B007DF666 /* JsonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonTests.swift; sourceTree = "<group>"; };
 		B44E8D44208F808B007DF666 /* SerializeParentChildTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializeParentChildTests.swift; sourceTree = "<group>"; };
@@ -73,7 +74,6 @@
 		B44E8D50208F808B007DF666 /* TechStacksDtosJsonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TechStacksDtosJsonTests.swift; sourceTree = "<group>"; };
 		B44E8D51208F808B007DF666 /* NativeExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeExtensionsTests.swift; sourceTree = "<group>"; };
 		B44E8D52208F808B007DF666 /* Test.dtos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.dtos.swift; sourceTree = "<group>"; };
-		B44E8D53208F808B007DF666 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B44E8D54208F808B007DF666 /* AutoQueryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoQueryTests.swift; sourceTree = "<group>"; };
 		B44E8D6A208F822E007DF666 /* license.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
 		B44E8D6B208F822E007DF666 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -109,6 +109,7 @@
 			children = (
 				B44E8D2C208F8011007DF666 /* Sources */,
 				B44E8D42208F808B007DF666 /* Tests */,
+				B449E757209C8A4300341288 /* Configs */,
 				B44E8D68208F820A007DF666 /* Deployment */,
 				51D154D81A7C543E00D2F2A3 /* Products */,
 				B44E8D6E2091CEC7007DF666 /* Frameworks */,
@@ -124,6 +125,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		B449E757209C8A4300341288 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				B449E758209C8A4300341288 /* ServiceStack.plist */,
+				B449E759209C8A4300341288 /* ServiceStackTests.plist */,
+			);
+			path = Configs;
+			sourceTree = "<group>";
+		};
 		B44E8D2C208F8011007DF666 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,18 +143,9 @@
 				B44E8D30208F8011007DF666 /* Json.swift */,
 				B44E8D2E208F8011007DF666 /* JsonServiceClient.swift */,
 				B44E8D2F208F8011007DF666 /* StringExtensions.swift */,
-				B44E8D41208F8039007DF666 /* Supporting Files */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		B44E8D41208F8039007DF666 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				B44E8D35208F8011007DF666 /* Info.plist */,
 				B44E8D31208F8011007DF666 /* ServiceStackClient.h */,
 			);
-			name = "Supporting Files";
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		B44E8D42208F808B007DF666 /* Tests */ = {
@@ -167,17 +168,8 @@
 				B44E8D52208F808B007DF666 /* Test.dtos.swift */,
 				B44E8D47208F808B007DF666 /* TestInterfaceMarkerTests.swift */,
 				B44E8D4A208F808B007DF666 /* overview.json */,
-				B44E8D67208F80A7007DF666 /* Supporting Files */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		B44E8D67208F80A7007DF666 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				B44E8D53208F808B007DF666 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		B44E8D68208F820A007DF666 /* Deployment */ = {
@@ -515,7 +507,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Configs/ServiceStack.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -544,7 +536,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Configs/ServiceStack.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -569,7 +561,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.servicestack.$(PRODUCT_NAME:rfc1034identifier)";
@@ -587,7 +579,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Configs/ServiceStackTests.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.servicestack.$(PRODUCT_NAME:rfc1034identifier)";
