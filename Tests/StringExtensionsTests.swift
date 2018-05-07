@@ -43,7 +43,7 @@ class StringExtensionsTests: XCTestCase {
     }
 
     func test_String_subscript() {
-        XCTAssertEqual("cat"[1 ..< "cat".length], "at")
+        XCTAssertEqual("cat"[1 ..< "cat".count], "at")
         XCTAssertEqual(String("cat"[0]), "c")
     }
 

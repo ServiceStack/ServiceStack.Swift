@@ -9,9 +9,7 @@
 import Foundation
 
 public extension String {
-    public var length: Int { return count }
-
-    func index(_ from: Int) -> Index {
+    public func index(_ from: Int) -> Index {
         return index(startIndex, offsetBy: from)
     }
 
@@ -52,7 +50,7 @@ public extension String {
     }
 
     public func combinePath(_ path: String) -> String {
-        return (hasSuffix("/") ? self : self + "/") + (path.hasPrefix("/") ? path[1 ..< path.length] : path)
+        return (hasSuffix("/") ? self : self + "/") + (path.hasPrefix("/") ? path[1 ..< path.count] : path)
     }
 
     public func splitOn(first: String) -> [String] {
@@ -118,16 +116,16 @@ public extension String {
 
     public func stripQuotes() -> String {
         return hasPrefix("\"") && hasSuffix("\"")
-            ? self[1 ..< self.length - 1]
+            ? self[1 ..< self.count - 1]
             : self
     }
 }
 
 extension Array {
-    func print() -> String {
+    public func print() -> String {
         var sb = ""
         for item in self {
-            if sb.length > 0 {
+            if sb.count > 0 {
                 sb += ","
             }
             sb += "\(item)"
@@ -138,14 +136,14 @@ extension Array {
 }
 
 extension Data {
-    func toUtf8String() -> String? {
+    public func toUtf8String() -> String? {
         if let str = NSString(data: self as Data, encoding: String.Encoding.utf8.rawValue) {
             return str as String
         }
         return nil
     }
 
-    func print() -> String {
+    public func print() -> String {
         return toUtf8String()!.print()
     }
 }
@@ -160,13 +158,13 @@ extension Error {
         return to
     }
 
-    var responseStatus: ResponseStatus {
+    public var responseStatus: ResponseStatus {
         return (self as NSError).responseStatus
     }
 }
 
 extension NSError {
-    var responseStatus: ResponseStatus {
+    public var responseStatus: ResponseStatus {
         let status: ResponseStatus = convertUserInfo() ?? ResponseStatus()
         if status.errorCode == nil {
             status.errorCode = code.toString()

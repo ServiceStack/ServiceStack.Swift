@@ -26,7 +26,7 @@ class DateExtensionsTests: XCTestCase {
     }
 
     func test_Can_Parse_ISO8601_Date() {
-        print("2001-01-01T00:00:00".length)
+        print("2001-01-01T00:00:00".count)
         XCTAssertEqual(Date.fromString("2001-01-01T00:00:00.0000000")!, Date(year: 2001, month: 1, day: 1))
         XCTAssertEqual(Date.fromString("2001-01-01T00:00:00.000")!, Date(year: 2001, month: 1, day: 1))
         XCTAssertEqual(Date.fromString("2001-01-01T00:00:00")!, Date(year: 2001, month: 1, day: 1))

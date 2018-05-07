@@ -80,12 +80,12 @@ public extension Date {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale?
         dateFormatter.timeZone = isUtc ? TimeZone(abbreviation: "UTC") : TimeZone.ReferenceType.default // TimeZone.ReferenceType.local
-        dateFormatter.dateFormat = string.length == 19 || (isUtc && string.length == 20)
+        dateFormatter.dateFormat = string.count == 19 || (isUtc && string.count == 20)
             ? "yyyy-MM-dd'T'HH:mm:ss"
             : "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS"
 
         return isUtc
-            ? dateFormatter.date(from: string[0 ..< string.length - 1])
+            ? dateFormatter.date(from: string[0 ..< string.count - 1])
             : dateFormatter.date(from: string)
     }
 }
