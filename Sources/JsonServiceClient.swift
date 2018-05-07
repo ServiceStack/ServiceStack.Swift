@@ -119,24 +119,24 @@ open class JsonServiceClient: ServiceClient {
         return error
     }
 
-    func getItem(map: NSDictionary, key: String) -> Any? {
-        return map[String(key[0]).lowercased() + key[1 ..< key.count]] ?? map[String(key[0]).uppercased() + key[1 ..< key.count]]
+    func getItem(map: [String: Any], key: String) -> Any? {
+        return map[key.firstLowercased()] ?? map[key.firstUppercased()]
     }
 
     func populateResponseStatusFields(errorInfo: inout [String: Any], withObject: Any) {
-        if let status = getItem(map: withObject as! NSDictionary, key: "ResponseStatus") as? NSDictionary {
-            if let errorCode = getItem(map: status, key: "errorCode") as? NSString {
-                errorInfo["errorCode"] = errorCode
-            }
-            if let message = getItem(map: status, key: "message") as? NSString {
-                errorInfo["message"] = message
-            }
-            if let stackTrace = getItem(map: status, key: "stackTrace") as? NSString {
-                errorInfo["stackTrace"] = stackTrace
-            }
-            if let errors: Any = getItem(map: status, key: "errors") {
-                errorInfo["errors"] = errors
-            }
+        guard let withObject = withObject as? [String: Any] else { return }
+        guard let status = getItem(map: withObject, key: "ResponseStatus") as? [String: Any] else { return }
+        if let errorCode = getItem(map: status, key: "errorCode") as? String {
+            errorInfo["errorCode"] = errorCode
+        }
+        if let message = getItem(map: status, key: "message") as? String {
+            errorInfo["message"] = message
+        }
+        if let stackTrace = getItem(map: status, key: "stackTrace") as? String {
+            errorInfo["stackTrace"] = stackTrace
+        }
+        if let errors: Any = getItem(map: status, key: "errors") {
+            errorInfo["errors"] = errors
         }
     }
 

@@ -51,4 +51,24 @@ class StringExtensionsTests: XCTestCase {
         XCTAssertEqual(jsonString("s\"\n    "), "\"s\\\"\\n    \"")
         XCTAssertEqual(jsonString("=== normal string ==="), "\"=== normal string ===\"")
     }
+
+    func test_First_Lowercased() {
+        XCTAssertEqual("message".firstLowercased(), "message")
+        XCTAssertEqual("Message".firstLowercased(), "message")
+        XCTAssertEqual("MEssage".firstLowercased(), "mEssage")
+        XCTAssertEqual("MESSAGE".firstLowercased(), "mESSAGE")
+        XCTAssertEqual("some message".firstLowercased(), "some message")
+        XCTAssertEqual("Some message".firstLowercased(), "some message")
+        XCTAssertEqual("Some Message".firstLowercased(), "some Message")
+    }
+
+    func test_First_Uppercased() {
+        XCTAssertEqual("message".firstUppercased(), "Message")
+        XCTAssertEqual("Message".firstUppercased(), "Message")
+        XCTAssertEqual("mEssage".firstUppercased(), "MEssage")
+        XCTAssertEqual("MESSAGE".firstUppercased(), "MESSAGE")
+        XCTAssertEqual("some message".firstUppercased(), "Some message")
+        XCTAssertEqual("some Message".firstUppercased(), "Some Message")
+        XCTAssertEqual("Some message".firstUppercased(), "Some message")
+    }
 }

@@ -119,6 +119,16 @@ public extension String {
             ? self[1 ..< self.count - 1]
             : self
     }
+
+    public func firstUppercased() -> String {
+        guard let first = first else { return "" }
+        return String(first).uppercased() + dropFirst()
+    }
+
+    public func firstLowercased() -> String {
+        guard let first = first else { return "" }
+        return String(first).lowercased() + dropFirst()
+    }
 }
 
 extension Array {
