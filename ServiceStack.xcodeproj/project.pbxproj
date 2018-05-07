@@ -1121,6 +1121,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-iOS";
 				PRODUCT_NAME = ServiceStack;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1148,6 +1149,7 @@
 				INFOPLIST_FILE = Configs/ServiceStack.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-iOS";
 				PRODUCT_NAME = ServiceStack;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1211,6 +1213,7 @@
 				INFOPLIST_FILE = Configs/ServiceStack.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-watchOS";
 				PRODUCT_NAME = ServiceStack;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1242,6 +1245,7 @@
 				INFOPLIST_FILE = Configs/ServiceStack.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-watchOS";
 				PRODUCT_NAME = ServiceStack;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1273,6 +1277,7 @@
 				INFOPLIST_FILE = Configs/ServiceStack.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-tvOS";
 				PRODUCT_NAME = ServiceStack;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1304,6 +1309,7 @@
 				INFOPLIST_FILE = Configs/ServiceStack.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-tvOS";
 				PRODUCT_NAME = ServiceStack;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1338,6 +1344,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-macOS";
 				PRODUCT_NAME = ServiceStack;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1370,6 +1377,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.ServiceStack.ServiceStack-macOS";
 				PRODUCT_NAME = ServiceStack;
 				PROVISIONING_PROFILE_SPECIFIER = "";

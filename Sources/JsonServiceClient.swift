@@ -524,7 +524,7 @@ open class JsonServiceClient: ServiceClient {
 }
 
 extension JsonServiceClient {
-    public func getData(_ url: String) throws -> Data {
+    open func getData(_ url: String) throws -> Data {
         let urlRequest = createRequest(url: resolveUrl(url), httpMethod: HttpMethods.Get)
         let dataTaskSync = createSession().dataTaskSync(request: urlRequest as URLRequest)
         lastTask = dataTaskSync.task
@@ -540,7 +540,7 @@ extension JsonServiceClient {
         return Data()
     }
 
-    public func getDataAsync(_ url: String) -> Promise<Data> {
+    open func getDataAsync(_ url: String) -> Promise<Data> {
         let urlRequest = createRequest(url: resolveUrl(url), httpMethod: HttpMethods.Get)
         let pendingPromise = Promise<Data>.pending()
 
@@ -569,7 +569,7 @@ extension URLSession {
     public typealias URLSessionDataCallback = (data: Data?, response: URLResponse?, error: Error?)
     public typealias URLSessionDataTaskSync = (task: URLSessionDataTask, callback: URLSessionDataCallback?)
 
-    public func dataTaskSync(request: URLRequest) -> URLSessionDataTaskSync {
+    open func dataTaskSync(request: URLRequest) -> URLSessionDataTaskSync {
         var callback: URLSessionDataCallback?
         let ds = DispatchSemaphore(value: 0)
         let task = dataTask(with: request as URLRequest) { data, response, error in
