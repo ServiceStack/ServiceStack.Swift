@@ -16,7 +16,7 @@ public class JObject {
     }
 
     func append(name: String, json: String?) {
-        if sb.length > 0 {
+        if sb.count > 0 {
             sb += ","
         }
         if let s = json {
@@ -278,7 +278,7 @@ extension Character: StringSerializable {
     }
 
     public static func fromString(_ string: String) -> Character? {
-        return string.length > 0 ? string[0] : nil
+        return string.count > 0 ? string[0] : nil
     }
 
     public static func fromObject(_ any: Any) -> Character? {
@@ -302,7 +302,7 @@ extension Date: StringSerializable {
 
     public static func fromString(_ string: String) -> Date? {
         let str = string.hasPrefix("\\")
-            ? string[1 ..< string.length]
+            ? string[1 ..< string.count]
             : string
         let wcfJsonPrefix = "/Date("
         if str.hasPrefix(wcfJsonPrefix) {
@@ -389,7 +389,7 @@ extension TimeInterval {
                 var secFmt = String(format: "%.7f", remainingSecs)
                 secFmt = secFmt.trimEnd("0").trimEnd(".")
                 sb += "\(secFmt)S"
-            } else if sb.length == 2 { // PT
+            } else if sb.count == 2 { // PT
                 sb += "0S"
             }
         }
@@ -412,7 +412,7 @@ extension TimeInterval {
         var seconds = 0
         var ms = 0.0
 
-        let t = string[1 ..< string.length].splitOn(first: "T") // strip P
+        let t = string[1 ..< string.count].splitOn(first: "T") // strip P
 
         let hasTime = t.count == 2
 
@@ -1385,7 +1385,7 @@ public class JArrayProperty<T: HasMetadata, P: StringSerializable>: PropertyBase
         var sb = ""
 
         for item in propValues {
-            if sb.length > 0 {
+            if sb.count > 0 {
                 sb += ","
             }
             var str: String = "null"
@@ -1435,7 +1435,7 @@ public class JOptionalArrayProperty<T: HasMetadata, P: StringSerializable>: Prop
         var sb = ""
         if let propValues = get(instance) {
             for item in propValues {
-                if sb.length > 0 {
+                if sb.count > 0 {
                     sb += ","
                 }
                 var str: String = "null"
@@ -1490,7 +1490,7 @@ public class JArrayObjectProperty<T: HasMetadata, P: JsonSerializable>: Property
         var sb = ""
 
         for item in propValues {
-            if sb.length > 0 {
+            if sb.count > 0 {
                 sb += ","
             }
             var str: String = "null"
@@ -1541,7 +1541,7 @@ public class JOptionalArrayObjectProperty<T: HasMetadata, P: JsonSerializable>: 
 
         if let propValues = get(instance) {
             for item in propValues {
-                if sb.length > 0 {
+                if sb.count > 0 {
                     sb += ","
                 }
                 var str: String = "null"
@@ -1610,7 +1610,7 @@ func jsonString(_ str: String?) -> String {
             do {
                 let encodedData = try JSONSerialization.data(withJSONObject: [s], options: JSONSerialization.WritingOptions())
                 if let encodedJson = encodedData.toUtf8String() {
-                    return encodedJson[1 ..< encodedJson.length - 1] // strip []
+                    return encodedJson[1 ..< encodedJson.count - 1] // strip []
                 }
             } catch {}
         }
