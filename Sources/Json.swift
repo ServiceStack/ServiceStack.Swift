@@ -1033,8 +1033,7 @@ public class PropertyType {
         return nil
     }
 
-    public func setValueAny(instance _: Any, value _: Any) {
-    }
+    public func setValueAny(instance _: Any, value _: Any) {}
 
     public func getValueAny(instance _: Any) -> Any? {
         return nil
@@ -1068,8 +1067,7 @@ public class PropertyBase<T: HasMetadata>: PropertyType {
         }
     }
 
-    public func setValue(instance _: T, value _: Any) {
-    }
+    public func setValue(instance _: T, value _: Any) {}
 
     public override func getValueAny(instance: Any) -> Any? {
         return getValue(instance: instance as! T)
