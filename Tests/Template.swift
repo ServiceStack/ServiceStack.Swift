@@ -30,7 +30,8 @@
                     Type<Option>.optionalProperty("name", get: { $0.name }, set: { $0.name = $1 }),
                     Type<Option>.optionalProperty("title", get: { $0.title }, set: { $0.title = $1 }),
                     Type<Option>.optionalProperty("value", get: { $0.value }, set: { $0.value = $1 }),
-            ]))
+                ]
+            ))
         }
         public func toJson() -> String {
             return Option.reflect().toJson(self)

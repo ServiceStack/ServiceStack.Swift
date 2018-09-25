@@ -1754,8 +1754,7 @@ public class TechnologyHistory: TechnologyBase {
     public var operation: String?
 }
 
-public protocol IRegisterStats {
-}
+public protocol IRegisterStats {}
 
 public enum TechnologyTier: Int {
     case ProgrammingLanguage

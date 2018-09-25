@@ -25,6 +25,6 @@ s.source_files  = "Sources/**/*"
 #s.resource_bundles = { "ServiceStack" => ["Resources/*.lproj"] }
 
 s.frameworks  = "Foundation"
-s.dependency 'PromiseKit'
+s.dependency 'PromiseKit', '6.4.1'
 
 end
