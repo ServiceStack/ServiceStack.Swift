@@ -5,6 +5,7 @@ src/JsonServiceClient/JsonServiceClient.xcodeproj/project.xcworkspace/xcuserdata
 src/ServiceStackClient/ServiceStackClient.xcodeproj/xcuserdata/*
 src/ServiceStackXCode/xcproj/
 src/ServiceStackXCode/.idea/workspace.xml
+*.log
 
 # Mac OS X
 .DS_Store
