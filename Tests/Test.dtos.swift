@@ -1445,8 +1445,7 @@ public protocol IPoco {
     var name: String? { get set }
 }
 
-public protocol IEmptyInterface {
-}
+public protocol IEmptyInterface {}
 
 public class EmptyClass {
     public required init() {}

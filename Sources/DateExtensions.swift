@@ -31,7 +31,8 @@ public extension Date {
     public func components() -> DateComponents {
         let components = NSCalendar.current.dateComponents(
             [Calendar.Component.day, Calendar.Component.month, Calendar.Component.year],
-            from: self as Date)
+            from: self as Date
+        )
 
         return components
     }
