@@ -7,7 +7,7 @@ See [Swift Add ServiceStack Reference](http://docs.servicestack.net/swift-add-se
 
 ## Install
 
-> Requires Xcode 9+ / Swift 4
+> Requires Xcode 9+ / Swift 4.2
 
 ### CocoaPods
 
@@ -17,13 +17,13 @@ In your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
 use_frameworks!
 
 # Pods for Project
-pod "ServiceStack", '~> 1.0'
+pod "ServiceStack", '~> 1.1'
 ```
 
 ### Carthage
 
 ```ruby
-github "ServiceStack/ServiceStack.Swift" ~> 1.0
+github "ServiceStack/ServiceStack.Swift" ~> 1.1
 ```
 
 ### SwiftPM
