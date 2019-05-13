@@ -760,7 +760,6 @@ public class ResponseStatus {
     public var errors: [ResponseError] = []
     public var meta: [String: String] = [:]
 }
-
 extension ResponseStatus: JsonSerializable {
     public static var typeName: String { return "ResponseStatus" }
     public static var metadata = Metadata.create([
@@ -779,7 +778,6 @@ public class ResponseError {
     public var message: String?
     public var meta: [String: String] = [:]
 }
-
 extension ResponseError: JsonSerializable {
     public static var typeName: String { return "ResponseError" }
     public static var metadata = Metadata.create([
@@ -794,11 +792,71 @@ public class ErrorResponse {
     public required init() {}
     public var responseStatus: ResponseStatus?
 }
-
 extension ErrorResponse: JsonSerializable {
     public static var typeName: String { return "ResponseError" }
     public static var metadata = Metadata.create([
         Type<ErrorResponse>.optionalObjectProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
+    ])
+}
+
+public class NavItem
+{
+    required public init(){}
+    public var label:String?
+    public var href:String?
+    public var exact:Bool?
+    public var id:String?
+    public var className:String?
+    public var iconHtml:String?
+    public var show:String?
+    public var hide:String?
+    public var children:[NavItem] = []
+    public var meta:[String:String] = [:]
+}
+extension NavItem : JsonSerializable
+{
+    public static var typeName:String { return "NavItem" }
+    public static var metadata = Metadata.create([
+        Type<NavItem>.optionalProperty("label", get: { $0.label }, set: { $0.label = $1 }),
+        Type<NavItem>.optionalProperty("href", get: { $0.href }, set: { $0.href = $1 }),
+        Type<NavItem>.optionalProperty("exact", get: { $0.exact }, set: { $0.exact = $1 }),
+        Type<NavItem>.optionalProperty("id", get: { $0.id }, set: { $0.id = $1 }),
+        Type<NavItem>.optionalProperty("className", get: { $0.className }, set: { $0.className = $1 }),
+        Type<NavItem>.optionalProperty("iconHtml", get: { $0.iconHtml }, set: { $0.iconHtml = $1 }),
+        Type<NavItem>.optionalProperty("show", get: { $0.show }, set: { $0.show = $1 }),
+        Type<NavItem>.optionalProperty("hide", get: { $0.hide }, set: { $0.hide = $1 }),
+        Type<NavItem>.arrayProperty("children", get: { $0.children }, set: { $0.children = $1 }),
+        Type<NavItem>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
+    ])
+}
+
+public class GetNavItems
+{
+    required public init(){}
+}
+extension GetNavItems : JsonSerializable
+{
+    public static var typeName:String { return "GetNavItems" }
+    public static var metadata = Metadata.create([
+    ])
+}
+
+public class GetNavItemsResponse
+{
+    required public init(){}
+    public var results:[NavItem] = []
+    public var navItemsMap:[String:[NavItem]] = [:]
+    public var meta:[String:String] = [:]
+    public var responseStatus:ResponseStatus?
+}
+extension GetNavItemsResponse : JsonSerializable
+{
+    public static var typeName:String { return "GetNavItemsResponse" }
+    public static var metadata = Metadata.create([
+        Type<GetNavItemsResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
+        Type<GetNavItemsResponse>.objectProperty("navItemsMap", get: { $0.navItemsMap }, set: { $0.navItemsMap = $1 }),
+        Type<GetNavItemsResponse>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
+        Type<GetNavItemsResponse>.optionalProperty("responseStatus", get: { $0.responseStatus }, set: { $0.responseStatus = $1 }),
     ])
 }
 
