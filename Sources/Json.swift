@@ -844,6 +844,7 @@ extension GetNavItems : JsonSerializable
 public class GetNavItemsResponse
 {
     required public init(){}
+    public var baseUrl:String?
     public var results:[NavItem] = []
     public var navItemsMap:[String:[NavItem]] = [:]
     public var meta:[String:String] = [:]
@@ -853,6 +854,7 @@ extension GetNavItemsResponse : JsonSerializable
 {
     public static var typeName:String { return "GetNavItemsResponse" }
     public static var metadata = Metadata.create([
+        Type<GetNavItemsResponse>.optionalProperty("baseUrl", get: { $0.baseUrl }, set: { $0.baseUrl = $1 }),
         Type<GetNavItemsResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),
         Type<GetNavItemsResponse>.objectProperty("navItemsMap", get: { $0.navItemsMap }, set: { $0.navItemsMap = $1 }),
         Type<GetNavItemsResponse>.objectProperty("meta", get: { $0.meta }, set: { $0.meta = $1 }),
