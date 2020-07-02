@@ -173,7 +173,7 @@ class JsonServiceClientTests: XCTestCase {
             XCTAssertEqual(status.errors[0].fieldName!, "Age")
 
             XCTAssertEqual(status.errors[1].errorCode!, "NotEmpty")
-            XCTAssertEqual(status.errors[1].message!, "'Required' should not be empty.")
+            XCTAssertEqual(status.errors[1].message!, "'Required' must not be empty.")
             XCTAssertEqual(status.errors[1].fieldName!, "Required")
 
             XCTAssertEqual(status.errors[2].errorCode!, "Email")
@@ -206,7 +206,7 @@ class JsonServiceClientTests: XCTestCase {
                 XCTAssertEqual(status.errors[0].fieldName!, "Age")
 
                 XCTAssertEqual(status.errors[1].errorCode!, "NotEmpty")
-                XCTAssertEqual(status.errors[1].message!, "'Required' should not be empty.")
+                XCTAssertEqual(status.errors[1].message!, "'Required' must not be empty.")
                 XCTAssertEqual(status.errors[1].fieldName!, "Required")
 
                 XCTAssertEqual(status.errors[2].errorCode!, "Email")
