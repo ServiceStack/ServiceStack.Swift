@@ -760,6 +760,7 @@ public class ResponseStatus {
     public var errors: [ResponseError] = []
     public var meta: [String: String] = [:]
 }
+
 extension ResponseStatus: JsonSerializable {
     public static var typeName: String { return "ResponseStatus" }
     public static var metadata = Metadata.create([
@@ -778,6 +779,7 @@ public class ResponseError {
     public var message: String?
     public var meta: [String: String] = [:]
 }
+
 extension ResponseError: JsonSerializable {
     public static var typeName: String { return "ResponseError" }
     public static var metadata = Metadata.create([
@@ -792,6 +794,7 @@ public class ErrorResponse {
     public required init() {}
     public var responseStatus: ResponseStatus?
 }
+
 extension ErrorResponse: JsonSerializable {
     public static var typeName: String { return "ResponseError" }
     public static var metadata = Metadata.create([
@@ -799,23 +802,22 @@ extension ErrorResponse: JsonSerializable {
     ])
 }
 
-public class NavItem
-{
-    required public init(){}
-    public var label:String?
-    public var href:String?
-    public var exact:Bool?
-    public var id:String?
-    public var className:String?
-    public var iconHtml:String?
-    public var show:String?
-    public var hide:String?
-    public var children:[NavItem] = []
-    public var meta:[String:String] = [:]
+public class NavItem {
+    public required init() {}
+    public var label: String?
+    public var href: String?
+    public var exact: Bool?
+    public var id: String?
+    public var className: String?
+    public var iconHtml: String?
+    public var show: String?
+    public var hide: String?
+    public var children: [NavItem] = []
+    public var meta: [String: String] = [:]
 }
-extension NavItem : JsonSerializable
-{
-    public static var typeName:String { return "NavItem" }
+
+extension NavItem: JsonSerializable {
+    public static var typeName: String { return "NavItem" }
     public static var metadata = Metadata.create([
         Type<NavItem>.optionalProperty("label", get: { $0.label }, set: { $0.label = $1 }),
         Type<NavItem>.optionalProperty("href", get: { $0.href }, set: { $0.href = $1 }),
@@ -830,29 +832,27 @@ extension NavItem : JsonSerializable
     ])
 }
 
-public class GetNavItems
-{
-    required public init(){}
+public class GetNavItems {
+    public required init() {}
 }
-extension GetNavItems : JsonSerializable
-{
-    public static var typeName:String { return "GetNavItems" }
+
+extension GetNavItems: JsonSerializable {
+    public static var typeName: String { return "GetNavItems" }
     public static var metadata = Metadata.create([
     ])
 }
 
-public class GetNavItemsResponse
-{
-    required public init(){}
-    public var baseUrl:String?
-    public var results:[NavItem] = []
-    public var navItemsMap:[String:[NavItem]] = [:]
-    public var meta:[String:String] = [:]
-    public var responseStatus:ResponseStatus?
+public class GetNavItemsResponse {
+    public required init() {}
+    public var baseUrl: String?
+    public var results: [NavItem] = []
+    public var navItemsMap: [String: [NavItem]] = [:]
+    public var meta: [String: String] = [:]
+    public var responseStatus: ResponseStatus?
 }
-extension GetNavItemsResponse : JsonSerializable
-{
-    public static var typeName:String { return "GetNavItemsResponse" }
+
+extension GetNavItemsResponse: JsonSerializable {
+    public static var typeName: String { return "GetNavItemsResponse" }
     public static var metadata = Metadata.create([
         Type<GetNavItemsResponse>.optionalProperty("baseUrl", get: { $0.baseUrl }, set: { $0.baseUrl = $1 }),
         Type<GetNavItemsResponse>.arrayProperty("results", get: { $0.results }, set: { $0.results = $1 }),

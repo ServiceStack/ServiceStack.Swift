@@ -9,7 +9,7 @@
 import Foundation
 
 public extension Date {
-    public init(dateString: String, format: String = "yyyy-MM-dd") {
+    init(dateString: String, format: String = "yyyy-MM-dd") {
         let fmt = DateFormatter()
         fmt.timeZone = NSTimeZone.default
         fmt.dateFormat = format
@@ -17,7 +17,7 @@ public extension Date {
         self.init(timeInterval: 0, since: d!)
     }
 
-    public init(year: Int, month: Int, day: Int) {
+    init(year: Int, month: Int, day: Int) {
         let c = NSDateComponents()
         c.year = year
         c.month = month
@@ -28,7 +28,7 @@ public extension Date {
         self.init(timeInterval: 0, since: d!)
     }
 
-    public func components() -> DateComponents {
+    func components() -> DateComponents {
         let components = NSCalendar.current.dateComponents(
             [Calendar.Component.day, Calendar.Component.month, Calendar.Component.year],
             from: self as Date
@@ -37,38 +37,38 @@ public extension Date {
         return components
     }
 
-    public var year: Int {
+    var year: Int {
         return components().year!
     }
 
-    public var month: Int {
+    var month: Int {
         return components().month!
     }
 
-    public var day: Int {
+    var day: Int {
         return components().day!
     }
 
-    public var shortDateString: String {
+    var shortDateString: String {
         let fmt = DateFormatter()
         fmt.timeZone = NSTimeZone.default
         fmt.dateFormat = "yyyy-MM-dd"
         return fmt.string(from: self as Date)
     }
 
-    public var dateAndTimeString: String {
+    var dateAndTimeString: String {
         let fmt = DateFormatter()
         fmt.timeZone = NSTimeZone.default
         fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return fmt.string(from: self as Date)
     }
 
-    public var jsonDate: String {
+    var jsonDate: String {
         let unixEpoch = Int64(timeIntervalSince1970 * 1000)
         return "/Date(\(unixEpoch)-0000)/"
     }
 
-    public var isoDateString: String {
+    var isoDateString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale?
         dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone?
@@ -76,7 +76,7 @@ public extension Date {
         return dateFormatter.string(from: self as Date).appendingFormat("Z")
     }
 
-    public static func fromIsoDateString(_ string: String) -> Date? {
+    static func fromIsoDateString(_ string: String) -> Date? {
         let isUtc = string.hasSuffix("Z")
         let dateFormatter = DateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale?

@@ -9,19 +9,19 @@
 import Foundation
 
 public extension String {
-    public func index(_ from: Int) -> Index {
+    func index(_ from: Int) -> Index {
         return index(startIndex, offsetBy: from)
     }
 
-    public func contains(s: String) -> Bool {
+    func contains(s: String) -> Bool {
         return (self as NSString).contains(s)
     }
 
-    public func trim() -> String {
+    func trim() -> String {
         return trimmingCharacters(in: NSCharacterSet.whitespaces)
     }
 
-    public func trimEnd(_ needle: Character) -> String {
+    func trimEnd(_ needle: Character) -> String {
         var i: Int = count - 1
 
         while i >= 0 && self[self.index(self.startIndex, offsetBy: i)] == needle {
@@ -32,32 +32,32 @@ public extension String {
         return s
     }
 
-    public subscript(i: Int) -> Character {
+    subscript(i: Int) -> Character {
         return self[index(i)]
     }
 
-    public subscript(i: Int) -> String {
+    subscript(i: Int) -> String {
         return String(self[i] as Character)
     }
 
-    public subscript(r: Range<Int>) -> String {
+    subscript(r: Range<Int>) -> String {
         let range = index(r.lowerBound) ..< index(r.upperBound)
         return String(self[range])
     }
 
-    public func urlEncode() -> String? {
+    func urlEncode() -> String? {
         return addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)
     }
 
-    public func combinePath(_ path: String) -> String {
+    func combinePath(_ path: String) -> String {
         return (hasSuffix("/") ? self : self + "/") + (path.hasPrefix("/") ? path[1 ..< path.count] : path)
     }
 
-    public func splitOn(first: String) -> [String] {
+    func splitOn(first: String) -> [String] {
         return splitOn(first: first, startIndex: 0)
     }
 
-    public func splitOn(first: String, startIndex: Int) -> [String] {
+    func splitOn(first: String, startIndex: Int) -> [String] {
         var to = [String]()
 
         let startRange = index(startIndex)
@@ -72,7 +72,7 @@ public extension String {
         return to
     }
 
-    public func splitOn(last: String) -> [String] {
+    func splitOn(last: String) -> [String] {
         var to = [String]()
         if let range = self.range(of: last, options: NSString.CompareOptions.backwards) {
             to.append(String(self[startIndex ..< range.lowerBound]))
@@ -83,56 +83,56 @@ public extension String {
         return to
     }
 
-    public func split(_ separator: String) -> [String] {
+    func split(_ separator: String) -> [String] {
         return components(separatedBy: separator)
     }
 
-    public func indexOf(_ needle: String) -> Int {
+    func indexOf(_ needle: String) -> Int {
         if let range = self.range(of: needle) {
             return distance(from: startIndex, to: range.lowerBound)
         }
         return -1
     }
 
-    public func lastIndexOf(_ needle: String) -> Int {
+    func lastIndexOf(_ needle: String) -> Int {
         if let range = self.range(of: needle, options: NSString.CompareOptions.backwards) {
             return distance(from: startIndex, to: range.lowerBound)
         }
         return -1
     }
 
-    public func replace(_ needle: String, withString: String) -> String {
+    func replace(_ needle: String, withString: String) -> String {
         return replacingOccurrences(of: needle, with: withString)
     }
 
-    public func toDouble() -> Double {
+    func toDouble() -> Double {
         return (self as NSString).doubleValue
     }
 
-    public func print() -> String {
+    func print() -> String {
         Swift.print(self)
         return self
     }
 
-    public func stripQuotes() -> String {
+    func stripQuotes() -> String {
         return hasPrefix("\"") && hasSuffix("\"")
             ? self[1 ..< self.count - 1]
             : self
     }
 
-    public func firstUppercased() -> String {
+    func firstUppercased() -> String {
         guard let first = first else { return "" }
         return String(first).uppercased() + dropFirst()
     }
 
-    public func firstLowercased() -> String {
+    func firstLowercased() -> String {
         guard let first = first else { return "" }
         return String(first).lowercased() + dropFirst()
     }
 }
 
-extension Array {
-    public func print() -> String {
+public extension Array {
+    func print() -> String {
         var sb = ""
         for item in self {
             if sb.count > 0 {
@@ -145,20 +145,20 @@ extension Array {
     }
 }
 
-extension Data {
-    public func toUtf8String() -> String? {
+public extension Data {
+    func toUtf8String() -> String? {
         if let str = NSString(data: self as Data, encoding: String.Encoding.utf8.rawValue) {
             return str as String
         }
         return nil
     }
 
-    public func print() -> String {
+    func print() -> String {
         return toUtf8String()!.print()
     }
 }
 
-extension Error {
+public extension Error {
     func convertUserInfo<T: JsonSerializable>() -> T? {
         return populateUserInfo(instance: T())
     }
@@ -168,13 +168,13 @@ extension Error {
         return to
     }
 
-    public var responseStatus: ResponseStatus {
+    var responseStatus: ResponseStatus {
         return (self as NSError).responseStatus
     }
 }
 
-extension NSError {
-    public var responseStatus: ResponseStatus {
+public extension NSError {
+    var responseStatus: ResponseStatus {
         let status: ResponseStatus = convertUserInfo() ?? ResponseStatus()
         if status.errorCode == nil {
             status.errorCode = code.toString()
