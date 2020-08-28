@@ -8,7 +8,7 @@ s.description      = <<-DESC
                         generate an native typed Swift API for your ServiceStack Services
                         DESC
 s.homepage         = "https://github.com/ServiceStack/ServiceStack.Swift"
-s.license          = 'Copyright (c) 2018 ServiceStack, Inc. All rights reserved.'
+s.license          = 'Copyright (c) 2020 ServiceStack, Inc. All rights reserved.'
 s.author           = { "ServiceStack, Inc" => "team@servicestack.com" }
 s.source           = { :git => "https://github.com/ServiceStack/ServiceStack.Swift.git", :tag => s.version.to_s }
 
