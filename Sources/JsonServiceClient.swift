@@ -21,6 +21,19 @@ public protocol IPut {}
 public protocol IDelete {}
 public protocol IPatch {}
 
+public protocol IHasSessionId {
+    var sessionId: String? { get set }
+}
+public protocol IHasBearerToken {
+    var bearerToken: String? { get set }
+}
+public protocol IMeta {
+    var meta: [String: String] { get set }
+}
+public protocol IHasVersion {
+    var version: Int? { get set }
+}
+
 public protocol ServiceClient {
     func get<T: IReturn>(_ request: T) throws -> T.Return where T: JsonSerializable
     func get<T: IReturnVoid>(_ request: T) throws -> Void where T: JsonSerializable
@@ -70,7 +83,7 @@ public protocol ServiceClient {
     func getDataAsync(_ url: String) -> Promise<Data>
 }
 
-open class JsonServiceClient: ServiceClient {
+open class JsonServiceClient: ServiceClient, IHasBearerToken, IHasSessionId, IHasVersion {
     open var baseUrl: String
     open var replyUrl: String
     open var domain: String
@@ -82,6 +95,10 @@ open class JsonServiceClient: ServiceClient {
 
     open var requestFilter: ((NSMutableURLRequest) -> Void)?
     open var responseFilter: ((URLResponse) -> Void)?
+
+    open var bearerToken: String?
+    open var sessionId: String?
+    open var version: Int?
 
     public struct Global {
         static var requestFilter: ((NSMutableURLRequest) -> Void)?
@@ -188,6 +205,8 @@ open class JsonServiceClient: ServiceClient {
     open func createUrl<T: JsonSerializable>(dto: T, query: [String: String] = [:]) -> String {
         var requestUrl = replyUrl + T.typeName
 
+        populateRequestDto(dto)
+
         var sb = ""
         for pi in T.properties {
             if let strValue = pi.jsonValueAny(instance: dto)?.stripQuotes() {
@@ -209,11 +228,30 @@ open class JsonServiceClient: ServiceClient {
         return requestUrl
     }
 
+    func populateRequestDto<T: JsonSerializable>(_ request: T) {
+        if let token = self.bearerToken, var hasToken = request as? IHasBearerToken {
+            if hasToken.bearerToken == nil {
+                hasToken.bearerToken = token
+            }
+        }
+        if let session = self.sessionId, var hasSession = request as? IHasSessionId {
+            if hasSession.sessionId == nil {
+                hasSession.sessionId = session
+            }
+        }
+        if let version = self.version, var hasVersion = request as? IHasVersion {
+            if hasVersion.version == nil {
+                hasVersion.version = version
+            }
+        }
+    }
+
     open func createRequestDto<T: JsonSerializable>(url: String, httpMethod: String, request: T?) -> NSMutableURLRequest {
         var contentType: String?
         var requestBody: Data?
 
         if let dto = request {
+            populateRequestDto(dto)
             contentType = "application/json"
             requestBody = dto.toJson().data(using: String.Encoding.utf8)
         }

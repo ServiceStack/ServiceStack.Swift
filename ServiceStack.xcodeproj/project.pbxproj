@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B16EFE524F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B16EFE424F93A7F0064D8FD /* AutoCrud.dtos.swift */; };
+		4B16EFE624F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B16EFE424F93A7F0064D8FD /* AutoCrud.dtos.swift */; };
+		4B16EFE724F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B16EFE424F93A7F0064D8FD /* AutoCrud.dtos.swift */; };
+		4B16EFE824F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B16EFE424F93A7F0064D8FD /* AutoCrud.dtos.swift */; };
 		52D6D9871BEFF229002C0205 /* ServiceStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6D97C1BEFF229002C0205 /* ServiceStack.framework */; };
 		B449E763209C8FA600341288 /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75C209C8FA500341288 /* JsonServiceClient.swift */; };
 		B449E764209C8FA600341288 /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75C209C8FA500341288 /* JsonServiceClient.swift */; };
@@ -117,6 +121,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4B16EFE424F93A7F0064D8FD /* AutoCrud.dtos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoCrud.dtos.swift; sourceTree = "<group>"; };
 		52D6D97C1BEFF229002C0205 /* ServiceStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ServiceStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6D9861BEFF229002C0205 /* ServiceStack-iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ServiceStack-iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6D9E21BEFFF6E002C0205 /* ServiceStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ServiceStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -272,6 +277,7 @@
 		8933C7831EB5B7EB000D00A4 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				4B16EFE424F93A7F0064D8FD /* AutoCrud.dtos.swift */,
 				B449E780209C904500341288 /* AutoQueryTests.swift */,
 				B449E786209C904600341288 /* DateExtensionsTests.swift */,
 				B449E782209C904500341288 /* JsonServiceClientTests.swift */,
@@ -865,6 +871,7 @@
 				B449E777209C8FA600341288 /* DateExtensions.swift in Sources */,
 				B449E763209C8FA600341288 /* JsonServiceClient.swift in Sources */,
 				B449E767209C8FA600341288 /* Explore.swift in Sources */,
+				4B16EFE524F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */,
 				B449E76F209C8FA600341288 /* DynamicJson.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -886,6 +893,7 @@
 				B449E7AD209C904700341288 /* Template.swift in Sources */,
 				B449E7A4209C904700341288 /* DateExtensionsTests.swift in Sources */,
 				B449E792209C904700341288 /* AutoQueryTests.swift in Sources */,
+				4B16EFE624F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */,
 				B449E7B0209C904700341288 /* TechStacksJsonTests.swift in Sources */,
 				B449E79B209C904700341288 /* JsonTests.swift in Sources */,
 			);
@@ -947,6 +955,7 @@
 				B449E7DA209C9DC300341288 /* AutoQueryTests.swift in Sources */,
 				B449E7AE209C904700341288 /* Template.swift in Sources */,
 				B449E7A5209C904700341288 /* DateExtensionsTests.swift in Sources */,
+				4B16EFE724F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */,
 				B449E7B1209C904700341288 /* TechStacksJsonTests.swift in Sources */,
 				B449E79C209C904700341288 /* JsonTests.swift in Sources */,
 			);
@@ -969,6 +978,7 @@
 				B449E7AF209C904700341288 /* Template.swift in Sources */,
 				B449E7A6209C904700341288 /* DateExtensionsTests.swift in Sources */,
 				B449E794209C904700341288 /* AutoQueryTests.swift in Sources */,
+				4B16EFE824F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */,
 				B449E7B2209C904700341288 /* TechStacksJsonTests.swift in Sources */,
 				B449E79D209C904700341288 /* JsonTests.swift in Sources */,
 			);
