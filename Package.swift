@@ -12,6 +12,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/mxcl/PromiseKit.git", Version(6, 8, 0)..<Version(6, 13, 2))
+//        .package(url: "https://github.com/mxcl/PromiseKit", from: Version(7, 0, 0, prereleaseIdentifiers: ["alpha", "1"]))
     ],
     targets: [
         .target(name: "ServiceStack", dependencies: ["PromiseKit"], path: "Sources"),
