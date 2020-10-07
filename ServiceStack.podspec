@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name             = "ServiceStack"
-s.version          = "1.1.3"
+s.version          = "1.1.4"
 s.summary          = "Swift ServiceStack Service Client"
 s.description      = <<-DESC
                         ServiceStack's Add ServiceStack Reference feature lets iOS developers

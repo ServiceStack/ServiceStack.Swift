@@ -104,7 +104,7 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
     
     open var ignoreCertificatesFor: [String] = []
 
-    var ignoreCert:Bool {
+    open var ignoreCert:Bool {
         set { ignoreCertificatesFor.append(baseUrl) }
         get { ignoreCertificatesFor.contains(baseUrl) }
     }
