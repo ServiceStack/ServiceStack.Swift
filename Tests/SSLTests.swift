@@ -11,6 +11,26 @@ import XCTest
 
 class SSLTests: XCTestCase {
     var client: JsonServiceClient!
+    
+    func rename_test_selfSignedHost() throws {
+        let client = JsonServiceClient(baseUrl: "https://dev.servicestack.com:5001")
+        client.ignoreCert = true
+        
+        let asyncTest = expectation(description: "asyncTest")
+
+        let request = Hello()
+        request.name = "Test"
+
+        client.postAsync(request)
+            .done { r in
+                XCTAssertEqual(r.result!, "Hello, Test!")
+                asyncTest.fulfill()
+            }.catch { _ in }
+
+        waitForExpectations(timeout: 5, handler: { error in
+            XCTAssertNil(error, "Error")
+        })
+    }
 
     func test_ignoreCert() throws {
         let client = JsonServiceClient(baseUrl: "https://dev.servicestack.com:5001")
