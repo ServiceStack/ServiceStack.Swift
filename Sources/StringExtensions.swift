@@ -9,6 +9,31 @@
 import Foundation
 
 public extension String {
+    subscript(_ range: CountableRange<Int>) -> String {
+        let start = index(startIndex, offsetBy: max(0, range.lowerBound))
+        let end = index(start, offsetBy: min(self.count - range.lowerBound,
+                                             range.upperBound - range.lowerBound))
+        return String(self[start..<end])
+    }
+
+    subscript(_ range: CountablePartialRangeFrom<Int>) -> String {
+        let start = index(startIndex, offsetBy: max(0, range.lowerBound))
+        return String(self[start...])
+    }
+
+    subscript(i: Int) -> Character {
+        return self[index(i)]
+    }
+
+    subscript(i: Int) -> String {
+        return String(self[i] as Character)
+    }
+
+    subscript(r: Range<Int>) -> String {
+        let range = index(r.lowerBound) ..< index(r.upperBound)
+        return String(self[range])
+    }
+
     func index(_ from: Int) -> Index {
         return index(startIndex, offsetBy: from)
     }
@@ -32,25 +57,32 @@ public extension String {
         return s
     }
 
-    subscript(i: Int) -> Character {
-        return self[index(i)]
-    }
-
-    subscript(i: Int) -> String {
-        return String(self[i] as Character)
-    }
-
-    subscript(r: Range<Int>) -> String {
-        let range = index(r.lowerBound) ..< index(r.upperBound)
-        return String(self[range])
-    }
-
     func urlEncode() -> String? {
         return addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)
     }
 
     func combinePath(_ path: String) -> String {
         return (hasSuffix("/") ? self : self + "/") + (path.hasPrefix("/") ? path[1 ..< path.count] : path)
+    }
+
+    func leftPart(_ needle:String) -> String {
+        let pos = self.indexOf(needle);
+        return pos == -1 ? self : self[0 ..< pos];
+    }
+
+    func lastLeftPart(_ needle:String) -> String {
+        let pos = self.lastIndexOf(needle);
+        return pos == -1 ? self : self[0 ..< pos];
+    }
+
+    func rightPart(_ needle:String) -> String {
+        let pos = self.indexOf(needle);
+        return pos == -1 ? self : self[(pos + needle.count)...];
+    }
+
+    func lastRightPart(_ needle:String) -> String {
+        let pos = self.lastIndexOf(needle);
+        return pos == -1 ? self : self[(pos + needle.count)...];
     }
 
     func splitOn(first: String) -> [String] {

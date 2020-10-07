@@ -97,8 +97,16 @@ open class JsonServiceClient: ServiceClient, IHasBearerToken, IHasSessionId, IHa
     open var responseFilter: ((URLResponse) -> Void)?
 
     open var bearerToken: String?
+    open var refreshToken: String?
     open var sessionId: String?
     open var version: Int?
+    
+    open var ignoreCertificatesFor: [String] = []
+
+    var ignoreCert:Bool {
+        set { ignoreCertificatesFor.append(baseUrl) }
+        get { ignoreCertificatesFor.contains(baseUrl) }
+    }
 
     public struct Global {
         static var requestFilter: ((NSMutableURLRequest) -> Void)?
@@ -600,6 +608,57 @@ extension JsonServiceClient {
         lastTask = task
 
         return pendingPromise.promise
+    }
+}
+
+extension JsonServiceClient: NSObject, NSURLSessionDelegate {
+    
+    public static func toHostsMap(_ urls:[String]) -> [String:Int] {
+        var to:[String:Int] = [:]
+        for hostname in urls {
+            var host = hostname
+            var port = -1
+            if host.contains("://") {
+                host = host.rightPart("://")
+            }
+            if (host.indexOf("/") >= 0) {
+                host = host.leftPart("/");
+            }
+            if (host.indexOf("?") >= 0) {
+                host = host.leftPart("?");
+            }
+            if (host.indexOf(":") >= 0) {
+                port = Int(host.rightPart(":")) ?? -1;
+                host = host.leftPart(":");
+            }
+            to[host] = port;
+        }
+        return to
+    }
+    
+    func allowHost(domain:String, port:Int) -> Bool {
+        let ignoreCerts = JsonServiceClient.toHostsMap(ignoreCertificatesFor)
+        if let allowPort = ignoreCerts[domain] {
+            return allowPort == -1 || port == allowPort
+        }
+        return false
+    }
+
+    func URLSession(session _: NSURLSession,
+                    task _: NSURLSessionTask,
+                    didReceiveChallenge challenge: NSURLAuthenticationChallenge,
+                    completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?)
+                        -> Void) {
+            
+        if allowHost(domain: challenge.protectionSpace.host,
+                     port: challenge.protectionSpace.port) {
+            completionHandler(
+                .UseCredential,
+                NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!)
+            )
+        } else {
+            completionHandler(.performDefaultHandling, nil)
+        }
     }
 }
 

@@ -11,6 +11,9 @@
 		4B16EFE624F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B16EFE424F93A7F0064D8FD /* AutoCrud.dtos.swift */; };
 		4B16EFE724F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B16EFE424F93A7F0064D8FD /* AutoCrud.dtos.swift */; };
 		4B16EFE824F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B16EFE424F93A7F0064D8FD /* AutoCrud.dtos.swift */; };
+		4B673869252E4A9300867993 /* SSLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B673868252E4A9300867993 /* SSLTests.swift */; };
+		4B67386A252E4A9300867993 /* SSLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B673868252E4A9300867993 /* SSLTests.swift */; };
+		4B67386B252E4A9300867993 /* SSLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B673868252E4A9300867993 /* SSLTests.swift */; };
 		52D6D9871BEFF229002C0205 /* ServiceStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6D97C1BEFF229002C0205 /* ServiceStack.framework */; };
 		B449E763209C8FA600341288 /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75C209C8FA500341288 /* JsonServiceClient.swift */; };
 		B449E764209C8FA600341288 /* JsonServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B449E75C209C8FA500341288 /* JsonServiceClient.swift */; };
@@ -122,6 +125,7 @@
 
 /* Begin PBXFileReference section */
 		4B16EFE424F93A7F0064D8FD /* AutoCrud.dtos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoCrud.dtos.swift; sourceTree = "<group>"; };
+		4B673868252E4A9300867993 /* SSLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSLTests.swift; sourceTree = "<group>"; };
 		52D6D97C1BEFF229002C0205 /* ServiceStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ServiceStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6D9861BEFF229002C0205 /* ServiceStack-iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ServiceStack-iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6D9E21BEFFF6E002C0205 /* ServiceStack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ServiceStack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -294,6 +298,7 @@
 				B449E77F209C904500341288 /* Test.dtos.swift */,
 				B449E785209C904600341288 /* TestInterfaceMarkerTests.swift */,
 				B449E78B209C904600341288 /* overview.json */,
+				4B673868252E4A9300867993 /* SSLTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -523,7 +528,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = ServiceStack;
 				TargetAttributes = {
 					52D6D97B1BEFF229002C0205 = {
@@ -892,6 +897,7 @@
 				B449E7B9209C904700341288 /* TechStacksDtosJsonTests.swift in Sources */,
 				B449E7AD209C904700341288 /* Template.swift in Sources */,
 				B449E7A4209C904700341288 /* DateExtensionsTests.swift in Sources */,
+				4B673869252E4A9300867993 /* SSLTests.swift in Sources */,
 				B449E792209C904700341288 /* AutoQueryTests.swift in Sources */,
 				4B16EFE624F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */,
 				B449E7B0209C904700341288 /* TechStacksJsonTests.swift in Sources */,
@@ -954,6 +960,7 @@
 				B449E7BA209C904700341288 /* TechStacksDtosJsonTests.swift in Sources */,
 				B449E7DA209C9DC300341288 /* AutoQueryTests.swift in Sources */,
 				B449E7AE209C904700341288 /* Template.swift in Sources */,
+				4B67386A252E4A9300867993 /* SSLTests.swift in Sources */,
 				B449E7A5209C904700341288 /* DateExtensionsTests.swift in Sources */,
 				4B16EFE724F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */,
 				B449E7B1209C904700341288 /* TechStacksJsonTests.swift in Sources */,
@@ -977,6 +984,7 @@
 				B449E7BB209C904700341288 /* TechStacksDtosJsonTests.swift in Sources */,
 				B449E7AF209C904700341288 /* Template.swift in Sources */,
 				B449E7A6209C904700341288 /* DateExtensionsTests.swift in Sources */,
+				4B67386B252E4A9300867993 /* SSLTests.swift in Sources */,
 				B449E794209C904700341288 /* AutoQueryTests.swift in Sources */,
 				4B16EFE824F93A7F0064D8FD /* AutoCrud.dtos.swift in Sources */,
 				B449E7B2209C904700341288 /* TechStacksJsonTests.swift in Sources */,
@@ -1028,6 +1036,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1053,7 +1062,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1088,6 +1097,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1107,7 +1117,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -1331,7 +1341,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
@@ -1367,7 +1377,7 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};
@@ -1523,7 +1533,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TVOS_DEPLOYMENT_TARGET = 9.1;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
@@ -1548,7 +1558,7 @@
 				SDKROOT = appletvos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				TVOS_DEPLOYMENT_TARGET = 9.1;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};
