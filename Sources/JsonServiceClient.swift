@@ -93,6 +93,7 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
     open var timeout: TimeInterval?
     open var cachePolicy: NSURLRequest.CachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData
 
+    open var urlSessionFactory: (() -> URLSession)?
     open var requestFilter: ((NSMutableURLRequest) -> Void)?
     open var responseFilter: ((URLResponse) -> Void)?
 
@@ -122,9 +123,11 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
     }
 
     open func createSession() -> URLSession {
-        let config = URLSessionConfiguration.default
 
-        let session = URLSession(configuration: config)
+        let session = urlSessionFactory != nil
+            ? urlSessionFactory!()
+            : URLSession(configuration: .default, delegate: self, delegateQueue: nil)
+
         return session
     }
 
