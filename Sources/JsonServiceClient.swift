@@ -83,7 +83,7 @@ public protocol ServiceClient {
     func getDataAsync(_ url: String) -> Promise<Data>
 }
 
-open class JsonServiceClient: ServiceClient, IHasBearerToken, IHasSessionId, IHasVersion {
+open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSessionId, IHasVersion {
     open var baseUrl: String
     open var replyUrl: String
     open var domain: String
@@ -611,7 +611,7 @@ extension JsonServiceClient {
     }
 }
 
-extension JsonServiceClient: NSObject, NSURLSessionDelegate {
+extension JsonServiceClient: URLSessionDelegate {
     
     public static func toHostsMap(_ urls:[String]) -> [String:Int] {
         var to:[String:Int] = [:]
@@ -644,18 +644,13 @@ extension JsonServiceClient: NSObject, NSURLSessionDelegate {
         return false
     }
 
-    func URLSession(session _: NSURLSession,
-                    task _: NSURLSessionTask,
-                    didReceiveChallenge challenge: NSURLAuthenticationChallenge,
-                    completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?)
-                        -> Void) {
+    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+
             
         if allowHost(domain: challenge.protectionSpace.host,
                      port: challenge.protectionSpace.port) {
-            completionHandler(
-                .UseCredential,
-                NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!)
-            )
+            completionHandler(.useCredential,
+                URLCredential(trust: challenge.protectionSpace.serverTrust!))
         } else {
             completionHandler(.performDefaultHandling, nil)
         }

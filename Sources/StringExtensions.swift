@@ -29,11 +29,6 @@ public extension String {
         return String(self[i] as Character)
     }
 
-    subscript(r: Range<Int>) -> String {
-        let range = index(r.lowerBound) ..< index(r.upperBound)
-        return String(self[range])
-    }
-
     func index(_ from: Int) -> Index {
         return index(startIndex, offsetBy: from)
     }
