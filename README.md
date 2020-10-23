@@ -75,7 +75,7 @@ Where if no FileName is provided, it's inferred from the host name of the remote
 
     x swift http://techstacks.io
 
-Downloads the Typed Swift DTOs for [techstacks.io](http://techstacks.io) and saves them to `techstacks.dtos.swift`. 
+Downloads the Typed Swift DTOs for [techstacks.io](http://techstacks.io) and saves them to `dtos.swift`. 
 
 Alternatively you can have it saved to a different FileName with:
 
