@@ -5,11 +5,41 @@ for updates, or [StackOverflow](http://stackoverflow.com/questions/ask) or the [
 
 See [Swift Add ServiceStack Reference](http://docs.servicestack.net/swift-add-servicestack-reference) for an overview of the Swift Support in ServiceStack.
 
-## Install
+ServiceStack's **Add ServiceStack Reference** feature lets iOS/macOS developers easily generate an native 
+typed Swift API for your ServiceStack Services using the `x` dotnet command-line tool.
 
-> Requires Xcode 9+ / Swift 4.2
+## Simple command-line utils for ServiceStack
 
-### CocoaPods
+The [x dotnet tool](https://docs.servicestack.net/dotnet-tool) provides a simple command-line UX to easily Add and Update Swift ServiceStack References.
+
+Prerequisites: Install [.NET Core](https://dotnet.microsoft.com/download).
+
+    $ dotnet tool install --global x 
+
+This will make the `x` dotnet tool available in your `$PATH` which can now be used from within a **Terminal window** at your Xcode project folder.
+
+To use the latest `JsonServiceClient` you'll need to add a reference to ServiceStack Swift library using your preferred package manager:
+
+### Xcode
+
+From Xcode 12 the Swift Package Manager is built into Xcode.
+
+Go to **File** > **Swift Packages** > **Add Package Dependency**:
+
+![](https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/dev/xcode-swift-add-package.png)
+
+Add a reference to the ServiceStack.Swift GitHub repo:
+
+    https://github.com/ServiceStack/ServiceStack.Swift
+
+![](https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/dev/xcode-add-servicestack-swift.png)
+
+After adding the dependency both [ServiceStack.Swift](https://github.com/ServiceStack/ServiceStack.Swift) and its 
+[PromiseKit](https://github.com/mxcl/PromiseKit) dependency will be added to your project:
+
+![](https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/dev/xcode-servicestack-swift-added.png)
+
+#### CocoaPods
 
 In your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
 
@@ -20,13 +50,13 @@ use_frameworks!
 pod "ServiceStack", '~> 1.1'
 ```
 
-### Carthage
+#### Carthage
 
 ```ruby
 github "ServiceStack/ServiceStack.Swift" ~> 1.1
 ```
 
-### SwiftPM
+#### SwiftPM
 
 ```swift
 package.dependencies.append(
@@ -34,42 +64,52 @@ package.dependencies.append(
 )
 ```
 
-#### Issues
+### Add a new ServiceStack Reference
 
-Please submit issues to https://github.com/ServiceStack/Issues
+To Add a new ServiceStack Reference, call `x swift` with the Base URL to a remote ServiceStack instance:
 
-## ServiceStack Xcode Plugin
+    x swift {BaseUrl}
+    x swift {BaseUrl} {FileName}
 
-ServiceStack's **Add ServiceStack Reference** feature lets iOS/OSX developers generate an native typed Swift 2.0 API for your ServiceStack Services directly from within XCode using the new [ServiceStack XCode Plugin](https://github.com/ServiceStack/ServiceStack.Swift/raw/master/dist/ServiceStackXcode.dmg) - providing a simpler, cleaner and more versatile alternative to WCF's Add Service Reference feature that reduces the burden and effort required for consuming ServiceStack Services whilst benefiting from Swift's strong-typing feedback: 
+Where if no FileName is provided, it's inferred from the host name of the remote URL, e.g:
 
-## Download ServiceStack Xcode Plugin
+    x swift http://techstacks.io
 
-[![ServiceStackXCode.dmg download](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/servicestackxcode-dmg.png)](https://github.com/ServiceStack/ServiceStack.Swift/raw/master/dist/ServiceStackXcode.dmg)
+Downloads the Typed Swift DTOs for [techstacks.io](http://techstacks.io) and saves them to `techstacks.dtos.swift`. 
 
-The ServiceStack XCode Plugin can be installed by dragging it to the XCode Plugins directory:
+Alternatively you can have it saved to a different FileName with:
 
-![ServiceStackXCode.dmg Installer](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/servicestackxcode-installer.png)
+    x swift http://techstacks.io TechStacks
 
-Once installed, developers can easily add a reference to a remote ServiceStack instance and update its typed DTO's using the new Menu options in XCode's Main Menu:
+Which instead saves the DTOs to `TechStacks.dtos.swift`.
 
-### [Add ServiceStack Reference](/add-servicestack-reference)
+`x swift` also downloads [ServiceStack's Swift Client](https://github.com/ServiceStack/ServiceStack.Swift) 
+and saves it to `JsonServiceClient.swift` which together with the Server DTOs contains all the dependencies 
+required to consume Typed Web Services in Swift.
 
-![XCode Add Reference](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/xcode-add-reference.png)
+#### Update an existing ServiceStack Reference
 
-Use the **Add ServiceStack Reference** Menu option to bring up the Add Reference XCode UI Sheet, which just like the Popup Window in VS.NET just needs the Url for your remote ServiceStack instance and the name of the file the generated Swift DTO's should be saved to:
+The easiest way to update all your Swift Server DTOs is to just call `x swift` without any arguments:
 
-![XCode Add Reference Sheet](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/xcode-add-reference-sheet.png)
+    x swift
 
-After clicking **Add Reference**, 2 files will be added to your XCode project yielding an instant typed API:
+This will go through and update all your `*.dtos.swift` Service References.
 
- - `JsonServiceClient.swift` - A Swift JSON ServiceClient with API's based on that of [the .NET JsonServiceClient](/csharp-client)
- - `{FileName}.dtos.swift` - Your Services DTO Types converted in Swift
+To Update a specific ServiceStack Reference, call `x swift` with the Filename:
 
-### Update ServiceStack Reference
+    x swift {FileName.dtos.swift}
 
-You can also customize how the Swift types are generated by uncommenting the desired option with the behavior you want, then click the **Update ServiceStack Reference** Main Menu item to fetch the latest DTO's with the updated options as seen below:
+As an example, you can Update the Server DTOs added in the previous command with:
 
-![XCode Update Reference](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/xcode-update-reference.png)
+    x swift TechStacks.dtos.swift
+
+Which also includes any 
+[Customization Options](https://docs.servicestack.net/swift-add-servicestack-reference#swift-configuration) 
+that were manually added.
+
+### Optional DTO Customizations
+
+Refer to [Swift Add ServiceStack Reference docs](http://docs.servicestack.net/swift-add-servicestack-reference) for info on additional customizations available.
 
 ### Swift Apps using ServiceStack.Swift
 
