@@ -59,9 +59,9 @@ github "ServiceStack/ServiceStack.Swift" ~> 1.1
 #### SwiftPM
 
 ```swift
-package.dependencies.append(
-    .Package(url: "ServiceStack/ServiceStack.Swift", majorVersion: 1)
-)
+dependencies: [
+    .package(url: "https://github.com/ServiceStack/ServiceStack.Swift.git", from: "1.0.0"),
+],
 ```
 
 ### Add a new ServiceStack Reference
