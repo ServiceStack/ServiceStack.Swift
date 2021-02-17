@@ -101,10 +101,10 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
     open var refreshToken: String?
     open var sessionId: String?
     open var version: Int?
-    
+
     open var ignoreCertificatesFor: [String] = []
 
-    open var ignoreCert:Bool {
+    open var ignoreCert: Bool {
         set { ignoreCertificatesFor.append(baseUrl) }
         get { ignoreCertificatesFor.contains(baseUrl) }
     }
@@ -123,7 +123,6 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
     }
 
     open func createSession() -> URLSession {
-
         let session = urlSessionFactory != nil
             ? urlSessionFactory!()
             : URLSession(configuration: .default, delegate: self, delegateQueue: nil)
@@ -615,31 +614,30 @@ extension JsonServiceClient {
 }
 
 extension JsonServiceClient: URLSessionDelegate {
-    
-    public static func toHostsMap(_ urls:[String]) -> [String:Int] {
-        var to:[String:Int] = [:]
+    public static func toHostsMap(_ urls: [String]) -> [String: Int] {
+        var to: [String: Int] = [:]
         for hostname in urls {
             var host = hostname
             var port = -1
             if host.contains("://") {
                 host = host.rightPart("://")
             }
-            if (host.indexOf("/") >= 0) {
-                host = host.leftPart("/");
+            if host.indexOf("/") >= 0 {
+                host = host.leftPart("/")
             }
-            if (host.indexOf("?") >= 0) {
-                host = host.leftPart("?");
+            if host.indexOf("?") >= 0 {
+                host = host.leftPart("?")
             }
-            if (host.indexOf(":") >= 0) {
-                port = Int(host.rightPart(":")) ?? -1;
-                host = host.leftPart(":");
+            if host.indexOf(":") >= 0 {
+                port = Int(host.rightPart(":")) ?? -1
+                host = host.leftPart(":")
             }
-            to[host] = port;
+            to[host] = port
         }
         return to
     }
-    
-    func allowHost(domain:String, port:Int) -> Bool {
+
+    func allowHost(domain: String, port: Int) -> Bool {
         let ignoreCerts = JsonServiceClient.toHostsMap(ignoreCertificatesFor)
         if let allowPort = ignoreCerts[domain] {
             return allowPort == -1 || port == allowPort
@@ -647,13 +645,11 @@ extension JsonServiceClient: URLSessionDelegate {
         return false
     }
 
-    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-
-            
+    public func urlSession(_: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         if allowHost(domain: challenge.protectionSpace.host,
                      port: challenge.protectionSpace.port) {
             completionHandler(.useCredential,
-                URLCredential(trust: challenge.protectionSpace.serverTrust!))
+                              URLCredential(trust: challenge.protectionSpace.serverTrust!))
         } else {
             completionHandler(.performDefaultHandling, nil)
         }

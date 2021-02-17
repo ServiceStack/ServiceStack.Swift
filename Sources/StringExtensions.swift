@@ -11,9 +11,9 @@ import Foundation
 public extension String {
     subscript(_ range: CountableRange<Int>) -> String {
         let start = index(startIndex, offsetBy: max(0, range.lowerBound))
-        let end = index(start, offsetBy: min(self.count - range.lowerBound,
+        let end = index(start, offsetBy: min(count - range.lowerBound,
                                              range.upperBound - range.lowerBound))
-        return String(self[start..<end])
+        return String(self[start ..< end])
     }
 
     subscript(_ range: CountablePartialRangeFrom<Int>) -> String {
@@ -60,24 +60,24 @@ public extension String {
         return (hasSuffix("/") ? self : self + "/") + (path.hasPrefix("/") ? path[1 ..< path.count] : path)
     }
 
-    func leftPart(_ needle:String) -> String {
-        let pos = self.indexOf(needle);
-        return pos == -1 ? self : self[0 ..< pos];
+    func leftPart(_ needle: String) -> String {
+        let pos = indexOf(needle)
+        return pos == -1 ? self : self[0 ..< pos]
     }
 
-    func lastLeftPart(_ needle:String) -> String {
-        let pos = self.lastIndexOf(needle);
-        return pos == -1 ? self : self[0 ..< pos];
+    func lastLeftPart(_ needle: String) -> String {
+        let pos = lastIndexOf(needle)
+        return pos == -1 ? self : self[0 ..< pos]
     }
 
-    func rightPart(_ needle:String) -> String {
-        let pos = self.indexOf(needle);
-        return pos == -1 ? self : self[(pos + needle.count)...];
+    func rightPart(_ needle: String) -> String {
+        let pos = indexOf(needle)
+        return pos == -1 ? self : self[(pos + needle.count)...]
     }
 
-    func lastRightPart(_ needle:String) -> String {
-        let pos = self.lastIndexOf(needle);
-        return pos == -1 ? self : self[(pos + needle.count)...];
+    func lastRightPart(_ needle: String) -> String {
+        let pos = lastIndexOf(needle)
+        return pos == -1 ? self : self[(pos + needle.count)...]
     }
 
     func splitOn(first: String) -> [String] {
