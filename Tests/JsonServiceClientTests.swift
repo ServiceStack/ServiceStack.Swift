@@ -111,7 +111,7 @@ class JsonServiceClientTests: XCTestCase {
             let status: ResponseStatus = responseError.convertUserInfo()!
             XCTAssertEqual(status.errorCode!, "NotFound")
             XCTAssertEqual(status.message!, "not here")
-            XCTAssertNotNil(status.stackTrace!)
+            // XCTAssertNotNil(status.stackTrace!)
         }
     }
 
@@ -139,7 +139,7 @@ class JsonServiceClientTests: XCTestCase {
                 let status: ResponseStatus = responseError.convertUserInfo()!
                 XCTAssertEqual(status.errorCode!, "NotFound")
                 XCTAssertEqual(status.message!, "not here")
-                XCTAssertNotNil(status.stackTrace!)
+                // XCTAssertNotNil(status.stackTrace!)
 
                 asyncTest.fulfill()
             }

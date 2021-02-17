@@ -11,11 +11,11 @@ import XCTest
 
 class SSLTests: XCTestCase {
     var client: JsonServiceClient!
-    
+
     func rename_test_selfSignedHost() throws {
         let client = JsonServiceClient(baseUrl: "https://dev.servicestack.com:5001")
         client.ignoreCert = true
-        
+
         let asyncTest = expectation(description: "asyncTest")
 
         let request = Hello()
@@ -44,7 +44,7 @@ class SSLTests: XCTestCase {
     func test_ignoreCertificatesFor() throws {
         let client = JsonServiceClient(baseUrl: "https://baseUrl.com")
         client.ignoreCert = true
-        client.ignoreCertificatesFor.append(contentsOf: ["https://dev.servicestack.com:5001","https://local.servicestack.com"])
+        client.ignoreCertificatesFor.append(contentsOf: ["https://dev.servicestack.com:5001", "https://local.servicestack.com"])
         let hostMap = JsonServiceClient.toHostsMap(client.ignoreCertificatesFor)
         XCTAssertEqual(hostMap.count, 3)
         XCTAssertNotNil(hostMap["baseUrl.com"])
@@ -56,4 +56,3 @@ class SSLTests: XCTestCase {
         XCTAssertNil(hostMap["notexists.servicestack.com"])
     }
 }
-
