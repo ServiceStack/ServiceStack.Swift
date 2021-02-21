@@ -1,0 +1,2549 @@
+/* Options:
+Date: 2021-02-21 05:49:09
+SwiftVersion: 5.0
+Version: 5.105
+Tip: To override a DTO option, remove "//" prefix before updating
+BaseUrl: https://www.techstacks.io
+
+//BaseClass: 
+//AddModelExtensions: True
+//AddServiceStackTypes: True
+//IncludeTypes: 
+ExcludeTypes: Authenticate,AuthenticateResponse,AssignRoles,AssignRolesResponse,UnAssignRoles,UnAssignRolesResponse,Ping,ConvertSessionToToken,GetAccessToken
+//ExcludeGenericBaseTypes: False
+//AddResponseStatus: False
+//AddImplicitVersion: 
+//AddDescriptionAsComments: True
+//InitializeCollections: True
+//TreatTypesAsStrings: 
+//DefaultImports: Foundation,ServiceStack
+*/
+
+import Foundation
+import ServiceStack
+
+public class DummyTypes : Codable
+{
+    public var post:[Post] = []
+
+    required public init(){}
+}
+
+// @Route("/orgs/{Id}", "GET")
+public class GetOrganization : IReturn, IGet, Codable
+{
+    public typealias Return = GetOrganizationResponse
+
+    public var id:Int?
+
+    required public init(){}
+}
+
+// @Route("/organizations/{Slug}", "GET")
+public class GetOrganizationBySlug : IReturn, IGet, Codable
+{
+    public typealias Return = GetOrganizationResponse
+
+    public var slug:String?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{Id}/members", "GET")
+public class GetOrganizationMembers : IReturn, IGet, Codable
+{
+    public typealias Return = GetOrganizationMembersResponse
+
+    public var id:Int?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{Id}/admin", "GET")
+public class GetOrganizationAdmin : IReturn, IGet, Codable
+{
+    public typealias Return = GetOrganizationAdminResponse
+
+    public var id:Int?
+
+    required public init(){}
+}
+
+// @Route("/orgs/posts/new", "POST")
+public class CreateOrganizationForTechnology : IReturn, IPost, Codable
+{
+    public typealias Return = CreateOrganizationForTechnologyResponse
+
+    public var technologyId:Int?
+    public var techStackId:Int?
+
+    required public init(){}
+}
+
+// @Route("/orgs", "POST")
+public class CreateOrganization : IReturn, IPost, Codable
+{
+    public typealias Return = CreateOrganizationResponse
+
+    public var name:String?
+    public var slug:String?
+    public var Description:String?
+    public var refId:Int?
+    public var refSource:String?
+    public var refUrn:String?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{Id}", "PUT")
+public class UpdateOrganization : IReturn, IPut, Codable
+{
+    public typealias Return = UpdateOrganizationResponse
+
+    public var id:Int?
+    public var slug:String?
+    public var name:String?
+    public var Description:String?
+    public var color:String?
+    public var textColor:String?
+    public var linkColor:String?
+    public var backgroundColor:String?
+    public var backgroundUrl:String?
+    public var logoUrl:String?
+    public var heroUrl:String?
+    public var lang:String?
+    public var deletePostsWithReportCount:Int?
+    public var disableInvites:Bool?
+    public var defaultPostType:String?
+    public var defaultSubscriptionPostTypes:[String] = []
+    public var postTypes:[String] = []
+    public var moderatorPostTypes:[String] = []
+    public var technologyIds:[Int] = []
+
+    required public init(){}
+}
+
+// @Route("/orgs/{Id}", "DELETE")
+public class DeleteOrganization : IReturnVoid, IDelete, Codable
+{
+    public var id:Int?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{Id}/lock", "PUT")
+public class LockOrganization : IReturnVoid, IPut, Codable
+{
+    public var id:Int?
+    public var lock:Bool?
+    public var reason:String?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/labels", "POST")
+public class AddOrganizationLabel : IReturn, IPost, Codable
+{
+    public typealias Return = OrganizationLabelResponse
+
+    public var organizationId:Int?
+    public var slug:String?
+    public var Description:String?
+    public var color:String?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/members/{Slug}", "PUT")
+public class UpdateOrganizationLabel : IReturn, IPut, Codable
+{
+    public typealias Return = OrganizationLabelResponse
+
+    public var organizationId:Int?
+    public var slug:String?
+    public var Description:String?
+    public var color:String?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/labels/{Slug}", "DELETE")
+public class RemoveOrganizationLabel : IReturnVoid, IDelete, Codable
+{
+    public var organizationId:Int?
+    public var slug:String?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/categories", "POST")
+public class AddOrganizationCategory : IReturn, IPost, Codable
+{
+    public typealias Return = AddOrganizationCategoryResponse
+
+    public var organizationId:Int?
+    public var slug:String?
+    public var name:String?
+    public var Description:String?
+    public var technologyIds:[Int] = []
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/categories/{Id}", "PUT")
+public class UpdateOrganizationCategory : IReturn, IPut, Codable
+{
+    public typealias Return = UpdateOrganizationCategoryResponse
+
+    public var organizationId:Int?
+    public var id:Int?
+    public var name:String?
+    public var slug:String?
+    public var Description:String?
+    public var technologyIds:[Int] = []
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/categories/{Id}", "DELETE")
+public class DeleteOrganizationCategory : IReturnVoid, IDelete, Codable
+{
+    public var organizationId:Int?
+    public var id:Int?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/members", "POST")
+public class AddOrganizationMember : IReturn, IPost, Codable
+{
+    public typealias Return = AddOrganizationMemberResponse
+
+    public var organizationId:Int?
+    public var userName:String?
+    public var isOwner:Bool?
+    public var isModerator:Bool?
+    public var denyPosts:Bool?
+    public var denyComments:Bool?
+    public var denyAll:Bool?
+    public var notes:String?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/members/{Id}", "PUT")
+public class UpdateOrganizationMember : IReturn, IPut, Codable
+{
+    public typealias Return = UpdateOrganizationMemberResponse
+
+    public var organizationId:Int?
+    public var userId:Int?
+    public var isOwner:Bool?
+    public var isModerator:Bool?
+    public var denyPosts:Bool?
+    public var denyComments:Bool?
+    public var denyAll:Bool?
+    public var notes:String?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/members/{UserId}", "DELETE")
+public class RemoveOrganizationMember : IReturnVoid, IDelete, Codable
+{
+    public var organizationId:Int?
+    public var userId:Int?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/members/set", "POST")
+public class SetOrganizationMembers : IReturn, IPost, Codable
+{
+    public typealias Return = SetOrganizationMembersResponse
+
+    public var organizationId:Int?
+    public var githubUserNames:[String] = []
+    public var twitterUserNames:[String] = []
+    public var emails:[String] = []
+    public var removeUnspecifiedMembers:Bool?
+    public var isOwner:Bool?
+    public var isModerator:Bool?
+    public var denyPosts:Bool?
+    public var denyComments:Bool?
+    public var denyAll:Bool?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/invites", "GET")
+public class GetOrganizationMemberInvites : IReturn, IGet, Codable
+{
+    public typealias Return = GetOrganizationMemberInvitesResponse
+
+    public var organizationId:Int?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/invites", "POST")
+public class RequestOrganizationMemberInvite : IReturn, IPost, Codable
+{
+    public typealias Return = RequestOrganizationMemberInviteResponse
+
+    public var organizationId:Int?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/invites/{UserId}", "PUT")
+public class UpdateOrganizationMemberInvite : IReturn, IPut, Codable
+{
+    public typealias Return = UpdateOrganizationMemberInviteResponse
+
+    public var organizationId:Int?
+    public var userName:String?
+    public var approve:Bool?
+    public var dismiss:Bool?
+
+    required public init(){}
+}
+
+// @Route("/posts", "GET")
+public class QueryPosts : QueryDb<Post>, IReturn, IGet
+{
+    public typealias Return = QueryResponse<Post>
+
+    public var ids:[Int] = []
+    public var organizationId:Int?
+    public var organizationIds:[Int] = []
+    public var types:[String] = []
+    public var anyTechnologyIds:[Int] = []
+    public var `is`:[String] = []
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case ids
+        case organizationId
+        case organizationIds
+        case types
+        case anyTechnologyIds
+        case `is`
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        ids = try container.decodeIfPresent([Int].self, forKey: .ids) ?? []
+        organizationId = try container.decodeIfPresent(Int.self, forKey: .organizationId)
+        organizationIds = try container.decodeIfPresent([Int].self, forKey: .organizationIds) ?? []
+        types = try container.decodeIfPresent([String].self, forKey: .types) ?? []
+        anyTechnologyIds = try container.decodeIfPresent([Int].self, forKey: .anyTechnologyIds) ?? []
+        `is` = try container.decodeIfPresent([String].self, forKey: .`is`) ?? []
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if ids.count > 0 { try container.encode(ids, forKey: .ids) }
+        if organizationId != nil { try container.encode(organizationId, forKey: .organizationId) }
+        if organizationIds.count > 0 { try container.encode(organizationIds, forKey: .organizationIds) }
+        if types.count > 0 { try container.encode(types, forKey: .types) }
+        if anyTechnologyIds.count > 0 { try container.encode(anyTechnologyIds, forKey: .anyTechnologyIds) }
+        if `is`.count > 0 { try container.encode(`is`, forKey: .`is`) }
+    }
+}
+
+// @Route("/posts/{Id}", "GET")
+public class GetPost : IReturn, IGet, Codable
+{
+    public typealias Return = GetPostResponse
+
+    public var id:Int?
+    public var include:String?
+
+    required public init(){}
+}
+
+// @Route("/posts", "POST")
+public class CreatePost : IReturn, IPost, Codable
+{
+    public typealias Return = CreatePostResponse
+
+    public var organizationId:Int?
+    public var type:PostType?
+    public var categoryId:Int?
+    public var title:String?
+    public var url:String?
+    public var imageUrl:String?
+    public var content:String?
+    public var lock:Bool?
+    public var technologyIds:[Int] = []
+    public var labels:[String] = []
+    public var fromDate:Date?
+    public var toDate:Date?
+    public var metaType:String?
+    public var meta:String?
+    public var refId:Int?
+    public var refSource:String?
+    public var refUrn:String?
+
+    required public init(){}
+}
+
+// @Route("/posts/{Id}", "PUT")
+public class UpdatePost : IReturn, IPut, Codable
+{
+    public typealias Return = UpdatePostResponse
+
+    public var id:Int?
+    public var organizationId:Int?
+    public var type:PostType?
+    public var categoryId:Int?
+    public var title:String?
+    public var url:String?
+    public var imageUrl:String?
+    public var content:String?
+    public var lock:Bool?
+    public var technologyIds:[Int] = []
+    public var labels:[String] = []
+    public var fromDate:Date?
+    public var toDate:Date?
+    public var metaType:String?
+    public var meta:String?
+
+    required public init(){}
+}
+
+// @Route("/posts/{Id}", "DELETE")
+public class DeletePost : IReturn, IDelete, Codable
+{
+    public typealias Return = DeletePostResponse
+
+    public var id:Int?
+
+    required public init(){}
+}
+
+// @Route("/posts/{Id}/lock", "PUT")
+public class LockPost : IReturnVoid, IPut, Codable
+{
+    public var id:Int?
+    public var lock:Bool?
+    public var reason:String?
+
+    required public init(){}
+}
+
+// @Route("/posts/{Id}/hide", "PUT")
+public class HidePost : IReturnVoid, IPut, Codable
+{
+    public var id:Int?
+    public var hide:Bool?
+    public var reason:String?
+
+    required public init(){}
+}
+
+// @Route("/posts/{Id}/status/{Status}", "PUT")
+public class ChangeStatusPost : IReturnVoid, IPut, Codable
+{
+    public var id:Int?
+    public var status:String?
+    public var reason:String?
+
+    required public init(){}
+}
+
+// @Route("/posts/{PostId}/report/{Id}", "POST")
+public class ActionPostReport : IReturnVoid, IPost, Codable
+{
+    public var postId:Int?
+    public var id:Int?
+    public var reportAction:ReportAction?
+
+    required public init(){}
+}
+
+// @Route("/posts/{PostId}/comments", "POST")
+public class CreatePostComment : IReturn, IPost, Codable
+{
+    public typealias Return = CreatePostCommentResponse
+
+    public var postId:Int?
+    public var replyId:Int?
+    public var content:String?
+
+    required public init(){}
+}
+
+// @Route("/posts/{PostId}/comments/{Id}", "PUT")
+public class UpdatePostComment : IReturn, IPut, Codable
+{
+    public typealias Return = UpdatePostCommentResponse
+
+    public var id:Int?
+    public var postId:Int?
+    public var content:String?
+
+    required public init(){}
+}
+
+// @Route("/posts/{PostId}/comments/{Id}", "DELETE")
+public class DeletePostComment : IReturn, IDelete, Codable
+{
+    public typealias Return = DeletePostCommentResponse
+
+    public var id:Int?
+    public var postId:Int?
+
+    required public init(){}
+}
+
+// @Route("/posts/{PostId}/comments/{PostCommentId}/report/{Id}", "POST")
+public class ActionPostCommentReport : IReturnVoid, IPost, Codable
+{
+    public var id:Int?
+    public var postCommentId:Int?
+    public var postId:Int?
+    public var reportAction:ReportAction?
+
+    required public init(){}
+}
+
+// @Route("/user/comments/votes")
+public class GetUserPostCommentVotes : IReturn, IGet, Codable
+{
+    public typealias Return = GetUserPostCommentVotesResponse
+
+    public var postId:Int?
+
+    required public init(){}
+}
+
+// @Route("/posts/{PostId}/comments/{Id}/pin", "PUT")
+public class PinPostComment : IReturn, IPut, Codable
+{
+    public typealias Return = PinPostCommentResponse
+
+    public var id:Int?
+    public var postId:Int?
+    public var pin:Bool?
+
+    required public init(){}
+}
+
+// @Route("/users/by-email")
+public class GetUsersByEmails : IReturn, IGet, Codable
+{
+    public typealias Return = GetUsersByEmailsResponse
+
+    public var emails:[String] = []
+
+    required public init(){}
+}
+
+// @Route("/user/posts/activity")
+public class GetUserPostActivity : IReturn, IGet, Codable
+{
+    public typealias Return = GetUserPostActivityResponse
+
+    required public init(){}
+}
+
+// @Route("/user/organizations")
+public class GetUserOrganizations : IReturn, IGet, Codable
+{
+    public typealias Return = GetUserOrganizationsResponse
+
+    required public init(){}
+}
+
+// @Route("/posts/{Id}/vote", "PUT")
+public class UserPostVote : IReturn, IPut, Codable
+{
+    public typealias Return = UserPostVoteResponse
+
+    public var id:Int?
+    public var weight:Int?
+
+    required public init(){}
+}
+
+// @Route("/posts/{Id}/favorite", "PUT")
+public class UserPostFavorite : IReturn, IPut, Codable
+{
+    public typealias Return = UserPostFavoriteResponse
+
+    public var id:Int?
+
+    required public init(){}
+}
+
+// @Route("/posts/{Id}/report", "PUT")
+public class UserPostReport : IReturn, IPut, Codable
+{
+    public typealias Return = UserPostReportResponse
+
+    public var id:Int?
+    public var flagType:FlagType?
+    public var reportNotes:String?
+
+    required public init(){}
+}
+
+// @Route("/posts/{PostId}/comments/{Id}", "GET")
+public class UserPostCommentVote : IReturn, IGet, Codable
+{
+    public typealias Return = UserPostCommentVoteResponse
+
+    public var id:Int?
+    public var postId:Int?
+    public var weight:Int?
+
+    required public init(){}
+}
+
+// @Route("/posts/{PostId}/comments/{Id}/report", "PUT")
+public class UserPostCommentReport : IReturn, IPut, Codable
+{
+    public typealias Return = UserPostCommentReportResponse
+
+    public var id:Int?
+    public var postId:Int?
+    public var flagType:FlagType?
+    public var reportNotes:String?
+
+    required public init(){}
+}
+
+// @Route("/prerender/{Path*}", "PUT")
+public class StorePreRender : IReturnVoid, IPut, Codable
+{
+    public var path:String?
+
+    required public init(){}
+}
+
+// @Route("/prerender/{Path*}", "GET")
+public class GetPreRender : IReturn, IGet, Codable
+{
+    public typealias Return = String
+
+    public var path:String?
+
+    required public init(){}
+}
+
+// @Route("/my-session")
+public class SessionInfo : IReturn, IGet, Codable
+{
+    public typealias Return = SessionInfoResponse
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/subscribe", "PUT")
+public class SubscribeToOrganization : IReturnVoid, IPut, Codable
+{
+    public var organizationId:Int?
+    public var postTypes:[PostType] = []
+    public var frequency:Frequency?
+
+    required public init(){}
+}
+
+// @Route("/posts/{PostId}/subscribe", "PUT")
+public class SubscribeToPost : IReturnVoid, IPut, Codable
+{
+    public var postId:Int?
+
+    required public init(){}
+}
+
+// @Route("/orgs/{OrganizationId}/subscribe", "DELETE")
+public class DeleteOrganizationSubscription : IReturnVoid, IDelete, Codable
+{
+    public var organizationId:Int?
+
+    required public init(){}
+}
+
+// @Route("/posts/{PostId}/subscribe", "DELETE")
+public class DeletePostSubscription : IReturnVoid, IDelete, Codable
+{
+    public var postId:Int?
+
+    required public init(){}
+}
+
+// @Route("/technology/{Slug}/previous-versions", "GET")
+public class GetTechnologyPreviousVersions : IReturn, IGet, Codable
+{
+    public typealias Return = GetTechnologyPreviousVersionsResponse
+
+    public var slug:String?
+
+    required public init(){}
+}
+
+// @Route("/technology", "GET")
+public class GetAllTechnologies : IReturn, IGet, Codable
+{
+    public typealias Return = GetAllTechnologiesResponse
+
+    required public init(){}
+}
+
+// @Route("/technology/search")
+// @AutoQueryViewer(DefaultSearchField="Tier", DefaultSearchText="Data", DefaultSearchType="=", Description="Explore different Technologies", IconUrl="octicon:database", Title="Find Technologies")
+public class FindTechnologies : QueryDb<Technology>, IReturn, IGet
+{
+    public typealias Return = QueryResponse<Technology>
+
+    public var name:String?
+    public var nameContains:String?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case name
+        case nameContains
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        nameContains = try container.decodeIfPresent(String.self, forKey: .nameContains)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if name != nil { try container.encode(name, forKey: .name) }
+        if nameContains != nil { try container.encode(nameContains, forKey: .nameContains) }
+    }
+}
+
+// @Route("/technology/query")
+public class QueryTechnology : QueryDb<Technology>, IReturn, IGet
+{
+    public typealias Return = QueryResponse<Technology>
+
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+// @Route("/technology/{Slug}")
+public class GetTechnology : IReturn, IRegisterStats, IGet, Codable
+{
+    public typealias Return = GetTechnologyResponse
+
+    public var slug:String?
+
+    required public init(){}
+}
+
+// @Route("/technology/{Slug}/favorites")
+public class GetTechnologyFavoriteDetails : IReturn, IGet, Codable
+{
+    public typealias Return = GetTechnologyFavoriteDetailsResponse
+
+    public var slug:String?
+
+    required public init(){}
+}
+
+// @Route("/technology", "POST")
+public class CreateTechnology : IReturn, IPost, Codable
+{
+    public typealias Return = CreateTechnologyResponse
+
+    public var name:String?
+    public var slug:String?
+    public var vendorName:String?
+    public var vendorUrl:String?
+    public var productUrl:String?
+    public var logoUrl:String?
+    public var Description:String?
+    public var isLocked:Bool?
+    public var tier:TechnologyTier?
+
+    required public init(){}
+}
+
+// @Route("/technology/{Id}", "PUT")
+public class UpdateTechnology : IReturn, IPut, Codable
+{
+    public typealias Return = UpdateTechnologyResponse
+
+    public var id:Int?
+    public var name:String?
+    public var vendorName:String?
+    public var vendorUrl:String?
+    public var productUrl:String?
+    public var logoUrl:String?
+    public var Description:String?
+    public var isLocked:Bool?
+    public var tier:TechnologyTier?
+
+    required public init(){}
+}
+
+// @Route("/technology/{Id}", "DELETE")
+public class DeleteTechnology : IReturn, IDelete, Codable
+{
+    public typealias Return = DeleteTechnologyResponse
+
+    public var id:Int?
+
+    required public init(){}
+}
+
+// @Route("/techstacks/{Slug}/previous-versions", "GET")
+public class GetTechnologyStackPreviousVersions : IReturn, IGet, Codable
+{
+    public typealias Return = GetTechnologyStackPreviousVersionsResponse
+
+    public var slug:String?
+
+    required public init(){}
+}
+
+// @Route("/pagestats/{Type}/{Slug}")
+public class GetPageStats : IReturn, IGet, Codable
+{
+    public typealias Return = GetPageStatsResponse
+
+    public var type:String?
+    public var slug:String?
+    public var id:Int?
+
+    required public init(){}
+}
+
+// @Route("/cache/clear")
+public class ClearCache : IReturn, IGet, Codable
+{
+    public typealias Return = String
+
+    required public init(){}
+}
+
+// @Route("/tasks/hourly")
+public class HourlyTask : IReturn, IGet, Codable
+{
+    public typealias Return = HourlyTaskResponse
+
+    public var force:Bool?
+
+    required public init(){}
+}
+
+// @Route("/techstacks/search")
+// @AutoQueryViewer(DefaultSearchField="Description", DefaultSearchText="ServiceStack", DefaultSearchType="Contains", Description="Explore different Technology Stacks", IconUrl="material-icons:cloud", Title="Find Technology Stacks")
+public class FindTechStacks : QueryDb<TechnologyStack>, IReturn, IGet
+{
+    public typealias Return = QueryResponse<TechnologyStack>
+
+    public var nameContains:String?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case nameContains
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        nameContains = try container.decodeIfPresent(String.self, forKey: .nameContains)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if nameContains != nil { try container.encode(nameContains, forKey: .nameContains) }
+    }
+}
+
+// @Route("/techstacks/query")
+public class QueryTechStacks : QueryDb<TechnologyStack>, IReturn, IGet
+{
+    public typealias Return = QueryResponse<TechnologyStack>
+
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+// @Route("/overview")
+public class Overview : IReturn, IGet, Codable
+{
+    public typealias Return = OverviewResponse
+
+    public var reload:Bool?
+
+    required public init(){}
+}
+
+// @Route("/app-overview")
+public class AppOverview : IReturn, IGet, Codable
+{
+    public typealias Return = AppOverviewResponse
+
+    public var reload:Bool?
+
+    required public init(){}
+}
+
+// @Route("/techstacks", "GET")
+public class GetAllTechnologyStacks : IReturn, IGet, Codable
+{
+    public typealias Return = GetAllTechnologyStacksResponse
+
+    required public init(){}
+}
+
+// @Route("/techstacks/{Slug}", "GET")
+public class GetTechnologyStack : IReturn, IRegisterStats, IGet, Codable
+{
+    public typealias Return = GetTechnologyStackResponse
+
+    public var slug:String?
+
+    required public init(){}
+}
+
+// @Route("/techstacks/{Slug}/favorites")
+public class GetTechnologyStackFavoriteDetails : IReturn, IGet, Codable
+{
+    public typealias Return = GetTechnologyStackFavoriteDetailsResponse
+
+    public var slug:String?
+
+    required public init(){}
+}
+
+// @Route("/config")
+public class GetConfig : IReturn, IGet, Codable
+{
+    public typealias Return = GetConfigResponse
+
+    required public init(){}
+}
+
+// @Route("/techstacks", "POST")
+public class CreateTechnologyStack : IReturn, IPost, Codable
+{
+    public typealias Return = CreateTechnologyStackResponse
+
+    public var name:String?
+    public var slug:String?
+    public var vendorName:String?
+    public var appUrl:String?
+    public var screenshotUrl:String?
+    public var Description:String?
+    public var details:String?
+    public var isLocked:Bool?
+    public var technologyIds:[Int] = []
+
+    required public init(){}
+}
+
+// @Route("/techstacks/{Id}", "PUT")
+public class UpdateTechnologyStack : IReturn, IPut, Codable
+{
+    public typealias Return = UpdateTechnologyStackResponse
+
+    public var id:Int?
+    public var name:String?
+    public var vendorName:String?
+    public var appUrl:String?
+    public var screenshotUrl:String?
+    public var Description:String?
+    public var details:String?
+    public var isLocked:Bool?
+    public var technologyIds:[Int] = []
+
+    required public init(){}
+}
+
+// @Route("/techstacks/{Id}", "DELETE")
+public class DeleteTechnologyStack : IReturn, IDelete, Codable
+{
+    public typealias Return = DeleteTechnologyStackResponse
+
+    public var id:Int?
+
+    required public init(){}
+}
+
+// @Route("/favorites/techtacks", "GET")
+public class GetFavoriteTechStack : IReturn, IGet, Codable
+{
+    public typealias Return = GetFavoriteTechStackResponse
+
+    public var technologyStackId:Int?
+
+    required public init(){}
+}
+
+// @Route("/favorites/techtacks/{TechnologyStackId}", "PUT")
+public class AddFavoriteTechStack : IReturn, IPut, Codable
+{
+    public typealias Return = FavoriteTechStackResponse
+
+    public var technologyStackId:Int?
+
+    required public init(){}
+}
+
+// @Route("/favorites/techtacks/{TechnologyStackId}", "DELETE")
+public class RemoveFavoriteTechStack : IReturn, IDelete, Codable
+{
+    public typealias Return = FavoriteTechStackResponse
+
+    public var technologyStackId:Int?
+
+    required public init(){}
+}
+
+// @Route("/favorites/technology", "GET")
+public class GetFavoriteTechnologies : IReturn, IGet, Codable
+{
+    public typealias Return = GetFavoriteTechnologiesResponse
+
+    public var technologyId:Int?
+
+    required public init(){}
+}
+
+// @Route("/favorites/technology/{TechnologyId}", "PUT")
+public class AddFavoriteTechnology : IReturn, IPut, Codable
+{
+    public typealias Return = FavoriteTechnologyResponse
+
+    public var technologyId:Int?
+
+    required public init(){}
+}
+
+// @Route("/favorites/technology/{TechnologyId}", "DELETE")
+public class RemoveFavoriteTechnology : IReturn, IDelete, Codable
+{
+    public typealias Return = FavoriteTechnologyResponse
+
+    public var technologyId:Int?
+
+    required public init(){}
+}
+
+// @Route("/my-feed")
+public class GetUserFeed : IReturn, IGet, Codable
+{
+    public typealias Return = GetUserFeedResponse
+
+    required public init(){}
+}
+
+// @Route("/users/karma", "GET")
+public class GetUsersKarma : IReturn, IGet, Codable
+{
+    public typealias Return = GetUsersKarmaResponse
+
+    public var userIds:[Int] = []
+
+    required public init(){}
+}
+
+// @Route("/userinfo/{UserName}")
+public class GetUserInfo : IReturn, IGet, Codable
+{
+    public typealias Return = GetUserInfoResponse
+
+    public var userName:String?
+
+    required public init(){}
+}
+
+// @Route("/users/{UserName}/avatar", "GET")
+public class UserAvatar : IGet, Codable
+{
+    public var userName:String?
+
+    required public init(){}
+}
+
+// @Route("/mq/start")
+public class MqStart : IReturn, Codable
+{
+    public typealias Return = String
+
+    required public init(){}
+}
+
+// @Route("/mq/stop")
+public class MqStop : IReturn, Codable
+{
+    public typealias Return = String
+
+    required public init(){}
+}
+
+// @Route("/mq/stats")
+public class MqStats : IReturn, Codable
+{
+    public typealias Return = String
+
+    required public init(){}
+}
+
+// @Route("/mq/status")
+public class MqStatus : IReturn, Codable
+{
+    public typealias Return = String
+
+    required public init(){}
+}
+
+// @Route("/sync/discourse/{Site}")
+public class SyncDiscourseSite : IReturn, IPost, Codable
+{
+    public typealias Return = SyncDiscourseSiteResponse
+
+    public var site:String?
+
+    required public init(){}
+}
+
+// @Route("/admin/technology/{TechnologyId}/logo")
+public class LogoUrlApproval : IReturn, IPut, Codable
+{
+    public typealias Return = LogoUrlApprovalResponse
+
+    public var technologyId:Int?
+    public var approved:Bool?
+
+    required public init(){}
+}
+
+// @Route("/admin/techstacks/{TechnologyStackId}/lock")
+public class LockTechStack : IReturn, IPut, Codable
+{
+    public typealias Return = LockStackResponse
+
+    public var technologyStackId:Int?
+    public var isLocked:Bool?
+
+    required public init(){}
+}
+
+// @Route("/admin/technology/{TechnologyId}/lock")
+public class LockTech : IReturn, IPut, Codable
+{
+    public typealias Return = LockStackResponse
+
+    public var technologyId:Int?
+    public var isLocked:Bool?
+
+    required public init(){}
+}
+
+// @Route("/email/post/{PostId}")
+public class EmailTest : IReturn, Codable
+{
+    public typealias Return = EmailTestRespoonse
+
+    public var postId:Int?
+
+    required public init(){}
+}
+
+public class ImportUser : IReturn, IPost, Codable
+{
+    public typealias Return = ImportUserResponse
+
+    public var userName:String?
+    public var email:String?
+    public var firstName:String?
+    public var lastName:String?
+    public var displayName:String?
+    public var company:String?
+    public var refSource:String?
+    public var refId:Int?
+    public var refIdStr:String?
+    public var refUrn:String?
+    public var defaultProfileUrl:String?
+    public var meta:[String:String] = [:]
+
+    required public init(){}
+}
+
+// @Route("/import/uservoice/suggestion")
+public class ImportUserVoiceSuggestion : IReturn, IPost, Codable
+{
+    public typealias Return = ImportUserVoiceSuggestionResponse
+
+    public var organizationId:Int?
+    public var url:String?
+    public var id:Int?
+    public var topicId:Int?
+    public var state:String?
+    public var title:String?
+    public var slug:String?
+    public var category:String?
+    public var text:String?
+    public var formattedText:String?
+    public var voteCount:Int?
+    public var closedAt:Date?
+    public var statusKey:String?
+    public var statusHexColor:String?
+    public var statusChangedBy:UserVoiceUser?
+    public var creator:UserVoiceUser?
+    public var response:UserVoiceComment?
+    public var createdAt:Date?
+    public var updatedAt:Date?
+
+    required public init(){}
+}
+
+// @Route("/posts/comment", "GET")
+public class QueryPostComments : QueryDb<PostComment>, IReturn, IGet
+{
+    public typealias Return = QueryResponse<PostComment>
+
+    public var userId:Int?
+    public var postId:Int?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case userId
+        case postId
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        userId = try container.decodeIfPresent(Int.self, forKey: .userId)
+        postId = try container.decodeIfPresent(Int.self, forKey: .postId)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if userId != nil { try container.encode(userId, forKey: .userId) }
+        if postId != nil { try container.encode(postId, forKey: .postId) }
+    }
+}
+
+// @Route("/admin/technology/search")
+// @AutoQueryViewer(DefaultSearchField="Tier", DefaultSearchText="Data", DefaultSearchType="=", Description="Explore different Technologies", IconUrl="octicon:database", Title="Find Technologies Admin")
+public class FindTechnologiesAdmin : QueryDb<Technology>, IReturn
+{
+    public typealias Return = QueryResponse<Technology>
+
+    public var name:String?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case name
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if name != nil { try container.encode(name, forKey: .name) }
+    }
+}
+
+public class GetOrganizationResponse : Codable
+{
+    public var cache:Int?
+    public var id:Int?
+    public var slug:String?
+    public var organization:Organization?
+    public var labels:[OrganizationLabel] = []
+    public var categories:[Category] = []
+    public var owners:[OrganizationMember] = []
+    public var moderators:[OrganizationMember] = []
+    public var membersCount:Int?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetOrganizationMembersResponse : Codable
+{
+    public var organizationId:Int?
+    public var results:[OrganizationMember] = []
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetOrganizationAdminResponse : Codable
+{
+    public var labels:[OrganizationLabel] = []
+    public var members:[OrganizationMember] = []
+    public var memberInvites:[OrganizationMemberInvite] = []
+    public var reportedPosts:[PostReportInfo] = []
+    public var reportedPostComments:[PostCommentReportInfo] = []
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class CreateOrganizationForTechnologyResponse : Codable
+{
+    public var organizationId:Int?
+    public var organizationSlug:String?
+    public var commentsPostId:Int?
+    public var commentsPostSlug:String?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class CreateOrganizationResponse : Codable
+{
+    public var id:Int?
+    public var slug:String?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class UpdateOrganizationResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class OrganizationLabelResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class AddOrganizationCategoryResponse : Codable
+{
+    public var id:Int?
+    public var slug:String?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class UpdateOrganizationCategoryResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class AddOrganizationMemberResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class UpdateOrganizationMemberResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class SetOrganizationMembersResponse : Codable
+{
+    public var userIdsAdded:[Int] = []
+    public var userIdsRemoved:[Int] = []
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetOrganizationMemberInvitesResponse : Codable
+{
+    public var results:[OrganizationMemberInvite] = []
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class RequestOrganizationMemberInviteResponse : Codable
+{
+    public var organizationId:Int?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class UpdateOrganizationMemberInviteResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+// @DataContract
+public class QueryResponse<T : Codable> : Codable
+{
+    // @DataMember(Order=1)
+    public var offset:Int?
+
+    // @DataMember(Order=2)
+    public var total:Int?
+
+    // @DataMember(Order=3)
+    public var results:[T] = []
+
+    // @DataMember(Order=4)
+    public var meta:[String:String] = [:]
+
+    // @DataMember(Order=5)
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetPostResponse : Codable
+{
+    public var cache:Int?
+    public var post:Post?
+    public var comments:[PostComment] = []
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class CreatePostResponse : Codable
+{
+    public var id:Int?
+    public var slug:String?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class UpdatePostResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class DeletePostResponse : Codable
+{
+    public var id:Int?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class CreatePostCommentResponse : Codable
+{
+    public var id:Int?
+    public var postId:Int?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class UpdatePostCommentResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class DeletePostCommentResponse : Codable
+{
+    public var id:Int?
+    public var postId:Int?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetUserPostCommentVotesResponse : Codable
+{
+    public var postId:Int?
+    public var upVotedCommentIds:[Int] = []
+    public var downVotedCommentIds:[Int] = []
+
+    required public init(){}
+}
+
+public class PinPostCommentResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetUsersByEmailsResponse : Codable
+{
+    public var results:[UserRef] = []
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetUserPostActivityResponse : Codable
+{
+    public var upVotedPostIds:[Int] = []
+    public var downVotedPostIds:[Int] = []
+    public var favoritePostIds:[Int] = []
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetUserOrganizationsResponse : Codable
+{
+    public var members:[OrganizationMember] = []
+    public var memberInvites:[OrganizationMemberInvite] = []
+    public var subscriptions:[OrganizationSubscription] = []
+
+    required public init(){}
+}
+
+public class UserPostVoteResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class UserPostFavoriteResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class UserPostReportResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class UserPostCommentVoteResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class UserPostCommentReportResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class SessionInfoResponse : Codable
+{
+    public var created:Date?
+    public var id:String?
+    public var referrerUrl:String?
+    public var userAuthId:String?
+    public var userAuthName:String?
+    public var userName:String?
+    public var displayName:String?
+    public var firstName:String?
+    public var lastName:String?
+    public var email:String?
+    public var createdAt:Date?
+    public var lastModified:Date?
+    public var roles:[String] = []
+    public var permissions:[String] = []
+    public var isAuthenticated:Bool?
+    public var authProvider:String?
+    public var profileUrl:String?
+    public var githubProfileUrl:String?
+    public var twitterProfileUrl:String?
+    public var accessToken:String?
+    public var avatarUrl:String?
+    public var techStacks:[TechnologyStack] = []
+    public var favoriteTechStacks:[TechnologyStack] = []
+    public var favoriteTechnologies:[Technology] = []
+    public var userActivity:UserActivity?
+    public var members:[OrganizationMember] = []
+    public var memberInvites:[OrganizationMemberInvite] = []
+    public var subscriptions:[OrganizationSubscription] = []
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetTechnologyPreviousVersionsResponse : Codable
+{
+    public var results:[TechnologyHistory] = []
+
+    required public init(){}
+}
+
+public class GetAllTechnologiesResponse : Codable
+{
+    public var results:[Technology] = []
+    public var total:Int?
+
+    required public init(){}
+}
+
+public class GetTechnologyResponse : Codable
+{
+    public var created:Date?
+    public var technology:Technology?
+    public var technologyStacks:[TechnologyStack] = []
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetTechnologyFavoriteDetailsResponse : Codable
+{
+    public var users:[String] = []
+    public var favoriteCount:Int?
+
+    required public init(){}
+}
+
+public class CreateTechnologyResponse : Codable
+{
+    public var result:Technology?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class UpdateTechnologyResponse : Codable
+{
+    public var result:Technology?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class DeleteTechnologyResponse : Codable
+{
+    public var result:Technology?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetTechnologyStackPreviousVersionsResponse : Codable
+{
+    public var results:[TechnologyStackHistory] = []
+
+    required public init(){}
+}
+
+public class GetPageStatsResponse : Codable
+{
+    public var type:String?
+    public var slug:String?
+    public var viewCount:Int?
+    public var favCount:Int?
+
+    required public init(){}
+}
+
+public class HourlyTaskResponse : Codable
+{
+    public var meta:[String:String] = [:]
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class OverviewResponse : Codable
+{
+    public var created:Date?
+    public var topUsers:[UserInfo] = []
+    public var topTechnologies:[TechnologyInfo] = []
+    public var latestTechStacks:[TechStackDetails] = []
+    public var popularTechStacks:[TechnologyStack] = []
+    public var allOrganizations:[OrganizationInfo] = []
+    public var topTechnologiesByTier:[String:[TechnologyInfo]] = [:]
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class AppOverviewResponse : Codable
+{
+    public var created:Date?
+    public var allTiers:[Option] = []
+    public var topTechnologies:[TechnologyInfo] = []
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetAllTechnologyStacksResponse : Codable
+{
+    public var results:[TechnologyStack] = []
+    public var total:Int?
+
+    required public init(){}
+}
+
+public class GetTechnologyStackResponse : Codable
+{
+    public var created:Date?
+    public var result:TechStackDetails?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetTechnologyStackFavoriteDetailsResponse : Codable
+{
+    public var users:[String] = []
+    public var favoriteCount:Int?
+
+    required public init(){}
+}
+
+public class GetConfigResponse : Codable
+{
+    public var allTiers:[Option] = []
+    public var allPostTypes:[Option] = []
+    public var allFlagTypes:[Option] = []
+
+    required public init(){}
+}
+
+public class CreateTechnologyStackResponse : Codable
+{
+    public var result:TechStackDetails?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class UpdateTechnologyStackResponse : Codable
+{
+    public var result:TechStackDetails?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class DeleteTechnologyStackResponse : Codable
+{
+    public var result:TechStackDetails?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetFavoriteTechStackResponse : Codable
+{
+    public var results:[TechnologyStack] = []
+
+    required public init(){}
+}
+
+public class FavoriteTechStackResponse : Codable
+{
+    public var result:TechnologyStack?
+
+    required public init(){}
+}
+
+public class GetFavoriteTechnologiesResponse : Codable
+{
+    public var results:[Technology] = []
+
+    required public init(){}
+}
+
+public class FavoriteTechnologyResponse : Codable
+{
+    public var result:Technology?
+
+    required public init(){}
+}
+
+public class GetUserFeedResponse : Codable
+{
+    public var results:[TechStackDetails] = []
+
+    required public init(){}
+}
+
+public class GetUsersKarmaResponse : Codable
+{
+    public var results:[Int:Int] = [:]
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetUserInfoResponse : Codable
+{
+    public var id:Int?
+    public var userName:String?
+    public var created:Date?
+    public var avatarUrl:String?
+    public var techStacks:[TechnologyStack] = []
+    public var favoriteTechStacks:[TechnologyStack] = []
+    public var favoriteTechnologies:[Technology] = []
+    public var userActivity:UserActivity?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class SyncDiscourseSiteResponse : Codable
+{
+    public var timeTaken:String?
+    public var userLogs:[String] = []
+    public var postsLogs:[String] = []
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class LogoUrlApprovalResponse : Codable
+{
+    public var result:Technology?
+
+    required public init(){}
+}
+
+public class LockStackResponse : Codable
+{
+    required public init(){}
+}
+
+public class EmailTestRespoonse : Codable
+{
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class ImportUserResponse : Codable
+{
+    public var id:Int?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class ImportUserVoiceSuggestionResponse : Codable
+{
+    public var postId:Int?
+    public var postSlug:String?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class Post : Codable
+{
+    public var id:Int?
+    public var organizationId:Int?
+    public var userId:Int?
+    public var type:PostType?
+    public var categoryId:Int?
+    public var title:String?
+    public var slug:String?
+    public var url:String?
+    public var imageUrl:String?
+    // @StringLength(Int32.max)
+    public var content:String?
+
+    // @StringLength(Int32.max)
+    public var contentHtml:String?
+
+    public var pinCommentId:Int?
+    public var technologyIds:[Int] = []
+    public var fromDate:Date?
+    public var toDate:Date?
+    public var location:String?
+    public var metaType:String?
+    public var meta:String?
+    public var approved:Bool?
+    public var upVotes:Int?
+    public var downVotes:Int?
+    public var points:Int?
+    public var views:Int?
+    public var favorites:Int?
+    public var subscribers:Int?
+    public var replyCount:Int?
+    public var commentsCount:Int?
+    public var wordCount:Int?
+    public var reportCount:Int?
+    public var linksCount:Int?
+    public var linkedToCount:Int?
+    public var score:Int?
+    public var rank:Int?
+    public var labels:[String] = []
+    public var refUserIds:[Int] = []
+    public var refLinks:[String] = []
+    public var muteUserIds:[Int] = []
+    public var lastCommentDate:Date?
+    public var lastCommentId:Int?
+    public var lastCommentUserId:Int?
+    public var deleted:Date?
+    public var deletedBy:String?
+    public var locked:Date?
+    public var lockedBy:String?
+    public var hidden:Date?
+    public var hiddenBy:String?
+    public var status:String?
+    public var statusDate:Date?
+    public var statusBy:String?
+    public var archived:Bool?
+    public var bumped:Date?
+    public var created:Date?
+    public var createdBy:String?
+    public var modified:Date?
+    public var modifiedBy:String?
+    public var refId:Int?
+    public var refSource:String?
+    public var refUrn:String?
+
+    required public init(){}
+}
+
+public class Organization : Codable
+{
+    public var id:Int?
+    public var name:String?
+    public var slug:String?
+    public var Description:String?
+    public var descriptionHtml:String?
+    public var color:String?
+    public var textColor:String?
+    public var linkColor:String?
+    public var backgroundColor:String?
+    public var backgroundUrl:String?
+    public var logoUrl:String?
+    public var heroUrl:String?
+    public var lang:String?
+    public var defaultPostType:String?
+    public var defaultSubscriptionPostTypes:[String] = []
+    public var postTypes:[String] = []
+    public var moderatorPostTypes:[String] = []
+    public var deletePostsWithReportCount:Int?
+    public var disableInvites:Bool?
+    public var upVotes:Int?
+    public var downVotes:Int?
+    public var views:Int?
+    public var favorites:Int?
+    public var subscribers:Int?
+    public var commentsCount:Int?
+    public var postsCount:Int?
+    public var score:Int?
+    public var rank:Int?
+    public var refId:Int?
+    public var refSource:String?
+    public var hidden:Date?
+    public var hiddenBy:String?
+    public var locked:Date?
+    public var lockedBy:String?
+    public var deleted:Date?
+    public var deletedBy:String?
+    public var created:Date?
+    public var createdBy:String?
+    public var modified:Date?
+    public var modifiedBy:String?
+
+    required public init(){}
+}
+
+public class OrganizationLabel : Codable
+{
+    public var slug:String?
+    public var organizationId:Int?
+    public var Description:String?
+    public var color:String?
+
+    required public init(){}
+}
+
+public class Category : Codable
+{
+    public var id:Int?
+    public var organizationId:Int?
+    public var name:String?
+    public var slug:String?
+    public var Description:String?
+    public var color:String?
+    public var technologyIds:[Int] = []
+    public var commentsCount:Int?
+    public var postsCount:Int?
+    public var score:Int?
+    public var rank:Int?
+
+    required public init(){}
+}
+
+public class OrganizationMember : Codable
+{
+    public var id:Int?
+    public var organizationId:Int?
+    public var userId:Int?
+    public var userName:String?
+    public var isOwner:Bool?
+    public var isModerator:Bool?
+    public var denyAll:Bool?
+    public var denyPosts:Bool?
+    public var denyComments:Bool?
+    public var notes:String?
+
+    required public init(){}
+}
+
+public class OrganizationMemberInvite : Codable
+{
+    public var id:Int?
+    public var organizationId:Int?
+    public var userId:Int?
+    public var userName:String?
+    public var dismissed:Date?
+
+    required public init(){}
+}
+
+public class PostReportInfo : Codable
+{
+    public var id:Int?
+    public var organizationId:Int?
+    public var postId:Int?
+    public var userId:Int?
+    public var userName:String?
+    public var flagType:FlagType?
+    public var reportNotes:String?
+    public var created:Date?
+    public var acknowledged:Date?
+    public var acknowledgedBy:String?
+    public var dismissed:Date?
+    public var dismissedBy:String?
+    public var title:String?
+    public var reportCount:Int?
+    public var createdBy:String?
+
+    required public init(){}
+}
+
+public class PostCommentReportInfo : Codable
+{
+    public var id:Int?
+    public var organizationId:Int?
+    public var postId:Int?
+    public var postCommentId:Int?
+    public var userId:Int?
+    public var userName:String?
+    public var flagType:FlagType?
+    public var reportNotes:String?
+    public var created:Date?
+    public var acknowledged:Date?
+    public var acknowledgedBy:String?
+    public var dismissed:Date?
+    public var dismissedBy:String?
+    public var contentHtml:String?
+    public var reportCount:Int?
+    public var createdBy:String?
+
+    required public init(){}
+}
+
+public class QueryDb<T : Codable> : QueryBase
+{
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+public class PostComment : Codable
+{
+    public var id:Int?
+    public var postId:Int?
+    public var userId:Int?
+    public var replyId:Int?
+    // @StringLength(Int32.max)
+    public var content:String?
+
+    // @StringLength(Int32.max)
+    public var contentHtml:String?
+
+    public var score:Int?
+    public var rank:Int?
+    public var upVotes:Int?
+    public var downVotes:Int?
+    public var favorites:Int?
+    public var wordCount:Int?
+    public var reportCount:Int?
+    public var deleted:Date?
+    public var hidden:Date?
+    public var modified:Date?
+    public var created:Date?
+    public var createdBy:String?
+    public var refId:Int?
+    public var refSource:String?
+    public var refUrn:String?
+
+    required public init(){}
+}
+
+public enum PostType : String, Codable
+{
+    case Announcement
+    case Post
+    case Showcase
+    case Question
+    case Request
+}
+
+public enum ReportAction : String, Codable
+{
+    case Dismiss
+    case Delete
+}
+
+public class UserRef : Codable
+{
+    public var id:Int?
+    public var userName:String?
+    public var email:String?
+    public var refId:Int?
+    public var refSource:String?
+    public var refUrn:String?
+
+    required public init(){}
+}
+
+public class OrganizationSubscription : Codable
+{
+    public var id:Int?
+    public var organizationId:Int?
+    public var userId:Int?
+    public var userName:String?
+    public var postTypes:[String] = []
+    public var frequencyDays:Int?
+    public var lastSyncedId:Int?
+    public var lastSynced:Date?
+    public var created:Date?
+
+    required public init(){}
+}
+
+public enum FlagType : String, Codable
+{
+    case Violation
+    case Spam
+    case Abusive
+    case Confidential
+    case OffTopic
+    case Other
+}
+
+public class TechnologyStack : TechnologyStackBase
+{
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+public class Technology : TechnologyBase
+{
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+public class UserActivity : Codable
+{
+    public var id:Int?
+    public var userName:String?
+    public var karma:Int?
+    public var technologyCount:Int?
+    public var techStacksCount:Int?
+    public var postsCount:Int?
+    public var postUpVotes:Int?
+    public var postDownVotes:Int?
+    public var commentUpVotes:Int?
+    public var commentDownVotes:Int?
+    public var postCommentsCount:Int?
+    public var pinnedCommentCount:Int?
+    public var postReportCount:Int?
+    public var postCommentReportCount:Int?
+    public var created:Date?
+    public var modified:Date?
+
+    required public init(){}
+}
+
+public enum Frequency : Int, Codable
+{
+    case Daily = 1
+    case Weekly = 7
+    case Monthly = 30
+    case Quarterly = 90
+}
+
+public class TechnologyHistory : TechnologyBase
+{
+    public var technologyId:Int?
+    public var operation:String?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case technologyId
+        case operation
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        technologyId = try container.decodeIfPresent(Int.self, forKey: .technologyId)
+        operation = try container.decodeIfPresent(String.self, forKey: .operation)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if technologyId != nil { try container.encode(technologyId, forKey: .technologyId) }
+        if operation != nil { try container.encode(operation, forKey: .operation) }
+    }
+}
+
+public protocol IRegisterStats
+{
+}
+
+public enum TechnologyTier : String, Codable
+{
+    case ProgrammingLanguage
+    case Client
+    case Http
+    case Server
+    case Data
+    case SoftwareInfrastructure
+    case OperatingSystem
+    case HardwareInfrastructure
+    case ThirdPartyServices
+}
+
+public class TechnologyStackHistory : TechnologyStackBase
+{
+    public var technologyStackId:Int?
+    public var operation:String?
+    public var technologyIds:[Int] = []
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case technologyStackId
+        case operation
+        case technologyIds
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        technologyStackId = try container.decodeIfPresent(Int.self, forKey: .technologyStackId)
+        operation = try container.decodeIfPresent(String.self, forKey: .operation)
+        technologyIds = try container.decodeIfPresent([Int].self, forKey: .technologyIds) ?? []
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if technologyStackId != nil { try container.encode(technologyStackId, forKey: .technologyStackId) }
+        if operation != nil { try container.encode(operation, forKey: .operation) }
+        if technologyIds.count > 0 { try container.encode(technologyIds, forKey: .technologyIds) }
+    }
+}
+
+public class UserInfo : Codable
+{
+    public var userName:String?
+    public var avatarUrl:String?
+    public var stacksCount:Int?
+
+    required public init(){}
+}
+
+public class TechnologyInfo : Codable
+{
+    public var tier:TechnologyTier?
+    public var slug:String?
+    public var name:String?
+    public var logoUrl:String?
+    public var stacksCount:Int?
+
+    required public init(){}
+}
+
+public class TechStackDetails : TechnologyStackBase
+{
+    public var technologyChoices:[TechnologyInStack] = []
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case technologyChoices
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        technologyChoices = try container.decodeIfPresent([TechnologyInStack].self, forKey: .technologyChoices) ?? []
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if technologyChoices.count > 0 { try container.encode(technologyChoices, forKey: .technologyChoices) }
+    }
+}
+
+public class OrganizationInfo : Codable
+{
+    public var id:Int?
+    public var name:String?
+    public var slug:String?
+    public var refId:Int?
+    public var refSource:String?
+    public var upVotes:Int?
+    public var downVotes:Int?
+    public var membersCount:Int?
+    public var rank:Int?
+    public var disableInvites:Bool?
+    public var lang:String?
+    public var postTypes:[String] = []
+    public var moderatorPostTypes:[String] = []
+    public var locked:Date?
+    public var labels:[LabelInfo] = []
+    public var categories:[CategoryInfo] = []
+
+    required public init(){}
+}
+
+// @DataContract
+public class Option : Codable
+{
+    // @DataMember(Name="name")
+    public var name:String?
+
+    // @DataMember(Name="title")
+    public var title:String?
+
+    // @DataMember(Name="value")
+    public var value:TechnologyTier?
+
+    required public init(){}
+}
+
+public class UserVoiceUser : Codable
+{
+    public var id:Int?
+    public var name:String?
+    public var email:String?
+    public var avatarUrl:String?
+    public var createdAt:Date?
+    public var updatedAt:Date?
+
+    required public init(){}
+}
+
+public class UserVoiceComment : Codable
+{
+    public var text:String?
+    public var formattedText:String?
+    public var createdAt:Date?
+    public var creator:UserVoiceUser?
+
+    required public init(){}
+}
+
+// @DataContract
+public class QueryBase : Codable
+{
+    // @DataMember(Order=1)
+    public var skip:Int?
+
+    // @DataMember(Order=2)
+    public var take:Int?
+
+    // @DataMember(Order=3)
+    public var orderBy:String?
+
+    // @DataMember(Order=4)
+    public var orderByDesc:String?
+
+    // @DataMember(Order=5)
+    public var include:String?
+
+    // @DataMember(Order=6)
+    public var fields:String?
+
+    // @DataMember(Order=7)
+    public var meta:[String:String] = [:]
+
+    required public init(){}
+}
+
+public class TechnologyStackBase : Codable
+{
+    public var id:Int?
+    public var name:String?
+    public var vendorName:String?
+    public var Description:String?
+    public var appUrl:String?
+    public var screenshotUrl:String?
+    public var created:Date?
+    public var createdBy:String?
+    public var lastModified:Date?
+    public var lastModifiedBy:String?
+    public var isLocked:Bool?
+    public var ownerId:String?
+    public var slug:String?
+    // @StringLength(Int32.max)
+    public var details:String?
+
+    // @StringLength(Int32.max)
+    public var detailsHtml:String?
+
+    public var lastStatusUpdate:Date?
+    public var organizationId:Int?
+    public var commentsPostId:Int?
+    public var viewCount:Int?
+    public var favCount:Int?
+
+    required public init(){}
+}
+
+public class TechnologyBase : Codable
+{
+    public var id:Int?
+    public var name:String?
+    public var vendorName:String?
+    public var vendorUrl:String?
+    public var productUrl:String?
+    public var logoUrl:String?
+    public var Description:String?
+    public var created:Date?
+    public var createdBy:String?
+    public var lastModified:Date?
+    public var lastModifiedBy:String?
+    public var ownerId:String?
+    public var slug:String?
+    public var logoApproved:Bool?
+    public var isLocked:Bool?
+    public var tier:TechnologyTier?
+    public var lastStatusUpdate:Date?
+    public var organizationId:Int?
+    public var commentsPostId:Int?
+    public var viewCount:Int?
+    public var favCount:Int?
+
+    required public init(){}
+}
+
+public class TechnologyInStack : TechnologyBase
+{
+    public var technologyId:Int?
+    public var technologyStackId:Int?
+    public var justification:String?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case technologyId
+        case technologyStackId
+        case justification
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        technologyId = try container.decodeIfPresent(Int.self, forKey: .technologyId)
+        technologyStackId = try container.decodeIfPresent(Int.self, forKey: .technologyStackId)
+        justification = try container.decodeIfPresent(String.self, forKey: .justification)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if technologyId != nil { try container.encode(technologyId, forKey: .technologyId) }
+        if technologyStackId != nil { try container.encode(technologyStackId, forKey: .technologyStackId) }
+        if justification != nil { try container.encode(justification, forKey: .justification) }
+    }
+}
+
+public class LabelInfo : Codable
+{
+    public var slug:String?
+    public var color:String?
+
+    required public init(){}
+}
+
+public class CategoryInfo : Codable
+{
+    public var id:Int?
+    public var name:String?
+    public var slug:String?
+
+    required public init(){}
+}
+
+
