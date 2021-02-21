@@ -43,7 +43,8 @@ After adding the dependency both [ServiceStack.Swift](https://github.com/Service
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/ServiceStack/ServiceStack.Swift.git", from: "5.0.0"),
+    .package(name: "ServiceStack", url: "https://github.com/ServiceStack/ServiceStack.Swift.git", 
+        Version(5,0,0)..<Version(6,0,0)),
 ],
 ```
 
@@ -75,7 +76,8 @@ To use a `JsonServiceStack` with DTOs generated earlier ServiceStack versions yo
 
 ```swift
 dependencies: [
-    .package(name: "ServiceStack", url: "https://github.com/ServiceStack/ServiceStack.Swift.git", Version(5,0,0)..<Version(6,0,0)),
+    .package(name: "ServiceStack", url: "https://github.com/ServiceStack/ServiceStack.Swift.git", 
+        Version(1,0,0)..<Version(2,0,0)),
 ],
 ```
 
