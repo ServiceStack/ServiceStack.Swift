@@ -39,6 +39,14 @@ After adding the dependency both [ServiceStack.Swift](https://github.com/Service
 
 ![](https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/dev/xcode-servicestack-swift-added.png)
 
+#### SwiftPM
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/ServiceStack/ServiceStack.Swift.git", from: "5.0.0"),
+],
+```
+
 #### CocoaPods
 
 In your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
@@ -56,26 +64,18 @@ pod "ServiceStack", '~> 5.0'
 github "ServiceStack/ServiceStack.Swift" ~> 5.0
 ```
 
-#### SwiftPM
-
-```swift
-dependencies: [
-    .package(url: "https://github.com/ServiceStack/ServiceStack.Swift.git", from: "5.0.0"),
-],
-```
-
-### Swift v5.0.0
+### v5.0.0 Release
 
 The latest **v5** support for ServiceStack.Swift has been rewritten to use **Swift 5** and DTOs generated using Swift's new `Codable` 
 available in ServiceStack from **v5.10.5+**.
 
-### Previous Version
+#### Previous Version
 
 To use a `JsonServiceStack` with DTOs generated earlier ServiceStack versions you'll need to reference the older **1.x** client version instead:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/ServiceStack/ServiceStack.Swift.git", versions: Version(1,0,0)..<Version(2,0,0)),
+    .package(name: "ServiceStack", url: "https://github.com/ServiceStack/ServiceStack.Swift.git", Version(5,0,0)..<Version(6,0,0)),
 ],
 ```
 
