@@ -83,6 +83,22 @@ class JsonTests: XCTestCase {
 
         XCTAssertEqual("http://test.servicestack.net/json/reply/TestDateTime?dateTime=" + "/Date(978310861000-0000)/".urlEncode()!, url)
     }
+    
+    func test_can_Deserialize_DTO_with_keywords() {
+        let dto = Keywords()
+        dto.name = "name"
+        dto.Description = "description"
+        dto.Is = "is"
+        
+        let json = toJson(dto)
+        XCTAssertEqual(json,"{\"name\":\"name\",\"Is\":\"is\",\"Description\":\"description\"}")
+        
+        let defaultJson = "{\"name\":\"name\",\"is\":\"is\",\"description\":\"description\"}"
+        let defaultDto = fromJson(Keywords.self, defaultJson)!
+        XCTAssertEqual(defaultDto.name, dto.name)
+        XCTAssertEqual(defaultDto.Description, dto.Description)
+        XCTAssertEqual(defaultDto.Is, dto.Is)
+    }
 }
 
 public class TestDateTime: IReturn, Codable {
@@ -90,4 +106,10 @@ public class TestDateTime: IReturn, Codable {
 
     public required init() {}
     public var dateTime: Date?
+}
+
+public class Keywords : Codable {
+    public var name: String?
+    public var Description: String?
+    public var Is: String?
 }

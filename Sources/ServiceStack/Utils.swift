@@ -251,6 +251,13 @@ public class JsonConfig {
         }
         return encoder
     }
+    
+    public static var keywords = [
+        "class", "deinit", "description", "enum", "extension", "func", "import", "init", "let", "protocol", "static",
+        "struct", "subscript", "typealias", "associatedtype", "var", "break", "case", "continue", "default", "do",
+        "else", "fallthrough", "if", "in", "for", "return", "switch", "where", "while", "dynamicType", "is", "new",
+        "super", "self", "didSet", "get", "infix", "inout", "left", "mutating", "none", "nonmutating", "operator",
+        "override", "postfix", "precedence", "prefix", "right", "set", "unowned", "weak", "willSet"]
 
     public static func createDecoder() -> JSONDecoder {
         let decoder = JSONDecoder()
@@ -262,9 +269,12 @@ public class JsonConfig {
             }
             //remove _ prefix from @propertyWrapper properties
             let keyString = lastKey.stringValue
-//            print(keyString)
             if keyString.starts(with: "_") {
                 return AnyKey(stringValue: String(keyString.dropFirst())) ?? lastKey
+            }
+            if keywords.contains(keyString) {
+                let useKey = keyString.prefix(1).uppercased() + keyString.dropFirst()
+                return AnyKey(stringValue:useKey) ?? lastKey
             }
             return lastKey
         }
