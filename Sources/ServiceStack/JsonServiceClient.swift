@@ -54,8 +54,11 @@ public protocol ServiceClient {
     func send<T: Codable>(intoResponse: T, request: NSMutableURLRequest) throws -> T
     func sendAsync<T: Codable>(intoResponse: T, request: NSMutableURLRequest) -> Promise<T>
 
-    func getData(_ url: String) throws -> Data
-    func getDataAsync(_ url: String) -> Promise<Data>
+    func getData(url: String) throws -> (Data, HTTPURLResponse)
+    func getDataAsync(url: String) -> Promise<(Data, HTTPURLResponse)>
+    func getData(request: URLRequest, retryIf:((HTTPURLResponse) -> Bool)?) throws -> (Data, HTTPURLResponse)
+    func getDataAsync(request: URLRequest, retryIf:((HTTPURLResponse) -> Promise<Bool>)?) -> Promise<(Data, HTTPURLResponse)>
+
     func getCookies() -> [String:String]
     func getTokenCookie() -> String?
     func getRefreshTokenCookie() -> String?
@@ -274,58 +277,161 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
 
         return req
     }
+    
+    func retryAfterReauth(response: HTTPURLResponse) -> Bool {
+        if response.statusCode == 401 {
+            let hasRefreshTokenCookie = self.getRefreshTokenCookie() != nil
+            if self.refreshToken != nil || hasRefreshTokenCookie {
+                return self.fetchNewAccessToken()
+            }
+        }
+        return false
+    }
+
+    func retryAfterReauthAsync(response: HTTPURLResponse) -> Promise<Bool> {
+        if response.statusCode == 401 {
+            let hasRefreshTokenCookie = self.getRefreshTokenCookie() != nil
+            if self.refreshToken != nil || hasRefreshTokenCookie {
+                return self.fetchNewAccessTokenAsync()
+            }
+        }
+        return Promise<Bool> { seal in seal.fulfill(false) }
+    }
 
     @discardableResult
     open func send<T: Codable>(intoResponse: T, request: NSMutableURLRequest) throws -> T {
+        let (data, response) = try getData(request: request as URLRequest, retryIf: retryAfterReauth)
+        if data.isEmpty {
+            return Factory<T>.create()
+        }
+        let dto = try handleResponse(intoResponse: intoResponse, data: data, response: response)
+        return dto
+    }
+    
+    open func getData(url: String) throws -> (Data, HTTPURLResponse) {
+        let urlRequest = createRequest(url: resolveUrl(url), httpMethod: HttpMethods.Get)
+        return try getData(request: urlRequest as URLRequest)
+    }
+
+    open func getData(request: URLRequest, retryIf:((HTTPURLResponse) -> Bool)? = nil) throws -> (Data, HTTPURLResponse) {
         let dataTaskSync = createSession().dataTaskSync(request: request as URLRequest)
         lastTask = dataTaskSync.task
+        let cb = dataTaskSync.callback
 
-        if dataTaskSync.callback?.response == nil {
-            if let error = dataTaskSync.callback?.error {
+        if cb?.response == nil {
+            if let error = cb?.error {
                 throw error
             }
-            return Factory<T>.create()
+            return (Data(), HTTPURLResponse())
         }
 
         var error: NSError? = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
-        if let data = dataTaskSync.callback?.data,
-           let response = dataTaskSync.callback?.response {
-            let dto = try self.handleResponse(intoResponse: intoResponse, data: data, response: response, error: &error)
-            return dto
+        if let data = cb?.data, let response = cb?.response as? HTTPURLResponse {
+            if let ex = self.createIfError(response, data, error: &error) {
+                if let fn = retryIf {
+                    let success = fn(response)
+                    if success {
+                        return try getData(request: request)
+                    }
+                }
+                throw ex
+            }
+            return (data, response)
         }
 
-        return Factory<T>.create()
+        return (Data(), HTTPURLResponse())
+    }
+    
+    open func fetchNewAccessToken() -> Bool {
+        let jwtRequest = GetAccessToken()
+        jwtRequest.refreshToken = self.refreshToken
+        let request = self.createRequestDto(
+            url: self.replyUrl.combinePath(Reflect<GetAccessToken>.typeName),
+            httpMethod: HttpMethods.Post,
+            request: jwtRequest)
+        do {
+            let (data, response) = try getData(request: request as URLRequest)
+            let dto = try handleResponse(intoResponse: GetAccessTokenResponse(), data: data, response: response)
+            self.bearerToken = dto.accessToken
+            return true
+        } catch let e {
+            Log.debug("\(e)")
+            return false
+        }
     }
 
     @discardableResult
     open func sendAsync<T: Codable>(intoResponse: T, request: NSMutableURLRequest) -> Promise<T> {
-        let pendingPromise = Promise<T>.pending()
-        let task = createSession().dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil {
-                pendingPromise.resolver.reject(self.handleError(nsError: error! as NSError))
-            } else {
-                var error: NSError? = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
-                do {
-                    if let data = data,
-                       let response = response {
-                        
-                        let nsResponse = response as! HTTPURLResponse
-                        if let ex = self.createIfError(nsResponse, data, error: &error) {
-                            pendingPromise.resolver.reject(ex)
+        return getDataAsync(request: request as URLRequest, retryIf: retryAfterReauthAsync)
+            .map { (data,response) in
+                let dto = try self.handleResponse(intoResponse: intoResponse, data: data, response: response)
+                return dto
+            }
+    }
+    
+    open func getDataAsync(request: URLRequest, retryIf:((HTTPURLResponse) -> Promise<Bool>)? = nil) -> Promise<(Data, HTTPURLResponse)> {
+        return Promise { seal in
+            let task = createSession().dataTask(with: request as URLRequest) { data, response, error in
+                if let error = error {
+                    seal.reject(self.handleError(nsError: error as NSError))
+                } else if let response = response as? HTTPURLResponse, let data = data {
+                    var error: NSError? = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
+                    if let ex = self.createIfError(response, data, error: &error) {
+                        if let fn = retryIf {
+                            _ = fn(response).done { success in
+                                if success {
+                                    self.getDataAsync(request: request)
+                                        .done { (response,data) in
+                                            seal.fulfill((response,data))
+                                        }.catch { retryEx in
+                                            seal.reject(retryEx)
+                                        }
+                                } else {
+                                    seal.reject(ex)
+                                }
+                            }
                         } else {
-                            let dto = try self.handleResponse(intoResponse: intoResponse, data: data, response: response)
-                            pendingPromise.resolver.fulfill(dto)
+                            seal.reject(ex)
                         }
+                    } else {
+                        seal.fulfill((data, response))
                     }
-                } catch let e {
-                    pendingPromise.resolver.reject(e)
+                } else {
+                    seal.fulfill((Data(), response as? HTTPURLResponse ?? HTTPURLResponse()))
                 }
             }
+            lastTask = task
+            task.resume()
         }
+    }
 
-        task.resume()
-        lastTask = task
-        return pendingPromise.promise
+    open func getDataAsync(url: String) -> Promise<(Data, HTTPURLResponse)> {
+        let urlRequest = createRequest(url: resolveUrl(url), httpMethod: HttpMethods.Get)
+        return getDataAsync(request: urlRequest as URLRequest)
+    }
+
+    open func fetchNewAccessTokenAsync() -> Promise<Bool> {
+        return Promise<Bool> { seal in
+            let jwtRequest = GetAccessToken()
+            jwtRequest.refreshToken = self.refreshToken
+            let request = self.createRequestDto(
+                url: self.replyUrl.combinePath(Reflect<GetAccessToken>.typeName),
+                httpMethod: HttpMethods.Post,
+                request: jwtRequest)
+           
+            getDataAsync(request: request as URLRequest)
+                .done { (data, response) in
+                    let dto = try self.handleResponse(intoResponse: GetAccessTokenResponse(), data: data, response: response)
+                    self.bearerToken = dto.accessToken
+                    seal.fulfill(true)
+                }
+                .catch { e in
+                    Log.debug("\(e)")
+                    seal.fulfill(false)
+                }
+        }
+    }
+
     open func getCookies() -> [String:String] {
         let ret = urlCookies(URL(string: baseUrl)!)
         return ret
@@ -567,48 +673,6 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
     @discardableResult
     open func patchAsync<Response: Codable, Request: Codable>(_ relativeUrl: String, request: Request?) -> Promise<Response> {
         return sendAsync(intoResponse: Factory<Response>.create(), request: createRequestDto(url: resolveUrl(relativeUrl), httpMethod: HttpMethods.Patch, request: request))
-    }
-}
-
-extension JsonServiceClient {
-    open func getData(_ url: String) throws -> Data {
-        let urlRequest = createRequest(url: resolveUrl(url), httpMethod: HttpMethods.Get)
-        let dataTaskSync = createSession().dataTaskSync(request: urlRequest as URLRequest)
-        lastTask = dataTaskSync.task
-
-        if let data = dataTaskSync.callback?.data {
-            return data
-        }
-
-        if let error = dataTaskSync.callback?.error {
-            throw error
-        }
-
-        return Data()
-    }
-
-    open func getDataAsync(_ url: String) -> Promise<Data> {
-        let urlRequest = createRequest(url: resolveUrl(url), httpMethod: HttpMethods.Get)
-        let pendingPromise = Promise<Data>.pending()
-
-        let task = createSession().dataTask(with: urlRequest as URLRequest) { data, _, error in
-            if let error = error {
-                pendingPromise.resolver.reject(self.handleError(nsError: error as NSError))
-                return
-            }
-
-            if let data = data {
-                pendingPromise.resolver.fulfill(data)
-                return
-            }
-
-            pendingPromise.resolver.fulfill(Data())
-        }
-
-        task.resume()
-        lastTask = task
-
-        return pendingPromise.promise
     }
 }
 

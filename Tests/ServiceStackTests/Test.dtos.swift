@@ -1,7 +1,7 @@
 /* Options:
-Date: 2021-02-21 06:49:11
+Date: 2021-03-02 09:33:20
 SwiftVersion: 5.0
-Version: 5.103
+Version: 5.105
 Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: http://test.servicestack.net
 
@@ -21,6 +21,76 @@ ExcludeTypes: QueryResponse`1,QueryBase`1,QueryBase`1,QueryBase,DummyTypes
 
 import Foundation
 import ServiceStack
+
+// @Route("/channels/{Channel}/raw")
+public class PostRawToChannel : IReturnVoid, Codable
+{
+    public var from:String?
+    public var toUserId:String?
+    public var channel:String?
+    public var message:String?
+    public var selector:String?
+
+    required public init(){}
+}
+
+// @Route("/channels/{Channel}/chat")
+public class PostChatToChannel : IReturn, Codable
+{
+    public typealias Return = ChatMessage
+
+    public var from:String?
+    public var toUserId:String?
+    public var channel:String?
+    public var message:String?
+    public var selector:String?
+
+    required public init(){}
+}
+
+// @Route("/chathistory")
+public class GetChatHistory : IReturn, Codable
+{
+    public typealias Return = GetChatHistoryResponse
+
+    public var channels:[String] = []
+    public var afterId:Int?
+    public var take:Int?
+
+    required public init(){}
+}
+
+// @Route("/reset")
+public class ClearChatHistory : IReturnVoid, Codable
+{
+    required public init(){}
+}
+
+// @Route("/reset-serverevents")
+public class ResetServerEvents : IReturnVoid, Codable
+{
+    required public init(){}
+}
+
+// @Route("/channels/{Channel}/object")
+public class PostObjectToChannel : IReturnVoid, Codable
+{
+    public var toUserId:String?
+    public var channel:String?
+    public var selector:String?
+    public var customType:CustomType?
+    public var setterType:SetterType?
+
+    required public init(){}
+}
+
+// @Route("/account")
+public class GetUserDetails : IReturn, Codable
+{
+    public typealias Return = GetUserDetailsResponse
+
+    required public init(){}
+}
 
 public class CustomHttpError : IReturn, Codable
 {
@@ -191,6 +261,17 @@ public class HelloImage : IReturn, Codable
     required public init(){}
 }
 
+// @Route("/secured")
+// @ValidateRequest(Validator="IsAuthenticated")
+public class Secured : IReturn, Codable
+{
+    public typealias Return = SecuredResponse
+
+    public var name:String?
+
+    required public init(){}
+}
+
 // @Route("/jwt")
 public class CreateJwt : AuthUserSession, IReturn
 {
@@ -224,6 +305,14 @@ public class CreateRefreshJwt : IReturn, Codable
 
     public var userAuthId:String?
     public var jwtExpiry:Date?
+
+    required public init(){}
+}
+
+// @Route("/jwt-invalidate")
+public class InvalidateLastAccessToken : IReturn, Codable
+{
+    public typealias Return = EmptyResponse
 
     required public init(){}
 }
@@ -1308,6 +1397,58 @@ public class QueryRockstars : QueryDb_1<Rockstar>, IReturn
     }
 }
 
+public class ChatMessage : Codable
+{
+    public var id:Int?
+    public var channel:String?
+    public var fromUserId:String?
+    public var fromName:String?
+    public var displayName:String?
+    public var message:String?
+    public var userAuthId:String?
+    public var `private`:Bool?
+
+    required public init(){}
+}
+
+public class GetChatHistoryResponse : Codable
+{
+    public var results:[ChatMessage] = []
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class GetUserDetailsResponse : Codable
+{
+    public var provider:String?
+    public var userId:String?
+    public var userName:String?
+    public var fullName:String?
+    public var displayName:String?
+    public var firstName:String?
+    public var lastName:String?
+    public var company:String?
+    public var email:String?
+    public var phoneNumber:String?
+    public var birthDate:Date?
+    public var birthDateRaw:String?
+    public var address:String?
+    public var address2:String?
+    public var city:String?
+    public var state:String?
+    public var country:String?
+    public var culture:String?
+    public var gender:String?
+    public var language:String?
+    public var mailAddress:String?
+    public var nickname:String?
+    public var postalCode:String?
+    public var timeZone:String?
+
+    required public init(){}
+}
+
 public class CustomHttpErrorResponse : Codable
 {
     public var custom:String?
@@ -1355,6 +1496,14 @@ public class Project : Codable
     required public init(){}
 }
 
+public class SecuredResponse : Codable
+{
+    public var result:String?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
 public class CreateJwtResponse : Codable
 {
     public var token:String?
@@ -1366,6 +1515,15 @@ public class CreateJwtResponse : Codable
 public class CreateRefreshJwtResponse : Codable
 {
     public var token:String?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+// @DataContract
+public class EmptyResponse : Codable
+{
+    // @DataMember(Order=1)
     public var responseStatus:ResponseStatus?
 
     required public init(){}
@@ -1755,6 +1913,22 @@ public class GetAccessTokenResponse : Codable
 
     // @DataMember(Order=3)
     public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class CustomType : Codable
+{
+    public var id:Int?
+    public var name:String?
+
+    required public init(){}
+}
+
+public class SetterType : Codable
+{
+    public var id:Int?
+    public var name:String?
 
     required public init(){}
 }
