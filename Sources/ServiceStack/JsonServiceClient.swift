@@ -56,6 +56,9 @@ public protocol ServiceClient {
 
     func getData(_ url: String) throws -> Data
     func getDataAsync(_ url: String) -> Promise<Data>
+    func getCookies() -> [String:String]
+    func getTokenCookie() -> String?
+    func getRefreshTokenCookie() -> String?
 }
 
 open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSessionId, IHasVersion {
@@ -323,6 +326,19 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
         task.resume()
         lastTask = task
         return pendingPromise.promise
+    open func getCookies() -> [String:String] {
+        let ret = urlCookies(URL(string: baseUrl)!)
+        return ret
+    }
+    
+    open func getTokenCookie() -> String? {
+        let cookies = getCookies()
+        return cookies["ss-tok"]
+    }
+    
+    open func getRefreshTokenCookie() -> String? {
+        let cookies = getCookies()
+        return cookies["ss-reftok"]
     }
 
     open func resolveUrl(_ relativeOrAbsoluteUrl: String) -> String {

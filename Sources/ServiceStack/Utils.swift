@@ -257,7 +257,7 @@ public class JsonConfig {
         "struct", "subscript", "typealias", "associatedtype", "var", "break", "case", "continue", "default", "do",
         "else", "fallthrough", "if", "in", "for", "return", "switch", "where", "while", "dynamicType", "is", "new",
         "super", "self", "didSet", "get", "infix", "inout", "left", "mutating", "none", "nonmutating", "operator",
-        "override", "postfix", "precedence", "prefix", "right", "set", "unowned", "weak", "willSet"]
+        "override", "postfix", "precedence", "prefix", "private", "public", "right", "set", "unowned", "weak", "willSet"]
 
     public static func createDecoder() -> JSONDecoder {
         let decoder = JSONDecoder()
@@ -381,4 +381,14 @@ public func parseJsonBytesThrows(_ bytes: Data) throws -> Any {
         return value
     }
     throw error
+}
+
+public func urlCookies(_ url:URL) -> [String:String] {
+    let cookieStorage = HTTPCookieStorage.shared
+    let cookies = cookieStorage.cookies(for: url) ?? []
+    var to = [String:String]()
+    for cookie in cookies {
+        to[cookie.name] = cookie.value
+    }
+    return to
 }
