@@ -58,8 +58,31 @@ public class ResponseError: Dto {
 
 public class ErrorResponse: Dto {
     public var responseStatus: ResponseStatus?
-
     public required init() {}
+}
+
+public class EmptyResponse : Codable
+{
+    public var responseStatus:ResponseStatus?
+    required public init(){}
+}
+
+public class GetAccessToken : IReturn, IPost, Codable
+{
+    public typealias Return = GetAccessTokenResponse
+    public var refreshToken:String?
+    public var useTokenCookie:Bool?
+    public var meta:[String:String] = [:]
+
+    required public init(){}
+}
+public class GetAccessTokenResponse : Codable
+{
+    public var accessToken:String?
+    public var meta:[String:String] = [:]
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
 }
 
 public class NavItem: Dto {
