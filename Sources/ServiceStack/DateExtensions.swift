@@ -8,6 +8,12 @@
 
 import Foundation
 
+public class DateTime {
+    public static func parse(_ dateTime:String) -> Date? {
+        return Date.fromString(dateTime)
+    }
+}
+
 public extension Date {
     init(dateString: String, format: String = "yyyy-MM-dd") {
         let fmt = DateFormatter()

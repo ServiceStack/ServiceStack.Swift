@@ -152,6 +152,9 @@ public struct TimeSpan {
     public init(wrappedValue: TimeInterval?) {
         self.wrappedValue = wrappedValue
     }
+    public static func parse(_ timeSpan:String) -> TimeInterval? {
+        return TimeInterval.fromString(timeSpan)
+    }
 }
 
 extension TimeSpan : Codable {
@@ -377,3 +380,10 @@ extension TimeInterval {
         }
     }
 }
+
+public class Guid {
+    public static func parse(_ guid:String) -> String? {
+        return guid
+    }
+}
+
