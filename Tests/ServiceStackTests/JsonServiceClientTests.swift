@@ -267,7 +267,11 @@ import XCTest
 
         var methods = [String]()
 
-        client.requestFilter = { (req: NSMutableURLRequest) in methods.append(req.httpMethod!) }
+        #if os(Linux)
+                client.requestFilter = { (req: NSMutableURLRequest) in methods.append(req.httpMethod!) }
+        #else
+                client.requestFilter = { (req: NSMutableURLRequest) in methods.append(req.httpMethod) }
+        #endif
 
         do {
             try client.get(HelloReturnVoid())
@@ -290,7 +294,11 @@ import XCTest
 
         var methods = [String]()
 
+#if os(Linux)
         client.requestFilter = { (req: NSMutableURLRequest) in methods.append(req.httpMethod!) }
+#else
+        client.requestFilter = { (req: NSMutableURLRequest) in methods.append(req.httpMethod) }
+#endif
 
         client.getAsync(HelloReturnVoid())
             .map {

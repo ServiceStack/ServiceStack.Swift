@@ -334,7 +334,7 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
                 }
                 throw ex
             }
-            return nil
+            return (data,response)
         }
 
         return nil
