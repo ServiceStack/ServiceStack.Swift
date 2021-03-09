@@ -6,8 +6,11 @@
 //  Copyright (c) 2021 ServiceStack, Inc. All rights reserved.
 //
 
- import Foundation
- import XCTest
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
+import Foundation
+import XCTest
 
  class NativeExtensionsTests: XCTestCase {
     override func setUp() {

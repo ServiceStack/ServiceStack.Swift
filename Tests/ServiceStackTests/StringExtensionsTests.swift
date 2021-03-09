@@ -6,9 +6,13 @@
 //  Copyright (c) 2021 ServiceStack, Inc. All rights reserved.
 //
 
- import Foundation
- @testable import ServiceStack
- import XCTest
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
+import Foundation
+import XCTest
+
+@testable import ServiceStack
 
  class StringExtensionsTests: XCTestCase {
     func test_Can_splitOn_first() {

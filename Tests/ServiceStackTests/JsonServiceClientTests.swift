@@ -6,8 +6,13 @@
 //  Copyright (c) 2021 ServiceStack, Inc. All rights reserved.
 //
 
- @testable import ServiceStack
- import XCTest
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
+import Foundation
+
+@testable import ServiceStack
+import XCTest
 
  class JsonServiceClientTests: XCTestCase {
     var client: JsonServiceClient!
@@ -262,7 +267,7 @@
 
         var methods = [String]()
 
-        client.requestFilter = { (req: NSMutableURLRequest) in methods.append(req.httpMethod) }
+        client.requestFilter = { (req: NSMutableURLRequest) in methods.append(req.httpMethod!) }
 
         do {
             try client.get(HelloReturnVoid())
@@ -285,7 +290,7 @@
 
         var methods = [String]()
 
-        client.requestFilter = { (req: NSMutableURLRequest) in methods.append(req.httpMethod) }
+        client.requestFilter = { (req: NSMutableURLRequest) in methods.append(req.httpMethod!) }
 
         client.getAsync(HelloReturnVoid())
             .map {

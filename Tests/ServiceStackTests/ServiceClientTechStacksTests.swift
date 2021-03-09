@@ -6,8 +6,13 @@
 //  Copyright © 2021 ServiceStack, Inc. All rights reserved.
 //
 
- @testable import ServiceStack
- import XCTest
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
+import Foundation
+import XCTest
+
+@testable import ServiceStack
 
  class ServiceClientTechStacksTests: XCTestCase {
     var client: JsonServiceClient!

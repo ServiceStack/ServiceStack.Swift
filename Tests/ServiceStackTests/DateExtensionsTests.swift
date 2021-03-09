@@ -6,6 +6,9 @@
 //  Copyright (c) 2021 ServiceStack, Inc. All rights reserved.
 //
 
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 import Foundation
 import XCTest
 import ServiceStack

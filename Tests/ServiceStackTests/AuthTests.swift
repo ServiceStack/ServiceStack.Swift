@@ -5,10 +5,14 @@
 //  Created by Demis Bellot on 3/2/21.
 //
 
-@testable import ServiceStack
-import XCTest
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 import Foundation
+import XCTest
 import PromiseKit
+
+@testable import ServiceStack
 
 class AuthTests: XCTestCase {
     var client: JsonServiceClient!

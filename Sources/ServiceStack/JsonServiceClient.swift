@@ -57,10 +57,10 @@ public protocol ServiceClient {
     func send<T: Codable>(intoResponse: T, request: NSMutableURLRequest) throws -> T
     func sendAsync<T: Codable>(intoResponse: T, request: NSMutableURLRequest) -> Promise<T>
 
-    func getData(url: String) throws -> (Data, HTTPURLResponse)
-    func getDataAsync(url: String) -> Promise<(Data, HTTPURLResponse)>
-    func getData(request: URLRequest, retryIf:((HTTPURLResponse) -> Bool)?) throws -> (Data, HTTPURLResponse)
-    func getDataAsync(request: URLRequest, retryIf:((HTTPURLResponse) -> Promise<Bool>)?) -> Promise<(Data, HTTPURLResponse)>
+    func getData(url: String) throws -> (Data, HTTPURLResponse)?
+    func getDataAsync(url: String) -> Promise<(Data, HTTPURLResponse)?>
+    func getData(request: URLRequest, retryIf:((HTTPURLResponse) -> Bool)?) throws -> (Data, HTTPURLResponse)?
+    func getDataAsync(request: URLRequest, retryIf:((HTTPURLResponse) -> Promise<Bool>)?) -> Promise<(Data, HTTPURLResponse)?>
 
     func getCookies() -> [String:String]
     func getTokenCookie() -> String?
@@ -153,16 +153,12 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
         }
     }
 
-    open func handleResponse<T: Codable>(intoResponse: T, data: Data, response: URLResponse, error: NSErrorPointer = nil) throws -> T {
+    open func handleResponse<T: Codable>(intoResponse: T, data: Data, response: URLResponse) throws -> T {
         if let nsResponse = response as? HTTPURLResponse {
-            if let ex = createIfError(nsResponse, data, error: error) {
+            if let ex = createIfError(nsResponse, data) {
                 throw ex
             }
         }
-        return try handleResponse(intoResponse: intoResponse, data: data, response: response)
-    }
-
-    open func handleResponse<T: Codable>(intoResponse: T, data: Data, response: URLResponse) throws -> T {
         if intoResponse is ReturnVoid {
             return intoResponse
         }
@@ -177,7 +173,7 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
         return dto
     }
     
-    open func createIfError(_ nsResponse:HTTPURLResponse, _ data: Data, error:NSErrorPointer = nil) -> Error? {
+    open func createIfError(_ nsResponse:HTTPURLResponse, _ data: Data) -> Error? {
         if nsResponse.statusCode >= 400 {
             var errorInfo: [String: Any] = [:]
 
@@ -193,10 +189,8 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
                 }
             }
 
+            //var error: NSError? = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
             let ex = fireErrorCallbacks(error: NSError(domain: domain, code: nsResponse.statusCode, userInfo: errorInfo))
-            if error != nil {
-                error?.pointee = ex
-            }
             return ex
         }
         return nil
@@ -303,7 +297,9 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
 
     @discardableResult
     open func send<T: Codable>(intoResponse: T, request: NSMutableURLRequest) throws -> T {
-        let (data, response) = try getData(request: request as URLRequest, retryIf: retryAfterReauth)
+        guard let (data, response) = try getData(request: request as URLRequest, retryIf: retryAfterReauth) else {
+            return Factory<T>.create()
+        }
         if data.isEmpty {
             return Factory<T>.create()
         }
@@ -311,12 +307,12 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
         return dto
     }
     
-    open func getData(url: String) throws -> (Data, HTTPURLResponse) {
+    open func getData(url: String) throws -> (Data, HTTPURLResponse)? {
         let urlRequest = createRequest(url: resolveUrl(url), httpMethod: HttpMethods.Get)
         return try getData(request: urlRequest as URLRequest)
     }
 
-    open func getData(request: URLRequest, retryIf:((HTTPURLResponse) -> Bool)? = nil) throws -> (Data, HTTPURLResponse) {
+    open func getData(request: URLRequest, retryIf:((HTTPURLResponse) -> Bool)? = nil) throws -> (Data, HTTPURLResponse)? {
         let dataTaskSync = createSession().dataTaskSync(request: request as URLRequest)
         lastTask = dataTaskSync.task
         let cb = dataTaskSync.callback
@@ -325,12 +321,11 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
             if let error = cb?.error {
                 throw error
             }
-            return (Data(), HTTPURLResponse())
+            return nil
         }
 
-        var error: NSError? = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
         if let data = cb?.data, let response = cb?.response as? HTTPURLResponse {
-            if let ex = self.createIfError(response, data, error: &error) {
+            if let ex = self.createIfError(response, data) {
                 if let fn = retryIf {
                     let success = fn(response)
                     if success {
@@ -339,10 +334,10 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
                 }
                 throw ex
             }
-            return (data, response)
+            return nil
         }
 
-        return (Data(), HTTPURLResponse())
+        return nil
     }
     
     open func fetchNewAccessToken() -> Bool {
@@ -353,7 +348,9 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
             httpMethod: HttpMethods.Post,
             request: jwtRequest)
         do {
-            let (data, response) = try getData(request: request as URLRequest)
+            guard let (data, response) = try getData(request: request as URLRequest) else {
+                return false
+            }
             let dto = try handleResponse(intoResponse: GetAccessTokenResponse(), data: data, response: response)
             self.bearerToken = dto.accessToken
             return true
@@ -366,26 +363,28 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
     @discardableResult
     open func sendAsync<T: Codable>(intoResponse: T, request: NSMutableURLRequest) -> Promise<T> {
         return getDataAsync(request: request as URLRequest, retryIf: retryAfterReauthAsync)
-            .map { (data,response) in
+            .map { result in
+                guard let (data,response) = result else {
+                    return Factory<T>.create()
+                }
                 let dto = try self.handleResponse(intoResponse: intoResponse, data: data, response: response)
                 return dto
             }
     }
     
-    open func getDataAsync(request: URLRequest, retryIf:((HTTPURLResponse) -> Promise<Bool>)? = nil) -> Promise<(Data, HTTPURLResponse)> {
+    open func getDataAsync(request: URLRequest, retryIf:((HTTPURLResponse) -> Promise<Bool>)? = nil) -> Promise<(Data, HTTPURLResponse)?> {
         return Promise { seal in
             let task = createSession().dataTask(with: request as URLRequest) { data, response, error in
                 if let error = error {
                     seal.reject(self.handleError(nsError: error as NSError))
                 } else if let response = response as? HTTPURLResponse, let data = data {
-                    var error: NSError? = NSError(domain: NSURLErrorDomain, code: NSURLErrorUnknown, userInfo: nil)
-                    if let ex = self.createIfError(response, data, error: &error) {
+                    if let ex = self.createIfError(response, data) {
                         if let fn = retryIf {
                             _ = fn(response).done { success in
                                 if success {
                                     self.getDataAsync(request: request)
-                                        .done { (response,data) in
-                                            seal.fulfill((response,data))
+                                        .done { result in
+                                            seal.fulfill(result)
                                         }.catch { retryEx in
                                             seal.reject(retryEx)
                                         }
@@ -400,7 +399,7 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
                         seal.fulfill((data, response))
                     }
                 } else {
-                    seal.fulfill((Data(), response as? HTTPURLResponse ?? HTTPURLResponse()))
+                    seal.fulfill(nil)
                 }
             }
             lastTask = task
@@ -408,7 +407,7 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
         }
     }
 
-    open func getDataAsync(url: String) -> Promise<(Data, HTTPURLResponse)> {
+    open func getDataAsync(url: String) -> Promise<(Data, HTTPURLResponse)?> {
         let urlRequest = createRequest(url: resolveUrl(url), httpMethod: HttpMethods.Get)
         return getDataAsync(request: urlRequest as URLRequest)
     }
@@ -423,10 +422,14 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
                 request: jwtRequest)
            
             getDataAsync(request: request as URLRequest)
-                .done { (data, response) in
-                    let dto = try self.handleResponse(intoResponse: GetAccessTokenResponse(), data: data, response: response)
-                    self.bearerToken = dto.accessToken
-                    seal.fulfill(true)
+                .done { result in
+                    if let (data, response) = result {
+                        let dto = try self.handleResponse(intoResponse: GetAccessTokenResponse(), data: data, response: response)
+                        self.bearerToken = dto.accessToken
+                        seal.fulfill(true)
+                    } else {
+                        seal.fulfill(false)
+                    }
                 }
                 .catch { e in
                     Log.debug("\(e)")
@@ -714,8 +717,10 @@ extension JsonServiceClient: URLSessionDelegate {
     public func urlSession(_: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         if allowHost(domain: challenge.protectionSpace.host,
                      port: challenge.protectionSpace.port) {
+#if !os(Linux)
             completionHandler(.useCredential,
-                              URLCredential(trust: challenge.protectionSpace.serverTrust!))
+                URLCredential(trust: challenge.protectionSpace.serverTrust!))
+#endif
         } else {
             completionHandler(.performDefaultHandling, nil)
         }

@@ -80,7 +80,7 @@ public extension Date {
     var isoDateString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale?
-        dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone?
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
         return dateFormatter.string(from: self as Date).appendingFormat("Z")
     }

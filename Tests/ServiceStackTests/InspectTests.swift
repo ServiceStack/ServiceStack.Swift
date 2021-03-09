@@ -1,5 +1,8 @@
-import XCTest
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 import Foundation
+import XCTest
 
 @testable import ServiceStack
 
