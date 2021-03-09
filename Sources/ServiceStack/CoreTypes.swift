@@ -315,6 +315,7 @@ extension KeyedDecodingContainer {
     
     public func decode<Val>(_ type: Array<Val>.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> Array<Val> where Val : Decodable {
         
+        // E.g. UInt8Base64Converter
         if let string = try? self.decodeIfPresent(String.self, forKey: key) {
             if let converter = Converters.get(type) {
                 if let ret:Array<Val> = converter.fromString(Array<Val>.self, string) {

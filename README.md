@@ -88,15 +88,15 @@ To Add a new ServiceStack Reference, call `x swift` with the Base URL to a remot
     x swift {BaseUrl}
     x swift {BaseUrl} {FileName}
 
-Where if no FileName is provided, it's inferred from the host name of the remote URL, e.g:
+Where if no FileName is provided, it first uses `dtos.swift` or if it exists the filename is inferred from the host name of the remote URL, e.g:
 
-    x swift http://techstacks.io
+    x swift https://techstacks.io
 
-Downloads the Typed Swift DTOs for [techstacks.io](http://techstacks.io) and saves them to `dtos.swift`. 
+Downloads the Typed Swift DTOs for [techstacks.io](https://techstacks.io) and saves them to `dtos.swift`. 
 
 Alternatively you can have it saved to a different FileName with:
 
-    x swift http://techstacks.io TechStacks
+    x swift https://techstacks.io TechStacks
 
 Which instead saves the DTOs to `TechStacks.dtos.swift`.
 
@@ -138,7 +138,7 @@ AutoQuery Viewer is a native iPad App that provides an automatic UI for browsing
 
 ## [TechStacks iOS App](https://github.com/ServiceStackApps/TechStacksApp)
 
-The TechStacks Native iOS App provides a fluid and responsive experience for browsing http://techstacks.io content on iPhones and iPad devices. It takes advantage of the ease-of-use and utility of [ServiceStack's new support for Swift and XCode](http://docs.servicestack.net/swift-add-servicestack-reference) for quickly building services-rich iOS Apps. [Get it now free on the AppStore!](https://itunes.apple.com/us/app/techstacks/id965680615?ls=1&mt=8)
+The TechStacks Native iOS App provides a fluid and responsive experience for browsing https://techstacks.io content on iPhones and iPad devices. It takes advantage of the ease-of-use and utility of [ServiceStack's new support for Swift and XCode](http://docs.servicestack.net/swift-add-servicestack-reference) for quickly building services-rich iOS Apps. [Get it now free on the AppStore!](https://itunes.apple.com/us/app/techstacks/id965680615?ls=1&mt=8)
 
 [![TechStacks on AppStore](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/techstacks-appstore.png)](https://itunes.apple.com/us/app/techstacks/id965680615?ls=1&mt=8)
 
