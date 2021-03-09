@@ -380,7 +380,7 @@ import XCTest
         let to = AllTypes()
         to.id = 1
         to.char = "c"
-        to.byte = Int8(2)
+        to.byte = UInt8(65)
         to.short = Int16(3)
         to.int = 4
         to.long = Int(5)
@@ -419,6 +419,7 @@ import XCTest
         to.intList = [4, 5, 6]
         to.stringArray = ["A", "B", "C"]
         to.stringList = ["D", "E", "F"]
+        to.byteArray = [65,66,67]
         to.pocoArray.append(createPoco("pocoArray"))
         to.pocoList.append(createPoco("pocoList"))
         to.pocoLookup["A"] = [createPoco("B"), createPoco("C")]
@@ -494,6 +495,7 @@ import XCTest
         XCTAssertEqual(actual.intList, expected.intList)
         XCTAssertEqual(actual.stringArray, expected.stringArray)
         XCTAssertEqual(actual.stringList, expected.stringList)
+        XCTAssertEqual(actual.byteArray, expected.byteArray)
         XCTAssertEqual(actual.pocoArray, expected.pocoArray)
         XCTAssertEqual(actual.pocoList, expected.pocoList)
         assertLookup(actual.pocoLookup, expected: expected.pocoLookup)

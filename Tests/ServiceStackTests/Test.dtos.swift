@@ -1,5 +1,5 @@
 /* Options:
-Date: 2021-03-02 09:33:20
+Date: 2021-03-09 08:19:52
 SwiftVersion: 5.0
 Version: 5.105
 Tip: To override a DTO option, remove "//" prefix before updating
@@ -199,7 +199,7 @@ public class ImageAsStream : IReturn, Codable
 // @Route("/image-bytes")
 public class ImageAsBytes : IReturn, Codable
 {
-    public typealias Return = [Int8]
+    public typealias Return = [UInt8]
 
     public var format:String?
 
@@ -209,7 +209,7 @@ public class ImageAsBytes : IReturn, Codable
 // @Route("/image-custom")
 public class ImageAsCustomResult : IReturn, Codable
 {
-    public typealias Return = [Int8]
+    public typealias Return = [UInt8]
 
     public var format:String?
 
@@ -219,7 +219,7 @@ public class ImageAsCustomResult : IReturn, Codable
 // @Route("/image-response")
 public class ImageWriteToResponse : IReturn, Codable
 {
-    public typealias Return = [Int8]
+    public typealias Return = [UInt8]
 
     public var format:String?
 
@@ -229,7 +229,7 @@ public class ImageWriteToResponse : IReturn, Codable
 // @Route("/image-file")
 public class ImageAsFile : IReturn, Codable
 {
-    public typealias Return = [Int8]
+    public typealias Return = [UInt8]
 
     public var format:String?
 
@@ -247,7 +247,7 @@ public class ImageAsRedirect : Codable
 // @Route("/hello-image/{Name}")
 public class HelloImage : IReturn, Codable
 {
-    public typealias Return = [Int8]
+    public typealias Return = [UInt8]
 
     public var name:String?
     public var format:String?
@@ -526,7 +526,7 @@ public class AllTypes : IReturn, Codable
 
     public var id:Int?
     public var nullableId:Int?
-    public var byte:Int8?
+    public var byte:UInt8?
     public var short:Int16?
     public var int:Int?
     public var long:Int?
@@ -550,6 +550,27 @@ public class AllTypes : IReturn, Codable
     public var stringMap:[String:String] = [:]
     public var intStringMap:[Int:String] = [:]
     public var subType:SubType?
+
+    required public init(){}
+}
+
+public class AllCollectionTypes : IReturn, Codable
+{
+    public typealias Return = AllCollectionTypes
+
+    public var intArray:[Int] = []
+    public var intList:[Int] = []
+    public var stringArray:[String] = []
+    public var stringList:[String] = []
+    public var floatArray:[Float] = []
+    public var doubleList:[Double] = []
+    public var byteArray:[UInt8] = []
+    public var charArray:[String] = []
+    public var decimalList:[Double] = []
+    public var pocoArray:[Poco] = []
+    public var pocoList:[Poco] = []
+    public var pocoLookup:[String:[Poco]] = [:]
+    public var pocoLookupMap:[String:[[String:Poco]]] = [:]
 
     required public init(){}
 }
@@ -869,9 +890,9 @@ public class ReturnString : IReturn, Codable
 // @Route("/return/bytes")
 public class ReturnBytes : IReturn, Codable
 {
-    public typealias Return = [Int8]
+    public typealias Return = [UInt8]
 
-    public var data:[Int8] = []
+    public var data:[UInt8] = []
 
     required public init(){}
 }
@@ -881,7 +902,7 @@ public class ReturnStream : IReturn, Codable
 {
     public typealias Return = Data
 
-    public var data:[Int8] = []
+    public var data:[UInt8] = []
 
     required public init(){}
 }
@@ -928,7 +949,7 @@ public class SendText : IReturn, Codable
 // @Route("/sendraw")
 public class SendRaw : IReturn, Codable
 {
-    public typealias Return = [Int8]
+    public typealias Return = [UInt8]
 
     public var id:Int?
     public var name:String?
@@ -1126,7 +1147,7 @@ public class EchoTypes : IReturn, Codable
 {
     public typealias Return = EchoTypes
 
-    public var byte:Int8?
+    public var byte:UInt8?
     public var short:Int16?
     public var int:Int?
     public var long:Int?
@@ -1792,20 +1813,6 @@ public class TestAuthResponse : Codable
     required public init(){}
 }
 
-public class AllCollectionTypes : Codable
-{
-    public var intArray:[Int] = []
-    public var intList:[Int] = []
-    public var stringArray:[String] = []
-    public var stringList:[String] = []
-    public var pocoArray:[Poco] = []
-    public var pocoList:[Poco] = []
-    public var pocoLookup:[String:[Poco]] = [:]
-    public var pocoLookupMap:[String:[[String:Poco]]] = [:]
-
-    required public init(){}
-}
-
 // @DataContract
 public class AuthenticateResponse : IHasSessionId, IHasBearerToken, Codable
 {
@@ -2199,7 +2206,7 @@ public class AllTypesBase : Codable
 {
     public var id:Int?
     public var nullableId:Int?
-    public var byte:Int8?
+    public var byte:UInt8?
     public var short:Int16?
     public var int:Int?
     public var long:Int?
@@ -2259,7 +2266,7 @@ public class AllTypesBase : Codable
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decodeIfPresent(Int.self, forKey: .id)
         nullableId = try container.decodeIfPresent(Int.self, forKey: .nullableId)
-        byte = try container.decodeIfPresent(Int8.self, forKey: .byte)
+        byte = try container.decodeIfPresent(UInt8.self, forKey: .byte)
         short = try container.decodeIfPresent(Int16.self, forKey: .short)
         int = try container.decodeIfPresent(Int.self, forKey: .int)
         long = try container.decodeIfPresent(Int.self, forKey: .long)
@@ -2316,6 +2323,13 @@ public class AllTypesBase : Codable
     }
 }
 
+public class Poco : Codable
+{
+    public var name:String?
+
+    required public init(){}
+}
+
 public class HelloBase : Codable
 {
     public var id:Int?
@@ -2326,13 +2340,6 @@ public class HelloBase : Codable
 public class HelloResponseBase : Codable
 {
     public var refId:Int?
-
-    required public init(){}
-}
-
-public class Poco : Codable
-{
-    public var name:String?
 
     required public init(){}
 }

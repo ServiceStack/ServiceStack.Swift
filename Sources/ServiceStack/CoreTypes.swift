@@ -185,6 +185,8 @@ extension TimeSpan : Codable {
 //}
 
 public class TimeIntervalConveter : StringConvertible {
+    public var forType = Reflect<TimeInterval>.typeName
+
     public func fromString<T>(_ type: T.Type, _ string: String) -> T? {
         return TimeInterval.fromString(string) as? T
     }
@@ -193,15 +195,38 @@ public class TimeIntervalConveter : StringConvertible {
     }
 }
 
+public class UInt8Base64Converter : StringConvertible {
+    public var forType = Reflect<[UInt8]>.typeName
+        
+    public func fromString<T>(_ type: T.Type, _ string: String) -> T? {
+        if let data = Data(base64Encoded: string) {
+            return [UInt8](data) as? T
+        }
+        return [] as? T
+    }
+    public func toString<T>(instance: T) -> String? {
+        if let bytes = instance as? [UInt8] {
+            let to = Data(bytes).base64EncodedString()
+            return to
+        }
+        return nil
+    }
+}
+
 public protocol StringConvertible {
+    var forType:String { get }
     func fromString<T>(_ type: T.Type, _ string:String) -> T?
     func toString<T>(instance:T) -> String?
 }
+
 public class StringConverter<C> : StringConvertible where C: LosslessStringConvertible {
+    public let forType:String
+        
     var from: ((String) -> C?)
     var to: ((C) -> String?)
     
-    public init(_ type: C.Type) {
+    public init(_ type: C.Type, forType:String) {
+        self.forType = forType
         from = { (s:String) in
             type.init(s)
         }
@@ -220,24 +245,31 @@ public class StringConverter<C> : StringConvertible where C: LosslessStringConve
 }
 
 //func example() {
-//    Converters.register(TimeIntervalConveter.self, forType: Reflect<TimeInterval>.typeName)
-//    Converters.register(TimeIntervalConveter.self)
-//    Converters.register(TimeInterval.self)
+//Converters.register(UInt8Base64Converter())
+//Converters.register(TimeIntervalConveter())
+//Converters.register(TimeInterval.self)
 //}
 
 public class Converters {
     
     static var map: [String:StringConvertible] = {
-        let to = [Reflect<TimeInterval>.typeName: TimeIntervalConveter()]
+        let builtInConverters:[StringConvertible] = [
+            TimeIntervalConveter(),
+            UInt8Base64Converter()
+        ]
+        var to = [String : StringConvertible]()
+        for converter in builtInConverters {
+            to[converter.forType] = converter
+        }
         return to
     }()
     
-    public static func registerConvertible<T>(_ convertible:T, forType:String) where T: StringConvertible {
-        map[forType] = convertible
+    public static func register<T>(_ convertible:T) where T: StringConvertible {
+        map[convertible.forType] = convertible
     }
 
     public static func register<T>(_ type: T.Type, forType:String) where T: LosslessStringConvertible {
-        map[forType] = StringConverter(type.self)
+        map[forType] = StringConverter(type.self, forType:forType)
     }
 
     public static func register<T>(_ type: T.Type) where T: LosslessStringConvertible {
@@ -268,12 +300,35 @@ extension KeyedDecodingContainer {
     }
     
     public func decode<Key,Val>(_ type: Dictionary<Key,Val>.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> Dictionary<Key,Val> where Key : Decodable & Hashable, Val : Decodable {
+
+// Needed? No use-case for it yet.
+//        if let string = try? self.decodeIfPresent(String.self, forKey: key) {
+//            if let converter = Converters.get(type) {
+//                if let ret:Dictionary<Key,Val> = converter.fromString(Dictionary<Key,Val>.self, string) {
+//                    return ret
+//                }
+//            }
+//        }
+
         return try decodeIfPresent(type, forKey: key) ?? [:]
     }
     
     public func decode<Val>(_ type: Array<Val>.Type, forKey key: KeyedDecodingContainer<K>.Key) throws -> Array<Val> where Val : Decodable {
+        
+        if let string = try? self.decodeIfPresent(String.self, forKey: key) {
+            if let converter = Converters.get(type) {
+                if let ret:Array<Val> = converter.fromString(Array<Val>.self, string) {
+                    return ret
+                }
+            }
+        }
+
         return try decodeIfPresent(type, forKey: key) ?? []
     }
+}
+
+enum TestKey : CodingKey {
+    case byteArray
 }
 
 extension TimeInterval {

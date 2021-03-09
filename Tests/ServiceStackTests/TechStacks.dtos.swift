@@ -1,5 +1,5 @@
 /* Options:
-Date: 2021-02-21 05:49:09
+Date: 2021-03-09 07:19:50
 SwiftVersion: 5.0
 Version: 5.105
 Tip: To override a DTO option, remove "//" prefix before updating
@@ -702,28 +702,44 @@ public class FindTechnologies : QueryDb<Technology>, IReturn, IGet
 {
     public typealias Return = QueryResponse<Technology>
 
+    public var ids:[Int] = []
     public var name:String?
+    public var vendorName:String?
     public var nameContains:String?
+    public var vendorNameContains:String?
+    public var descriptionContains:String?
 
     required public init(){ super.init() }
 
     private enum CodingKeys : String, CodingKey {
+        case ids
         case name
+        case vendorName
         case nameContains
+        case vendorNameContains
+        case descriptionContains
     }
 
     required public init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        ids = try container.decodeIfPresent([Int].self, forKey: .ids) ?? []
         name = try container.decodeIfPresent(String.self, forKey: .name)
+        vendorName = try container.decodeIfPresent(String.self, forKey: .vendorName)
         nameContains = try container.decodeIfPresent(String.self, forKey: .nameContains)
+        vendorNameContains = try container.decodeIfPresent(String.self, forKey: .vendorNameContains)
+        descriptionContains = try container.decodeIfPresent(String.self, forKey: .descriptionContains)
     }
 
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
+        if ids.count > 0 { try container.encode(ids, forKey: .ids) }
         if name != nil { try container.encode(name, forKey: .name) }
+        if vendorName != nil { try container.encode(vendorName, forKey: .vendorName) }
         if nameContains != nil { try container.encode(nameContains, forKey: .nameContains) }
+        if vendorNameContains != nil { try container.encode(vendorNameContains, forKey: .vendorNameContains) }
+        if descriptionContains != nil { try container.encode(descriptionContains, forKey: .descriptionContains) }
     }
 }
 
@@ -732,14 +748,44 @@ public class QueryTechnology : QueryDb<Technology>, IReturn, IGet
 {
     public typealias Return = QueryResponse<Technology>
 
+    public var ids:[Int] = []
+    public var name:String?
+    public var vendorName:String?
+    public var nameContains:String?
+    public var vendorNameContains:String?
+    public var descriptionContains:String?
+
     required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case ids
+        case name
+        case vendorName
+        case nameContains
+        case vendorNameContains
+        case descriptionContains
+    }
 
     required public init(from decoder: Decoder) throws {
         try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        ids = try container.decodeIfPresent([Int].self, forKey: .ids) ?? []
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        vendorName = try container.decodeIfPresent(String.self, forKey: .vendorName)
+        nameContains = try container.decodeIfPresent(String.self, forKey: .nameContains)
+        vendorNameContains = try container.decodeIfPresent(String.self, forKey: .vendorNameContains)
+        descriptionContains = try container.decodeIfPresent(String.self, forKey: .descriptionContains)
     }
 
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if ids.count > 0 { try container.encode(ids, forKey: .ids) }
+        if name != nil { try container.encode(name, forKey: .name) }
+        if vendorName != nil { try container.encode(vendorName, forKey: .vendorName) }
+        if nameContains != nil { try container.encode(nameContains, forKey: .nameContains) }
+        if vendorNameContains != nil { try container.encode(vendorNameContains, forKey: .vendorNameContains) }
+        if descriptionContains != nil { try container.encode(descriptionContains, forKey: .descriptionContains) }
     }
 }
 
@@ -855,24 +901,44 @@ public class FindTechStacks : QueryDb<TechnologyStack>, IReturn, IGet
 {
     public typealias Return = QueryResponse<TechnologyStack>
 
+    public var ids:[Int] = []
+    public var name:String?
+    public var vendorName:String?
     public var nameContains:String?
+    public var vendorNameContains:String?
+    public var descriptionContains:String?
 
     required public init(){ super.init() }
 
     private enum CodingKeys : String, CodingKey {
+        case ids
+        case name
+        case vendorName
         case nameContains
+        case vendorNameContains
+        case descriptionContains
     }
 
     required public init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        ids = try container.decodeIfPresent([Int].self, forKey: .ids) ?? []
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        vendorName = try container.decodeIfPresent(String.self, forKey: .vendorName)
         nameContains = try container.decodeIfPresent(String.self, forKey: .nameContains)
+        vendorNameContains = try container.decodeIfPresent(String.self, forKey: .vendorNameContains)
+        descriptionContains = try container.decodeIfPresent(String.self, forKey: .descriptionContains)
     }
 
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
+        if ids.count > 0 { try container.encode(ids, forKey: .ids) }
+        if name != nil { try container.encode(name, forKey: .name) }
+        if vendorName != nil { try container.encode(vendorName, forKey: .vendorName) }
         if nameContains != nil { try container.encode(nameContains, forKey: .nameContains) }
+        if vendorNameContains != nil { try container.encode(vendorNameContains, forKey: .vendorNameContains) }
+        if descriptionContains != nil { try container.encode(descriptionContains, forKey: .descriptionContains) }
     }
 }
 
@@ -881,14 +947,44 @@ public class QueryTechStacks : QueryDb<TechnologyStack>, IReturn, IGet
 {
     public typealias Return = QueryResponse<TechnologyStack>
 
+    public var ids:[Int] = []
+    public var name:String?
+    public var vendorName:String?
+    public var nameContains:String?
+    public var vendorNameContains:String?
+    public var descriptionContains:String?
+
     required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case ids
+        case name
+        case vendorName
+        case nameContains
+        case vendorNameContains
+        case descriptionContains
+    }
 
     required public init(from decoder: Decoder) throws {
         try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        ids = try container.decodeIfPresent([Int].self, forKey: .ids) ?? []
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        vendorName = try container.decodeIfPresent(String.self, forKey: .vendorName)
+        nameContains = try container.decodeIfPresent(String.self, forKey: .nameContains)
+        vendorNameContains = try container.decodeIfPresent(String.self, forKey: .vendorNameContains)
+        descriptionContains = try container.decodeIfPresent(String.self, forKey: .descriptionContains)
     }
 
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if ids.count > 0 { try container.encode(ids, forKey: .ids) }
+        if name != nil { try container.encode(name, forKey: .name) }
+        if vendorName != nil { try container.encode(vendorName, forKey: .vendorName) }
+        if nameContains != nil { try container.encode(nameContains, forKey: .nameContains) }
+        if vendorNameContains != nil { try container.encode(vendorNameContains, forKey: .vendorNameContains) }
+        if descriptionContains != nil { try container.encode(descriptionContains, forKey: .descriptionContains) }
     }
 }
 
@@ -1228,28 +1324,76 @@ public class QueryPostComments : QueryDb<PostComment>, IReturn, IGet
 {
     public typealias Return = QueryResponse<PostComment>
 
+    public var id:Int?
     public var userId:Int?
     public var postId:Int?
+    public var contentContains:String?
+    public var upVotesAbove:Int?
+    public var upVotesBelow:Int?
+    public var downVotesAbove:Int?
+    public var downVotes:Int?
+    public var favoritesAbove:Int?
+    public var favoritesBelow:Int?
+    public var wordCountAbove:Int?
+    public var wordCountBelow:Int?
+    public var reportCountAbove:Int?
+    public var reportCountBelow:Int?
 
     required public init(){ super.init() }
 
     private enum CodingKeys : String, CodingKey {
+        case id
         case userId
         case postId
+        case contentContains
+        case upVotesAbove
+        case upVotesBelow
+        case downVotesAbove
+        case downVotes
+        case favoritesAbove
+        case favoritesBelow
+        case wordCountAbove
+        case wordCountBelow
+        case reportCountAbove
+        case reportCountBelow
     }
 
     required public init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(Int.self, forKey: .id)
         userId = try container.decodeIfPresent(Int.self, forKey: .userId)
         postId = try container.decodeIfPresent(Int.self, forKey: .postId)
+        contentContains = try container.decodeIfPresent(String.self, forKey: .contentContains)
+        upVotesAbove = try container.decodeIfPresent(Int.self, forKey: .upVotesAbove)
+        upVotesBelow = try container.decodeIfPresent(Int.self, forKey: .upVotesBelow)
+        downVotesAbove = try container.decodeIfPresent(Int.self, forKey: .downVotesAbove)
+        downVotes = try container.decodeIfPresent(Int.self, forKey: .downVotes)
+        favoritesAbove = try container.decodeIfPresent(Int.self, forKey: .favoritesAbove)
+        favoritesBelow = try container.decodeIfPresent(Int.self, forKey: .favoritesBelow)
+        wordCountAbove = try container.decodeIfPresent(Int.self, forKey: .wordCountAbove)
+        wordCountBelow = try container.decodeIfPresent(Int.self, forKey: .wordCountBelow)
+        reportCountAbove = try container.decodeIfPresent(Int.self, forKey: .reportCountAbove)
+        reportCountBelow = try container.decodeIfPresent(Int.self, forKey: .reportCountBelow)
     }
 
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
+        if id != nil { try container.encode(id, forKey: .id) }
         if userId != nil { try container.encode(userId, forKey: .userId) }
         if postId != nil { try container.encode(postId, forKey: .postId) }
+        if contentContains != nil { try container.encode(contentContains, forKey: .contentContains) }
+        if upVotesAbove != nil { try container.encode(upVotesAbove, forKey: .upVotesAbove) }
+        if upVotesBelow != nil { try container.encode(upVotesBelow, forKey: .upVotesBelow) }
+        if downVotesAbove != nil { try container.encode(downVotesAbove, forKey: .downVotesAbove) }
+        if downVotes != nil { try container.encode(downVotes, forKey: .downVotes) }
+        if favoritesAbove != nil { try container.encode(favoritesAbove, forKey: .favoritesAbove) }
+        if favoritesBelow != nil { try container.encode(favoritesBelow, forKey: .favoritesBelow) }
+        if wordCountAbove != nil { try container.encode(wordCountAbove, forKey: .wordCountAbove) }
+        if wordCountBelow != nil { try container.encode(wordCountBelow, forKey: .wordCountBelow) }
+        if reportCountAbove != nil { try container.encode(reportCountAbove, forKey: .reportCountAbove) }
+        if reportCountBelow != nil { try container.encode(reportCountBelow, forKey: .reportCountBelow) }
     }
 }
 
@@ -1259,24 +1403,40 @@ public class FindTechnologiesAdmin : QueryDb<Technology>, IReturn
 {
     public typealias Return = QueryResponse<Technology>
 
+    public var id:Int?
     public var name:String?
+    public var vendorName:String?
+    public var nameContains:String?
+    public var vendorNameContains:String?
 
     required public init(){ super.init() }
 
     private enum CodingKeys : String, CodingKey {
+        case id
         case name
+        case vendorName
+        case nameContains
+        case vendorNameContains
     }
 
     required public init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(Int.self, forKey: .id)
         name = try container.decodeIfPresent(String.self, forKey: .name)
+        vendorName = try container.decodeIfPresent(String.self, forKey: .vendorName)
+        nameContains = try container.decodeIfPresent(String.self, forKey: .nameContains)
+        vendorNameContains = try container.decodeIfPresent(String.self, forKey: .vendorNameContains)
     }
 
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
+        if id != nil { try container.encode(id, forKey: .id) }
         if name != nil { try container.encode(name, forKey: .name) }
+        if vendorName != nil { try container.encode(vendorName, forKey: .vendorName) }
+        if nameContains != nil { try container.encode(nameContains, forKey: .nameContains) }
+        if vendorNameContains != nil { try container.encode(vendorNameContains, forKey: .vendorNameContains) }
     }
 }
 
