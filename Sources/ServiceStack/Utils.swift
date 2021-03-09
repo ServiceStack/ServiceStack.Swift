@@ -6,6 +6,9 @@
 //  Copyright © 2021 ServiceStack. All rights reserved.
 //
 
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 import Foundation
 
 public class Factory<T: Decodable> {

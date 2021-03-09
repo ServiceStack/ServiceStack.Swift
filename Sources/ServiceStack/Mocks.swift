@@ -5,6 +5,9 @@
 //  Created by Demis Bellot on 2/19/21.
 //
 
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 import Foundation
 
 class EmptyUnkeyedDecodingContainer: UnkeyedDecodingContainer {

@@ -1,5 +1,6 @@
 src/ServiceStackXCode/.idea
 .idea/
+.vscode/
 
 src/JsonServiceClient/JsonServiceClient.xcodeproj/project.xcworkspace/xcuserdata/mythz.xcuserdatad/UserInterfaceState.xcuserstate
 

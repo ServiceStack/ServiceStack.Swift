@@ -3,6 +3,9 @@
 // Copyright (c) 2021 ServiceStack. All rights reserved.
 //
 
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 import Foundation
 
 public protocol Instantiable {
