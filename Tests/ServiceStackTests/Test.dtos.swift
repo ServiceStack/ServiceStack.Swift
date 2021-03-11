@@ -1,5 +1,5 @@
 /* Options:
-Date: 2021-03-09 08:19:52
+Date: 2021-03-11 06:36:52
 SwiftVersion: 5.0
 Version: 5.105
 Tip: To override a DTO option, remove "//" prefix before updating
@@ -98,6 +98,29 @@ public class CustomHttpError : IReturn, Codable
 
     public var statusCode:Int?
     public var statusDescription:String?
+
+    required public init(){}
+}
+
+public class AltQueryItems : IReturn, Codable
+{
+    public typealias Return = QueryResponseAlt<Item>
+
+    public var name:String?
+
+    required public init(){}
+}
+
+public class GetItems : IReturn, Codable
+{
+    public typealias Return = Items
+
+    required public init(){}
+}
+
+public class GetNakedItems : IReturn, Codable
+{
+    public typealias Return = [Item]
 
     required public init(){}
 }
@@ -449,8 +472,35 @@ public class HelloArray : IReturn, Codable
 public class HelloWithEnum : Codable
 {
     public var enumProp:EnumType?
+    public var enumTypeFlags:EnumTypeFlags?
+    public var enumWithValues:EnumWithValues?
     public var nullableEnumProp:EnumType?
     public var enumFlags:EnumFlags?
+    public var enumAsInt:EnumAsInt?
+    public var enumStyle:EnumStyle?
+    public var enumStyleMembers:EnumStyleMembers?
+
+    required public init(){}
+}
+
+public class HelloWithEnumList : Codable
+{
+    public var enumProp:[EnumType] = []
+    public var enumWithValues:[EnumWithValues] = []
+    public var nullableEnumProp:[EnumType?] = []
+    public var enumFlags:[EnumFlags] = []
+    public var enumStyle:[EnumStyle] = []
+
+    required public init(){}
+}
+
+public class HelloWithEnumMap : Codable
+{
+    public var enumProp:[EnumType:EnumType] = [:]
+    public var enumWithValues:[EnumWithValues:EnumWithValues] = [:]
+    public var nullableEnumProp:[EnumType?:EnumType?] = [:]
+    public var enumFlags:[EnumFlags:EnumFlags] = [:]
+    public var enumStyle:[EnumStyle:EnumStyle] = [:]
 
     required public init(){}
 }
@@ -1352,6 +1402,60 @@ public class GetAccessToken : IReturn, IPost, Codable
     required public init(){}
 }
 
+public class QueryRockstarAudit : QueryDbTenant_2<RockstarAuditTenant, RockstarAuto>, IReturn
+{
+    public typealias Return = QueryResponse<RockstarAuto>
+
+    public var id:Int?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case id
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(Int.self, forKey: .id)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if id != nil { try container.encode(id, forKey: .id) }
+    }
+}
+
+public class QueryRockstarAuditSubOr : QueryDb_2<RockstarAuditTenant, RockstarAuto>, IReturn
+{
+    public typealias Return = QueryResponse<RockstarAuto>
+
+    public var firstNameStartsWith:String?
+    public var ageOlderThan:Int?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case firstNameStartsWith
+        case ageOlderThan
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        firstNameStartsWith = try container.decodeIfPresent(String.self, forKey: .firstNameStartsWith)
+        ageOlderThan = try container.decodeIfPresent(Int.self, forKey: .ageOlderThan)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if firstNameStartsWith != nil { try container.encode(firstNameStartsWith, forKey: .firstNameStartsWith) }
+        if ageOlderThan != nil { try container.encode(ageOlderThan, forKey: .ageOlderThan) }
+    }
+}
+
 public class QueryPocoBase : QueryDb_1<OnlyDefinedInGenericType>, IReturn
 {
     public typealias Return = QueryResponse<OnlyDefinedInGenericType>
@@ -1406,6 +1510,220 @@ public class QueryPocoIntoBase : QueryDb_2<OnlyDefinedInGenericTypeFrom, OnlyDef
 public class QueryRockstars : QueryDb_1<Rockstar>, IReturn
 {
     public typealias Return = QueryResponse<Rockstar>
+
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+public class CreateRockstarAudit : RockstarBase, IReturn
+{
+    public typealias Return = RockstarWithIdResponse
+
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+public class CreateRockstarAuditTenant : CreateAuditTenantBase<RockstarAuditTenant, RockstarWithIdAndResultResponse>, IReturn, IHasSessionId
+{
+    public typealias Return = RockstarWithIdAndResultResponse
+
+    public var sessionId:String?
+    public var firstName:String?
+    public var lastName:String?
+    public var age:Int?
+    public var dateOfBirth:Date?
+    public var dateDied:Date?
+    public var livingStatus:LivingStatus?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case sessionId
+        case firstName
+        case lastName
+        case age
+        case dateOfBirth
+        case dateDied
+        case livingStatus
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        sessionId = try container.decodeIfPresent(String.self, forKey: .sessionId)
+        firstName = try container.decodeIfPresent(String.self, forKey: .firstName)
+        lastName = try container.decodeIfPresent(String.self, forKey: .lastName)
+        age = try container.decodeIfPresent(Int.self, forKey: .age)
+        dateOfBirth = try container.decodeIfPresent(Date.self, forKey: .dateOfBirth)
+        dateDied = try container.decodeIfPresent(Date.self, forKey: .dateDied)
+        livingStatus = try container.decodeIfPresent(LivingStatus.self, forKey: .livingStatus)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if sessionId != nil { try container.encode(sessionId, forKey: .sessionId) }
+        if firstName != nil { try container.encode(firstName, forKey: .firstName) }
+        if lastName != nil { try container.encode(lastName, forKey: .lastName) }
+        if age != nil { try container.encode(age, forKey: .age) }
+        if dateOfBirth != nil { try container.encode(dateOfBirth, forKey: .dateOfBirth) }
+        if dateDied != nil { try container.encode(dateDied, forKey: .dateDied) }
+        if livingStatus != nil { try container.encode(livingStatus, forKey: .livingStatus) }
+    }
+}
+
+public class UpdateRockstarAuditTenant : UpdateAuditTenantBase<RockstarAuditTenant, RockstarWithIdAndResultResponse>, IReturn, IHasSessionId
+{
+    public typealias Return = RockstarWithIdAndResultResponse
+
+    public var sessionId:String?
+    public var id:Int?
+    public var firstName:String?
+    public var livingStatus:LivingStatus?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case sessionId
+        case id
+        case firstName
+        case livingStatus
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        sessionId = try container.decodeIfPresent(String.self, forKey: .sessionId)
+        id = try container.decodeIfPresent(Int.self, forKey: .id)
+        firstName = try container.decodeIfPresent(String.self, forKey: .firstName)
+        livingStatus = try container.decodeIfPresent(LivingStatus.self, forKey: .livingStatus)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if sessionId != nil { try container.encode(sessionId, forKey: .sessionId) }
+        if id != nil { try container.encode(id, forKey: .id) }
+        if firstName != nil { try container.encode(firstName, forKey: .firstName) }
+        if livingStatus != nil { try container.encode(livingStatus, forKey: .livingStatus) }
+    }
+}
+
+public class PatchRockstarAuditTenant : PatchAuditTenantBase<RockstarAuditTenant, RockstarWithIdAndResultResponse>, IReturn, IHasSessionId
+{
+    public typealias Return = RockstarWithIdAndResultResponse
+
+    public var sessionId:String?
+    public var id:Int?
+    public var firstName:String?
+    public var livingStatus:LivingStatus?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case sessionId
+        case id
+        case firstName
+        case livingStatus
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        sessionId = try container.decodeIfPresent(String.self, forKey: .sessionId)
+        id = try container.decodeIfPresent(Int.self, forKey: .id)
+        firstName = try container.decodeIfPresent(String.self, forKey: .firstName)
+        livingStatus = try container.decodeIfPresent(LivingStatus.self, forKey: .livingStatus)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if sessionId != nil { try container.encode(sessionId, forKey: .sessionId) }
+        if id != nil { try container.encode(id, forKey: .id) }
+        if firstName != nil { try container.encode(firstName, forKey: .firstName) }
+        if livingStatus != nil { try container.encode(livingStatus, forKey: .livingStatus) }
+    }
+}
+
+public class SoftDeleteAuditTenant : SoftDeleteAuditTenantBase<RockstarAuditTenant, RockstarWithIdAndResultResponse>, IReturn
+{
+    public typealias Return = RockstarWithIdAndResultResponse
+
+    public var id:Int?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case id
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(Int.self, forKey: .id)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if id != nil { try container.encode(id, forKey: .id) }
+    }
+}
+
+public class CreateRockstarAuditMqToken : RockstarBase, IReturn, IHasBearerToken
+{
+    public typealias Return = RockstarWithIdResponse
+
+    public var bearerToken:String?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case bearerToken
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        bearerToken = try container.decodeIfPresent(String.self, forKey: .bearerToken)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if bearerToken != nil { try container.encode(bearerToken, forKey: .bearerToken) }
+    }
+}
+
+public class RealDeleteAuditTenant : IReturn, IHasSessionId, Codable
+{
+    public typealias Return = RockstarWithIdAndCountResponse
+
+    public var sessionId:String?
+    public var id:Int?
+    public var age:Int?
+
+    required public init(){}
+}
+
+public class CreateRockstarVersion : RockstarBase, IReturn
+{
+    public typealias Return = RockstarWithIdAndRowVersionResponse
 
     required public init(){ super.init() }
 
@@ -1474,6 +1792,24 @@ public class CustomHttpErrorResponse : Codable
 {
     public var custom:String?
     public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class QueryResponseAlt<T : Codable> : Codable
+{
+    public var offset:Int?
+    public var total:Int?
+    public var results:[T] = []
+    public var meta:[String:String] = [:]
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class Items : Codable
+{
+    public var results:[Item] = []
 
     required public init(){}
 }
@@ -1924,6 +2260,41 @@ public class GetAccessTokenResponse : Codable
     required public init(){}
 }
 
+public class RockstarWithIdResponse : Codable
+{
+    public var id:Int?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class RockstarWithIdAndResultResponse : Codable
+{
+    public var id:Int?
+    public var result:RockstarAuto?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class RockstarWithIdAndCountResponse : Codable
+{
+    public var id:Int?
+    public var count:Int?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class RockstarWithIdAndRowVersionResponse : Codable
+{
+    public var id:Int?
+    public var rowVersion:UInt32?
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
 public class CustomType : Codable
 {
     public var id:Int?
@@ -1936,6 +2307,14 @@ public class SetterType : Codable
 {
     public var id:Int?
     public var name:String?
+
+    required public init(){}
+}
+
+public class Item : Codable
+{
+    public var name:String?
+    public var Description:String?
 
     required public init(){}
 }
@@ -2176,14 +2555,59 @@ public enum EnumType : String, Codable
 {
     case Value1
     case Value2
+    case Value3
+}
+
+// @Flags()
+public enum EnumTypeFlags : Int, Codable
+{
+    case Value1 = 0
+    case Value2 = 1
+    case Value3 = 2
+}
+
+public enum EnumWithValues : String, Codable
+{
+    case None
+    case Value1
+    case Value2
 }
 
 // @Flags()
 public enum EnumFlags : Int, Codable
 {
+    case Value0 = 0
     case Value1 = 1
     case Value2 = 2
     case Value3 = 4
+    case Value123 = 7
+}
+
+public enum EnumAsInt : Int, Codable
+{
+    case Value1 = 1000
+    case Value2 = 2000
+    case Value3 = 3000
+}
+
+public enum EnumStyle : String, Codable
+{
+    case lower
+    case UPPER
+    case PascalCase
+    case camelCase
+    case camelUPPER
+    case PascalUPPER
+}
+
+public enum EnumStyleMembers : String, Codable
+{
+    case Lower
+    case Upper
+    case PascalCase
+    case CamelCase
+    case CamelUpper
+    case PascalUpper
 }
 
 public class KeyValuePair<TKey : Codable, TValue : Codable> : Codable
@@ -2352,13 +2776,6 @@ public class HelloBase_1<T : Codable> : Codable
     required public init(){}
 }
 
-public class Item : Codable
-{
-    public var value:String?
-
-    required public init(){}
-}
-
 public class HelloWithReturnResponse : Codable
 {
     public var result:String?
@@ -2488,6 +2905,106 @@ public class Rockstar : Codable
     required public init(){}
 }
 
+public class QueryDbTenant_2<From : Codable, Into : Codable> : QueryDb_2<From, Into>
+{
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+public class RockstarAuditTenant : AuditBase
+{
+    public var tenantId:Int?
+    public var id:Int?
+    public var firstName:String?
+    public var lastName:String?
+    public var age:Int?
+    public var dateOfBirth:Date?
+    public var dateDied:Date?
+    public var livingStatus:LivingStatus?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case tenantId
+        case id
+        case firstName
+        case lastName
+        case age
+        case dateOfBirth
+        case dateDied
+        case livingStatus
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        tenantId = try container.decodeIfPresent(Int.self, forKey: .tenantId)
+        id = try container.decodeIfPresent(Int.self, forKey: .id)
+        firstName = try container.decodeIfPresent(String.self, forKey: .firstName)
+        lastName = try container.decodeIfPresent(String.self, forKey: .lastName)
+        age = try container.decodeIfPresent(Int.self, forKey: .age)
+        dateOfBirth = try container.decodeIfPresent(Date.self, forKey: .dateOfBirth)
+        dateDied = try container.decodeIfPresent(Date.self, forKey: .dateDied)
+        livingStatus = try container.decodeIfPresent(LivingStatus.self, forKey: .livingStatus)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if tenantId != nil { try container.encode(tenantId, forKey: .tenantId) }
+        if id != nil { try container.encode(id, forKey: .id) }
+        if firstName != nil { try container.encode(firstName, forKey: .firstName) }
+        if lastName != nil { try container.encode(lastName, forKey: .lastName) }
+        if age != nil { try container.encode(age, forKey: .age) }
+        if dateOfBirth != nil { try container.encode(dateOfBirth, forKey: .dateOfBirth) }
+        if dateDied != nil { try container.encode(dateDied, forKey: .dateDied) }
+        if livingStatus != nil { try container.encode(livingStatus, forKey: .livingStatus) }
+    }
+}
+
+public class RockstarAuto : RockstarBase
+{
+    public var id:Int?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case id
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(Int.self, forKey: .id)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if id != nil { try container.encode(id, forKey: .id) }
+    }
+}
+
+public class QueryDb_2<From : Codable, Into : Codable> : QueryBase
+{
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
 public class QueryDb_1<T : Codable> : QueryBase
 {
     required public init(){ super.init() }
@@ -2509,19 +3026,6 @@ public class OnlyDefinedInGenericType : Codable
     required public init(){}
 }
 
-public class QueryDb_2<From : Codable, Into : Codable> : QueryBase
-{
-    required public init(){ super.init() }
-
-    required public init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-    }
-
-    public override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
-    }
-}
-
 public class OnlyDefinedInGenericTypeFrom : Codable
 {
     public var id:Int?
@@ -2536,6 +3040,150 @@ public class OnlyDefinedInGenericTypeInto : Codable
     public var name:String?
 
     required public init(){}
+}
+
+public enum LivingStatus : String, Codable
+{
+    case Alive
+    case Dead
+}
+
+public class RockstarBase : Codable
+{
+    public var firstName:String?
+    public var lastName:String?
+    public var age:Int?
+    public var dateOfBirth:Date?
+    public var dateDied:Date?
+    public var livingStatus:LivingStatus?
+
+    required public init(){}
+}
+
+public class RockstarAudit : RockstarBase
+{
+    public var id:Int?
+    public var createdDate:Date?
+    public var createdBy:String?
+    public var createdInfo:String?
+    public var modifiedDate:Date?
+    public var modifiedBy:String?
+    public var modifiedInfo:String?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case id
+        case createdDate
+        case createdBy
+        case createdInfo
+        case modifiedDate
+        case modifiedBy
+        case modifiedInfo
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(Int.self, forKey: .id)
+        createdDate = try container.decodeIfPresent(Date.self, forKey: .createdDate)
+        createdBy = try container.decodeIfPresent(String.self, forKey: .createdBy)
+        createdInfo = try container.decodeIfPresent(String.self, forKey: .createdInfo)
+        modifiedDate = try container.decodeIfPresent(Date.self, forKey: .modifiedDate)
+        modifiedBy = try container.decodeIfPresent(String.self, forKey: .modifiedBy)
+        modifiedInfo = try container.decodeIfPresent(String.self, forKey: .modifiedInfo)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if id != nil { try container.encode(id, forKey: .id) }
+        if createdDate != nil { try container.encode(createdDate, forKey: .createdDate) }
+        if createdBy != nil { try container.encode(createdBy, forKey: .createdBy) }
+        if createdInfo != nil { try container.encode(createdInfo, forKey: .createdInfo) }
+        if modifiedDate != nil { try container.encode(modifiedDate, forKey: .modifiedDate) }
+        if modifiedBy != nil { try container.encode(modifiedBy, forKey: .modifiedBy) }
+        if modifiedInfo != nil { try container.encode(modifiedInfo, forKey: .modifiedInfo) }
+    }
+}
+
+public class CreateAuditTenantBase<Table : Codable, TResponse : Codable> : CreateAuditBase<Table, TResponse>
+{
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+public class UpdateAuditTenantBase<Table : Codable, TResponse : Codable> : UpdateAuditBase<Table, TResponse>
+{
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+public class PatchAuditTenantBase<Table : Codable, TResponse : Codable> : PatchAuditBase<Table, TResponse>
+{
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+public class SoftDeleteAuditTenantBase<Table : Codable, TResponse : Codable> : SoftDeleteAuditBase<Table, TResponse>
+{
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+public class RockstarVersion : RockstarBase
+{
+    public var id:Int?
+    public var rowVersion:UInt64?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case id
+        case rowVersion
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(Int.self, forKey: .id)
+        rowVersion = try container.decodeIfPresent(UInt64.self, forKey: .rowVersion)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if id != nil { try container.encode(id, forKey: .id) }
+        if rowVersion != nil { try container.encode(rowVersion, forKey: .rowVersion) }
+    }
 }
 
 public class MetadataTestNestedChild : Codable
@@ -2568,6 +3216,52 @@ public class Device : Codable
     public var timeStamp:Int?
     public var channels:[Channel] = []
 
+    required public init(){}
+}
+
+// @DataContract
+public class AuditBase : Codable
+{
+    // @DataMember(Order=1)
+    public var createdDate:Date?
+
+    // @DataMember(Order=2)
+    // @Required()
+    public var createdBy:String?
+
+    // @DataMember(Order=3)
+    public var modifiedDate:Date?
+
+    // @DataMember(Order=4)
+    // @Required()
+    public var modifiedBy:String?
+
+    // @DataMember(Order=5)
+    public var deletedDate:Date?
+
+    // @DataMember(Order=6)
+    public var deletedBy:String?
+
+    required public init(){}
+}
+
+public class CreateAuditBase<Table : Codable, TResponse : Codable> : Codable
+{
+    required public init(){}
+}
+
+public class UpdateAuditBase<Table : Codable, TResponse : Codable> : Codable
+{
+    required public init(){}
+}
+
+public class PatchAuditBase<Table : Codable, TResponse : Codable> : Codable
+{
+    required public init(){}
+}
+
+public class SoftDeleteAuditBase<Table : Codable, TResponse : Codable> : Codable
+{
     required public init(){}
 }
 
