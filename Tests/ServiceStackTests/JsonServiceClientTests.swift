@@ -419,7 +419,7 @@ import XCTest
         to.intList = [4, 5, 6]
         to.stringArray = ["A", "B", "C"]
         to.stringList = ["D", "E", "F"]
-        to.byteArray = [65,66,67]
+        to.byteArray = fromByteArray("QUJD") //base64(ABC)
         to.pocoArray.append(createPoco("pocoArray"))
         to.pocoList.append(createPoco("pocoList"))
         to.pocoLookup["A"] = [createPoco("B"), createPoco("C")]

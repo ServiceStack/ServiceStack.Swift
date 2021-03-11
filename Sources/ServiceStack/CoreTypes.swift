@@ -149,14 +149,21 @@ extension Double {
     }
 }
 
+// From .NET TimeSpan (XSD Duration) to Swift TimeInterval
+func fromTimeSpan(timeSpan:String) -> TimeInterval? {
+    return TimeInterval.fromString(timeSpan)
+}
+
+// From Swift TimeInterval to .NET TimeSpan (XSD Duration)
+func toTimeSpan(timeInterval:TimeInterval) -> String {
+    return timeInterval.toXsdDuration()
+}
+
 @propertyWrapper
 public struct TimeSpan {
     public var wrappedValue: TimeInterval? = 0
     public init(wrappedValue: TimeInterval?) {
         self.wrappedValue = wrappedValue
-    }
-    public static func parse(_ timeSpan:String) -> TimeInterval? {
-        return TimeInterval.fromString(timeSpan)
     }
 }
 
@@ -195,18 +202,39 @@ public class TimeIntervalConveter : StringConvertible {
     }
 }
 
+
+// From .NET Guid to Guid string
+func fromGuid(_ guid:String) -> String {
+    return guid
+}
+
+// From Guid string to .NET Guid
+func toGuid(_ guid:String) -> String {
+    return guid
+}
+
+// From .NET byte[] (Base64 String) to Swift [UInt8]
+func fromByteArray(_ base64String:String) -> [UInt8] {
+    if let data = Data(base64Encoded: base64String) {
+        return [UInt8](data)
+    }
+    return []
+}
+
+// From Swift [UInt8] to .NET byte[] (Base64 String)
+func toByteArray(_ bytes:[UInt8]) -> String {
+    return Data(bytes).base64EncodedString()
+}
+
 public class UInt8Base64Converter : StringConvertible {
     public var forType = Reflect<[UInt8]>.typeName
         
     public func fromString<T>(_ type: T.Type, _ string: String) -> T? {
-        if let data = Data(base64Encoded: string) {
-            return [UInt8](data) as? T
-        }
-        return [] as? T
+        return fromByteArray(string) as? T
     }
     public func toString<T>(instance: T) -> String? {
         if let bytes = instance as? [UInt8] {
-            let to = Data(bytes).base64EncodedString()
+            let to = toByteArray(bytes)
             return to
         }
         return nil

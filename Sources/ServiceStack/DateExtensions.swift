@@ -11,10 +11,14 @@
 #endif
 import Foundation
 
-public class DateTime {
-    public static func parse(_ dateTime:String) -> Date? {
-        return Date.fromString(dateTime)
-    }
+// From .NET DateTime (WCF JSON or ISO Date) to Swift Date
+func fromDateTime(_ jsonDate:String) -> Date? {
+    return Date.fromString(jsonDate)
+}
+
+// From Swift Date to .NET DateTime (WCF JSON Date)
+func toDateTime(_ dateTime:Date) -> String {
+    return dateTime.jsonDate;
 }
 
 public extension Date {
