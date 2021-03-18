@@ -203,9 +203,21 @@ open class JsonServiceClient: NSObject, ServiceClient, IHasBearerToken, IHasSess
 
         var sb = ""
         for prop in AnyEncodable.properties(dto) {
-            sb += sb.count == 0 ? "?" : "&"
-            let val = try! toJsv(prop.value)?.urlEncode()
-            sb += "\(prop.key)=\(val ?? "")"
+            do {
+                var rawValue = prop.value.value as? String
+                if rawValue == nil {
+                    rawValue = try toJsv(prop.value)
+                }
+                if let jsvValue = rawValue {
+                    if jsvValue != "[]" && jsvValue != "{}" {
+                        let encVal = jsvValue.urlEncode()
+                        sb += sb.count == 0 ? "?" : "&"
+                        sb += "\(prop.key)=\(encVal ?? "")"
+                    }
+                }
+            } catch let e {
+                Log.error("createUrl(): \(prop.key):\(prop.value)", error: e)
+            }
         }
 
         for (key, value) in query {

@@ -1,5 +1,5 @@
 /* Options:
-Date: 2021-03-09 07:19:50
+Date: 2021-03-18 17:23:07
 SwiftVersion: 5.0
 Version: 5.105
 Tip: To override a DTO option, remove "//" prefix before updating
@@ -310,7 +310,7 @@ public class UpdateOrganizationMemberInvite : IReturn, IPut, Codable
 }
 
 // @Route("/posts", "GET")
-public class QueryPosts : QueryDb<Post>, IReturn, IGet
+public class QueryPosts : QueryDb_1<Post>, IReturn, IGet
 {
     public typealias Return = QueryResponse<Post>
 
@@ -698,9 +698,9 @@ public class GetAllTechnologies : IReturn, IGet, Codable
 
 // @Route("/technology/search")
 // @AutoQueryViewer(DefaultSearchField="Tier", DefaultSearchText="Data", DefaultSearchType="=", Description="Explore different Technologies", IconUrl="octicon:database", Title="Find Technologies")
-public class FindTechnologies : QueryDb<Technology>, IReturn, IGet
+public class FindTechnologies : QueryDb_2<Technology, TechnologyView>, IReturn, IGet
 {
-    public typealias Return = QueryResponse<Technology>
+    public typealias Return = QueryResponse<TechnologyView>
 
     public var ids:[Int] = []
     public var name:String?
@@ -744,9 +744,9 @@ public class FindTechnologies : QueryDb<Technology>, IReturn, IGet
 }
 
 // @Route("/technology/query")
-public class QueryTechnology : QueryDb<Technology>, IReturn, IGet
+public class QueryTechnology : QueryDb_2<Technology, TechnologyView>, IReturn, IGet
 {
-    public typealias Return = QueryResponse<Technology>
+    public typealias Return = QueryResponse<TechnologyView>
 
     public var ids:[Int] = []
     public var name:String?
@@ -897,9 +897,9 @@ public class HourlyTask : IReturn, IGet, Codable
 
 // @Route("/techstacks/search")
 // @AutoQueryViewer(DefaultSearchField="Description", DefaultSearchText="ServiceStack", DefaultSearchType="Contains", Description="Explore different Technology Stacks", IconUrl="material-icons:cloud", Title="Find Technology Stacks")
-public class FindTechStacks : QueryDb<TechnologyStack>, IReturn, IGet
+public class FindTechStacks : QueryDb_2<TechnologyStack, TechnologyStackView>, IReturn, IGet
 {
-    public typealias Return = QueryResponse<TechnologyStack>
+    public typealias Return = QueryResponse<TechnologyStackView>
 
     public var ids:[Int] = []
     public var name:String?
@@ -943,9 +943,9 @@ public class FindTechStacks : QueryDb<TechnologyStack>, IReturn, IGet
 }
 
 // @Route("/techstacks/query")
-public class QueryTechStacks : QueryDb<TechnologyStack>, IReturn, IGet
+public class QueryTechStacks : QueryDb_2<TechnologyStack, TechnologyStackView>, IReturn, IGet
 {
-    public typealias Return = QueryResponse<TechnologyStack>
+    public typealias Return = QueryResponse<TechnologyStackView>
 
     public var ids:[Int] = []
     public var name:String?
@@ -1320,7 +1320,7 @@ public class ImportUserVoiceSuggestion : IReturn, IPost, Codable
 }
 
 // @Route("/posts/comment", "GET")
-public class QueryPostComments : QueryDb<PostComment>, IReturn, IGet
+public class QueryPostComments : QueryDb_1<PostComment>, IReturn, IGet
 {
     public typealias Return = QueryResponse<PostComment>
 
@@ -1394,49 +1394,6 @@ public class QueryPostComments : QueryDb<PostComment>, IReturn, IGet
         if wordCountBelow != nil { try container.encode(wordCountBelow, forKey: .wordCountBelow) }
         if reportCountAbove != nil { try container.encode(reportCountAbove, forKey: .reportCountAbove) }
         if reportCountBelow != nil { try container.encode(reportCountBelow, forKey: .reportCountBelow) }
-    }
-}
-
-// @Route("/admin/technology/search")
-// @AutoQueryViewer(DefaultSearchField="Tier", DefaultSearchText="Data", DefaultSearchType="=", Description="Explore different Technologies", IconUrl="octicon:database", Title="Find Technologies Admin")
-public class FindTechnologiesAdmin : QueryDb<Technology>, IReturn
-{
-    public typealias Return = QueryResponse<Technology>
-
-    public var id:Int?
-    public var name:String?
-    public var vendorName:String?
-    public var nameContains:String?
-    public var vendorNameContains:String?
-
-    required public init(){ super.init() }
-
-    private enum CodingKeys : String, CodingKey {
-        case id
-        case name
-        case vendorName
-        case nameContains
-        case vendorNameContains
-    }
-
-    required public init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decodeIfPresent(Int.self, forKey: .id)
-        name = try container.decodeIfPresent(String.self, forKey: .name)
-        vendorName = try container.decodeIfPresent(String.self, forKey: .vendorName)
-        nameContains = try container.decodeIfPresent(String.self, forKey: .nameContains)
-        vendorNameContains = try container.decodeIfPresent(String.self, forKey: .vendorNameContains)
-    }
-
-    public override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        if id != nil { try container.encode(id, forKey: .id) }
-        if name != nil { try container.encode(name, forKey: .name) }
-        if vendorName != nil { try container.encode(vendorName, forKey: .vendorName) }
-        if nameContains != nil { try container.encode(nameContains, forKey: .nameContains) }
-        if vendorNameContains != nil { try container.encode(vendorNameContains, forKey: .vendorNameContains) }
     }
 }
 
@@ -2245,18 +2202,18 @@ public class PostCommentReportInfo : Codable
     required public init(){}
 }
 
-public class QueryDb<T : Codable> : QueryBase
-{
-    required public init(){ super.init() }
-
-    required public init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-    }
-
-    public override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
-    }
-}
+//public class QueryDb_1<T : Codable> : QueryBase
+//{
+//    required public init(){ super.init() }
+//
+//    required public init(from decoder: Decoder) throws {
+//        try super.init(from: decoder)
+//    }
+//
+//    public override func encode(to encoder: Encoder) throws {
+//        try super.encode(to: encoder)
+//    }
+//}
 
 public class PostComment : Codable
 {
@@ -2424,6 +2381,46 @@ public class TechnologyHistory : TechnologyBase
     }
 }
 
+//public class QueryDb_2<From : Codable, Into : Codable> : QueryBase
+//{
+//    required public init(){ super.init() }
+//
+//    required public init(from decoder: Decoder) throws {
+//        try super.init(from: decoder)
+//    }
+//
+//    public override func encode(to encoder: Encoder) throws {
+//        try super.encode(to: encoder)
+//    }
+//}
+
+public class TechnologyView : Codable
+{
+    public var id:Int?
+    public var name:String?
+    public var vendorName:String?
+    public var vendorUrl:String?
+    public var productUrl:String?
+    public var logoUrl:String?
+    public var Description:String?
+    public var created:Date?
+    public var createdBy:String?
+    public var lastModified:Date?
+    public var lastModifiedBy:String?
+    public var ownerId:String?
+    public var slug:String?
+    public var logoApproved:Bool?
+    public var isLocked:Bool?
+    public var tier:TechnologyTier?
+    public var lastStatusUpdate:Date?
+    public var organizationId:Int?
+    public var commentsPostId:Int?
+    public var viewCount:Int?
+    public var favCount:Int?
+
+    required public init(){}
+}
+
 public protocol IRegisterStats
 {
 }
@@ -2470,6 +2467,32 @@ public class TechnologyStackHistory : TechnologyStackBase
         if operation != nil { try container.encode(operation, forKey: .operation) }
         if technologyIds.count > 0 { try container.encode(technologyIds, forKey: .technologyIds) }
     }
+}
+
+public class TechnologyStackView : Codable
+{
+    public var id:Int?
+    public var name:String?
+    public var vendorName:String?
+    public var Description:String?
+    public var appUrl:String?
+    public var screenshotUrl:String?
+    public var created:Date?
+    public var createdBy:String?
+    public var lastModified:Date?
+    public var lastModifiedBy:String?
+    public var isLocked:Bool?
+    public var ownerId:String?
+    public var slug:String?
+    public var details:String?
+    public var detailsHtml:String?
+    public var lastStatusUpdate:Date?
+    public var organizationId:Int?
+    public var commentsPostId:Int?
+    public var viewCount:Int?
+    public var favCount:Int?
+
+    required public init(){}
 }
 
 public class UserInfo : Codable

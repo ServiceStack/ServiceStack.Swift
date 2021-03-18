@@ -29,6 +29,29 @@ class AutoQueryTests: XCTestCase {
         }
     }
 
+    func test_Can_call_query_FindTechnologies_VendorName() {
+        let request = FindTechnologies()
+        request.vendorName = "Google"
+        request.take = 3
+        request.orderByDesc = "ViewCount"
+        request.fields = "Id,Name,VendorName,Tier,ProductUrl"
+
+        do {
+            let response = try client.get(request)
+
+            XCTAssertEqual(response.total, 15)
+            XCTAssertEqual(response.results.count, 3)
+            let names = response.results.map { $0.name! }.joined(separator: ",")
+            XCTAssertEqual(names,"AngularJS,Go,Protocol Buffers")
+            let ids = response.results.map { "\($0.id!)" }.joined(separator: ",")
+            XCTAssertEqual(ids,"7,18,77")
+            let tiers = response.results.map { "\($0.tier!)" }.joined(separator: ",")
+            XCTAssertEqual(tiers,"Client,ProgrammingLanguage,Server")
+        } catch let e {
+            XCTFail("\(e)")
+        }
+    }
+
 
     func test_Can_call_FindTechnologies_ServiceStack() {
         let request = FindTechnologies()
@@ -39,7 +62,7 @@ class AutoQueryTests: XCTestCase {
             print("Request URL: \(url)")
             let response = try client.get(request)
 
-            XCTAssertEqual(response.total, 0) // @Alex: API for unknown reason returning total: 0
+            XCTAssertEqual(response.total, 1)
             let dto = response.results[0]
             XCTAssertEqual(dto.id, 1)
             XCTAssertEqual(dto.name, "ServiceStack")
@@ -51,4 +74,6 @@ class AutoQueryTests: XCTestCase {
             XCTFail("\(e)")
         }
     }
+    
+    
 }
