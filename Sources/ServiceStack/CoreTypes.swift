@@ -115,6 +115,65 @@ public class GetNavItemsResponse: Codable {
     public required init() {}
 }
 
+open class QueryBase : Codable {
+    public var skip:Int?
+    public var take:Int?
+    public var orderBy:String?
+    public var orderByDesc:String?
+    public var include:String?
+    public var fields:String?
+    public var meta:[String:String] = [:]
+    required public init(){}
+}
+
+open class QueryDb<T : Codable> : QueryBase {
+    required public init(){ super.init() }
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+open class QueryDb2<From : Codable, Into : Codable> : QueryBase {
+    required public init(){ super.init() }
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+open class QueryData<T : Codable> : QueryBase {
+    required public init(){ super.init() }
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+open class QueryData2<From : Codable, Into : Codable> : QueryBase {
+    required public init(){ super.init() }
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+open class AuditBase : Codable {
+    public var createdDate:Date?
+    public var createdBy:String?
+    public var modifiedDate:Date?
+    public var modifiedBy:String?
+    public var deletedDate:Date?
+    public var deletedBy:String?
+    required public init(){}
+}
+
 open class List<T: Codable>: Codable, Instantiable {
     public required init() {}
 
