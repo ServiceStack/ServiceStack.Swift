@@ -63,9 +63,7 @@ public class ErrorResponse: Dto {
     public var responseStatus: ResponseStatus?
     public required init() {}
 }
-
-public class EmptyResponse : Codable
-{
+public class EmptyResponse : Codable {
     public var responseStatus:ResponseStatus?
     required public init(){}
 }
@@ -131,7 +129,7 @@ open class QueryDb<T : Codable> : QueryBase {
     required public init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
-    public override func encode(to encoder: Encoder) throws {
+    open override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
     }
 }
@@ -140,7 +138,7 @@ open class QueryDb2<From : Codable, Into : Codable> : QueryBase {
     required public init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
-    public override func encode(to encoder: Encoder) throws {
+    open override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
     }
 }
@@ -150,7 +148,7 @@ open class QueryData<T : Codable> : QueryBase {
     required public init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
-    public override func encode(to encoder: Encoder) throws {
+    open override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
     }
 }
@@ -159,9 +157,18 @@ open class QueryData2<From : Codable, Into : Codable> : QueryBase {
     required public init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
-    public override func encode(to encoder: Encoder) throws {
+    open override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
     }
+}
+
+open class QueryResponse<T : Codable> : Codable {
+    public var offset:Int?
+    public var total:Int?
+    public var results:[T] = []
+    public var meta:[String:String] = [:]
+    public var responseStatus:ResponseStatus?
+    required public init(){}
 }
 
 open class AuditBase : Codable {

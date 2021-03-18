@@ -1,5 +1,5 @@
 /* Options:
-Date: 2021-03-11 06:36:52
+Date: 2021-03-18 20:53:41
 SwiftVersion: 5.0
 Version: 5.105
 Tip: To override a DTO option, remove "//" prefix before updating
@@ -21,6 +21,21 @@ ExcludeTypes: QueryResponse`1,QueryBase`1,QueryBase`1,QueryBase,DummyTypes
 
 import Foundation
 import ServiceStack
+
+public class QueryItems : QueryDb2<Item, Poco>, IReturn
+{
+    public typealias Return = QueryResponse<Poco>
+
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
 
 // @Route("/channels/{Channel}/raw")
 public class PostRawToChannel : IReturnVoid, Codable
@@ -1402,7 +1417,7 @@ public class GetAccessToken : IReturn, IPost, Codable
     required public init(){}
 }
 
-public class QueryRockstarAudit : QueryDbTenant_2<RockstarAuditTenant, RockstarAuto>, IReturn
+public class QueryRockstarAudit : QueryDbTenant<RockstarAuditTenant, RockstarAuto>, IReturn
 {
     public typealias Return = QueryResponse<RockstarAuto>
 
@@ -1427,7 +1442,7 @@ public class QueryRockstarAudit : QueryDbTenant_2<RockstarAuditTenant, RockstarA
     }
 }
 
-public class QueryRockstarAuditSubOr : QueryDb_2<RockstarAuditTenant, RockstarAuto>, IReturn
+public class QueryRockstarAuditSubOr : QueryDb2<RockstarAuditTenant, RockstarAuto>, IReturn
 {
     public typealias Return = QueryResponse<RockstarAuto>
 
@@ -1456,7 +1471,7 @@ public class QueryRockstarAuditSubOr : QueryDb_2<RockstarAuditTenant, RockstarAu
     }
 }
 
-public class QueryPocoBase : QueryDb_1<OnlyDefinedInGenericType>, IReturn
+public class QueryPocoBase : QueryDb<OnlyDefinedInGenericType>, IReturn
 {
     public typealias Return = QueryResponse<OnlyDefinedInGenericType>
 
@@ -1481,7 +1496,7 @@ public class QueryPocoBase : QueryDb_1<OnlyDefinedInGenericType>, IReturn
     }
 }
 
-public class QueryPocoIntoBase : QueryDb_2<OnlyDefinedInGenericTypeFrom, OnlyDefinedInGenericTypeInto>, IReturn
+public class QueryPocoIntoBase : QueryDb2<OnlyDefinedInGenericTypeFrom, OnlyDefinedInGenericTypeInto>, IReturn
 {
     public typealias Return = QueryResponse<OnlyDefinedInGenericTypeInto>
 
@@ -1507,7 +1522,7 @@ public class QueryPocoIntoBase : QueryDb_2<OnlyDefinedInGenericTypeFrom, OnlyDef
 }
 
 // @Route("/rockstars", "GET")
-public class QueryRockstars : QueryDb_1<Rockstar>, IReturn
+public class QueryRockstars : QueryDb<Rockstar>, IReturn
 {
     public typealias Return = QueryResponse<Rockstar>
 
@@ -1872,15 +1887,6 @@ public class CreateJwtResponse : Codable
 public class CreateRefreshJwtResponse : Codable
 {
     public var token:String?
-    public var responseStatus:ResponseStatus?
-
-    required public init(){}
-}
-
-// @DataContract
-public class EmptyResponse : Codable
-{
-    // @DataMember(Order=1)
     public var responseStatus:ResponseStatus?
 
     required public init(){}
@@ -2295,6 +2301,21 @@ public class RockstarWithIdAndRowVersionResponse : Codable
     required public init(){}
 }
 
+public class Item : Codable
+{
+    public var name:String?
+    public var Description:String?
+
+    required public init(){}
+}
+
+public class Poco : Codable
+{
+    public var name:String?
+
+    required public init(){}
+}
+
 public class CustomType : Codable
 {
     public var id:Int?
@@ -2307,14 +2328,6 @@ public class SetterType : Codable
 {
     public var id:Int?
     public var name:String?
-
-    required public init(){}
-}
-
-public class Item : Codable
-{
-    public var name:String?
-    public var Description:String?
 
     required public init(){}
 }
@@ -2747,13 +2760,6 @@ public class AllTypesBase : Codable
     }
 }
 
-public class Poco : Codable
-{
-    public var name:String?
-
-    required public init(){}
-}
-
 public class HelloBase : Codable
 {
     public var id:Int?
@@ -2905,7 +2911,7 @@ public class Rockstar : Codable
     required public init(){}
 }
 
-public class QueryDbTenant_2<From : Codable, Into : Codable> : QueryDb_2<From, Into>
+public class QueryDbTenant<From : Codable, Into : Codable> : QueryDb2<From, Into>
 {
     required public init(){ super.init() }
 
@@ -2989,32 +2995,6 @@ public class RockstarAuto : RockstarBase
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
         if id != nil { try container.encode(id, forKey: .id) }
-    }
-}
-
-public class QueryDb_2<From : Codable, Into : Codable> : QueryBase
-{
-    required public init(){ super.init() }
-
-    required public init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-    }
-
-    public override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
-    }
-}
-
-public class QueryDb_1<T : Codable> : QueryBase
-{
-    required public init(){ super.init() }
-
-    required public init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-    }
-
-    public override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
     }
 }
 
@@ -3215,32 +3195,6 @@ public class Device : Codable
     public var type:String?
     public var timeStamp:Int?
     public var channels:[Channel] = []
-
-    required public init(){}
-}
-
-// @DataContract
-public class AuditBase : Codable
-{
-    // @DataMember(Order=1)
-    public var createdDate:Date?
-
-    // @DataMember(Order=2)
-    // @Required()
-    public var createdBy:String?
-
-    // @DataMember(Order=3)
-    public var modifiedDate:Date?
-
-    // @DataMember(Order=4)
-    // @Required()
-    public var modifiedBy:String?
-
-    // @DataMember(Order=5)
-    public var deletedDate:Date?
-
-    // @DataMember(Order=6)
-    public var deletedBy:String?
 
     required public init(){}
 }

@@ -1,5 +1,5 @@
 /* Options:
-Date: 2021-03-18 17:23:07
+Date: 2021-03-18 20:07:10
 SwiftVersion: 5.0
 Version: 5.105
 Tip: To override a DTO option, remove "//" prefix before updating
@@ -310,7 +310,7 @@ public class UpdateOrganizationMemberInvite : IReturn, IPut, Codable
 }
 
 // @Route("/posts", "GET")
-public class QueryPosts : QueryDb_1<Post>, IReturn, IGet
+public class QueryPosts : QueryDb<Post>, IReturn, IGet
 {
     public typealias Return = QueryResponse<Post>
 
@@ -698,7 +698,7 @@ public class GetAllTechnologies : IReturn, IGet, Codable
 
 // @Route("/technology/search")
 // @AutoQueryViewer(DefaultSearchField="Tier", DefaultSearchText="Data", DefaultSearchType="=", Description="Explore different Technologies", IconUrl="octicon:database", Title="Find Technologies")
-public class FindTechnologies : QueryDb_2<Technology, TechnologyView>, IReturn, IGet
+public class FindTechnologies : QueryDb2<Technology, TechnologyView>, IReturn, IGet
 {
     public typealias Return = QueryResponse<TechnologyView>
 
@@ -744,7 +744,7 @@ public class FindTechnologies : QueryDb_2<Technology, TechnologyView>, IReturn, 
 }
 
 // @Route("/technology/query")
-public class QueryTechnology : QueryDb_2<Technology, TechnologyView>, IReturn, IGet
+public class QueryTechnology : QueryDb2<Technology, TechnologyView>, IReturn, IGet
 {
     public typealias Return = QueryResponse<TechnologyView>
 
@@ -897,7 +897,7 @@ public class HourlyTask : IReturn, IGet, Codable
 
 // @Route("/techstacks/search")
 // @AutoQueryViewer(DefaultSearchField="Description", DefaultSearchText="ServiceStack", DefaultSearchType="Contains", Description="Explore different Technology Stacks", IconUrl="material-icons:cloud", Title="Find Technology Stacks")
-public class FindTechStacks : QueryDb_2<TechnologyStack, TechnologyStackView>, IReturn, IGet
+public class FindTechStacks : QueryDb2<TechnologyStack, TechnologyStackView>, IReturn, IGet
 {
     public typealias Return = QueryResponse<TechnologyStackView>
 
@@ -943,7 +943,7 @@ public class FindTechStacks : QueryDb_2<TechnologyStack, TechnologyStackView>, I
 }
 
 // @Route("/techstacks/query")
-public class QueryTechStacks : QueryDb_2<TechnologyStack, TechnologyStackView>, IReturn, IGet
+public class QueryTechStacks : QueryDb2<TechnologyStack, TechnologyStackView>, IReturn, IGet
 {
     public typealias Return = QueryResponse<TechnologyStackView>
 
@@ -1320,7 +1320,7 @@ public class ImportUserVoiceSuggestion : IReturn, IPost, Codable
 }
 
 // @Route("/posts/comment", "GET")
-public class QueryPostComments : QueryDb_1<PostComment>, IReturn, IGet
+public class QueryPostComments : QueryDb<PostComment>, IReturn, IGet
 {
     public typealias Return = QueryResponse<PostComment>
 
@@ -1525,27 +1525,6 @@ public class RequestOrganizationMemberInviteResponse : Codable
 
 public class UpdateOrganizationMemberInviteResponse : Codable
 {
-    public var responseStatus:ResponseStatus?
-
-    required public init(){}
-}
-
-// @DataContract
-public class QueryResponse<T : Codable> : Codable
-{
-    // @DataMember(Order=1)
-    public var offset:Int?
-
-    // @DataMember(Order=2)
-    public var total:Int?
-
-    // @DataMember(Order=3)
-    public var results:[T] = []
-
-    // @DataMember(Order=4)
-    public var meta:[String:String] = [:]
-
-    // @DataMember(Order=5)
     public var responseStatus:ResponseStatus?
 
     required public init(){}
@@ -2202,19 +2181,6 @@ public class PostCommentReportInfo : Codable
     required public init(){}
 }
 
-//public class QueryDb_1<T : Codable> : QueryBase
-//{
-//    required public init(){ super.init() }
-//
-//    required public init(from decoder: Decoder) throws {
-//        try super.init(from: decoder)
-//    }
-//
-//    public override func encode(to encoder: Encoder) throws {
-//        try super.encode(to: encoder)
-//    }
-//}
-
 public class PostComment : Codable
 {
     public var id:Int?
@@ -2380,19 +2346,6 @@ public class TechnologyHistory : TechnologyBase
         if operation != nil { try container.encode(operation, forKey: .operation) }
     }
 }
-
-//public class QueryDb_2<From : Codable, Into : Codable> : QueryBase
-//{
-//    required public init(){ super.init() }
-//
-//    required public init(from decoder: Decoder) throws {
-//        try super.init(from: decoder)
-//    }
-//
-//    public override func encode(to encoder: Encoder) throws {
-//        try super.encode(to: encoder)
-//    }
-//}
 
 public class TechnologyView : Codable
 {
@@ -2593,33 +2546,6 @@ public class UserVoiceComment : Codable
     public var formattedText:String?
     public var createdAt:Date?
     public var creator:UserVoiceUser?
-
-    required public init(){}
-}
-
-// @DataContract
-public class QueryBase : Codable
-{
-    // @DataMember(Order=1)
-    public var skip:Int?
-
-    // @DataMember(Order=2)
-    public var take:Int?
-
-    // @DataMember(Order=3)
-    public var orderBy:String?
-
-    // @DataMember(Order=4)
-    public var orderByDesc:String?
-
-    // @DataMember(Order=5)
-    public var include:String?
-
-    // @DataMember(Order=6)
-    public var fields:String?
-
-    // @DataMember(Order=7)
-    public var meta:[String:String] = [:]
 
     required public init(){}
 }
