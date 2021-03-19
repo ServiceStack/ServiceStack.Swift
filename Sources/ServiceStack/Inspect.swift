@@ -60,7 +60,9 @@ public class Inspect {
         encoder.outputFormatting = .prettyPrinted
         if let data = try? encoder.encode(obj) {
             let json = String(data: data, encoding: .utf8)!
-            return json.replacingOccurrences(of:"\"", with: "")
+            return json
+                .replacingOccurrences(of:"\"", with: "")
+                .replacingOccurrences(of:"\\/", with: "/")
         } else {
             var toStr = String()
             Swift.dump(obj, to:&toStr)

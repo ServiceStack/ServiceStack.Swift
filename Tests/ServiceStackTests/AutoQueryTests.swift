@@ -38,7 +38,8 @@ class AutoQueryTests: XCTestCase {
 
         do {
             let response = try client.get(request)
-
+            
+//            Inspect.printDump(response)
             XCTAssertEqual(response.total, 15)
             XCTAssertEqual(response.results.count, 3)
             let names = response.results.map { $0.name! }.joined(separator: ",")
