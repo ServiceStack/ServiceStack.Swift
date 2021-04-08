@@ -261,10 +261,10 @@ public class TimeIntervalConverter : StringConvertible {
     public var forType = Reflect<TimeInterval>.typeName
 
     public func fromString<T>(_ type: T.Type, _ string: String) -> T? {
-        return TimeInterval.fromString(string) as? T
+        return fromTimeSpan(string) as? T
     }
     public func toString<T>(instance: T) -> String? {
-        return (instance as! TimeInterval).toXsdDuration()
+        return toTimeSpan(instance as! TimeInterval)
     }
 }
 
