@@ -257,7 +257,7 @@ extension TimeSpan : Codable {
 //    @TimeSpan var time: TimeInterval
 //}
 
-public class TimeIntervalConveter : StringConvertible {
+public class TimeIntervalConverter : StringConvertible {
     public var forType = Reflect<TimeInterval>.typeName
 
     public func fromString<T>(_ type: T.Type, _ string: String) -> T? {
@@ -340,7 +340,7 @@ public class StringConverter<C> : StringConvertible where C: LosslessStringConve
 
 //func example() {
 //Converters.register(UInt8Base64Converter())
-//Converters.register(TimeIntervalConveter())
+//Converters.register(TimeIntervalConverter())
 //Converters.register(TimeInterval.self)
 //}
 
@@ -348,7 +348,7 @@ public class Converters {
     
     static var map: [String:StringConvertible] = {
         let builtInConverters:[StringConvertible] = [
-            TimeIntervalConveter(),
+            TimeIntervalConverter(),
             UInt8Base64Converter()
         ]
         var to = [String : StringConvertible]()
