@@ -1,9 +1,5 @@
-//
-//  File.swift
-//
-//
-//  Created by Demis Bellot on 2/19/21.
-//
+//  Copyright (c) 2013-present ServiceStack, Inc. All rights reserved.
+//  Created by Demis Bellot
 
 #if canImport(FoundationNetworking)
     import FoundationNetworking
@@ -60,8 +56,8 @@ class EmptySingleValueDecodingContainer: SingleValueDecodingContainer {
     func decode<T>(_: T.Type) throws -> T where T: Decodable { return Factory<T>.create() }
 }
 
-class EmptyKeyedDecodingContainerProtocol<T: CodingKey>: KeyedDecodingContainerProtocol {
-    typealias Key = T
+class EmptyKeyedDecodingContainerProtocol<TKey: CodingKey>: KeyedDecodingContainerProtocol {
+    typealias Key = TKey
 
     private(set) var codingPath: [CodingKey] = []
     private(set) var allKeys: [Key] = []
@@ -112,9 +108,9 @@ class EmptyKeyedDecodingContainerProtocol<T: CodingKey>: KeyedDecodingContainerP
 
 public class EmptyDecoder: Decoder {
     enum CodingKeys: String, CodingKey { case Empty }
-    public static var instance: Decoder = EmptyDecoder()
-    static var instanceUnkeyedContainer: UnkeyedDecodingContainer = EmptyUnkeyedDecodingContainer()
-    static var instanceSingleValueContainer: SingleValueDecodingContainer = EmptySingleValueDecodingContainer()
+    public static var instance: Decoder { return EmptyDecoder() }
+    static var instanceUnkeyedContainer: UnkeyedDecodingContainer { return EmptyUnkeyedDecodingContainer() }
+    static var instanceSingleValueContainer: SingleValueDecodingContainer { return EmptySingleValueDecodingContainer() }
     public var codingPath: [CodingKey] = []
     public var userInfo: [CodingUserInfoKey: Any] = [:]
     public func container<Key>(keyedBy _: Key.Type) throws -> KeyedDecodingContainer<Key> where Key: CodingKey {

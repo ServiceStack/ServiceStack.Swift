@@ -1,15 +1,14 @@
-import XCTest
-@testable import ServiceStack
+//  Copyright (c) 2013-present ServiceStack, Inc. All rights reserved.
+//  Created by Demis Bellot
 
-final class ServiceStackTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(ServiceStack().text, "Hello, World!")
-    }
+import Testing
+import ServiceStack
 
-    static var allTests = [
-        ("testExample", testExample),
-    ]
+struct ServiceStack {
+    var text = "Hello, World!"
+}
+
+@Test func example() async throws {
+    // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+    #expect(ServiceStack().text == "Hello, World!")
 }

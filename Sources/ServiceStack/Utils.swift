@@ -1,15 +1,17 @@
-//
-//  Utils.swift
-//  ServiceStack
-//
-//  Created by Demis Bellot on 2/19/21.
-//  Copyright © 2021 ServiceStack. All rights reserved.
-//
+//  Copyright (c) 2013-present ServiceStack, Inc. All rights reserved.
+//  Created by Demis Bellot
 
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
 import Foundation
+
+// signature matches the default Swift print so it overwrites the function throughout project
+func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    #if DEBUG
+    Swift.print(items, separator: separator, terminator: terminator)
+    #endif
+}
 
 public class Factory<T: Decodable> {
     public static func create() -> T {
@@ -36,8 +38,8 @@ public enum LogLevel : String {
     case Debug, Info, Warn, Error
 }
 public class Log {
-    public static var levels:[LogLevel] = [.Warn, .Error]
-    public static var logger:Logger = ConsoleLogger()
+    nonisolated(unsafe) public static var levels:[LogLevel] = [.Warn, .Error]
+    nonisolated(unsafe) public static var logger:Logger = ConsoleLogger()
 
     public static func debug(_ msg:String) {
         if levels.contains(.Debug) {
@@ -240,8 +242,8 @@ public func toJsv<T>(_ instance: T) throws -> String? where T: Encodable {
 
 public class JsonConfig {
     
-    public static var encoderFilter: ((JSONEncoder) -> Void)?
-    public static var decoderFilter: ((JSONDecoder) -> Void)?
+    nonisolated(unsafe) public static var encoderFilter: ((JSONEncoder) -> Void)?
+    nonisolated(unsafe) public static var decoderFilter: ((JSONDecoder) -> Void)?
 
     public static func createEncoder() -> JSONEncoder {
         let encoder = JSONEncoder()
@@ -255,7 +257,7 @@ public class JsonConfig {
         return encoder
     }
     
-    public static var keywords = [
+    public static let keywords = [
         "class", "deinit", "description", "enum", "extension", "func", "import", "init", "let", "protocol", "static",
         "struct", "subscript", "typealias", "associatedtype", "var", "break", "case", "continue", "default", "do",
         "else", "fallthrough", "if", "in", "for", "return", "switch", "where", "while", "dynamicType", "is", "new",

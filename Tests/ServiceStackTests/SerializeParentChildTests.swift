@@ -1,18 +1,12 @@
-//
-//  ParentChildTests.swift
-//  SerializationUtils
-//
-//  Created by Demis Bellot on 1/21/15.
-//  Copyright (c) 2021 ServiceStack, Inc. All rights reserved.
-//
+//  Copyright (c) 2013-present ServiceStack, Inc. All rights reserved.
+//  Created by Demis Bellot
 
+import Testing
+import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-import Foundation
-import XCTest
-
-@testable import ServiceStack
+import ServiceStack
 
  public class Parent: Codable {
     public required init() {}
@@ -58,16 +52,27 @@ import XCTest
         && lhs.name == rhs.name
  }
 
- class SerializeParentChildTests: XCTestCase {
-    func testCan_serialize_Empty_Parent() {
+final class SerializeParentChildTests : @unchecked Sendable {
+
+    @Test func Can_serialize_Empty_Parent() {
         let dto = Parent()
 
         let json = toJson(dto)
+        print("json: " + json!)
 
-        print(json!)
 
-        XCTAssertEqual(json,
-                       "{\"string\":\"A\",\"double\":1,\"int\":1,\"ints\":[],\"doubles\":[],\"bools\":[],\"children\":[],\"bool\":true,\"child\":{\"id\":1},\"strings\":[]}")
+        let obj = fromJson(Parent.self, json!)!
+        #expect(obj.int == 1)
+        #expect(obj.string == "A")
+        #expect(obj.bool == true)
+        #expect(obj.double == 1.0)
+
+        #expect(obj.child.id == 1)
+
+        #expect(obj.ints == [])
+        #expect(obj.strings == [])
+        #expect(obj.bools == [])
+        #expect(obj.doubles == [])
     }
 
     func createChild(id: Int) -> Child {
@@ -77,7 +82,7 @@ import XCTest
         return to
     }
 
-    func test_Can_serialize_full_Parent() {
+    @Test func Can_serialize_full_Parent() {
         let dto = Parent()
         dto.intOptional = 2
         dto.stringOptional = "B"
@@ -99,11 +104,30 @@ import XCTest
 
         print(json!)
 
-        XCTAssertEqual(json,
-                       "{\"ints\":[1,2,3],\"intOptional\":2,\"boolsOptional\":[false,true],\"doubles\":[1.1000000000000001,2.2000000000000002,3.2999999999999998],\"strings\":[\"A\",\"B\",\"C\"],\"bools\":[true,false],\"stringOptional\":\"B\",\"bool\":true,\"double\":1,\"children\":[{\"id\":1,\"name\":\"name1\"},{\"id\":2,\"name\":\"name2\"}],\"int\":1,\"childOptional\":{\"id\":1,\"name\":\"name1\"},\"stringsOptional\":[\"D\",\"E\",\"F\"],\"doubleOptional\":2,\"childrenOptional\":[{\"id\":3,\"name\":\"name3\"},{\"id\":4,\"name\":\"name4\"}],\"doublesOptional\":[4.4000000000000004,5.5,6.5999999999999996],\"intsOptional\":[4,5,6],\"boolOptional\":false,\"string\":\"A\",\"child\":{\"id\":1}}")
+        let obj = fromJson(Parent.self, json!)!
+        #expect(obj.int == 1)
+        #expect(obj.intOptional! == 2)
+        #expect(obj.string == "A")
+        #expect(obj.stringOptional! == "B")
+        #expect(obj.bool == true)
+        #expect(obj.boolOptional! == false)
+        #expect(obj.double == 1.0)
+        #expect(obj.doubleOptional! == 2.0)
+
+        #expect(obj.child == Child())
+        #expect(obj.childOptional! == createChild(id: 1))
+
+        #expect(obj.ints == [1, 2, 3])
+        #expect(obj.intsOptional! == [4, 5, 6])
+        #expect(obj.strings == ["A", "B", "C"])
+        #expect(obj.stringsOptional! == ["D", "E", "F"])
+        #expect(obj.bools == [true, false])
+        #expect(obj.boolsOptional! == [false, true])
+        #expect(obj.doubles == [1.1, 2.2, 3.3])
+        #expect(obj.doublesOptional! == [4.4, 5.5, 6.6])
     }
 
-    func test_Can_deserialize_full_Parent() {
+    @Test func Can_deserialize_full_Parent() {
         let json = "{\"int\":1,\"intOptional\":2,\"string\":\"A\",\"stringOptional\":\"B\",\"bool\":true,\"boolOptional\":false,\"double\":1.0,\"doubleOptional\":2.0,\"child\":{\"id\":1,\"name\":null},\"childOptional\":{\"id\":1,\"name\":\"name1\"},\"ints\":[1,2,3],\"intsOptional\":[4,5,6],\"strings\":[\"A\",\"B\",\"C\"],\"stringsOptional\":[\"D\",\"E\",\"F\"],\"bools\":[true,false],\"boolsOptional\":[false,true],\"doubles\":[1.1,2.2,3.3],\"doublesOptional\":[4.4,5.5,6.6],\"children\":[{\"id\":1,\"name\":\"name1\"},{\"id\":2,\"name\":\"name2\"}],\"childrenOptional\":[{\"id\":3,\"name\":\"name3\"},{\"id\":4,\"name\":\"name4\"}]}"
 
         let parent = fromJson(Parent.self, json)!
@@ -111,28 +135,28 @@ import XCTest
 //        println("TO JSON:")
 //        println(parent.toJson())
 
-        XCTAssertEqual(parent.int, 1)
-        XCTAssertEqual(parent.intOptional!, 2)
-        XCTAssertEqual(parent.string, "A")
-        XCTAssertEqual(parent.stringOptional!, "B")
-        XCTAssertEqual(parent.bool, true)
-        XCTAssertEqual(parent.boolOptional!, false)
-        XCTAssertEqual(parent.double, 1.0)
-        XCTAssertEqual(parent.doubleOptional!, 2.0)
+        #expect(parent.int == 1)
+        #expect(parent.intOptional! == 2)
+        #expect(parent.string == "A")
+        #expect(parent.stringOptional! == "B")
+        #expect(parent.bool == true)
+        #expect(parent.boolOptional! == false)
+        #expect(parent.double == 1.0)
+        #expect(parent.doubleOptional! == 2.0)
 
-        XCTAssertEqual(parent.child, Child())
-        XCTAssertEqual(parent.childOptional!, createChild(id: 1))
+        #expect(parent.child == Child())
+        #expect(parent.childOptional! == createChild(id: 1))
 
-        XCTAssertEqual(parent.ints, [1, 2, 3])
-        XCTAssertEqual(parent.intsOptional!, [4, 5, 6])
-        XCTAssertEqual(parent.strings, ["A", "B", "C"])
-        XCTAssertEqual(parent.stringsOptional!, ["D", "E", "F"])
-        XCTAssertEqual(parent.bools, [true, false])
-        XCTAssertEqual(parent.boolsOptional!, [false, true])
-        XCTAssertEqual(parent.doubles, [1.1, 2.2, 3.3])
-        XCTAssertEqual(parent.doublesOptional!, [4.4, 5.5, 6.6])
+        #expect(parent.ints == [1, 2, 3])
+        #expect(parent.intsOptional! == [4, 5, 6])
+        #expect(parent.strings == ["A", "B", "C"])
+        #expect(parent.stringsOptional! == ["D", "E", "F"])
+        #expect(parent.bools == [true, false])
+        #expect(parent.boolsOptional! == [false, true])
+        #expect(parent.doubles == [1.1, 2.2, 3.3])
+        #expect(parent.doublesOptional! == [4.4, 5.5, 6.6])
 
-        XCTAssertEqual(parent.children, [createChild(id: 1), createChild(id: 2)])
-        XCTAssertEqual(parent.childrenOptional!, [createChild(id: 3), createChild(id: 4)])
+        #expect(parent.children == [createChild(id: 1), createChild(id: 2)])
+        #expect(parent.childrenOptional! == [createChild(id: 3), createChild(id: 4)])
     }
- }
+}

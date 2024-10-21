@@ -1,15 +1,16 @@
 /* Options:
-Date: 2021-03-18 20:07:10
+Date: 2024-10-21 14:05:14
 SwiftVersion: 5.0
-Version: 5.105
+Version: 8.41
 Tip: To override a DTO option, remove "//" prefix before updating
-BaseUrl: https://www.techstacks.io
+BaseUrl: https://techstacks.io
 
 //BaseClass: 
 //AddModelExtensions: True
 //AddServiceStackTypes: True
+//MakePropertiesOptional: True
 //IncludeTypes: 
-ExcludeTypes: Authenticate,AuthenticateResponse,AssignRoles,AssignRolesResponse,UnAssignRoles,UnAssignRolesResponse,Ping,ConvertSessionToToken,GetAccessToken
+ExcludeTypes: Hello,HelloResponse,Authenticate,AuthenticateResponse,AssignRoles,AssignRolesResponse,UnAssignRoles,UnAssignRolesResponse,Ping,ConvertSessionToToken,GetAccessToken
 //ExcludeGenericBaseTypes: False
 //AddResponseStatus: False
 //AddImplicitVersion: 
@@ -21,13 +22,6 @@ ExcludeTypes: Authenticate,AuthenticateResponse,AssignRoles,AssignRolesResponse,
 
 import Foundation
 import ServiceStack
-
-public class DummyTypes : Codable
-{
-    public var post:[Post] = []
-
-    required public init(){}
-}
 
 // @Route("/orgs/{Id}", "GET")
 public class GetOrganization : IReturn, IGet, Codable
@@ -310,15 +304,15 @@ public class UpdateOrganizationMemberInvite : IReturn, IPut, Codable
 }
 
 // @Route("/posts", "GET")
-public class QueryPosts : QueryDb<Post>, IReturn, IGet
+public class QueryPosts : QueryDb<Post>, IReturn
 {
     public typealias Return = QueryResponse<Post>
 
     public var ids:[Int] = []
     public var organizationId:Int?
-    public var organizationIds:[Int] = []
-    public var types:[String] = []
-    public var anyTechnologyIds:[Int] = []
+    public var organizationIds:[Int]?
+    public var types:[String]?
+    public var anyTechnologyIds:[Int]?
     public var `is`:[String] = []
 
     required public init(){ super.init() }
@@ -348,9 +342,9 @@ public class QueryPosts : QueryDb<Post>, IReturn, IGet
         var container = encoder.container(keyedBy: CodingKeys.self)
         if ids.count > 0 { try container.encode(ids, forKey: .ids) }
         if organizationId != nil { try container.encode(organizationId, forKey: .organizationId) }
-        if organizationIds.count > 0 { try container.encode(organizationIds, forKey: .organizationIds) }
-        if types.count > 0 { try container.encode(types, forKey: .types) }
-        if anyTechnologyIds.count > 0 { try container.encode(anyTechnologyIds, forKey: .anyTechnologyIds) }
+        if organizationIds != nil && organizationIds!.count > 0 { try container.encode(organizationIds, forKey: .organizationIds) }
+        if types != nil && types!.count > 0 { try container.encode(types, forKey: .types) }
+        if anyTechnologyIds != nil && anyTechnologyIds!.count > 0 { try container.encode(anyTechnologyIds, forKey: .anyTechnologyIds) }
         if `is`.count > 0 { try container.encode(`is`, forKey: .`is`) }
     }
 }
@@ -618,15 +612,16 @@ public class UserPostCommentReport : IReturn, IPut, Codable
     required public init(){}
 }
 
-// @Route("/prerender/{Path*}", "PUT")
+// @Route("/prerender/{**Path}", "PUT")
 public class StorePreRender : IReturnVoid, IPut, Codable
 {
     public var path:String?
+    public var requestStream:Data?
 
     required public init(){}
 }
 
-// @Route("/prerender/{Path*}", "GET")
+// @Route("/prerender/{**Path}", "GET")
 public class GetPreRender : IReturn, IGet, Codable
 {
     public typealias Return = String
@@ -637,6 +632,7 @@ public class GetPreRender : IReturn, IGet, Codable
 }
 
 // @Route("/my-session")
+// @ValidateRequest(Validator="IsAuthenticated")
 public class SessionInfo : IReturn, IGet, Codable
 {
     public typealias Return = SessionInfoResponse
@@ -698,11 +694,11 @@ public class GetAllTechnologies : IReturn, IGet, Codable
 
 // @Route("/technology/search")
 // @AutoQueryViewer(DefaultSearchField="Tier", DefaultSearchText="Data", DefaultSearchType="=", Description="Explore different Technologies", IconUrl="octicon:database", Title="Find Technologies")
-public class FindTechnologies : QueryDb2<Technology, TechnologyView>, IReturn, IGet
+public class FindTechnologies : QueryDb2<Technology, TechnologyView>, IReturn
 {
     public typealias Return = QueryResponse<TechnologyView>
 
-    public var ids:[Int] = []
+    public var ids:[Int]?
     public var name:String?
     public var vendorName:String?
     public var nameContains:String?
@@ -734,7 +730,7 @@ public class FindTechnologies : QueryDb2<Technology, TechnologyView>, IReturn, I
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if ids.count > 0 { try container.encode(ids, forKey: .ids) }
+        if ids != nil && ids!.count > 0 { try container.encode(ids, forKey: .ids) }
         if name != nil { try container.encode(name, forKey: .name) }
         if vendorName != nil { try container.encode(vendorName, forKey: .vendorName) }
         if nameContains != nil { try container.encode(nameContains, forKey: .nameContains) }
@@ -744,11 +740,11 @@ public class FindTechnologies : QueryDb2<Technology, TechnologyView>, IReturn, I
 }
 
 // @Route("/technology/query")
-public class QueryTechnology : QueryDb2<Technology, TechnologyView>, IReturn, IGet
+public class QueryTechnology : QueryDb2<Technology, TechnologyView>, IReturn
 {
     public typealias Return = QueryResponse<TechnologyView>
 
-    public var ids:[Int] = []
+    public var ids:[Int]?
     public var name:String?
     public var vendorName:String?
     public var nameContains:String?
@@ -780,7 +776,7 @@ public class QueryTechnology : QueryDb2<Technology, TechnologyView>, IReturn, IG
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if ids.count > 0 { try container.encode(ids, forKey: .ids) }
+        if ids != nil && ids!.count > 0 { try container.encode(ids, forKey: .ids) }
         if name != nil { try container.encode(name, forKey: .name) }
         if vendorName != nil { try container.encode(vendorName, forKey: .vendorName) }
         if nameContains != nil { try container.encode(nameContains, forKey: .nameContains) }
@@ -877,31 +873,13 @@ public class GetPageStats : IReturn, IGet, Codable
     required public init(){}
 }
 
-// @Route("/cache/clear")
-public class ClearCache : IReturn, IGet, Codable
-{
-    public typealias Return = String
-
-    required public init(){}
-}
-
-// @Route("/tasks/hourly")
-public class HourlyTask : IReturn, IGet, Codable
-{
-    public typealias Return = HourlyTaskResponse
-
-    public var force:Bool?
-
-    required public init(){}
-}
-
 // @Route("/techstacks/search")
 // @AutoQueryViewer(DefaultSearchField="Description", DefaultSearchText="ServiceStack", DefaultSearchType="Contains", Description="Explore different Technology Stacks", IconUrl="material-icons:cloud", Title="Find Technology Stacks")
-public class FindTechStacks : QueryDb2<TechnologyStack, TechnologyStackView>, IReturn, IGet
+public class FindTechStacks : QueryDb2<TechnologyStack, TechnologyStackView>, IReturn
 {
     public typealias Return = QueryResponse<TechnologyStackView>
 
-    public var ids:[Int] = []
+    public var ids:[Int]?
     public var name:String?
     public var vendorName:String?
     public var nameContains:String?
@@ -933,7 +911,7 @@ public class FindTechStacks : QueryDb2<TechnologyStack, TechnologyStackView>, IR
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if ids.count > 0 { try container.encode(ids, forKey: .ids) }
+        if ids != nil && ids!.count > 0 { try container.encode(ids, forKey: .ids) }
         if name != nil { try container.encode(name, forKey: .name) }
         if vendorName != nil { try container.encode(vendorName, forKey: .vendorName) }
         if nameContains != nil { try container.encode(nameContains, forKey: .nameContains) }
@@ -943,11 +921,11 @@ public class FindTechStacks : QueryDb2<TechnologyStack, TechnologyStackView>, IR
 }
 
 // @Route("/techstacks/query")
-public class QueryTechStacks : QueryDb2<TechnologyStack, TechnologyStackView>, IReturn, IGet
+public class QueryTechStacks : QueryDb2<TechnologyStack, TechnologyStackView>, IReturn
 {
     public typealias Return = QueryResponse<TechnologyStackView>
 
-    public var ids:[Int] = []
+    public var ids:[Int]?
     public var name:String?
     public var vendorName:String?
     public var nameContains:String?
@@ -979,7 +957,7 @@ public class QueryTechStacks : QueryDb2<TechnologyStack, TechnologyStackView>, I
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if ids.count > 0 { try container.encode(ids, forKey: .ids) }
+        if ids != nil && ids!.count > 0 { try container.encode(ids, forKey: .ids) }
         if name != nil { try container.encode(name, forKey: .name) }
         if vendorName != nil { try container.encode(vendorName, forKey: .vendorName) }
         if nameContains != nil { try container.encode(nameContains, forKey: .nameContains) }
@@ -1151,6 +1129,7 @@ public class RemoveFavoriteTechnology : IReturn, IDelete, Codable
 }
 
 // @Route("/my-feed")
+// @ValidateRequest(Validator="IsAuthenticated")
 public class GetUserFeed : IReturn, IGet, Codable
 {
     public typealias Return = GetUserFeedResponse
@@ -1168,20 +1147,21 @@ public class GetUsersKarma : IReturn, IGet, Codable
     required public init(){}
 }
 
-// @Route("/userinfo/{UserName}")
+// @Route("/userinfo/{Id}")
 public class GetUserInfo : IReturn, IGet, Codable
 {
     public typealias Return = GetUserInfoResponse
 
+    public var id:Int?
     public var userName:String?
 
     required public init(){}
 }
 
-// @Route("/users/{UserName}/avatar", "GET")
+// @Route("/users/{UserId}/avatar", "GET")
 public class UserAvatar : IGet, Codable
 {
-    public var userName:String?
+    public var userId:Int?
 
     required public init(){}
 }
@@ -1218,16 +1198,6 @@ public class MqStatus : IReturn, Codable
     required public init(){}
 }
 
-// @Route("/sync/discourse/{Site}")
-public class SyncDiscourseSite : IReturn, IPost, Codable
-{
-    public typealias Return = SyncDiscourseSiteResponse
-
-    public var site:String?
-
-    required public init(){}
-}
-
 // @Route("/admin/technology/{TechnologyId}/logo")
 public class LogoUrlApproval : IReturn, IPut, Codable
 {
@@ -1239,88 +1209,59 @@ public class LogoUrlApproval : IReturn, IPut, Codable
     required public init(){}
 }
 
+/**
+* Limit updates to TechStack to Owner or Admin users
+*/
 // @Route("/admin/techstacks/{TechnologyStackId}/lock")
 public class LockTechStack : IReturn, IPut, Codable
 {
     public typealias Return = LockStackResponse
 
+    // @Validate(Validator="GreaterThan(0)")
     public var technologyStackId:Int?
+
     public var isLocked:Bool?
 
     required public init(){}
 }
 
+/**
+* Limit updates to Technology to Owner or Admin users
+*/
 // @Route("/admin/technology/{TechnologyId}/lock")
+// @Api(Description="Limit updates to Technology to Owner or Admin users")
 public class LockTech : IReturn, IPut, Codable
 {
     public typealias Return = LockStackResponse
 
+    // @Validate(Validator="GreaterThan(0)")
     public var technologyId:Int?
+
     public var isLocked:Bool?
+
+    required public init(){}
+}
+
+public class DummyTypes : Codable
+{
+    public var post:[Post] = []
 
     required public init(){}
 }
 
 // @Route("/email/post/{PostId}")
+// @ValidateRequest(Validator="IsAdmin")
 public class EmailTest : IReturn, Codable
 {
-    public typealias Return = EmailTestRespoonse
+    public typealias Return = EmailTestResponse
 
     public var postId:Int?
 
     required public init(){}
 }
 
-public class ImportUser : IReturn, IPost, Codable
-{
-    public typealias Return = ImportUserResponse
-
-    public var userName:String?
-    public var email:String?
-    public var firstName:String?
-    public var lastName:String?
-    public var displayName:String?
-    public var company:String?
-    public var refSource:String?
-    public var refId:Int?
-    public var refIdStr:String?
-    public var refUrn:String?
-    public var defaultProfileUrl:String?
-    public var meta:[String:String] = [:]
-
-    required public init(){}
-}
-
-// @Route("/import/uservoice/suggestion")
-public class ImportUserVoiceSuggestion : IReturn, IPost, Codable
-{
-    public typealias Return = ImportUserVoiceSuggestionResponse
-
-    public var organizationId:Int?
-    public var url:String?
-    public var id:Int?
-    public var topicId:Int?
-    public var state:String?
-    public var title:String?
-    public var slug:String?
-    public var category:String?
-    public var text:String?
-    public var formattedText:String?
-    public var voteCount:Int?
-    public var closedAt:Date?
-    public var statusKey:String?
-    public var statusHexColor:String?
-    public var statusChangedBy:UserVoiceUser?
-    public var creator:UserVoiceUser?
-    public var response:UserVoiceComment?
-    public var createdAt:Date?
-    public var updatedAt:Date?
-
-    required public init(){}
-}
-
 // @Route("/posts/comment", "GET")
-public class QueryPostComments : QueryDb<PostComment>, IReturn, IGet
+public class QueryPostComments : QueryDb<PostComment>, IReturn
 {
     public typealias Return = QueryResponse<PostComment>
 
@@ -1776,14 +1717,6 @@ public class GetPageStatsResponse : Codable
     required public init(){}
 }
 
-public class HourlyTaskResponse : Codable
-{
-    public var meta:[String:String] = [:]
-    public var responseStatus:ResponseStatus?
-
-    required public init(){}
-}
-
 public class OverviewResponse : Codable
 {
     public var created:Date?
@@ -1924,16 +1857,6 @@ public class GetUserInfoResponse : Codable
     required public init(){}
 }
 
-public class SyncDiscourseSiteResponse : Codable
-{
-    public var timeTaken:String?
-    public var userLogs:[String] = []
-    public var postsLogs:[String] = []
-    public var responseStatus:ResponseStatus?
-
-    required public init(){}
-}
-
 public class LogoUrlApprovalResponse : Codable
 {
     public var result:Technology?
@@ -1946,25 +1869,8 @@ public class LockStackResponse : Codable
     required public init(){}
 }
 
-public class EmailTestRespoonse : Codable
+public class EmailTestResponse : Codable
 {
-    public var responseStatus:ResponseStatus?
-
-    required public init(){}
-}
-
-public class ImportUserResponse : Codable
-{
-    public var id:Int?
-    public var responseStatus:ResponseStatus?
-
-    required public init(){}
-}
-
-public class ImportUserVoiceSuggestionResponse : Codable
-{
-    public var postId:Int?
-    public var postSlug:String?
     public var responseStatus:ResponseStatus?
 
     required public init(){}
@@ -2031,6 +1937,166 @@ public class Post : Codable
     public var createdBy:String?
     public var modified:Date?
     public var modifiedBy:String?
+    public var refId:Int?
+    public var refSource:String?
+    public var refUrn:String?
+
+    required public init(){}
+}
+
+public enum PostType : String, Codable
+{
+    case Announcement
+    case Post
+    case Showcase
+    case Question
+    case Request
+}
+
+public enum ReportAction : String, Codable
+{
+    case Dismiss
+    case Delete
+}
+
+public enum FlagType : String, Codable
+{
+    case Violation
+    case Spam
+    case Abusive
+    case Confidential
+    case OffTopic
+    case Other
+}
+
+public enum Frequency : Int, Codable
+{
+    case Daily = 1
+    case Weekly = 7
+    case Monthly = 30
+    case Quarterly = 90
+}
+
+public class Technology : TechnologyBase
+{
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+public class TechnologyView : Codable
+{
+    public var id:Int?
+    public var name:String?
+    public var vendorName:String?
+    public var vendorUrl:String?
+    public var productUrl:String?
+    public var logoUrl:String?
+    public var Description:String?
+    public var created:Date?
+    public var createdBy:String?
+    public var lastModified:Date?
+    public var lastModifiedBy:String?
+    public var ownerId:String?
+    public var slug:String?
+    public var logoApproved:Bool?
+    public var isLocked:Bool?
+    public var tier:TechnologyTier?
+    public var lastStatusUpdate:Date?
+    public var organizationId:Int?
+    public var commentsPostId:Int?
+    public var viewCount:Int?
+    public var favCount:Int?
+
+    required public init(){}
+}
+
+public protocol IRegisterStats
+{
+}
+
+public enum TechnologyTier : String, Codable
+{
+    case ProgrammingLanguage
+    case Client
+    case Http
+    case Server
+    case Data
+    case SoftwareInfrastructure
+    case OperatingSystem
+    case HardwareInfrastructure
+    case ThirdPartyServices
+}
+
+public class TechnologyStack : TechnologyStackBase
+{
+    required public init(){ super.init() }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+    }
+}
+
+public class TechnologyStackView : Codable
+{
+    public var id:Int?
+    public var name:String?
+    public var vendorName:String?
+    public var Description:String?
+    public var appUrl:String?
+    public var screenshotUrl:String?
+    public var created:Date?
+    public var createdBy:String?
+    public var lastModified:Date?
+    public var lastModifiedBy:String?
+    public var isLocked:Bool?
+    public var ownerId:String?
+    public var slug:String?
+    public var details:String?
+    public var detailsHtml:String?
+    public var lastStatusUpdate:Date?
+    public var organizationId:Int?
+    public var commentsPostId:Int?
+    public var viewCount:Int?
+    public var favCount:Int?
+
+    required public init(){}
+}
+
+public class PostComment : Codable
+{
+    public var id:Int?
+    public var postId:Int?
+    public var userId:Int?
+    public var replyId:Int?
+    // @StringLength(Int32.max)
+    public var content:String?
+
+    // @StringLength(Int32.max)
+    public var contentHtml:String?
+
+    public var score:Int?
+    public var rank:Int?
+    public var upVotes:Int?
+    public var downVotes:Int?
+    public var favorites:Int?
+    public var wordCount:Int?
+    public var reportCount:Int?
+    public var deleted:Date?
+    public var hidden:Date?
+    public var modified:Date?
+    public var created:Date?
+    public var createdBy:String?
     public var refId:Int?
     public var refSource:String?
     public var refUrn:String?
@@ -2181,52 +2247,6 @@ public class PostCommentReportInfo : Codable
     required public init(){}
 }
 
-public class PostComment : Codable
-{
-    public var id:Int?
-    public var postId:Int?
-    public var userId:Int?
-    public var replyId:Int?
-    // @StringLength(Int32.max)
-    public var content:String?
-
-    // @StringLength(Int32.max)
-    public var contentHtml:String?
-
-    public var score:Int?
-    public var rank:Int?
-    public var upVotes:Int?
-    public var downVotes:Int?
-    public var favorites:Int?
-    public var wordCount:Int?
-    public var reportCount:Int?
-    public var deleted:Date?
-    public var hidden:Date?
-    public var modified:Date?
-    public var created:Date?
-    public var createdBy:String?
-    public var refId:Int?
-    public var refSource:String?
-    public var refUrn:String?
-
-    required public init(){}
-}
-
-public enum PostType : String, Codable
-{
-    case Announcement
-    case Post
-    case Showcase
-    case Question
-    case Request
-}
-
-public enum ReportAction : String, Codable
-{
-    case Dismiss
-    case Delete
-}
-
 public class UserRef : Codable
 {
     public var id:Int?
@@ -2254,42 +2274,6 @@ public class OrganizationSubscription : Codable
     required public init(){}
 }
 
-public enum FlagType : String, Codable
-{
-    case Violation
-    case Spam
-    case Abusive
-    case Confidential
-    case OffTopic
-    case Other
-}
-
-public class TechnologyStack : TechnologyStackBase
-{
-    required public init(){ super.init() }
-
-    required public init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-    }
-
-    public override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
-    }
-}
-
-public class Technology : TechnologyBase
-{
-    required public init(){ super.init() }
-
-    required public init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-    }
-
-    public override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
-    }
-}
-
 public class UserActivity : Codable
 {
     public var id:Int?
@@ -2310,14 +2294,6 @@ public class UserActivity : Codable
     public var modified:Date?
 
     required public init(){}
-}
-
-public enum Frequency : Int, Codable
-{
-    case Daily = 1
-    case Weekly = 7
-    case Monthly = 30
-    case Quarterly = 90
 }
 
 public class TechnologyHistory : TechnologyBase
@@ -2345,50 +2321,6 @@ public class TechnologyHistory : TechnologyBase
         if technologyId != nil { try container.encode(technologyId, forKey: .technologyId) }
         if operation != nil { try container.encode(operation, forKey: .operation) }
     }
-}
-
-public class TechnologyView : Codable
-{
-    public var id:Int?
-    public var name:String?
-    public var vendorName:String?
-    public var vendorUrl:String?
-    public var productUrl:String?
-    public var logoUrl:String?
-    public var Description:String?
-    public var created:Date?
-    public var createdBy:String?
-    public var lastModified:Date?
-    public var lastModifiedBy:String?
-    public var ownerId:String?
-    public var slug:String?
-    public var logoApproved:Bool?
-    public var isLocked:Bool?
-    public var tier:TechnologyTier?
-    public var lastStatusUpdate:Date?
-    public var organizationId:Int?
-    public var commentsPostId:Int?
-    public var viewCount:Int?
-    public var favCount:Int?
-
-    required public init(){}
-}
-
-public protocol IRegisterStats
-{
-}
-
-public enum TechnologyTier : String, Codable
-{
-    case ProgrammingLanguage
-    case Client
-    case Http
-    case Server
-    case Data
-    case SoftwareInfrastructure
-    case OperatingSystem
-    case HardwareInfrastructure
-    case ThirdPartyServices
 }
 
 public class TechnologyStackHistory : TechnologyStackBase
@@ -2420,32 +2352,6 @@ public class TechnologyStackHistory : TechnologyStackBase
         if operation != nil { try container.encode(operation, forKey: .operation) }
         if technologyIds.count > 0 { try container.encode(technologyIds, forKey: .technologyIds) }
     }
-}
-
-public class TechnologyStackView : Codable
-{
-    public var id:Int?
-    public var name:String?
-    public var vendorName:String?
-    public var Description:String?
-    public var appUrl:String?
-    public var screenshotUrl:String?
-    public var created:Date?
-    public var createdBy:String?
-    public var lastModified:Date?
-    public var lastModifiedBy:String?
-    public var isLocked:Bool?
-    public var ownerId:String?
-    public var slug:String?
-    public var details:String?
-    public var detailsHtml:String?
-    public var lastStatusUpdate:Date?
-    public var organizationId:Int?
-    public var commentsPostId:Int?
-    public var viewCount:Int?
-    public var favCount:Int?
-
-    required public init(){}
 }
 
 public class UserInfo : Codable
@@ -2528,24 +2434,29 @@ public class Option : Codable
     required public init(){}
 }
 
-public class UserVoiceUser : Codable
+public class TechnologyBase : Codable
 {
     public var id:Int?
     public var name:String?
-    public var email:String?
-    public var avatarUrl:String?
-    public var createdAt:Date?
-    public var updatedAt:Date?
-
-    required public init(){}
-}
-
-public class UserVoiceComment : Codable
-{
-    public var text:String?
-    public var formattedText:String?
-    public var createdAt:Date?
-    public var creator:UserVoiceUser?
+    public var vendorName:String?
+    public var vendorUrl:String?
+    public var productUrl:String?
+    public var logoUrl:String?
+    public var Description:String?
+    public var created:Date?
+    public var createdBy:String?
+    public var lastModified:Date?
+    public var lastModifiedBy:String?
+    public var ownerId:String?
+    public var slug:String?
+    public var logoApproved:Bool?
+    public var isLocked:Bool?
+    public var tier:TechnologyTier?
+    public var lastStatusUpdate:Date?
+    public var organizationId:Int?
+    public var commentsPostId:Int?
+    public var viewCount:Int?
+    public var favCount:Int?
 
     required public init(){}
 }
@@ -2571,33 +2482,6 @@ public class TechnologyStackBase : Codable
     // @StringLength(Int32.max)
     public var detailsHtml:String?
 
-    public var lastStatusUpdate:Date?
-    public var organizationId:Int?
-    public var commentsPostId:Int?
-    public var viewCount:Int?
-    public var favCount:Int?
-
-    required public init(){}
-}
-
-public class TechnologyBase : Codable
-{
-    public var id:Int?
-    public var name:String?
-    public var vendorName:String?
-    public var vendorUrl:String?
-    public var productUrl:String?
-    public var logoUrl:String?
-    public var Description:String?
-    public var created:Date?
-    public var createdBy:String?
-    public var lastModified:Date?
-    public var lastModifiedBy:String?
-    public var ownerId:String?
-    public var slug:String?
-    public var logoApproved:Bool?
-    public var isLocked:Bool?
-    public var tier:TechnologyTier?
     public var lastStatusUpdate:Date?
     public var organizationId:Int?
     public var commentsPostId:Int?

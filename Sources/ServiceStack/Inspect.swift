@@ -1,3 +1,6 @@
+//  Copyright (c) 2013-present ServiceStack, Inc. All rights reserved.
+//  Created by Demis Bellot
+
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
@@ -5,7 +8,7 @@ import Foundation
 
 public class Inspect {
 
-    public static var verbose = false
+    nonisolated(unsafe) public static var verbose = false
     
     public static func log(to filePath: String, _ text: String) {
         let data = text.data(using: .utf8)!

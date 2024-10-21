@@ -1,10 +1,5 @@
-//
-//  DateExtensions.swift
-//  ServiceStack
-//
-//  Created by Demis Bellot on 1/30/15.
-//  Copyright (c) 2021 ServiceStack, Inc. All rights reserved.
-//
+//  Copyright (c) 2013-present ServiceStack, Inc. All rights reserved.
+//  Created by Demis Bellot
 
 #if canImport(FoundationNetworking)
     import FoundationNetworking

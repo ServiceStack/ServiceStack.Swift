@@ -1,15 +1,16 @@
 /* Options:
-Date: 2021-03-18 20:53:41
+Date: 2024-10-21 14:05:17
 SwiftVersion: 5.0
-Version: 5.105
+Version: 8.41
 Tip: To override a DTO option, remove "//" prefix before updating
-BaseUrl: http://test.servicestack.net
+BaseUrl: https://test.servicestack.net
 
 //BaseClass: 
 //AddModelExtensions: True
 //AddServiceStackTypes: True
+//MakePropertiesOptional: True
 //IncludeTypes: 
-ExcludeTypes: QueryResponse`1,QueryBase`1,QueryBase`1,QueryBase,DummyTypes
+ExcludeTypes: QueryResponse`1,QueryBase`1,QueryBase`1,QueryBase,DummyTypes,MessageQuery
 //ExcludeGenericBaseTypes: False
 //AddResponseStatus: False
 //AddImplicitVersion: 
@@ -140,6 +141,42 @@ public class GetNakedItems : IReturn, Codable
     required public init(){}
 }
 
+// @ValidateRequest(Validator="IsAuthenticated")
+public class DeclarativeValidationAuth : Codable
+{
+    public var name:String?
+
+    required public init(){}
+}
+
+public class DeclarativeCollectiveValidationTest : IReturn, Codable
+{
+    public typealias Return = EmptyResponse
+
+    // @Validate(Validator="NotEmpty")
+    // @Validate(Validator="MaximumLength(20)")
+    public var site:String?
+
+    public var declarativeValidations:[DeclarativeChildValidation] = []
+    public var fluentValidations:[FluentChildValidation] = []
+
+    required public init(){}
+}
+
+public class DeclarativeSingleValidationTest : IReturn, Codable
+{
+    public typealias Return = EmptyResponse
+
+    // @Validate(Validator="NotEmpty")
+    // @Validate(Validator="MaximumLength(20)")
+    public var site:String?
+
+    public var declarativeSingleValidation:DeclarativeSingleValidation?
+    public var fluentSingleValidation:FluentSingleValidation?
+
+    required public init(){}
+}
+
 // @Route("/throwhttperror/{Status}")
 public class ThrowHttpError : Codable
 {
@@ -162,6 +199,17 @@ public class Throw404 : Codable
 // @Route("/throwcustom400/{Message}")
 public class ThrowCustom400 : Codable
 {
+    public var message:String?
+
+    required public init(){}
+}
+
+// @Route("/returncustom400")
+// @Route("/returncustom400/{Message}")
+public class ReturnCustom400 : IReturn, Codable
+{
+    public typealias Return = ReturnCustom400Response
+
     public var message:String?
 
     required public init(){}
@@ -394,6 +442,27 @@ public class GetExample : IReturn, Codable
     required public init(){}
 }
 
+// @Route("/messages/{Id}", "GET")
+public class RequestMessage : IReturn, Codable
+{
+    public typealias Return = Message
+
+    public var id:Int?
+
+    required public init(){}
+}
+
+// @Route("/messages/{Id}", "PUT")
+public class Message : IReturn, Codable
+{
+    public typealias Return = Message
+
+    public var id:Int?
+    public var name:String?
+
+    required public init(){}
+}
+
 // @Route("/randomids")
 public class GetRandomIds : IReturn, Codable
 {
@@ -442,6 +511,17 @@ public class Hello : IReturn, Codable
     required public init(){}
 }
 
+// @Route("/hello-secure/{Name}")
+// @ValidateRequest(Validator="IsAuthenticated")
+public class HelloSecure : IReturn, Codable
+{
+    public typealias Return = HelloResponse
+
+    public var name:String?
+
+    required public init(){}
+}
+
 /**
 * Description on HelloAll type
 */
@@ -478,6 +558,24 @@ public class HelloList : IReturn, Codable
 public class HelloArray : IReturn, Codable
 {
     public typealias Return = [ArrayResult]
+
+    public var names:[String] = []
+
+    required public init(){}
+}
+
+public class HelloMap : IReturn, Codable
+{
+    public typealias Return = [String:ArrayResult]
+
+    public var names:[String] = []
+
+    required public init(){}
+}
+
+public class HelloQueryResponse : IReturn, Codable
+{
+    public typealias Return = QueryResponse<String>
 
     public var names:[String] = []
 
@@ -543,7 +641,7 @@ public class AllowedAttributes : Codable
     */
     // @DataMember(Name="Aliased")
     // @ApiMember(DataType="double", Description="Range Description", IsRequired=true, ParameterType="path")
-    public var range:Double?
+    public var Aliased:Double?
 
     required public init(){}
 }
@@ -762,19 +860,6 @@ public class HelloWithGenericInheritance2 : HelloBase_1<Hello>
     }
 }
 
-public class HelloWithNestedInheritance : HelloBase_1<Item>
-{
-    required public init(){ super.init() }
-
-    required public init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-    }
-
-    public override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
-    }
-}
-
 public class HelloWithReturn : IReturn, Codable
 {
     public typealias Return = HelloWithAlternateReturnResponse
@@ -972,6 +1057,24 @@ public class ReturnStream : IReturn, Codable
     required public init(){}
 }
 
+// @Route("/return/json")
+public class ReturnJson : Codable
+{
+    required public init(){}
+}
+
+// @Route("/return/json/header")
+public class ReturnJsonHeader : Codable
+{
+    required public init(){}
+}
+
+// @Route("/write/json")
+public class WriteJson : Codable
+{
+    required public init(){}
+}
+
 // @Route("/Request1", "GET")
 public class GetRequest1 : IReturn, IGet, Codable
 {
@@ -995,6 +1098,7 @@ public class SendJson : IReturn, Codable
 
     public var id:Int?
     public var name:String?
+    public var requestStream:Data?
 
     required public init(){}
 }
@@ -1007,6 +1111,7 @@ public class SendText : IReturn, Codable
     public var id:Int?
     public var name:String?
     public var contentType:String?
+    public var requestStream:Data?
 
     required public init(){}
 }
@@ -1019,6 +1124,7 @@ public class SendRaw : IReturn, Codable
     public var id:Int?
     public var name:String?
     public var contentType:String?
+    public var requestStream:Data?
 
     required public init(){}
 }
@@ -1275,74 +1381,94 @@ public class StoreRockstars : List<Rockstar>, IReturn
     }
 }
 
-// @Route("/auth")
-// @Route("/auth/{provider}")
+/**
+* Sign Up
+*/
+// @Route("/register", "PUT,POST")
+// @Api(Description="Sign Up")
 // @DataContract
-public class Authenticate : IReturn, IPost, Codable
+public class Register : IReturn, IPost, Codable
 {
-    public typealias Return = AuthenticateResponse
+    public typealias Return = RegisterResponse
 
     // @DataMember(Order=1)
-    public var provider:String?
+    public var userName:String?
 
     // @DataMember(Order=2)
-    public var state:String?
+    public var firstName:String?
 
     // @DataMember(Order=3)
-    public var oauth_token:String?
+    public var lastName:String?
 
     // @DataMember(Order=4)
-    public var oauth_verifier:String?
+    public var displayName:String?
 
     // @DataMember(Order=5)
-    public var userName:String?
+    public var email:String?
 
     // @DataMember(Order=6)
     public var password:String?
 
     // @DataMember(Order=7)
-    public var rememberMe:Bool?
+    public var confirmPassword:String?
 
-    // @DataMember(Order=9)
-    public var errorView:String?
+    // @DataMember(Order=8)
+    public var autoLogin:Bool?
 
     // @DataMember(Order=10)
-    public var nonce:String?
+    public var errorView:String?
 
     // @DataMember(Order=11)
-    public var uri:String?
-
-    // @DataMember(Order=12)
-    public var response:String?
-
-    // @DataMember(Order=13)
-    public var qop:String?
-
-    // @DataMember(Order=14)
-    public var nc:String?
-
-    // @DataMember(Order=15)
-    public var cnonce:String?
-
-    // @DataMember(Order=16)
-    public var useTokenCookie:Bool?
-
-    // @DataMember(Order=17)
-    public var accessToken:String?
-
-    // @DataMember(Order=18)
-    public var accessTokenSecret:String?
-
-    // @DataMember(Order=19)
-    public var scope:String?
-
-    // @DataMember(Order=20)
     public var meta:[String:String] = [:]
 
     required public init(){}
 }
 
-// @Route("/assignroles")
+/**
+* Sign In
+*/
+// @Route("/auth", "GET,POST")
+// @Route("/auth/{provider}", "GET,POST")
+// @Api(Description="Sign In")
+// @DataContract
+public class Authenticate : IReturn, IPost, Codable
+{
+    public typealias Return = AuthenticateResponse
+
+    /**
+    * AuthProvider, e.g. credentials
+    */
+    // @DataMember(Order=1)
+    public var provider:String?
+
+    // @DataMember(Order=2)
+    public var userName:String?
+
+    // @DataMember(Order=3)
+    public var password:String?
+
+    // @DataMember(Order=4)
+    public var rememberMe:Bool?
+
+    // @DataMember(Order=5)
+    public var accessToken:String?
+
+    // @DataMember(Order=6)
+    public var accessTokenSecret:String?
+
+    // @DataMember(Order=7)
+    public var returnUrl:String?
+
+    // @DataMember(Order=8)
+    public var errorView:String?
+
+    // @DataMember(Order=9)
+    public var meta:[String:String] = [:]
+
+    required public init(){}
+}
+
+// @Route("/assignroles", "POST")
 // @DataContract
 public class AssignRoles : IReturn, IPost, Codable
 {
@@ -1363,7 +1489,7 @@ public class AssignRoles : IReturn, IPost, Codable
     required public init(){}
 }
 
-// @Route("/unassignroles")
+// @Route("/unassignroles", "POST")
 // @DataContract
 public class UnAssignRoles : IReturn, IPost, Codable
 {
@@ -1379,39 +1505,6 @@ public class UnAssignRoles : IReturn, IPost, Codable
     public var roles:[String] = []
 
     // @DataMember(Order=4)
-    public var meta:[String:String] = [:]
-
-    required public init(){}
-}
-
-// @Route("/session-to-token")
-// @DataContract
-public class ConvertSessionToToken : IReturn, IPost, Codable
-{
-    public typealias Return = ConvertSessionToTokenResponse
-
-    // @DataMember(Order=1)
-    public var preserveSession:Bool?
-
-    // @DataMember(Order=2)
-    public var meta:[String:String] = [:]
-
-    required public init(){}
-}
-
-// @Route("/access-token")
-// @DataContract
-public class GetAccessToken : IReturn, IPost, Codable
-{
-    public typealias Return = GetAccessTokenResponse
-
-    // @DataMember(Order=1)
-    public var refreshToken:String?
-
-    // @DataMember(Order=2)
-    public var useTokenCookie:Bool?
-
-    // @DataMember(Order=3)
     public var meta:[String:String] = [:]
 
     required public init(){}
@@ -1751,6 +1844,30 @@ public class CreateRockstarVersion : RockstarBase, IReturn
     }
 }
 
+// @Route("/messages/crud/{Id}", "PUT")
+public class MessageCrud : IReturnVoid, Codable
+{
+    public var id:Int?
+    public var name:String?
+
+    required public init(){}
+}
+
+// @Route("/access-token")
+// @DataContract
+public class GetAccessToken : IReturn, IPost, Codable
+{
+    public typealias Return = GetAccessTokenResponse
+
+    // @DataMember(Order=1)
+    public var refreshToken:String?
+
+    // @DataMember(Order=2)
+    public var meta:[String:String] = [:]
+
+    required public init(){}
+}
+
 public class ChatMessage : Codable
 {
     public var id:Int?
@@ -1811,11 +1928,11 @@ public class CustomHttpErrorResponse : Codable
     required public init(){}
 }
 
-public class QueryResponseAlt<T : Codable> : Codable
+public class QueryResponseAlt<Item : Codable> : Codable
 {
     public var offset:Int?
     public var total:Int?
-    public var results:[T] = []
+    public var results:[Item] = []
     public var meta:[String:String] = [:]
     public var responseStatus:ResponseStatus?
 
@@ -1825,6 +1942,13 @@ public class QueryResponseAlt<T : Codable> : Codable
 public class Items : Codable
 {
     public var results:[Item] = []
+
+    required public init(){}
+}
+
+public class ReturnCustom400Response : Codable
+{
+    public var responseStatus:ResponseStatus?
 
     required public init(){}
 }
@@ -2156,6 +2280,48 @@ public class TestAuthResponse : Codable
 }
 
 // @DataContract
+public class RegisterResponse : IHasSessionId, IHasBearerToken, Codable
+{
+    // @DataMember(Order=1)
+    public var userId:String?
+
+    // @DataMember(Order=2)
+    public var sessionId:String?
+
+    // @DataMember(Order=3)
+    public var userName:String?
+
+    // @DataMember(Order=4)
+    public var referrerUrl:String?
+
+    // @DataMember(Order=5)
+    public var bearerToken:String?
+
+    // @DataMember(Order=6)
+    public var refreshToken:String?
+
+    // @DataMember(Order=7)
+    public var refreshTokenExpiry:Date?
+
+    // @DataMember(Order=8)
+    public var roles:[String] = []
+
+    // @DataMember(Order=9)
+    public var permissions:[String] = []
+
+    // @DataMember(Order=10)
+    public var redirectUrl:String?
+
+    // @DataMember(Order=11)
+    public var responseStatus:ResponseStatus?
+
+    // @DataMember(Order=12)
+    public var meta:[String:String] = [:]
+
+    required public init(){}
+}
+
+// @DataContract
 public class AuthenticateResponse : IHasSessionId, IHasBearerToken, Codable
 {
     // @DataMember(Order=1)
@@ -2180,18 +2346,24 @@ public class AuthenticateResponse : IHasSessionId, IHasBearerToken, Codable
     public var refreshToken:String?
 
     // @DataMember(Order=8)
-    public var profileUrl:String?
+    public var refreshTokenExpiry:Date?
 
     // @DataMember(Order=9)
-    public var roles:[String] = []
+    public var profileUrl:String?
 
     // @DataMember(Order=10)
-    public var permissions:[String] = []
+    public var roles:[String] = []
 
     // @DataMember(Order=11)
-    public var responseStatus:ResponseStatus?
+    public var permissions:[String] = []
 
     // @DataMember(Order=12)
+    public var authProvider:String?
+
+    // @DataMember(Order=13)
+    public var responseStatus:ResponseStatus?
+
+    // @DataMember(Order=14)
     public var meta:[String:String] = [:]
 
     required public init(){}
@@ -2233,39 +2405,6 @@ public class UnAssignRolesResponse : Codable
     required public init(){}
 }
 
-// @DataContract
-public class ConvertSessionToTokenResponse : Codable
-{
-    // @DataMember(Order=1)
-    public var meta:[String:String] = [:]
-
-    // @DataMember(Order=2)
-    public var accessToken:String?
-
-    // @DataMember(Order=3)
-    public var refreshToken:String?
-
-    // @DataMember(Order=4)
-    public var responseStatus:ResponseStatus?
-
-    required public init(){}
-}
-
-// @DataContract
-public class GetAccessTokenResponse : Codable
-{
-    // @DataMember(Order=1)
-    public var accessToken:String?
-
-    // @DataMember(Order=2)
-    public var meta:[String:String] = [:]
-
-    // @DataMember(Order=3)
-    public var responseStatus:ResponseStatus?
-
-    required public init(){}
-}
-
 public class RockstarWithIdResponse : Codable
 {
     public var id:Int?
@@ -2301,6 +2440,21 @@ public class RockstarWithIdAndRowVersionResponse : Codable
     required public init(){}
 }
 
+// @DataContract
+public class GetAccessTokenResponse : Codable
+{
+    // @DataMember(Order=1)
+    public var accessToken:String?
+
+    // @DataMember(Order=2)
+    public var meta:[String:String] = [:]
+
+    // @DataMember(Order=3)
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
 public class Item : Codable
 {
     public var name:String?
@@ -2328,6 +2482,285 @@ public class SetterType : Codable
 {
     public var id:Int?
     public var name:String?
+
+    required public init(){}
+}
+
+public class DeclarativeChildValidation : Codable
+{
+    public var name:String?
+    // @Validate(Validator="MaximumLength(20)")
+    public var value:String?
+
+    required public init(){}
+}
+
+public class FluentChildValidation : Codable
+{
+    public var name:String?
+    public var value:String?
+
+    required public init(){}
+}
+
+public class DeclarativeSingleValidation : Codable
+{
+    public var name:String?
+    // @Validate(Validator="MaximumLength(20)")
+    public var value:String?
+
+    required public init(){}
+}
+
+public class FluentSingleValidation : Codable
+{
+    public var name:String?
+    public var value:String?
+
+    required public init(){}
+}
+
+// @DataContract
+public class CancelRequest : IPost, Codable
+{
+    // @DataMember(Order=1)
+    public var tag:String?
+
+    // @DataMember(Order=2)
+    public var meta:[String:String] = [:]
+
+    required public init(){}
+}
+
+// @DataContract
+public class CancelRequestResponse : Codable
+{
+    // @DataMember(Order=1)
+    public var tag:String?
+
+    // @DataMember(Order=2)
+    @TimeSpan public var elapsed:TimeInterval?
+
+    // @DataMember(Order=3)
+    public var meta:[String:String] = [:]
+
+    // @DataMember(Order=4)
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+// @DataContract
+public class UpdateEventSubscriber : IPost, Codable
+{
+    // @DataMember(Order=1)
+    public var id:String?
+
+    // @DataMember(Order=2)
+    public var subscribeChannels:[String] = []
+
+    // @DataMember(Order=3)
+    public var unsubscribeChannels:[String] = []
+
+    required public init(){}
+}
+
+// @DataContract
+public class UpdateEventSubscriberResponse : Codable
+{
+    // @DataMember(Order=1)
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+// @DataContract
+public class GetApiKeys : IGet, Codable
+{
+    // @DataMember(Order=1)
+    public var environment:String?
+
+    // @DataMember(Order=2)
+    public var meta:[String:String] = [:]
+
+    required public init(){}
+}
+
+// @DataContract
+public class GetApiKeysResponse : Codable
+{
+    // @DataMember(Order=1)
+    public var results:[UserApiKey] = []
+
+    // @DataMember(Order=2)
+    public var meta:[String:String] = [:]
+
+    // @DataMember(Order=3)
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+// @DataContract
+public class RegenerateApiKeys : IPost, Codable
+{
+    // @DataMember(Order=1)
+    public var environment:String?
+
+    // @DataMember(Order=2)
+    public var meta:[String:String] = [:]
+
+    required public init(){}
+}
+
+// @DataContract
+public class RegenerateApiKeysResponse : Codable
+{
+    // @DataMember(Order=1)
+    public var results:[UserApiKey] = []
+
+    // @DataMember(Order=2)
+    public var meta:[String:String] = [:]
+
+    // @DataMember(Order=3)
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+// @DataContract
+public class UserApiKey : Codable
+{
+    // @DataMember(Order=1)
+    public var key:String?
+
+    // @DataMember(Order=2)
+    public var keyType:String?
+
+    // @DataMember(Order=3)
+    public var expiryDate:Date?
+
+    // @DataMember(Order=4)
+    public var meta:[String:String] = [:]
+
+    required public init(){}
+}
+
+// @DataContract
+public class ConvertSessionToToken : IPost, Codable
+{
+    // @DataMember(Order=1)
+    public var preserveSession:Bool?
+
+    // @DataMember(Order=2)
+    public var meta:[String:String] = [:]
+
+    required public init(){}
+}
+
+// @DataContract
+public class ConvertSessionToTokenResponse : Codable
+{
+    // @DataMember(Order=1)
+    public var meta:[String:String] = [:]
+
+    // @DataMember(Order=2)
+    public var accessToken:String?
+
+    // @DataMember(Order=3)
+    public var refreshToken:String?
+
+    // @DataMember(Order=4)
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class NavItem : Codable
+{
+    public var label:String?
+    public var href:String?
+    public var exact:Bool?
+    public var id:String?
+    public var className:String?
+    public var iconClass:String?
+    public var iconSrc:String?
+    public var show:String?
+    public var hide:String?
+    public var children:[NavItem] = []
+    public var meta:[String:String] = [:]
+
+    required public init(){}
+}
+
+// @DataContract
+public class GetNavItems : Codable
+{
+    // @DataMember(Order=1)
+    public var name:String?
+
+    required public init(){}
+}
+
+// @DataContract
+public class GetNavItemsResponse : Codable
+{
+    // @DataMember(Order=1)
+    public var baseUrl:String?
+
+    // @DataMember(Order=2)
+    public var results:[NavItem] = []
+
+    // @DataMember(Order=3)
+    public var navItemsMap:[String:[NavItem]] = [:]
+
+    // @DataMember(Order=4)
+    public var meta:[String:String] = [:]
+
+    // @DataMember(Order=5)
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+// @DataContract
+public class IdResponse : Codable
+{
+    // @DataMember(Order=1)
+    public var id:String?
+
+    // @DataMember(Order=2)
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+// @DataContract
+public class StringResponse : Codable
+{
+    // @DataMember(Order=1)
+    public var result:String?
+
+    // @DataMember(Order=2)
+    public var meta:[String:String] = [:]
+
+    // @DataMember(Order=3)
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+// @DataContract
+public class StringsResponse : Codable
+{
+    // @DataMember(Order=1)
+    public var results:[String] = []
+
+    // @DataMember(Order=2)
+    public var meta:[String:String] = [:]
+
+    // @DataMember(Order=3)
+    public var responseStatus:ResponseStatus?
 
     required public init(){}
 }
@@ -2522,23 +2955,14 @@ public class AuthUserSession : Codable
     // @DataMember(Order=58)
     public var type:String?
 
-    required public init(){}
-}
+    // @DataMember(Order=59)
+    public var recoveryToken:String?
 
-public class MetadataTestChild : Codable
-{
-    public var name:String?
-    public var results:[MetadataTestNestedChild] = []
+    // @DataMember(Order=60)
+    public var refId:Int?
 
-    required public init(){}
-}
-
-// @DataContract
-public class MenuExample : Codable
-{
-    // @DataMember(Order=1)
-    // @ApiMember()
-    public var menuItemExample1:MenuItemExample?
+    // @DataMember(Order=61)
+    public var refIdStr:String?
 
     required public init(){}
 }
@@ -2546,20 +2970,6 @@ public class MenuExample : Codable
 public class NestedClass : Codable
 {
     public var value:String?
-
-    required public init(){}
-}
-
-public class ListResult : Codable
-{
-    public var result:String?
-
-    required public init(){}
-}
-
-public class ArrayResult : Codable
-{
-    public var result:String?
 
     required public init(){}
 }
@@ -2767,31 +3177,10 @@ public class HelloBase : Codable
     required public init(){}
 }
 
-public class HelloResponseBase : Codable
-{
-    public var refId:Int?
-
-    required public init(){}
-}
-
 public class HelloBase_1<T : Codable> : Codable
 {
     public var items:[T] = []
     public var counts:[Int] = []
-
-    required public init(){}
-}
-
-public class HelloWithReturnResponse : Codable
-{
-    public var result:String?
-
-    required public init(){}
-}
-
-public class HelloType : Codable
-{
-    public var result:String?
 
     required public init(){}
 }
@@ -2811,21 +3200,6 @@ public class EmptyClass : Codable
     required public init(){}
 }
 
-public class InnerType : Codable
-{
-    public var id:Int?
-    public var name:String?
-
-    required public init(){}
-}
-
-public enum InnerEnum : String, Codable
-{
-    case Foo
-    case Bar
-    case Baz
-}
-
 public enum DayOfWeek : String, Codable
 {
     case Sunday
@@ -2842,55 +3216,6 @@ public enum ScopeType : Int, Codable
 {
     case Global = 1
     case Sale = 2
-}
-
-public class PingService : Codable
-{
-    required public init(){}
-}
-
-public class ReturnedDto : Codable
-{
-    public var id:Int?
-
-    required public init(){}
-}
-
-public class CustomUserSession : AuthUserSession
-{
-    // @DataMember
-    public var customName:String?
-
-    // @DataMember
-    public var customInfo:String?
-
-    required public init(){ super.init() }
-
-    private enum CodingKeys : String, CodingKey {
-        case customName
-        case customInfo
-    }
-
-    required public init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        customName = try container.decodeIfPresent(String.self, forKey: .customName)
-        customInfo = try container.decodeIfPresent(String.self, forKey: .customInfo)
-    }
-
-    public override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        if customName != nil { try container.encode(customName, forKey: .customName) }
-        if customInfo != nil { try container.encode(customInfo, forKey: .customInfo) }
-    }
-}
-
-public class UnAuthInfo : Codable
-{
-    public var customInfo:String?
-
-    required public init(){}
 }
 
 public class Logger : Codable
@@ -3166,26 +3491,115 @@ public class RockstarVersion : RockstarBase
     }
 }
 
-public class MetadataTestNestedChild : Codable
+public class MetadataTestChild : Codable
 {
+    public var name:String?
+    public var results:[MetadataTestNestedChild] = []
+
+    required public init(){}
+}
+
+// @DataContract
+public class MenuExample : Codable
+{
+    // @DataMember(Order=1)
+    // @ApiMember()
+    public var menuItemExample1:MenuItemExample?
+
+    required public init(){}
+}
+
+public class ListResult : Codable
+{
+    public var result:String?
+
+    required public init(){}
+}
+
+public class ArrayResult : Codable
+{
+    public var result:String?
+
+    required public init(){}
+}
+
+public class HelloResponseBase : Codable
+{
+    public var refId:Int?
+
+    required public init(){}
+}
+
+public class HelloWithReturnResponse : Codable
+{
+    public var result:String?
+
+    required public init(){}
+}
+
+public class HelloType : Codable
+{
+    public var result:String?
+
+    required public init(){}
+}
+
+public class InnerType : Codable
+{
+    public var id:Int?
     public var name:String?
 
     required public init(){}
 }
 
-public class MenuItemExample : Codable
+public enum InnerEnum : String, Codable
 {
-    // @DataMember(Order=1)
-    // @ApiMember()
-    public var name1:String?
+    case Foo
+    case Bar
+    case Baz
+}
 
-    public var menuItemExampleItem:MenuItemExampleItem?
+public class ReturnedDto : Codable
+{
+    public var id:Int?
 
     required public init(){}
 }
 
-public class TypesGroup : Codable
+public class CustomUserSession : AuthUserSession
 {
+    // @DataMember
+    public var customName:String?
+
+    // @DataMember
+    public var customInfo:String?
+
+    required public init(){ super.init() }
+
+    private enum CodingKeys : String, CodingKey {
+        case customName
+        case customInfo
+    }
+
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        customName = try container.decodeIfPresent(String.self, forKey: .customName)
+        customInfo = try container.decodeIfPresent(String.self, forKey: .customInfo)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if customName != nil { try container.encode(customName, forKey: .customName) }
+        if customInfo != nil { try container.encode(customInfo, forKey: .customInfo) }
+    }
+}
+
+public class UnAuthInfo : Codable
+{
+    public var customInfo:String?
+
     required public init(){}
 }
 
@@ -3219,12 +3633,26 @@ public class SoftDeleteAuditBase<Table : Codable, TResponse : Codable> : Codable
     required public init(){}
 }
 
-public class MenuItemExampleItem : Codable
+public class MetadataTestNestedChild : Codable
+{
+    public var name:String?
+
+    required public init(){}
+}
+
+public class MenuItemExample : Codable
 {
     // @DataMember(Order=1)
     // @ApiMember()
     public var name1:String?
 
+    public var menuItemExampleItem:MenuItemExampleItem?
+
+    required public init(){}
+}
+
+public class TypesGroup : Codable
+{
     required public init(){}
 }
 
@@ -3232,6 +3660,15 @@ public class Channel : Codable
 {
     public var name:String?
     public var value:String?
+
+    required public init(){}
+}
+
+public class MenuItemExampleItem : Codable
+{
+    // @DataMember(Order=1)
+    // @ApiMember()
+    public var name1:String?
 
     required public init(){}
 }

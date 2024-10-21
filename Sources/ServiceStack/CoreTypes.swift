@@ -1,7 +1,5 @@
-//
-// Created by Demis Bellot on 2/19/21.
-// Copyright (c) 2021 ServiceStack. All rights reserved.
-//
+//  Copyright (c) 2013-present ServiceStack, Inc. All rights reserved.
+//  Created by Demis Bellot
 
 #if canImport(FoundationNetworking)
     import FoundationNetworking
@@ -188,7 +186,7 @@ open class List<T: Codable>: Codable, Instantiable {
     }
 }
 
-public class ReturnVoid: Dto, IReturnVoid {
+public class ReturnVoid: @unchecked Sendable, Dto, IReturnVoid {
     public required init() {}
     public static let void = ReturnVoid()
 }
@@ -261,10 +259,10 @@ public class TimeIntervalConverter : StringConvertible {
     public var forType = Reflect<TimeInterval>.typeName
 
     public func fromString<T>(_ type: T.Type, _ string: String) -> T? {
-        return fromTimeSpan(string) as? T
+        return fromTimeSpan(timeSpan:string) as? T
     }
     public func toString<T>(instance: T) -> String? {
-        return toTimeSpan(instance as! TimeInterval)
+        return toTimeSpan(timeInterval:instance as! TimeInterval)
     }
 }
 
@@ -280,7 +278,7 @@ func toGuid(_ guid:String) -> String {
 }
 
 // From .NET byte[] (Base64 String) to Swift [UInt8]
-func fromByteArray(_ base64String:String) -> [UInt8] {
+public func fromByteArray(_ base64String:String) -> [UInt8] {
     if let data = Data(base64Encoded: base64String) {
         return [UInt8](data)
     }
@@ -344,9 +342,9 @@ public class StringConverter<C> : StringConvertible where C: LosslessStringConve
 //Converters.register(TimeInterval.self)
 //}
 
-public class Converters {
+public final class Converters {
     
-    static var map: [String:StringConvertible] = {
+    nonisolated(unsafe) static var map: [String:StringConvertible] = {
         let builtInConverters:[StringConvertible] = [
             TimeIntervalConverter(),
             UInt8Base64Converter()
@@ -358,12 +356,18 @@ public class Converters {
         return to
     }()
     
+    private static let accessQueue = DispatchQueue(label: "com.servicestack.Converters")
+
     public static func register<T>(_ convertible:T) where T: StringConvertible {
-        map[convertible.forType] = convertible
+        accessQueue.sync {
+            map[convertible.forType] = convertible
+        }
     }
 
     public static func register<T>(_ type: T.Type, forType:String) where T: LosslessStringConvertible {
-        map[forType] = StringConverter(type.self, forType:forType)
+        accessQueue.sync {
+            map[forType] = StringConverter(type.self, forType:forType)
+        }
     }
 
     public static func register<T>(_ type: T.Type) where T: LosslessStringConvertible {
@@ -372,9 +376,11 @@ public class Converters {
     }
     
     public static func get<T>(_ type:T.Type) -> StringConvertible? {
-        let typeName = String(describing: T.self)
-        let converter = map[typeName]
-        return converter
+        accessQueue.sync {
+            let typeName = String(describing: T.self)
+            let converter = map[typeName]
+            return converter
+        }
     }
 }
 

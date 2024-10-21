@@ -1,18 +1,19 @@
 src/ServiceStackXCode/.idea
 .idea/
 .vscode/
-
-src/JsonServiceClient/JsonServiceClient.xcodeproj/project.xcworkspace/xcuserdata/mythz.xcuserdatad/UserInterfaceState.xcuserstate
-
-src/ServiceStackClient/ServiceStackClient.xcodeproj/xcuserdata/*
-src/ServiceStackXCode/xcproj/
-src/ServiceStackXCode/.idea/workspace.xml
 *.log
+
+.DS_Store
+/.build
+/Packages
+xcuserdata/
+DerivedData/
+.swiftpm/configuration/registries.json
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.netrc
 
 # Mac OS X
 .DS_Store
-
-# Xcode
 
 ## Build generated
 build/
@@ -29,12 +30,6 @@ DerivedData
 !default.perspectivev3
 xcuserdata
 
-## Other
-*.xccheckout
-*.moved-aside
-*.xcuserstate
-*.xcscmblueprint
-
 ## Obj-C/Swift specific
 *.hmap
 *.ipa
@@ -42,9 +37,6 @@ xcuserdata
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
-
-# Swift Package Manager
-.build/
 
 # Carthage
 Carthage
