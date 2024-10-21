@@ -44,7 +44,7 @@ After adding the dependency both [ServiceStack.Swift](https://github.com/Service
 ```swift
 dependencies: [
     .package(name: "ServiceStack", url: "https://github.com/ServiceStack/ServiceStack.Swift.git", 
-        Version(5,0,0)..<Version(6,0,0)),
+        Version(6,0,0)..<Version(7,0,0)),
 ],
 ```
 
@@ -56,13 +56,44 @@ In your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
 use_frameworks!
 
 # Pods for Project
-pod "ServiceStack", '~> 5.0'
+pod "ServiceStack", '~> 6.0'
 ```
 
 #### Carthage
 
 ```ruby
-github "ServiceStack/ServiceStack.Swift" ~> 5.0
+github "ServiceStack/ServiceStack.Swift" ~> 6.0
+```
+
+### v6.0.0 Release
+
+The latest **v6** Release is now dependency-free, where its PromiseKit async APIs have been replaced to use 
+[Swift's native Concurrency](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/concurrency/) support.
+
+```swift
+import ServiceStack
+
+let client = JsonServiceClient(baseUrl:baseUrl)
+```
+
+#### Async
+
+```swift
+let request = Hello()
+request.name = "World"
+
+let response = try await client.postAsync(request)
+print(response.result!)
+```
+
+#### Sync
+
+```swift
+let request = Hello()
+request.name = "World"
+
+let response = try client.post(request)
+print(response.result!)
 ```
 
 ### v5.0.0 Release
