@@ -45,14 +45,14 @@ public class Inspect {
                     do {
                         try FileManager.default.createDirectory(atPath: dirPath, withIntermediateDirectories: true, attributes: nil)
                     } catch {
-                        if verbose { print("vars() createDirectory: \(error.localizedDescription)") }
+                        if verbose { Swift.print("vars() createDirectory: \(error.localizedDescription)") }
                     }
                 }
 
                 do {
                     try data.write(to:filePath, options:.atomic)
                 } catch {
-                    if verbose { print("vars() data.write: \(error.localizedDescription)") }
+                    if verbose { Swift.print("vars() data.write: \(error.localizedDescription)") }
                 }
             }
         }
@@ -74,7 +74,7 @@ public class Inspect {
     }
 
     public static func printDump<T: Encodable>(_ obj: T) {
-        print(Inspect.dump(obj))
+        Swift.print(Inspect.dump(obj))
     }
 
     static func alignLeft(_ str: String, length: Int, pad: String = " ") -> String {
@@ -177,7 +177,7 @@ public class Inspect {
     }
 
     public static func printDumpTable<S: Sequence>(_ objs: S, columns: [String]? = nil) where S.Element : Codable {
-        print(dumpTable(objs, columns:columns))
+        Swift.print(dumpTable(objs, columns:columns))
     }
 
 
@@ -194,7 +194,7 @@ public class Inspect {
                 return dict
             }
         } catch let error as NSError {
-            print("Failed to convert to Dictionary: \(error.localizedDescription)")
+            Swift.print("Failed to convert to Dictionary: \(error.localizedDescription)")
         }
         return nil
     }
