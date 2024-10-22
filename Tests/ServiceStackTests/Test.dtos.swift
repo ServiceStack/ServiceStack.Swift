@@ -1,6 +1,6 @@
 /* Options:
-Date: 2024-10-21 14:05:17
-SwiftVersion: 5.0
+Date: 2024-10-22 03:56:05
+SwiftVersion: 6.0
 Version: 8.41
 Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: https://test.servicestack.net
@@ -242,6 +242,46 @@ public class ThrowValidation : IReturn, Codable
 public class ThrowBusinessError : IReturn, Codable
 {
     public typealias Return = ThrowBusinessErrorResponse
+
+    required public init(){}
+}
+
+/**
+* Convert speech to text
+*/
+// @Api(Description="Convert speech to text")
+public class SpeechToText : IReturn, IGeneration, Codable
+{
+    public typealias Return = GenerationResponse
+
+    /**
+    * The audio stream containing the speech to be transcribed
+    */
+    // @ApiMember(Description="The audio stream containing the speech to be transcribed")
+    // @Required()
+    public var audio:Data?
+
+    /**
+    * Optional client-provided identifier for the request
+    */
+    // @ApiMember(Description="Optional client-provided identifier for the request")
+    public var refId:String?
+
+    /**
+    * Tag to identify the request
+    */
+    // @ApiMember(Description="Tag to identify the request")
+    public var tag:String?
+
+    required public init(){}
+}
+
+public class TestFileUploads : IReturn, Codable
+{
+    public typealias Return = TestFileUploadsResponse
+
+    public var id:Int?
+    public var refId:String?
 
     required public init(){}
 }
@@ -1977,6 +2017,42 @@ public class ThrowBusinessErrorResponse : Codable
     required public init(){}
 }
 
+/**
+* Response object for generation requests
+*/
+public class GenerationResponse : Codable
+{
+    /**
+    * List of generated outputs
+    */
+    // @ApiMember(Description="List of generated outputs")
+    public var outputs:[ArtifactOutput] = []
+
+    /**
+    * List of generated text outputs
+    */
+    // @ApiMember(Description="List of generated text outputs")
+    public var textOutputs:[TextOutput] = []
+
+    /**
+    * Detailed response status information
+    */
+    // @ApiMember(Description="Detailed response status information")
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
+public class TestFileUploadsResponse : Codable
+{
+    public var id:Int?
+    public var refId:String?
+    public var files:[UploadInfo] = []
+    public var responseStatus:ResponseStatus?
+
+    required public init(){}
+}
+
 public class Account : Codable
 {
     public var name:String?
@@ -2765,6 +2841,13 @@ public class StringsResponse : Codable
     required public init(){}
 }
 
+public protocol IGeneration
+{
+    var refId:String? { get set }
+    var tag:String? { get set }
+
+}
+
 public protocol IAuthTokens
 {
     var provider:String? { get set }
@@ -3489,6 +3572,56 @@ public class RockstarVersion : RockstarBase
         if id != nil { try container.encode(id, forKey: .id) }
         if rowVersion != nil { try container.encode(rowVersion, forKey: .rowVersion) }
     }
+}
+
+/**
+* Output object for generated artifacts
+*/
+public class ArtifactOutput : Codable
+{
+    /**
+    * URL to access the generated image
+    */
+    // @ApiMember(Description="URL to access the generated image")
+    public var url:String?
+
+    /**
+    * Filename of the generated image
+    */
+    // @ApiMember(Description="Filename of the generated image")
+    public var fileName:String?
+
+    /**
+    * Provider used for image generation
+    */
+    // @ApiMember(Description="Provider used for image generation")
+    public var provider:String?
+
+    required public init(){}
+}
+
+/**
+* Output object for generated text
+*/
+public class TextOutput : Codable
+{
+    /**
+    * The generated text
+    */
+    // @ApiMember(Description="The generated text")
+    public var text:String?
+
+    required public init(){}
+}
+
+public class UploadInfo : Codable
+{
+    public var name:String?
+    public var fileName:String?
+    public var contentLength:Int?
+    public var contentType:String?
+
+    required public init(){}
 }
 
 public class MetadataTestChild : Codable

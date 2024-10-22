@@ -734,6 +734,102 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
     open func patchAsync<Response: Codable, Request: Codable>(url:URL, request: Request?) async throws -> Response {
         return try await sendAsync(intoResponse: Factory<Response>.create(), request: createRequestDto( url:url, httpMethod: HttpMethods.Patch, request: request))
     }
+    
+    open func postFileWithRequest<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String? = nil, fieldName:String? = "file") throws -> T.Return {
+        return try postFileWithRequest(url:toURL(resolveUrl(relativeUrl)), request: request, fileName: fileName, data: data, mimeType: mimeType, fieldName: fieldName)
+    }
+
+    open func postFileWithRequest<T: IReturn>(url:URL, request:T, fileName:String, data:Data, mimeType:String? = nil, fieldName:String? = "file") throws -> T.Return {
+        var req = URLRequest(url: url)
+        req.httpMethod = HttpMethods.Post
+        return try sendFileWithRequest(&req, request: request, fileName: fileName, data: data, mimeType: mimeType, fieldName: fieldName)
+    }
+
+    open func postFilesWithRequest<T: IReturn & Codable>(request:T, files:[UploadFile]) throws -> T.Return {
+        var req = URLRequest(url: createUrl(dto:request))
+        req.httpMethod = HttpMethods.Post
+        return try sendFilesWithRequest(&req, request: request, files:files)
+    }
+
+    open func postFilesWithRequest<T: IReturn>(url:URL, request:T, files:[UploadFile]) throws -> T.Return {
+        var req = URLRequest(url: url)
+        req.httpMethod = HttpMethods.Post
+        return try sendFilesWithRequest(&req, request: request, files:files)
+    }
+
+    open func putFileWithRequest<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String? = nil, fieldName:String? = "file") throws -> T.Return {
+        return try putFileWithRequest(url:toURL(resolveUrl(relativeUrl)), request: request, fileName: fileName, data: data, mimeType: mimeType, fieldName: fieldName)
+    }
+
+    open func putFileWithRequest<T: IReturn>(url:URL, request:T, fileName:String, data:Data, mimeType:String? = nil, fieldName:String? = "file") throws -> T.Return {
+        var req = URLRequest(url: url)
+        req.httpMethod = HttpMethods.Put
+        return try sendFileWithRequest(&req, request: request, fileName: fileName, data: data, mimeType: mimeType, fieldName: fieldName)
+    }
+
+    open func putFilesWithRequest<T: IReturn & Codable>(request:T, files:[UploadFile]) throws -> T.Return {
+        var req = URLRequest(url: createUrl(dto:request))
+        req.httpMethod = HttpMethods.Put
+        return try sendFilesWithRequest(&req, request: request, files:files)
+    }
+
+    open func putFilesWithRequest<T: IReturn>(url:URL, request:T, files:[UploadFile]) throws -> T.Return {
+        var req = URLRequest(url: url)
+        req.httpMethod = HttpMethods.Put
+        return try sendFilesWithRequest(&req, request: request, files:files)
+    }
+
+    open func sendFileWithRequest<T: IReturn>(_ req:inout URLRequest, request:T, fileName:String, data:Data, mimeType:String? = nil, fieldName:String? = "file") throws -> T.Return {
+        return try sendFilesWithRequest(&req, request: request, files:[UploadFile(fileName: fileName, data: data, fieldName: fieldName)])
+    }
+
+    open func sendFilesWithRequest<T: IReturn>(_ req:inout URLRequest, request:T, files:[UploadFile]) throws -> T.Return {
+        let boundary = "Boundary-\(UUID().uuidString)"
+        req.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        req.httpBody = createMultipartFormData(request: request, files: files, boundary: boundary)
+
+        guard let (data, response) = try getData(request: req, retryIf: retryAfterReauth) else {
+            return Factory<T.Return>.create()
+        }
+        if data.isEmpty {
+            return Factory<T.Return>.create()
+        }
+        let dto = try handleResponse(intoResponse: Factory<T.Return>.create(), data: data, response: response)
+        return dto
+    }
+}
+
+public func createMultipartFormData<T: IReturn>(request:T, files:[UploadFile], boundary:String) -> Data {
+    var body = Data()
+    for prop in AnyEncodable.properties(request) {
+        do {
+            var rawValue = prop.value.value as? String
+            if rawValue == nil {
+                rawValue = try toJsv(prop.value)
+            }
+            if let jsvValue = rawValue {
+                if jsvValue != "[]" && jsvValue != "{}" {
+                    body.append("--\(boundary)\r\n".data(using: .utf8)!)
+                    body.append("Content-Disposition: form-data; name=\"\(prop.key)\"\r\n".data(using: .utf8)!)
+                    body.append("\(jsvValue)\r\n".data(using: .utf8)!)
+                }
+            }
+        } catch let e {
+            Log.error("sendFileWithRequest(): \(prop.key):\(prop.value)", error: e)
+        }
+    }
+
+    files.enumerated().forEach { (i: Int, file: UploadFile) in
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+
+        let fieldName = file.fieldName ?? "upload\(i)"
+        body.append("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(file.fileName)\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: \(file.contentType ?? getMimeType(for: file.fileName))\r\n".data(using: .utf8)!)
+        body.append("\r\n".data(using: .utf8)!)
+        body.append(file.data as Data)
+        body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+    }
+    return body
 }
 
 @available(macOS 13.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
@@ -851,5 +947,48 @@ extension NSMutableURLRequest {
         return httpMethod
 #endif
         }
+    }
+}
+
+public struct UploadFile
+{
+    public var fileName: String
+    public var data: Data
+    public var fieldName: String?
+    public var contentType: String?
+
+    public init(fileName: String, data: Data, fieldName: String?=nil, contentType: String?=nil) {
+        self.fileName = fileName
+        self.data = data
+        self.fieldName = fieldName
+        self.contentType = contentType
+    }
+}
+
+public func getMimeType(for fileNameOrExt: String) -> String {
+
+    let ext = fileNameOrExt.lastRightPart(".")
+    switch ext {
+        case "jpg", "jpeg", "jif", "jfif": return "image/jpeg"
+        case "webp", "png", "gif", "bmp", "tiff": return "image/\(ext)"
+        case "svg": return "image/svg+xml"
+        case "ico": return "image/x-icon"
+        case "mp3", "wav", "aiff", "aac", "m4a", "ogg", "oga": return "audio/\(ext)"
+        case "mp4", "mpeg", "mpg", "mpe", "mpv", "ogv", "avi", "mov", "wmv", "mkv": return "video/\(ext)"                
+        case "pdf": return "application/pdf"
+        case "zip", "gz", "bz2", "rar", "tar", "7z", "tgz", "lzh", "z": return "application/x-compressed"
+        case "exe", "com", "bat", "dll", "sys", "drv", "ocx", "oxt", "xoox", "apk", "app": return "application/octet-stream"
+        case "html", "htm", "shtml": return "text/html"
+        case "js", "mjs", "cjs": return "text/javascript"
+        case "jsx", "csv", "jsonl", "css", "yaml", "xml": return "text/\(ext)"
+        case "md": return "text/markdown"
+        case "doc", "dot": return "application/msword"
+        case "xls", "xlt", "xla", "xlsx", "xltx": return "application/vnd.ms-excel"
+        case "ppt", "pps", "pot", "ppa", "ppz", "ppsa", "ppsm", "pptx", "pptm", "ppsx", "odt": return "application/vnd.ms-powerpoint"
+        case "dmg": return "application/x-apple-diskimage"
+        case "pkg": return "application/x-newton-compatible-pkg"
+        case "jar": return "application/java-archive"
+
+        default: return "application/\(ext)"
     }
 }
