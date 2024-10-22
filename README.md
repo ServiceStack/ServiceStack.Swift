@@ -65,6 +65,35 @@ pod "ServiceStack", '~> 6.0'
 github "ServiceStack/ServiceStack.Swift" ~> 6.0
 ```
 
+### v6.0.1 Release
+
+Added new sync and async file upload with Request APIs for POST and PUT HTTP Requests:
+
+```swift
+protocol ServiceClient {
+    func postFileWithRequest<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
+    func postFileWithRequestAsync<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) async throws -> T.Return
+    func postFileWithRequest<T: IReturn>(url:URL, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
+    func postFileWithRequestAsync<T: IReturn>(url:URL, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) async throws -> T.Return
+    func postFilesWithRequest<T: IReturn & Codable>(request:T, files:[UploadFile]) throws -> T.Return
+    func postFilesWithRequestAsync<T: IReturn & Codable>(request:T, files:[UploadFile]) async throws -> T.Return
+    func postFilesWithRequest<T: IReturn>(url:URL, request:T, files:[UploadFile]) throws -> T.Return
+    func postFilesWithRequestAsync<T: IReturn>(url:URL, request:T, files:[UploadFile]) async throws -> T.Return
+    func putFileWithRequest<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
+    func putFileWithRequestAsync<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) async throws -> T.Return
+    func putFileWithRequest<T: IReturn>(url:URL, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
+    func putFileWithRequestAsync<T: IReturn>(url:URL, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) async throws -> T.Return
+    func putFilesWithRequest<T: IReturn & Codable>(request:T, files:[UploadFile]) throws -> T.Return
+    func putFilesWithRequestAsync<T: IReturn & Codable>(request:T, files:[UploadFile]) async throws -> T.Return
+    func putFilesWithRequest<T: IReturn>(url:URL, request:T, files:[UploadFile]) throws -> T.Return
+    func putFilesWithRequestAsync<T: IReturn>(url:URL, request:T, files:[UploadFile]) async throws -> T.Return
+    func sendFileWithRequest<T: IReturn>(_ req:inout URLRequest, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
+    func sendFileWithRequestAsync<T: IReturn>(_ req:inout URLRequest, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) async throws -> T.Return
+    func sendFilesWithRequest<T: IReturn>(_ req:inout URLRequest, request:T, files:[UploadFile]) throws -> T.Return
+    func sendFilesWithRequestAsync<T: IReturn>(_ req:inout URLRequest, request:T, files:[UploadFile]) async throws -> T.Return
+}
+```
+
 ### v6.0.0 Release
 
 The latest **v6** Release is now dependency-free, where its PromiseKit async APIs have been replaced to use 
