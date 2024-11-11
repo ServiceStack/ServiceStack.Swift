@@ -13,10 +13,10 @@ s.author           = { "ServiceStack, Inc" => "team@servicestack.com" }
 s.source           = { :git => "https://github.com/ServiceStack/ServiceStack.Swift.git", :tag => s.version.to_s }
 
 s.swift_version = "6.0"
-s.ios.deployment_target = "15.0"
+s.ios.deployment_target = "16.0"
 s.osx.deployment_target = "13.0"
-s.watchos.deployment_target = "8.0"
-s.tvos.deployment_target = "15.0"
+#s.watchos.deployment_target = "8.0"
+#s.tvos.deployment_target = "15.0"
 s.requires_arc = true
 
 #s.public_header_files = 'Pod/Classes/**/*.h'
