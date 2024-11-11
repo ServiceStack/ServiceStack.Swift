@@ -56,13 +56,13 @@ In your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
 use_frameworks!
 
 # Pods for Project
-pod "ServiceStack", '~> 6.0.1'
+pod "ServiceStack", '~> 6.0.2'
 ```
 
 #### Carthage
 
 ```ruby
-github "ServiceStack/ServiceStack.Swift" ~> 6.0.1
+github "ServiceStack/ServiceStack.Swift" ~> 6.0.2
 ```
 
 ### v6.0.1 Release
