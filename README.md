@@ -43,7 +43,8 @@ After adding the dependency both [ServiceStack.Swift](https://github.com/Service
 
 ```swift
 dependencies: [
-    .package(name: "ServiceStack", url: "https://github.com/ServiceStack/ServiceStack.Swift.git", 
+    .package(name: "ServiceStack", 
+        url: "https://github.com/ServiceStack/ServiceStack.Swift.git", 
         Version(6,0,0)..<Version(7,0,0)),
 ],
 ```
