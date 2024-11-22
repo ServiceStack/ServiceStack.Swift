@@ -13,7 +13,6 @@ final class OllamaTests : @unchecked Sendable {
     var client: JsonServiceClient!
     
     init() async throws {
-        print("TechStacksJsonTests.init()")
         client = JsonServiceClient(baseUrl: "https://supermicro.pvq.app")
     }
 
