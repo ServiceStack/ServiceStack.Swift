@@ -1,5 +1,5 @@
 /* Options:
-Date: 2024-10-22 03:56:05
+Date: 2024-11-23 07:25:44
 SwiftVersion: 6.0
 Version: 8.41
 Tip: To override a DTO option, remove "//" prefix before updating
@@ -1968,7 +1968,7 @@ public class CustomHttpErrorResponse : Codable
     required public init(){}
 }
 
-public class QueryResponseAlt<Item : Codable> : Codable
+public class QueryResponseAlt<T : Codable> : Codable
 {
     public var offset:Int?
     public var total:Int?
