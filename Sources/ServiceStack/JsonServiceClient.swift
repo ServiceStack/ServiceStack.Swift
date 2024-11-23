@@ -321,6 +321,10 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
         if let contentType = requestType {
             req.setValue(contentType, forHTTPHeaderField: "Content-Type")
         }
+        
+        if let useBearerToken = self.bearerToken {
+            req.setValue("Bearer \(useBearerToken)", forHTTPHeaderField: "Authorization")
+        }
 
         if requestFilter != nil {
             requestFilter!(req)
