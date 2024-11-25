@@ -66,12 +66,57 @@ pod "ServiceStack", '~> 6.0.2'
 github "ServiceStack/ServiceStack.Swift" ~> 6.0.2
 ```
 
-### v6.0.1 Release
+## API
 
-Added new sync and async file upload with Request APIs for POST and PUT HTTP Requests:
 
 ```swift
-protocol ServiceClient {
+public protocol ServiceClient {
+    func get<T: IReturn>(_ request: T) throws -> T.Return where T: Codable
+    func get<T: IReturnVoid>(_ request: T) throws -> Void where T: Codable
+    func get<T: IReturn>(_ request: T, query: [String: String]) throws -> T.Return where T: Codable
+    func get<T: Codable>(_ relativeUrl: String) throws -> T
+    func getAsync<T: IReturn>(_ request: T) async throws -> T.Return where T: Codable
+    func getAsync<T: IReturnVoid>(_ request: T) async throws -> Void where T: Codable
+    func getAsync<T: IReturn>(_ request: T, query: [String: String]) async throws -> T.Return where T: Codable
+    func getAsync<T: Codable>(_ relativeUrl: String) async throws -> T
+
+    func post<T: IReturn>(_ request: T) throws -> T.Return where T: Codable
+    func post<T: IReturnVoid>(_ request: T) throws -> Void where T: Codable
+    func post<Response: Codable, Request: Codable>(_ relativeUrl: String, request: Request?) throws -> Response
+    func postAsync<T: IReturn>(_ request: T) async throws -> T.Return where T: Codable
+    func postAsync<T: IReturnVoid>(_ request: T) async throws -> Void where T: Codable
+    func postAsync<Response: Codable, Request: Codable>(_ relativeUrl: String, request: Request?) async throws -> Response
+
+    func put<T: IReturn>(_ request: T) throws -> T.Return where T: Codable
+    func put<T: IReturnVoid>(_ request: T) throws -> Void where T: Codable
+    func put<Response: Codable, Request: Codable>(_ relativeUrl: String, request: Request?) throws -> Response
+    func putAsync<T: IReturn>(_ request: T) async throws -> T.Return where T: Codable
+    func putAsync<T: IReturnVoid>(_ request: T) async throws -> Void where T: Codable
+    func putAsync<Response: Codable, Request: Codable>(_ relativeUrl: String, request: Request?) async throws -> Response
+
+    func delete<T: IReturn>(_ request: T) throws -> T.Return where T: Codable
+    func delete<T: IReturnVoid>(_ request: T) throws -> Void where T: Codable
+    func delete<T: IReturn>(_ request: T, query: [String: String]) throws -> T.Return where T: Codable
+    func delete<T: Codable>(_ relativeUrl: String) throws -> T
+    func deleteAsync<T: IReturn>(_ request: T) async throws -> T.Return where T: Codable
+    func deleteAsync<T: IReturnVoid>(_ request: T) async throws -> Void where T: Codable
+    func deleteAsync<T: IReturn>(_ request: T, query: [String: String]) async throws -> T.Return where T: Codable
+    func deleteAsync<T: Codable>(_ relativeUrl: String) async throws -> T
+
+    func patch<T: IReturn>(_ request: T) throws -> T.Return where T: Codable
+    func patch<T: IReturnVoid>(_ request: T) throws -> Void where T: Codable
+    func patch<Response: Codable, Request: Codable>(_ relativeUrl: String, request: Request?) throws -> Response
+    func patchAsync<T: IReturn>(_ request: T) async throws -> T.Return where T: Codable
+    func patchAsync<T: IReturnVoid>(_ request: T) async throws -> Void where T: Codable
+    func patchAsync<Response: Codable, Request: Codable>(_ relativeUrl: String, request: Request?) async throws -> Response
+
+    func send<T: IReturn>(_ request: T) throws -> T.Return where T: Codable
+    func send<T: IReturnVoid>(_ request: T) throws -> Void where T: Codable
+    func send<T: Codable>(intoResponse: T, request: URLRequest) throws -> T
+    func sendAsync<T: Codable>(intoResponse: T, request: URLRequest) async throws -> T
+
+    func postFileWithRequest<T: IReturn & Codable>(request:T, file:UploadFile) throws -> T.Return
+    func postFileWithRequestAsync<T: IReturn & Codable>(request:T, file:UploadFile) async throws -> T.Return
     func postFileWithRequest<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
     func postFileWithRequestAsync<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) async throws -> T.Return
     func postFileWithRequest<T: IReturn>(url:URL, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
@@ -80,6 +125,9 @@ protocol ServiceClient {
     func postFilesWithRequestAsync<T: IReturn & Codable>(request:T, files:[UploadFile]) async throws -> T.Return
     func postFilesWithRequest<T: IReturn>(url:URL, request:T, files:[UploadFile]) throws -> T.Return
     func postFilesWithRequestAsync<T: IReturn>(url:URL, request:T, files:[UploadFile]) async throws -> T.Return
+    
+    func putFileWithRequest<T: IReturn & Codable>(request:T, file:UploadFile) throws -> T.Return
+    func putFileWithRequestAsync<T: IReturn & Codable>(request:T, file:UploadFile) async throws -> T.Return
     func putFileWithRequest<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
     func putFileWithRequestAsync<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) async throws -> T.Return
     func putFileWithRequest<T: IReturn>(url:URL, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
@@ -88,12 +136,31 @@ protocol ServiceClient {
     func putFilesWithRequestAsync<T: IReturn & Codable>(request:T, files:[UploadFile]) async throws -> T.Return
     func putFilesWithRequest<T: IReturn>(url:URL, request:T, files:[UploadFile]) throws -> T.Return
     func putFilesWithRequestAsync<T: IReturn>(url:URL, request:T, files:[UploadFile]) async throws -> T.Return
+    
     func sendFileWithRequest<T: IReturn>(_ req:inout URLRequest, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
     func sendFileWithRequestAsync<T: IReturn>(_ req:inout URLRequest, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) async throws -> T.Return
     func sendFilesWithRequest<T: IReturn>(_ req:inout URLRequest, request:T, files:[UploadFile]) throws -> T.Return
     func sendFilesWithRequestAsync<T: IReturn>(_ req:inout URLRequest, request:T, files:[UploadFile]) async throws -> T.Return
+
+    func getData(url: String) throws -> (Data, HTTPURLResponse)?
+    func getDataAsync(url: String) async throws -> (Data, HTTPURLResponse)?
+    func getData(request: URLRequest, retryIf:((HTTPURLResponse) -> Bool)?) throws -> (Data, HTTPURLResponse)?
+    func getDataAsync(request: URLRequest, retryIf:((HTTPURLResponse) async throws -> Bool)?) async throws -> (Data, HTTPURLResponse)?
+
+    func getCookies() -> [String:String]
+    func getTokenCookie() -> String?
+    func getRefreshTokenCookie() -> String?
 }
 ```
+
+### v6.0.5 Release
+
+- Replaced PromiseKit with Swift Concurrency's async/await
+- Added new `postFileWithRequest` and `postFilesWithRequest` sync and async APIs
+
+### v6.0.1 Release
+
+Added new sync and async file upload with Request APIs for POST and PUT HTTP Requests:
 
 ### v6.0.0 Release
 
