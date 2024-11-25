@@ -25,7 +25,8 @@ let package = Package(
             name: "ServiceStackTests",
             dependencies: ["ServiceStack"],
             resources: [
-                 .process("overview.json")
+                 .process("overview.json"),
+                 .copy("Resources/test_audio.wav")
              ]),
     ]
 )

@@ -25,8 +25,8 @@ final class FileUploadTests : @unchecked Sendable {
 
             let files = [UploadFile(fileName: "test.txt", data:Data("Hello World".utf8), fieldName:"audio")]
             
-            let response: GenerationResponse = try client.postFilesWithRequest(request:request, files:files)
-            let r = response.textOutputs
+            let response: TextGenerationResponse = try client.postFilesWithRequest(request:request, files:files)
+            let r = response.results!
 
             Inspect.printDump(response)
             
@@ -48,8 +48,8 @@ final class FileUploadTests : @unchecked Sendable {
 
             let files = [UploadFile(fileName: "test.txt", data:Data("Hello World".utf8), fieldName:"audio")]
             
-            let response: GenerationResponse = try await client.postFilesWithRequestAsync(request:request, files:files)
-            let r = response.textOutputs
+            let response: TextGenerationResponse = try await client.postFilesWithRequestAsync(request:request, files:files)
+            let r = response.results!
 
             Inspect.printDump(response)
             

@@ -48,8 +48,8 @@ public protocol ServiceClient {
 
     func send<T: IReturn>(_ request: T) throws -> T.Return where T: Codable
     func send<T: IReturnVoid>(_ request: T) throws -> Void where T: Codable
-    func send<T: Codable>(intoResponse: T, request: NSMutableURLRequest) throws -> T
-    func sendAsync<T: Codable>(intoResponse: T, request: NSMutableURLRequest) async throws -> T
+    func send<T: Codable>(intoResponse: T, request: URLRequest) throws -> T
+    func sendAsync<T: Codable>(intoResponse: T, request: URLRequest) async throws -> T
 
     func postFileWithRequest<T: IReturn & Codable>(request:T, file:UploadFile) throws -> T.Return
     func postFileWithRequestAsync<T: IReturn & Codable>(request:T, file:UploadFile) async throws -> T.Return
@@ -81,7 +81,7 @@ public protocol ServiceClient {
     func getData(url: String) throws -> (Data, HTTPURLResponse)?
     func getDataAsync(url: String) async throws -> (Data, HTTPURLResponse)?
     func getData(request: URLRequest, retryIf:((HTTPURLResponse) -> Bool)?) throws -> (Data, HTTPURLResponse)?
-    func getDataAsync(request: URLRequest, retryIf:((HTTPURLResponse) async throws -> Bool)?) async throws -> (Data, HTTPURLResponse)? 
+    func getDataAsync(request: URLRequest, retryIf:((HTTPURLResponse) async throws -> Bool)?) async throws -> (Data, HTTPURLResponse)?
 
     func getCookies() -> [String:String]
     func getTokenCookie() -> String?
@@ -104,7 +104,7 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
     open var cachePolicy: NSURLRequest.CachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData
 
     open var urlSessionFactory: (() -> URLSession)?
-    open var requestFilter: ((NSMutableURLRequest) -> Void)?
+    open var requestFilter: ((URLRequest) -> Void)?
     open var responseFilter: ((URLResponse) -> Void)?
 
     open var bearerToken: String?
@@ -120,7 +120,7 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
     }
 
     public struct Global {
-        nonisolated(unsafe) public static var requestFilter: ((NSMutableURLRequest) -> Void)?
+        nonisolated(unsafe) public static var requestFilter: ((URLRequest) -> Void)?
         nonisolated(unsafe) public static var responseFilter: ((URLResponse) -> Void)?
         nonisolated(unsafe) public static var onError: ((NSError) -> Void)?
         public static func reset() {
@@ -293,11 +293,11 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
         }
     }
 
-    open func createRequestDto<T: Codable>(_ url: String, httpMethod: String, request: T?) -> NSMutableURLRequest {
+    open func createRequestDto<T: Codable>(_ url: String, httpMethod: String, request: T?) -> URLRequest {
         return createRequestDto(url: toURL(url), httpMethod: httpMethod, request: request)
     }
 
-    open func createRequestDto<T: Codable>(url: URL, httpMethod: String, request: T?) -> NSMutableURLRequest {
+    open func createRequestDto<T: Codable>(url: URL, httpMethod: String, request: T?) -> URLRequest {
         var contentType: String?
         var requestBody: Data?
 
@@ -310,24 +310,13 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
         return createRequest(url: url, httpMethod: httpMethod, requestType: contentType, requestBody: requestBody)
     }
 
-    open func createRequest(_ url: String, httpMethod: String, requestType: String? = nil, requestBody: Data? = nil) -> NSMutableURLRequest {
+    open func createRequest(_ url: String, httpMethod: String, requestType: String? = nil, requestBody: Data? = nil) -> URLRequest {
         return createRequest(url: toURL(url), httpMethod: httpMethod, requestType: requestType, requestBody: requestBody)
     }
-
-    open func createRequest(url: URL, httpMethod: String, requestType: String? = nil, requestBody: Data? = nil) -> NSMutableURLRequest {
-
-        let req = timeout == nil
-            ? NSMutableURLRequest(url: url)
-            : NSMutableURLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeout!)
-
-        req.httpMethod = httpMethod
+    
+    open func initRequest(_ req:(inout URLRequest)) {
         req.setValue("application/json", forHTTPHeaderField: "Accept")
 
-        req.httpBody = requestBody
-        if let contentType = requestType {
-            req.setValue(contentType, forHTTPHeaderField: "Content-Type")
-        }
-        
         if let useBearerToken = self.bearerToken {
             req.setValue("Bearer \(useBearerToken)", forHTTPHeaderField: "Authorization")
         }
@@ -339,6 +328,22 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
         if Global.requestFilter != nil {
             Global.requestFilter!(req)
         }
+    }
+
+    open func createRequest(url: URL, httpMethod: String, requestType: String? = nil, requestBody: Data? = nil) -> URLRequest {
+
+        var req = timeout == nil
+            ? URLRequest(url: url)
+            : URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeout!)
+
+        req.httpMethod = httpMethod
+
+        req.httpBody = requestBody
+        if let contentType = requestType {
+            req.setValue(contentType, forHTTPHeaderField: "Content-Type")
+        }
+        
+        initRequest(&req)
 
         return req
     }
@@ -364,7 +369,7 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
     }
 
     @discardableResult
-    open func send<T: Codable>(intoResponse: T, request: NSMutableURLRequest) throws -> T {
+    open func send<T: Codable>(intoResponse: T, request: URLRequest) throws -> T {
         guard let (data, response) = try getData(request: request as URLRequest, retryIf: retryAfterReauth) else {
             return Factory<T>.create()
         }
@@ -376,7 +381,7 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
     }
     
     @discardableResult
-    open func sendAsync<T: Codable>(intoResponse: T, request: NSMutableURLRequest) async throws-> T {
+    open func sendAsync<T: Codable>(intoResponse: T, request: URLRequest) async throws-> T {
         guard let (data, response) = try await getDataAsync(request: request as URLRequest, retryIf: retryAfterReauth) else {
             return Factory<T>.create()
         }
@@ -398,8 +403,8 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
     }
 
     open func getData(request: URLRequest, retryIf:((HTTPURLResponse) -> Bool)? = nil) throws -> (Data, HTTPURLResponse)? {
-        print("\(request.httpMethod ?? "") \(request.url?.absoluteString ?? "")")
-        let dataTaskSync = createSession().dataTaskSync(request: request as URLRequest)
+        print("\(request.method) \(request.url?.absoluteString ?? "")")
+        let dataTaskSync = createSession().dataTaskSync(request: request)
         lastTask = dataTaskSync.task
         let cb = dataTaskSync.callback
 
@@ -427,8 +432,8 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
     }
     
     open func getDataAsync(request: URLRequest, retryIf:((HTTPURLResponse) async throws -> Bool)? = nil) async throws -> (Data, HTTPURLResponse)? {
-        print("\(request.httpMethod ?? "") \(request.url?.absoluteString ?? "")")
-        let (data, res) = try await createSession().data(for: request)
+        print("\(request.method) \(request.url?.absoluteString ?? "")")
+        let (data, res) = try await createSession().data(for: request as URLRequest)
 
         if let response = res as? HTTPURLResponse {
             if let ex = self.createIfError(response, data) {
@@ -890,6 +895,7 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
         let boundary = "FormBoundary\(UUID().uuidString)"
         req.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         req.httpBody = createMultipartFormData(request: request, files: files, boundary: boundary)
+        initRequest(&req)
 
         guard let (data, response) = try getData(request: req, retryIf: retryAfterReauth) else {
             return Factory<T.Return>.create()
@@ -901,10 +907,11 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
         return dto
     }
 
-    open func sendFilesWithRequestAsync<T: IReturn>(_ req:inout URLRequest, request:T, files:[UploadFile]) async throws -> T.Return {
+    open func sendFilesWithRequestAsync<T: IReturn>(_ req:(inout URLRequest), request:T, files:[UploadFile]) async throws -> T.Return {
         let boundary = "FormBoundary\(UUID().uuidString)"
         req.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         req.httpBody = createMultipartFormData(request: request, files: files, boundary: boundary)
+        initRequest(&req)
 
         guard let (data, response) = try await getDataAsync(request: req, retryIf: retryAfterReauth) else {
             return Factory<T.Return>.create()
@@ -1056,18 +1063,13 @@ public struct HttpMethods {
     public static let Patch = "PATCH"
 }
 
-extension NSMutableURLRequest {
+extension URLRequest {
     public var method: String {
         get {
-#if os(Linux)
-        return httpMethod!
-#else
-        return httpMethod
-#endif
+            return httpMethod ?? HttpMethods.Post
         }
     }
 }
-
 public struct UploadFile
 {
     public var fileName: String

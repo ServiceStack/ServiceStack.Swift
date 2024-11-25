@@ -1,5 +1,5 @@
 /* Options:
-Date: 2024-11-23 07:25:44
+Date: 2024-11-25 09:52:41
 SwiftVersion: 6.0
 Version: 8.41
 Tip: To override a DTO option, remove "//" prefix before updating
@@ -10,12 +10,12 @@ BaseUrl: https://test.servicestack.net
 //AddServiceStackTypes: True
 //MakePropertiesOptional: True
 //IncludeTypes: 
-ExcludeTypes: QueryResponse`1,QueryBase`1,QueryBase`1,QueryBase,DummyTypes,MessageQuery
+ExcludeTypes: QueryResponse`1,QueryBase`1,QueryBase`1,QueryBase,DummyTypes,MessageQuery,SpeechToText,TextOutput,IGeneration
 //ExcludeGenericBaseTypes: False
 //AddResponseStatus: False
 //AddImplicitVersion: 
 //AddDescriptionAsComments: True
-//InitializeCollections: True
+//InitializeCollections: False
 //TreatTypesAsStrings: 
 //DefaultImports: Foundation,ServiceStack
 */
@@ -69,7 +69,7 @@ public class GetChatHistory : IReturn, Codable
 {
     public typealias Return = GetChatHistoryResponse
 
-    public var channels:[String] = []
+    public var channels:[String]?
     public var afterId:Int?
     public var take:Int?
 
@@ -242,36 +242,6 @@ public class ThrowValidation : IReturn, Codable
 public class ThrowBusinessError : IReturn, Codable
 {
     public typealias Return = ThrowBusinessErrorResponse
-
-    required public init(){}
-}
-
-/**
-* Convert speech to text
-*/
-// @Api(Description="Convert speech to text")
-public class SpeechToText : IReturn, IGeneration, Codable
-{
-    public typealias Return = GenerationResponse
-
-    /**
-    * The audio stream containing the speech to be transcribed
-    */
-    // @ApiMember(Description="The audio stream containing the speech to be transcribed")
-    // @Required()
-    public var audio:Data?
-
-    /**
-    * Optional client-provided identifier for the request
-    */
-    // @ApiMember(Description="Optional client-provided identifier for the request")
-    public var refId:String?
-
-    /**
-    * Tag to identify the request
-    */
-    // @ApiMember(Description="Tag to identify the request")
-    public var tag:String?
 
     required public init(){}
 }
@@ -1383,10 +1353,10 @@ public class EchoCollections : IReturn, Codable
 {
     public typealias Return = EchoCollections
 
-    public var stringList:[String] = []
-    public var stringArray:[String] = []
-    public var stringMap:[String:String] = [:]
-    public var intStringMap:[Int:String] = [:]
+    public var stringList:[String]?
+    public var stringArray:[String]?
+    public var stringMap:[String:String]?
+    public var intStringMap:[Int:String]?
 
     required public init(){}
 }
@@ -1397,10 +1367,10 @@ public class EchoComplexTypes : IReturn, Codable
     public typealias Return = EchoComplexTypes
 
     public var subType:SubType?
-    public var subTypes:[SubType] = []
-    public var subTypeMap:[String:SubType] = [:]
-    public var stringMap:[String:String] = [:]
-    public var intStringMap:[Int:String] = [:]
+    public var subTypes:[SubType]?
+    public var subTypeMap:[String:SubType]?
+    public var stringMap:[String:String]?
+    public var intStringMap:[Int:String]?
 
     required public init(){}
 }
@@ -1459,7 +1429,7 @@ public class Register : IReturn, IPost, Codable
     public var errorView:String?
 
     // @DataMember(Order=11)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     required public init(){}
 }
@@ -1503,7 +1473,7 @@ public class Authenticate : IReturn, IPost, Codable
     public var errorView:String?
 
     // @DataMember(Order=9)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     required public init(){}
 }
@@ -1518,13 +1488,13 @@ public class AssignRoles : IReturn, IPost, Codable
     public var userName:String?
 
     // @DataMember(Order=2)
-    public var permissions:[String] = []
+    public var permissions:[String]?
 
     // @DataMember(Order=3)
-    public var roles:[String] = []
+    public var roles:[String]?
 
     // @DataMember(Order=4)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     required public init(){}
 }
@@ -1539,13 +1509,13 @@ public class UnAssignRoles : IReturn, IPost, Codable
     public var userName:String?
 
     // @DataMember(Order=2)
-    public var permissions:[String] = []
+    public var permissions:[String]?
 
     // @DataMember(Order=3)
-    public var roles:[String] = []
+    public var roles:[String]?
 
     // @DataMember(Order=4)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     required public init(){}
 }
@@ -1903,7 +1873,7 @@ public class GetAccessToken : IReturn, IPost, Codable
     public var refreshToken:String?
 
     // @DataMember(Order=2)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     required public init(){}
 }
@@ -1924,7 +1894,7 @@ public class ChatMessage : Codable
 
 public class GetChatHistoryResponse : Codable
 {
-    public var results:[ChatMessage] = []
+    public var results:[ChatMessage]?
     public var responseStatus:ResponseStatus?
 
     required public init(){}
@@ -2012,32 +1982,6 @@ public class ThrowValidationResponse : Codable
 
 public class ThrowBusinessErrorResponse : Codable
 {
-    public var responseStatus:ResponseStatus?
-
-    required public init(){}
-}
-
-/**
-* Response object for generation requests
-*/
-public class GenerationResponse : Codable
-{
-    /**
-    * List of generated outputs
-    */
-    // @ApiMember(Description="List of generated outputs")
-    public var outputs:[ArtifactOutput] = []
-
-    /**
-    * List of generated text outputs
-    */
-    // @ApiMember(Description="List of generated text outputs")
-    public var textOutputs:[TextOutput] = []
-
-    /**
-    * Detailed response status information
-    */
-    // @ApiMember(Description="Detailed response status information")
     public var responseStatus:ResponseStatus?
 
     required public init(){}
@@ -2283,7 +2227,7 @@ public class HelloZipResponse : Codable
 
 public class PingResponse : Codable
 {
-    public var responses:[String:ResponseStatus] = [:]
+    public var responses:[String:ResponseStatus]?
     public var responseStatus:ResponseStatus?
 
     required public init(){}
@@ -2380,10 +2324,10 @@ public class RegisterResponse : IHasSessionId, IHasBearerToken, Codable
     public var refreshTokenExpiry:Date?
 
     // @DataMember(Order=8)
-    public var roles:[String] = []
+    public var roles:[String]?
 
     // @DataMember(Order=9)
-    public var permissions:[String] = []
+    public var permissions:[String]?
 
     // @DataMember(Order=10)
     public var redirectUrl:String?
@@ -2392,7 +2336,7 @@ public class RegisterResponse : IHasSessionId, IHasBearerToken, Codable
     public var responseStatus:ResponseStatus?
 
     // @DataMember(Order=12)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     required public init(){}
 }
@@ -2428,10 +2372,10 @@ public class AuthenticateResponse : IHasSessionId, IHasBearerToken, Codable
     public var profileUrl:String?
 
     // @DataMember(Order=10)
-    public var roles:[String] = []
+    public var roles:[String]?
 
     // @DataMember(Order=11)
-    public var permissions:[String] = []
+    public var permissions:[String]?
 
     // @DataMember(Order=12)
     public var authProvider:String?
@@ -2440,7 +2384,7 @@ public class AuthenticateResponse : IHasSessionId, IHasBearerToken, Codable
     public var responseStatus:ResponseStatus?
 
     // @DataMember(Order=14)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     required public init(){}
 }
@@ -2449,13 +2393,13 @@ public class AuthenticateResponse : IHasSessionId, IHasBearerToken, Codable
 public class AssignRolesResponse : Codable
 {
     // @DataMember(Order=1)
-    public var allRoles:[String] = []
+    public var allRoles:[String]?
 
     // @DataMember(Order=2)
-    public var allPermissions:[String] = []
+    public var allPermissions:[String]?
 
     // @DataMember(Order=3)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     // @DataMember(Order=4)
     public var responseStatus:ResponseStatus?
@@ -2467,13 +2411,13 @@ public class AssignRolesResponse : Codable
 public class UnAssignRolesResponse : Codable
 {
     // @DataMember(Order=1)
-    public var allRoles:[String] = []
+    public var allRoles:[String]?
 
     // @DataMember(Order=2)
-    public var allPermissions:[String] = []
+    public var allPermissions:[String]?
 
     // @DataMember(Order=3)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     // @DataMember(Order=4)
     public var responseStatus:ResponseStatus?
@@ -2523,7 +2467,7 @@ public class GetAccessTokenResponse : Codable
     public var accessToken:String?
 
     // @DataMember(Order=2)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     // @DataMember(Order=3)
     public var responseStatus:ResponseStatus?
@@ -2603,7 +2547,7 @@ public class CancelRequest : IPost, Codable
     public var tag:String?
 
     // @DataMember(Order=2)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     required public init(){}
 }
@@ -2618,7 +2562,7 @@ public class CancelRequestResponse : Codable
     @TimeSpan public var elapsed:TimeInterval?
 
     // @DataMember(Order=3)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     // @DataMember(Order=4)
     public var responseStatus:ResponseStatus?
@@ -2633,10 +2577,10 @@ public class UpdateEventSubscriber : IPost, Codable
     public var id:String?
 
     // @DataMember(Order=2)
-    public var subscribeChannels:[String] = []
+    public var subscribeChannels:[String]?
 
     // @DataMember(Order=3)
-    public var unsubscribeChannels:[String] = []
+    public var unsubscribeChannels:[String]?
 
     required public init(){}
 }
@@ -2657,7 +2601,7 @@ public class GetApiKeys : IGet, Codable
     public var environment:String?
 
     // @DataMember(Order=2)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     required public init(){}
 }
@@ -2666,10 +2610,10 @@ public class GetApiKeys : IGet, Codable
 public class GetApiKeysResponse : Codable
 {
     // @DataMember(Order=1)
-    public var results:[UserApiKey] = []
+    public var results:[UserApiKey]?
 
     // @DataMember(Order=2)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     // @DataMember(Order=3)
     public var responseStatus:ResponseStatus?
@@ -2684,7 +2628,7 @@ public class RegenerateApiKeys : IPost, Codable
     public var environment:String?
 
     // @DataMember(Order=2)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     required public init(){}
 }
@@ -2693,10 +2637,10 @@ public class RegenerateApiKeys : IPost, Codable
 public class RegenerateApiKeysResponse : Codable
 {
     // @DataMember(Order=1)
-    public var results:[UserApiKey] = []
+    public var results:[UserApiKey]?
 
     // @DataMember(Order=2)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     // @DataMember(Order=3)
     public var responseStatus:ResponseStatus?
@@ -2717,7 +2661,7 @@ public class UserApiKey : Codable
     public var expiryDate:Date?
 
     // @DataMember(Order=4)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     required public init(){}
 }
@@ -2729,7 +2673,7 @@ public class ConvertSessionToToken : IPost, Codable
     public var preserveSession:Bool?
 
     // @DataMember(Order=2)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     required public init(){}
 }
@@ -2738,7 +2682,7 @@ public class ConvertSessionToToken : IPost, Codable
 public class ConvertSessionToTokenResponse : Codable
 {
     // @DataMember(Order=1)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     // @DataMember(Order=2)
     public var accessToken:String?
@@ -2763,8 +2707,8 @@ public class NavItem : Codable
     public var iconSrc:String?
     public var show:String?
     public var hide:String?
-    public var children:[NavItem] = []
-    public var meta:[String:String] = [:]
+    public var children:[NavItem]?
+    public var meta:[String:String]?
 
     required public init(){}
 }
@@ -2785,13 +2729,13 @@ public class GetNavItemsResponse : Codable
     public var baseUrl:String?
 
     // @DataMember(Order=2)
-    public var results:[NavItem] = []
+    public var results:[NavItem]?
 
     // @DataMember(Order=3)
-    public var navItemsMap:[String:[NavItem]] = [:]
+    public var navItemsMap:[String:[NavItem]]?
 
     // @DataMember(Order=4)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     // @DataMember(Order=5)
     public var responseStatus:ResponseStatus?
@@ -2818,7 +2762,7 @@ public class StringResponse : Codable
     public var result:String?
 
     // @DataMember(Order=2)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     // @DataMember(Order=3)
     public var responseStatus:ResponseStatus?
@@ -2830,22 +2774,15 @@ public class StringResponse : Codable
 public class StringsResponse : Codable
 {
     // @DataMember(Order=1)
-    public var results:[String] = []
+    public var results:[String]?
 
     // @DataMember(Order=2)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     // @DataMember(Order=3)
     public var responseStatus:ResponseStatus?
 
     required public init(){}
-}
-
-public protocol IGeneration
-{
-    var refId:String? { get set }
-    var tag:String? { get set }
-
 }
 
 public protocol IAuthTokens
@@ -2968,10 +2905,10 @@ public class AuthUserSession : Codable
     public var lastModified:Date?
 
     // @DataMember(Order=35)
-    public var roles:[String] = []
+    public var roles:[String]?
 
     // @DataMember(Order=36)
-    public var permissions:[String] = []
+    public var permissions:[String]?
 
     // @DataMember(Order=37)
     public var isAuthenticated:Bool?
@@ -2994,13 +2931,13 @@ public class AuthUserSession : Codable
     //providerOAuthAccess:[IAuthTokens] ignored. Swift doesn't support interface properties
 
     // @DataMember(Order=44)
-    public var meta:[String:String] = [:]
+    public var meta:[String:String]?
 
     // @DataMember(Order=45)
-    public var audiences:[String] = []
+    public var audiences:[String]?
 
     // @DataMember(Order=46)
-    public var scopes:[String] = []
+    public var scopes:[String]?
 
     // @DataMember(Order=47)
     public var dns:String?
@@ -3572,46 +3509,6 @@ public class RockstarVersion : RockstarBase
         if id != nil { try container.encode(id, forKey: .id) }
         if rowVersion != nil { try container.encode(rowVersion, forKey: .rowVersion) }
     }
-}
-
-/**
-* Output object for generated artifacts
-*/
-public class ArtifactOutput : Codable
-{
-    /**
-    * URL to access the generated image
-    */
-    // @ApiMember(Description="URL to access the generated image")
-    public var url:String?
-
-    /**
-    * Filename of the generated image
-    */
-    // @ApiMember(Description="Filename of the generated image")
-    public var fileName:String?
-
-    /**
-    * Provider used for image generation
-    */
-    // @ApiMember(Description="Provider used for image generation")
-    public var provider:String?
-
-    required public init(){}
-}
-
-/**
-* Output object for generated text
-*/
-public class TextOutput : Codable
-{
-    /**
-    * The generated text
-    */
-    // @ApiMember(Description="The generated text")
-    public var text:String?
-
-    required public init(){}
 }
 
 public class UploadInfo : Codable

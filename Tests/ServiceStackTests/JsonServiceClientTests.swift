@@ -251,7 +251,7 @@ final class JsonServiceClientTests : @unchecked Sendable {
 
         var methods = [String]()
 
-        client.requestFilter = { (req: NSMutableURLRequest) in methods.append(req.method) }
+        client.requestFilter = { (req:URLRequest) in methods.append(req.method) }
 
         do {
             try client.get(HelloReturnVoid())
@@ -272,7 +272,7 @@ final class JsonServiceClientTests : @unchecked Sendable {
 
         var methods = [String]()
 
-        client.requestFilter = { (req: NSMutableURLRequest) in methods.append(req.method) }
+        client.requestFilter = { (req:URLRequest) in methods.append(req.method) }
 
         _ = try await client.getAsync(HelloReturnVoid())
         #expect(methods.last == HttpMethods.Get)
