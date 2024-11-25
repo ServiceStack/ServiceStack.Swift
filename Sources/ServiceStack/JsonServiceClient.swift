@@ -51,6 +51,8 @@ public protocol ServiceClient {
     func send<T: Codable>(intoResponse: T, request: NSMutableURLRequest) throws -> T
     func sendAsync<T: Codable>(intoResponse: T, request: NSMutableURLRequest) async throws -> T
 
+    func postFileWithRequest<T: IReturn & Codable>(request:T, file:UploadFile) throws -> T.Return
+    func postFileWithRequestAsync<T: IReturn & Codable>(request:T, file:UploadFile) async throws -> T.Return
     func postFileWithRequest<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
     func postFileWithRequestAsync<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) async throws -> T.Return
     func postFileWithRequest<T: IReturn>(url:URL, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
@@ -59,6 +61,9 @@ public protocol ServiceClient {
     func postFilesWithRequestAsync<T: IReturn & Codable>(request:T, files:[UploadFile]) async throws -> T.Return
     func postFilesWithRequest<T: IReturn>(url:URL, request:T, files:[UploadFile]) throws -> T.Return
     func postFilesWithRequestAsync<T: IReturn>(url:URL, request:T, files:[UploadFile]) async throws -> T.Return
+    
+    func putFileWithRequest<T: IReturn & Codable>(request:T, file:UploadFile) throws -> T.Return
+    func putFileWithRequestAsync<T: IReturn & Codable>(request:T, file:UploadFile) async throws -> T.Return
     func putFileWithRequest<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
     func putFileWithRequestAsync<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) async throws -> T.Return
     func putFileWithRequest<T: IReturn>(url:URL, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
@@ -67,6 +72,7 @@ public protocol ServiceClient {
     func putFilesWithRequestAsync<T: IReturn & Codable>(request:T, files:[UploadFile]) async throws -> T.Return
     func putFilesWithRequest<T: IReturn>(url:URL, request:T, files:[UploadFile]) throws -> T.Return
     func putFilesWithRequestAsync<T: IReturn>(url:URL, request:T, files:[UploadFile]) async throws -> T.Return
+    
     func sendFileWithRequest<T: IReturn>(_ req:inout URLRequest, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) throws -> T.Return
     func sendFileWithRequestAsync<T: IReturn>(_ req:inout URLRequest, request:T, fileName:String, data:Data, mimeType:String?, fieldName:String?) async throws -> T.Return
     func sendFilesWithRequest<T: IReturn>(_ req:inout URLRequest, request:T, files:[UploadFile]) throws -> T.Return
@@ -768,6 +774,18 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
         return try await postFileWithRequestAsync(url:toURL(resolveUrl(relativeUrl)), request: request, fileName: fileName, data: data, mimeType: mimeType, fieldName: fieldName)
     }
 
+    open func postFileWithRequest<T: IReturn & Codable>(request:T, file:UploadFile) throws -> T.Return {
+        var req = URLRequest(url: createUrl(dto:request))
+        req.httpMethod = HttpMethods.Post
+        return try sendFilesWithRequest(&req, request: request, files:[file])
+    }
+
+    open func postFileWithRequestAsync<T: IReturn & Codable>(request:T, file:UploadFile) async throws -> T.Return {
+        var req = URLRequest(url: createUrl(dto:request))
+        req.httpMethod = HttpMethods.Post
+        return try await sendFilesWithRequestAsync(&req, request: request, files:[file])
+    }
+
     open func postFileWithRequest<T: IReturn>(url:URL, request:T, fileName:String, data:Data, mimeType:String? = nil, fieldName:String? = "file") throws -> T.Return {
         var req = URLRequest(url: url)
         req.httpMethod = HttpMethods.Post
@@ -810,6 +828,18 @@ open class JsonServiceClient : NSObject, @unchecked Sendable, ServiceClient, IHa
 
     open func putFileWithRequestAsync<T: IReturn>(_ relativeUrl: String, request:T, fileName:String, data:Data, mimeType:String? = nil, fieldName:String? = "file") async throws -> T.Return {
         return try await putFileWithRequestAsync(url:toURL(resolveUrl(relativeUrl)), request: request, fileName: fileName, data: data, mimeType: mimeType, fieldName: fieldName)
+    }
+
+    open func putFileWithRequest<T: IReturn & Codable>(request:T, file:UploadFile) throws -> T.Return {
+        var req = URLRequest(url: createUrl(dto:request))
+        req.httpMethod = HttpMethods.Put
+        return try sendFilesWithRequest(&req, request: request, files:[file])
+    }
+
+    open func putFileWithRequestAsync<T: IReturn & Codable>(request:T, file:UploadFile) async throws -> T.Return {
+        var req = URLRequest(url: createUrl(dto:request))
+        req.httpMethod = HttpMethods.Put
+        return try await sendFilesWithRequestAsync(&req, request: request, files:[file])
     }
 
     open func putFileWithRequest<T: IReturn>(url:URL, request:T, fileName:String, data:Data, mimeType:String? = nil, fieldName:String? = "file") throws -> T.Return {
