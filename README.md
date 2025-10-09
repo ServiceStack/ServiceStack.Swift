@@ -43,9 +43,7 @@ After adding the dependency both [ServiceStack.Swift](https://github.com/Service
 
 ```swift
 dependencies: [
-    .package(name: "ServiceStack", 
-        url: "https://github.com/ServiceStack/ServiceStack.Swift.git", 
-        Version(6,0,0)..<Version(7,0,0)),
+    .package(url: "https://github.com/ServiceStack/ServiceStack.Swift.git", from: "6.0.5")
 ],
 ```
 
@@ -57,13 +55,13 @@ In your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
 use_frameworks!
 
 # Pods for Project
-pod "ServiceStack", '~> 6.0.2'
+pod "ServiceStack", '~> 6.0.5'
 ```
 
 #### Carthage
 
 ```ruby
-github "ServiceStack/ServiceStack.Swift" ~> 6.0.2
+github "ServiceStack/ServiceStack.Swift" ~> 6.0.5
 ```
 
 ## API
